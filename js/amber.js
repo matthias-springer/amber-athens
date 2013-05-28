@@ -94,7 +94,10 @@ amber = (function() {
 				'Examples',
 				'Benchfib',
 				'Kernel-Tests',
-				'SUnit-Tests'
+				'SUnit-Tests',
+
+        'Athens-Core',
+        'Athens-HTML'
 			]);
 		}
 
