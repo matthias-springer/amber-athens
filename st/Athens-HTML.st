@@ -1,16 +1,63 @@
 Smalltalk current createPackage: 'Athens-HTML'!
+AthensCanvas subclass: #AthensHTMLCanvas
+	instanceVariableNames: ''
+	package: 'Athens-HTML'!
+
+!AthensHTMLCanvas methodsFor: 'accessing'!
+
+surface: anHTMLSurface
+	surface := anHTMLSurface
+! !
+
+!AthensHTMLCanvas methodsFor: 'private'!
+
+rectangleX: x y: y width: aWidth height: aHeight
+	surface context2D fillRect: x a: y a: aWidth a: aHeight.
+!
+
+setSourceR: red g: green b: blue a: alpha
+	surface context2D fillStyle: 'rgba(', red asString, ', ', green asString, ', ', blue asString, ', ', alpha asString, ')'.
+! !
+
+!AthensHTMLCanvas class methodsFor: 'instance creation'!
+
+on: anHTMLSurface
+	^ self basicNew
+		surface: anHTMLSurface;
+		initialize;
+		yourself
+! !
+
 AthensSurface subclass: #AthensHTMLSurface
-	instanceVariableNames: 'extent canvas context2D'
+	instanceVariableNames: 'extent canvasTag context2D athensCanvas'
 	package: 'Athens-HTML'!
 
 !AthensHTMLSurface methodsFor: 'accessing'!
 
-canvas
-	^ canvas
+canvasTag
+	^ canvasTag
 !
 
-canvas: aDomElement
-	canvas := aDomElement
+canvasTag: aTagBrush
+	canvasTag := aTagBrush
+!
+
+clear
+	self clear: nil.
+!
+
+clear: clearPaint
+	context2D clearRect: 0 a: 0 a: self width a: self height.
+	clearPaint ifNotNil: [
+		self drawDuring: [:canvas |
+			canvas 
+				setPaint: clearPaint;
+				setShape: (0@0 corner: (self width) @ (self height));
+				draw]].
+!
+
+context2D
+	^ context2D
 !
 
 extent
@@ -29,22 +76,48 @@ width
 	^ extent x
 ! !
 
-!AthensHTMLSurface methodsFor: 'initializing'!
+!AthensHTMLSurface methodsFor: 'drawing'!
 
-backgroundColor: aString
-	context2D fillStyle: aString.
-	context2D fillRect: 0 a: 0 a: self width a: self height.
+attemptToRecurseDrawing
+	^ self
 !
+
+drawDuring: aBlock
+
+	"You may draw on receiver only when inside a block and only using provided canvas object.
+	This ensures releasing system resources used after finishing drawing"
+
+	currentCanvas ifNotNil: [self attemptToRecurseDrawing].
+	[currentCanvas := athensCanvas.
+		aBlock value: currentCanvas.
+	] ensure: [currentCanvas := nil].
+! !
+
+!AthensHTMLSurface methodsFor: 'initializing'!
 
 initialize
 	|html|
 	html := HTMLCanvas onJQuery: '#workspace' asJQuery.
 	'#workspace' asJQuery empty.
-	canvas := html canvas.
-	canvas height: self height.
-	canvas width: self width.
-	context2D := canvas element getContext: '2d'.
-	self backgroundColor: '#000000'.
+	canvasTag := html canvas.
+	canvasTag height: self height.
+	canvasTag width: self width.
+	canvasTag asJQuery css: 'background-color' with: '#000000'.
+	context2D := canvasTag element getContext: '2d'.
+	athensCanvas := self newCanvas.
+! !
+
+!AthensHTMLSurface methodsFor: 'paints'!
+
+createSolidColorPaint: aColor 
+
+	^ AthensHTMLSolidPaint new color: aColor
+! !
+
+!AthensHTMLSurface methodsFor: 'private'!
+
+newCanvas
+	^ AthensHTMLCanvas on: self
 ! !
 
 !AthensHTMLSurface class methodsFor: 'instance creation'!

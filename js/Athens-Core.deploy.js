@@ -1153,3 +1153,43 @@ smalltalk.AthensTransform);
 
 
 
+smalltalk.addMethod(
+smalltalk.method({
+selector: "asAthensPaintOn:",
+fn: function (anAthensCanvas){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(_st(anAthensCanvas)._surface())._createSolidColorPaint_(self);
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"asAthensPaintOn:",{anAthensCanvas:anAthensCanvas},smalltalk.Color)})},
+messageSends: ["createSolidColorPaint:", "surface"]}),
+smalltalk.Color);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "corner:",
+fn: function (cornerPoint){
+var self=this;
+function $Rectangle(){return smalltalk.Rectangle||(typeof Rectangle=="undefined"?nil:Rectangle)}
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st($Rectangle())._origin_corner_(self,cornerPoint);
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"corner:",{cornerPoint:cornerPoint},smalltalk.Point)})},
+messageSends: ["origin:corner:"]}),
+smalltalk.Point);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "paintFillsUsing:on:",
+fn: function (aPaint,anAthensCanvas){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(aPaint)._fillRectangle_on_(self,anAthensCanvas);
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"paintFillsUsing:on:",{aPaint:aPaint,anAthensCanvas:anAthensCanvas},smalltalk.Rectangle)})},
+messageSends: ["fillRectangle:on:"]}),
+smalltalk.Rectangle);
+

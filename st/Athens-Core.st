@@ -618,3 +618,23 @@ transformX: px Y: py
 	self subclassResponsibility
 ! !
 
+!Color methodsFor: '*Athens-Core'!
+
+asAthensPaintOn: anAthensCanvas
+	^ anAthensCanvas surface createSolidColorPaint: self
+! !
+
+!Point methodsFor: '*Athens-Core'!
+
+corner: cornerPoint
+	^ Rectangle origin: self corner: cornerPoint
+! !
+
+!Rectangle methodsFor: '*Athens-Core'!
+
+paintFillsUsing: aPaint on: anAthensCanvas 
+	"This method is a part of rendering dispatch  Canvas->receiver->paint"
+	
+	^ aPaint fillRectangle: self on: anAthensCanvas
+! !
+

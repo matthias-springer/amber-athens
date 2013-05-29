@@ -1633,3 +1633,58 @@ smalltalk.AthensTransform);
 
 
 
+smalltalk.addMethod(
+smalltalk.method({
+selector: "asAthensPaintOn:",
+category: '*Athens-Core',
+fn: function (anAthensCanvas){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(_st(anAthensCanvas)._surface())._createSolidColorPaint_(self);
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"asAthensPaintOn:",{anAthensCanvas:anAthensCanvas},smalltalk.Color)})},
+args: ["anAthensCanvas"],
+source: "asAthensPaintOn: anAthensCanvas\x0a\x09^ anAthensCanvas surface createSolidColorPaint: self",
+messageSends: ["createSolidColorPaint:", "surface"],
+referencedClasses: []
+}),
+smalltalk.Color);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "corner:",
+category: '*Athens-Core',
+fn: function (cornerPoint){
+var self=this;
+function $Rectangle(){return smalltalk.Rectangle||(typeof Rectangle=="undefined"?nil:Rectangle)}
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st($Rectangle())._origin_corner_(self,cornerPoint);
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"corner:",{cornerPoint:cornerPoint},smalltalk.Point)})},
+args: ["cornerPoint"],
+source: "corner: cornerPoint\x0a\x09^ Rectangle origin: self corner: cornerPoint",
+messageSends: ["origin:corner:"],
+referencedClasses: ["Rectangle"]
+}),
+smalltalk.Point);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "paintFillsUsing:on:",
+category: '*Athens-Core',
+fn: function (aPaint,anAthensCanvas){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(aPaint)._fillRectangle_on_(self,anAthensCanvas);
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"paintFillsUsing:on:",{aPaint:aPaint,anAthensCanvas:anAthensCanvas},smalltalk.Rectangle)})},
+args: ["aPaint", "anAthensCanvas"],
+source: "paintFillsUsing: aPaint on: anAthensCanvas \x0a\x09\x22This method is a part of rendering dispatch  Canvas->receiver->paint\x22\x0a\x09\x0a\x09^ aPaint fillRectangle: self on: anAthensCanvas",
+messageSends: ["fillRectangle:on:"],
+referencedClasses: []
+}),
+smalltalk.Rectangle);
+

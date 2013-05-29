@@ -96,8 +96,12 @@ amber = (function() {
 				'Kernel-Tests',
 				'SUnit-Tests',
 
+        'Athens-Amber',
         'Athens-Core',
-        'Athens-HTML'
+        'Athens-Core-Matrices',
+        'Athens-Core-Paints',
+        'Athens-HTML',
+        'Athens-HTML-Paints'
 			]);
 		}
 
