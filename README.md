@@ -1,4 +1,23 @@
-Amber [![Travis CI Status](https://secure.travis-ci.org/amber-smalltalk/amber.png)](https://travis-ci.org/#!/amber-smalltalk/amber)
+Amber-Athens
+============
+
+Athens is a vector graphics library for Pharo. This is a port of Athens for Amber. It is implemented with HTML Canvas.
+
+Run single steps from the Athens tutorial as follows.
+
+```smalltalk
+AthensTutorial new
+    step2;
+	step8.
+```
+
+*Note:* You always have to run step2 before any other step since it creates the surface.
+
+*Note:* This is work in progress!
+
+*Project description:* [ESUG GSoC website](http://gsoc2013.esug.org/projects/athen's%20html5%20canvas/proposal-a)
+
+Amber
 =====
 
 By Nicolas Petton <petton.nicolas@gmail.com> and [Amber contributors](https://github.com/NicolasPetton/amber/contributors)
