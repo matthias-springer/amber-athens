@@ -103,7 +103,9 @@ amber = (function() {
         'Athens-Core-Paths',
         'Athens-Core-PathsGeometry',
         'Athens-HTML',
-        'Athens-HTML-Paints'
+        'Athens-HTML-Matrices',
+        'Athens-HTML-Paints',
+        'Athens-HTML-Tutorial'
 			]);
 		}
 

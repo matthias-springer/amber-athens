@@ -1155,6 +1155,17 @@ smalltalk.AthensTransform);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "isPoint",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+return false;
+}, function($ctx1) {$ctx1.fill(self,"isPoint",{},smalltalk.Object)})},
+messageSends: []}),
+smalltalk.Object);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "asAthensPaintOn:",
 fn: function (anAthensCanvas){
 var self=this;
@@ -1168,6 +1179,17 @@ smalltalk.Color);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "degreesToRadians",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self / 180.0 * Math.PI; ;
+return self}, function($ctx1) {$ctx1.fill(self,"degreesToRadians",{},smalltalk.Number)})},
+messageSends: []}),
+smalltalk.Number);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "corner:",
 fn: function (cornerPoint){
 var self=this;
@@ -1178,6 +1200,17 @@ $1=_st($Rectangle())._origin_corner_(self,cornerPoint);
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"corner:",{cornerPoint:cornerPoint},smalltalk.Point)})},
 messageSends: ["origin:corner:"]}),
+smalltalk.Point);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "isPoint",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+return true;
+}, function($ctx1) {$ctx1.fill(self,"isPoint",{},smalltalk.Point)})},
+messageSends: []}),
 smalltalk.Point);
 
 smalltalk.addMethod(

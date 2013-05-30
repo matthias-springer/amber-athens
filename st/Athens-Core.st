@@ -618,16 +618,32 @@ transformX: px Y: py
 	self subclassResponsibility
 ! !
 
+!Object methodsFor: '*Athens-Core'!
+
+isPoint
+	^ false
+! !
+
 !Color methodsFor: '*Athens-Core'!
 
 asAthensPaintOn: anAthensCanvas
 	^ anAthensCanvas surface createSolidColorPaint: self
 ! !
 
+!Number methodsFor: '*Athens-Core'!
+
+degreesToRadians
+	< return self / 180.0 * Math.PI; >
+! !
+
 !Point methodsFor: '*Athens-Core'!
 
 corner: cornerPoint
 	^ Rectangle origin: self corner: cornerPoint
+!
+
+isPoint
+	^ true
 ! !
 
 !Rectangle methodsFor: '*Athens-Core'!

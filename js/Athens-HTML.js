@@ -1,5 +1,41 @@
 smalltalk.addPackage('Athens-HTML');
-smalltalk.addClass('AthensHTMLCanvas', smalltalk.AthensCanvas, [], 'Athens-HTML');
+smalltalk.addClass('AthensHTMLCanvas', smalltalk.AthensCanvas, ['pathTransform', 'paintTransform', 'currentClipRect'], 'Athens-HTML');
+smalltalk.addMethod(
+smalltalk.method({
+selector: "paintTransform",
+category: 'accessing',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self["@paintTransform"];
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"paintTransform",{},smalltalk.AthensHTMLCanvas)})},
+args: [],
+source: "paintTransform\x0a\x09^ paintTransform",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.AthensHTMLCanvas);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "pathTransform",
+category: 'accessing',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self["@pathTransform"];
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"pathTransform",{},smalltalk.AthensHTMLCanvas)})},
+args: [],
+source: "pathTransform\x0a\x09^ pathTransform",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.AthensHTMLCanvas);
+
 smalltalk.addMethod(
 smalltalk.method({
 selector: "rectangleX:y:width:height:",
@@ -38,13 +74,16 @@ selector: "surface:",
 category: 'accessing',
 fn: function (anHTMLSurface){
 var self=this;
+function $AthensHTMLMatrix(){return smalltalk.AthensHTMLMatrix||(typeof AthensHTMLMatrix=="undefined"?nil:AthensHTMLMatrix)}
 return smalltalk.withContext(function($ctx1) { 
 self["@surface"]=anHTMLSurface;
+self["@pathTransform"]=_st($AthensHTMLMatrix())._on_(self["@surface"]);
+self["@paintTransform"]=_st($AthensHTMLMatrix())._on_(self["@surface"]);
 return self}, function($ctx1) {$ctx1.fill(self,"surface:",{anHTMLSurface:anHTMLSurface},smalltalk.AthensHTMLCanvas)})},
 args: ["anHTMLSurface"],
-source: "surface: anHTMLSurface\x0a\x09surface := anHTMLSurface",
-messageSends: [],
-referencedClasses: []
+source: "surface: anHTMLSurface\x0a\x09surface := anHTMLSurface.\x0a\x09pathTransform := AthensHTMLMatrix on: surface.\x0a\x09paintTransform := AthensHTMLMatrix on: surface.",
+messageSends: ["on:"],
+referencedClasses: ["AthensHTMLMatrix"]
 }),
 smalltalk.AthensHTMLCanvas);
 

@@ -27,6 +27,22 @@ smalltalk.Color);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "alpha:",
+category: 'accessing',
+fn: function (aNumber){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self["@alpha"]=aNumber;
+return self}, function($ctx1) {$ctx1.fill(self,"alpha:",{aNumber:aNumber},smalltalk.Color)})},
+args: ["aNumber"],
+source: "alpha: aNumber\x0a\x09alpha := aNumber",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.Color);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "blue",
 category: 'accessing',
 fn: function (){
@@ -152,6 +168,27 @@ smalltalk.Color.klass);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "gray",
+category: 'instance creation',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $2,$3,$1;
+$2=self._new();
+_st($2)._hexString_("808080");
+$3=_st($2)._yourself();
+$1=$3;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"gray",{},smalltalk.Color.klass)})},
+args: [],
+source: "gray\x0a\x09^ self new\x0a\x09\x09hexString: '808080';\x0a\x09\x09yourself",
+messageSends: ["hexString:", "new", "yourself"],
+referencedClasses: []
+}),
+smalltalk.Color.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "green",
 category: 'instance creation',
 fn: function (){
@@ -210,6 +247,48 @@ return $1;
 args: [],
 source: "transparent\x0a\x09^ self new\x0a\x09\x09hexString: '000000';\x0a\x09\x09alpha: 0;\x0a\x09\x09yourself",
 messageSends: ["hexString:", "new", "alpha:", "yourself"],
+referencedClasses: []
+}),
+smalltalk.Color.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "white",
+category: 'instance creation',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $2,$3,$1;
+$2=self._new();
+_st($2)._hexString_("ffffff");
+$3=_st($2)._yourself();
+$1=$3;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"white",{},smalltalk.Color.klass)})},
+args: [],
+source: "white\x0a\x09^ self new\x0a\x09\x09hexString: 'ffffff';\x0a\x09\x09yourself",
+messageSends: ["hexString:", "new", "yourself"],
+referencedClasses: []
+}),
+smalltalk.Color.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "yellow",
+category: 'instance creation',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $2,$3,$1;
+$2=self._new();
+_st($2)._hexString_("ffff00");
+$3=_st($2)._yourself();
+$1=$3;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"yellow",{},smalltalk.Color.klass)})},
+args: [],
+source: "yellow\x0a\x09^ self new\x0a\x09\x09hexString: 'ffff00';\x0a\x09\x09yourself",
+messageSends: ["hexString:", "new", "yourself"],
 referencedClasses: []
 }),
 smalltalk.Color.klass);

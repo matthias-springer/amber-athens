@@ -1635,6 +1635,22 @@ smalltalk.AthensTransform);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "isPoint",
+category: '*Athens-Core',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+return false;
+}, function($ctx1) {$ctx1.fill(self,"isPoint",{},smalltalk.Object)})},
+args: [],
+source: "isPoint\x0a\x09^ false",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.Object);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "asAthensPaintOn:",
 category: '*Athens-Core',
 fn: function (anAthensCanvas){
@@ -1653,6 +1669,22 @@ smalltalk.Color);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "degreesToRadians",
+category: '*Athens-Core',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self / 180.0 * Math.PI; ;
+return self}, function($ctx1) {$ctx1.fill(self,"degreesToRadians",{},smalltalk.Number)})},
+args: [],
+source: "degreesToRadians\x0a\x09< return self / 180.0 * Math.PI; >",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.Number);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "corner:",
 category: '*Athens-Core',
 fn: function (cornerPoint){
@@ -1667,6 +1699,22 @@ args: ["cornerPoint"],
 source: "corner: cornerPoint\x0a\x09^ Rectangle origin: self corner: cornerPoint",
 messageSends: ["origin:corner:"],
 referencedClasses: ["Rectangle"]
+}),
+smalltalk.Point);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "isPoint",
+category: '*Athens-Core',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+return true;
+}, function($ctx1) {$ctx1.fill(self,"isPoint",{},smalltalk.Point)})},
+args: [],
+source: "isPoint\x0a\x09^ true",
+messageSends: [],
+referencedClasses: []
 }),
 smalltalk.Point);
 

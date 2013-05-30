@@ -10,6 +10,10 @@ alpha
 	^ alpha
 !
 
+alpha: aNumber
+	alpha := aNumber
+!
+
 blue
 	< return parseInt(self['@hexString'].substr(4, 2), 16) / 255.0; >
 !
@@ -44,6 +48,12 @@ blue
 		yourself
 !
 
+gray
+	^ self new
+		hexString: '808080';
+		yourself
+!
+
 green
 	^ self new
 		hexString: '00ff00';
@@ -60,6 +70,18 @@ transparent
 	^ self new
 		hexString: '000000';
 		alpha: 0;
+		yourself
+!
+
+white
+	^ self new
+		hexString: 'ffffff';
+		yourself
+!
+
+yellow
+	^ self new
+		hexString: 'ffff00';
 		yourself
 ! !
 

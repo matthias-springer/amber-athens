@@ -1,5 +1,31 @@
 smalltalk.addPackage('Athens-HTML');
-smalltalk.addClass('AthensHTMLCanvas', smalltalk.AthensCanvas, [], 'Athens-HTML');
+smalltalk.addClass('AthensHTMLCanvas', smalltalk.AthensCanvas, ['pathTransform', 'paintTransform', 'currentClipRect'], 'Athens-HTML');
+smalltalk.addMethod(
+smalltalk.method({
+selector: "paintTransform",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self["@paintTransform"];
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"paintTransform",{},smalltalk.AthensHTMLCanvas)})},
+messageSends: []}),
+smalltalk.AthensHTMLCanvas);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "pathTransform",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self["@pathTransform"];
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"pathTransform",{},smalltalk.AthensHTMLCanvas)})},
+messageSends: []}),
+smalltalk.AthensHTMLCanvas);
+
 smalltalk.addMethod(
 smalltalk.method({
 selector: "rectangleX:y:width:height:",
@@ -27,10 +53,13 @@ smalltalk.method({
 selector: "surface:",
 fn: function (anHTMLSurface){
 var self=this;
+function $AthensHTMLMatrix(){return smalltalk.AthensHTMLMatrix||(typeof AthensHTMLMatrix=="undefined"?nil:AthensHTMLMatrix)}
 return smalltalk.withContext(function($ctx1) { 
 self["@surface"]=anHTMLSurface;
+self["@pathTransform"]=_st($AthensHTMLMatrix())._on_(self["@surface"]);
+self["@paintTransform"]=_st($AthensHTMLMatrix())._on_(self["@surface"]);
 return self}, function($ctx1) {$ctx1.fill(self,"surface:",{anHTMLSurface:anHTMLSurface},smalltalk.AthensHTMLCanvas)})},
-messageSends: []}),
+messageSends: ["on:"]}),
 smalltalk.AthensHTMLCanvas);
 
 
