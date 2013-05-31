@@ -15,6 +15,253 @@ step1
 	"Does not apply for Athens-HTML."
 !
 
+step10
+"Step 10: Loading matrix/using identity matrix.
+
+"
+
+surface drawDuring: [:canvas |  | m |
+	surface clear: Color gray. 
+
+	canvas setShape: (0@0 corner: 100@100).
+	canvas setPaint: (Color blue).
+
+	canvas pathTransform
+		scaleBy: 4;
+		translateX: 50 Y: 50;
+		rotateByDegrees: 35;
+		translateX: -50 Y: -50.
+	
+	"obtaining a current transformation matrix"
+	m := canvas pathTransform getMatrix.	
+		
+	canvas draw.
+
+
+	"The following statement resets coordinate transformation to match surface's coordinate space"
+	canvas pathTransform loadIdentity.
+	
+	canvas setPaint: (Color yellow).
+	canvas draw.
+
+	"Now load the matrix back"
+	
+	canvas pathTransform 
+		loadAffineTransform: m;
+	
+	"Offset it a bit"
+		translateX: 2 Y: 2.
+		
+	canvas setPaint: (Color gray alpha:0.8).
+
+	canvas draw.
+		
+	]
+!
+
+step11
+"Step 11: Some important aspects of transforms:
+
+
+  * the transformation matrix is not accessible for direct manipulation,
+	instead you can only modify the current transformation, by using different manipulation methods 
+
+  * remember that the order of transformation is important, e.g. translate then scale is not the same than
+	scale then translate, even if you using very same values.
+
+  * all transformations are conform to AthensTransform protocol. (we're not covering full protocol in this tutorial)
+"
+!
+
+step12
+
+"Step 12: Building complex shapes using paths.
+
+So far, we used only rectangles as shapes, now time to create something more interesting.
+
+"
+
+
+	surface drawDuring: [:canvas |
+		| path |
+		surface clear: Color gray.
+		
+		canvas pathTransform translateX: surface width/2.0 Y: surface height / 2.0 .
+	
+		"To create a path, use #createPath: protocol.
+		The block should accept a single argument, where AthensPathBuilder instance will be passed"	
+		path := canvas createPath: [:builder |
+			
+			"A simple polygon"
+			builder 
+				absolute;
+				
+			"The path consists from a list of connected segments connected with each other" 
+				lineTo: -50@ -50;
+				lineTo: 60@ -60;
+				lineTo: 150@50;
+				lineTo: 0@0
+			].
+	
+		canvas setShape: path.
+		
+		"Here we're using stroke paint to show the edges of path (more on stroke paints later)"
+		(canvas setStrokePaint: Color white) width:4.
+		
+		"If you want to fill the path instead, uncomment the line below"
+		"canvas setPaint: Color white."
+		
+		
+		canvas draw.
+	].
+!
+
+step13
+
+"Step 13: Building complex shapes using paths.
+
+For complex and large paths, building it every time could be ineffective and computationally intensive. 
+Instead you can use surface factory method (#createPath:) to create a path object
+at any point, and use it later, whenever you see fit.
+
+Note, that since we're not using canvas, it is not necessary to put path creation inside #drawDuring: method.
+"
+	| path |
+
+	path := surface createPath: [:builder |
+			
+			"A simple polygon"
+		builder 
+			absolute;
+				
+			"The path consists from a list of connected segments connected with each other" 				
+			lineTo: -50@ -50;
+			lineTo: 60@ -60;
+			lineTo: 150@50;
+			lineTo: 0@0
+		].
+
+
+	surface drawDuring: [:canvas |
+		surface clear: Color gray.
+		
+		canvas pathTransform translateX: surface width/2.0 Y: surface height / 2.0 .
+	
+		canvas setShape: path.
+
+		(canvas setStrokePaint: Color yellow) width:4.
+		
+		canvas draw.
+	].
+!
+
+step14
+"Step 14: Various path segment types.
+
+
+"
+	| path |
+
+	path := surface createPath: [:builder |
+			
+		builder 
+			absolute;
+				
+			"The path consists from a list of segments connected with each other, e.g.
+			the starting point of next segment is always an end point of previous one"
+			 				
+			lineTo: -50@ -50;
+			
+			"quadric Bezier curve"
+			
+			curveVia: 0@ -80 to: 50@ -50;
+			
+			"cubic Bezier curve" 
+			
+			curveVia: 100@ -20 and: -50@20 to: 50@ 50;
+
+			 "clockwise arc"
+			
+			cwArcTo: 50@100 angle: 45; 
+			
+			"counter-clockwise arc"
+
+			ccwArcTo: -50@100 angle: 45.
+			
+			"close segment. Simply connects endpoint of previous segment with path starting point.
+			Try to comment following line to see the difference" 
+			builder close.
+		].
+
+
+	surface drawDuring: [:canvas |
+		surface clear: Color gray.
+		
+		canvas pathTransform
+			translateX: surface width/2.0 Y: surface height / 2.0 ;
+			scaleBy:2.
+	
+		canvas setShape: path.
+		
+		(canvas setStrokePaint: Color yellow) width:4.
+		
+		canvas draw.
+	].
+!
+
+step15
+"Step 15: Path origin and moveTo: segment.
+
+
+"
+	| path |
+
+	path := surface createPath: [:builder |
+			
+		builder 
+			absolute;
+
+			"All paths always having same origin, which is (0@0) point.
+			To use different origin, use #moveTo: as initial command.
+			Try to change moveTo: parameter to see the difference"
+
+			 				
+			moveTo: -50@ -50;
+			
+			"quadric Bezier curve"
+			
+			curveVia: 0@ -80 to: 50@ -50;
+			
+			"cubic Bezier curve" 
+			
+			curveVia: 100@ -20 and: -50@20 to: 50@ 50;
+
+			 "clockwise arc"
+			
+			cwArcTo: 50@100 angle: 45; 
+			
+			"counter-clockwise arc"
+
+			ccwArcTo: -50@100 angle: 45.
+			
+			
+		].
+
+
+	surface drawDuring: [:canvas |
+		surface clear: Color gray.
+		
+		canvas pathTransform
+			translateX: surface width/2.0 Y: surface height / 2.0 ;
+			scaleBy:2.
+	
+		canvas setShape: path.
+		(canvas setStrokePaint: Color yellow) width:4.
+		
+		canvas draw.
+	].
+!
+
 step2
 "Step 2:
 

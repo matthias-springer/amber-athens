@@ -1,17 +1,40 @@
 smalltalk.addPackage('Athens-HTML-Matrices');
-smalltalk.addClass('AthensHTMLMatrix', smalltalk.Object, ['sx', 'shx', 'x', 'shy', 'sy', 'y', 'surface'], 'Athens-HTML-Matrices');
+smalltalk.addClass('AthensHTMLMatrix', smalltalk.AthensAffineTransform, ['surface'], 'Athens-HTML-Matrices');
 smalltalk.addMethod(
 smalltalk.method({
-selector: "initialize",
-category: 'initialize-release',
+selector: "applyToContext",
+category: 'transformations',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self._loadIdentity();
-return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensHTMLMatrix)})},
+var $1;
+$1=self["@surface"];
+if(($receiver = $1) == nil || $receiver == undefined){
+$1;
+} else {
+_st(_st(self["@surface"])._context2D())._setTransform_a_a_a_a_a_(self["@sx"],self["@shy"],self["@shx"],self["@sy"],self["@x"],self["@y"]);
+};
+return self}, function($ctx1) {$ctx1.fill(self,"applyToContext",{},smalltalk.AthensHTMLMatrix)})},
 args: [],
-source: "initialize\x0a\x09self loadIdentity",
-messageSends: ["loadIdentity"],
+source: "applyToContext\x0a\x09surface ifNotNil: [\x0a\x09\x09surface context2D setTransform: sx a: shy a: shx a: sy a: x a: y].",
+messageSends: ["ifNotNil:", "setTransform:a:a:a:a:a:", "context2D"],
+referencedClasses: []
+}),
+smalltalk.AthensHTMLMatrix);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "loadAffineTransform:",
+category: 'transformations',
+fn: function (m){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+smalltalk.AthensAffineTransform.fn.prototype._loadAffineTransform_.apply(_st(self), [m]);
+self._applyToContext();
+return self}, function($ctx1) {$ctx1.fill(self,"loadAffineTransform:",{m:m},smalltalk.AthensHTMLMatrix)})},
+args: ["m"],
+source: "loadAffineTransform: m\x0a\x09super loadAffineTransform: m.\x0a\x09self applyToContext.",
+messageSends: ["loadAffineTransform:", "applyToContext"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLMatrix);
@@ -23,34 +46,32 @@ category: 'transformations',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self["@sy"]=(1);
-self["@sx"]=self["@sy"];
-self["@y"]=(0);
-self["@x"]=self["@y"];
-self["@shy"]=self["@x"];
-self["@shx"]=self["@shy"];
+smalltalk.AthensAffineTransform.fn.prototype._loadIdentity.apply(_st(self), []);
+self._applyToContext();
 return self}, function($ctx1) {$ctx1.fill(self,"loadIdentity",{},smalltalk.AthensHTMLMatrix)})},
 args: [],
-source: "loadIdentity\x0a\x09\x22initialize with identity transform\x22\x0a\x09sx := sy := 1.0.\x0a\x09shx := shy := x := y := 0.0.\x0a\x09\x0a\x09",
-messageSends: [],
+source: "loadIdentity\x0a\x09super loadIdentity.\x0a\x09self applyToContext.",
+messageSends: ["loadIdentity", "applyToContext"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLMatrix);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "rotateByDegrees:",
+selector: "restoreAfter:",
 category: 'transformations',
-fn: function (angle){
+fn: function (aBlock){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=self._rotateByRadians_(_st(angle)._degreesToRadians());
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"rotateByDegrees:",{angle:angle},smalltalk.AthensHTMLMatrix)})},
-args: ["angle"],
-source: "rotateByDegrees: angle\x0a\x09^ self rotateByRadians: angle degreesToRadians",
-messageSends: ["rotateByRadians:", "degreesToRadians"],
+_st(_st(self["@surface"])._context2D())._save();
+_st(aBlock)._ensure_((function(){
+return smalltalk.withContext(function($ctx2) {
+return _st(_st(self["@surface"])._context2D())._restore();
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
+return self}, function($ctx1) {$ctx1.fill(self,"restoreAfter:",{aBlock:aBlock},smalltalk.AthensHTMLMatrix)})},
+args: ["aBlock"],
+source: "restoreAfter: aBlock\x0a\x09surface context2D save.\x0a\x09aBlock ensure: [surface context2D restore].",
+messageSends: ["save", "context2D", "ensure:", "restore"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLMatrix);
@@ -62,11 +83,12 @@ category: 'transformations',
 fn: function (angle){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
+smalltalk.AthensAffineTransform.fn.prototype._rotateByRadians_.apply(_st(self), [angle]);
 _st(_st(self["@surface"])._context2D())._rotate_(angle);
 return self}, function($ctx1) {$ctx1.fill(self,"rotateByRadians:",{angle:angle},smalltalk.AthensHTMLMatrix)})},
 args: ["angle"],
-source: "rotateByRadians: angle\x0a\x09surface context2D rotate: angle",
-messageSends: ["rotate:", "context2D"],
+source: "rotateByRadians: angle\x0a\x09super rotateByRadians: angle.\x0a\x09surface context2D rotate: angle.",
+messageSends: ["rotateByRadians:", "rotate:", "context2D"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLMatrix);
@@ -87,7 +109,7 @@ self._scaleX_Y_(factor,factor);
 };
 return self}, function($ctx1) {$ctx1.fill(self,"scaleBy:",{factor:factor},smalltalk.AthensHTMLMatrix)})},
 args: ["factor"],
-source: "scaleBy: factor\x0a\x09\x22Do a uniform scale if factor is a number.\x22\x0a\x09\x0a\x09factor isPoint \x0a\x09\x09ifTrue: [self scaleX: factor x Y: factor y] \x0a\x09\x09ifFalse: [self scaleX: factor Y: factor].",
+source: "scaleBy: factor\x0a\x09factor isPoint \x0a\x09\x09ifTrue: [self scaleX: factor x Y: factor y] \x0a\x09\x09ifFalse: [self scaleX: factor Y: factor].",
 messageSends: ["ifTrue:ifFalse:", "scaleX:Y:", "x", "y", "isPoint"],
 referencedClasses: []
 }),
@@ -100,11 +122,12 @@ category: 'transformations',
 fn: function (fx,fy){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
+smalltalk.AthensAffineTransform.fn.prototype._scaleX_Y_.apply(_st(self), [fx,fy]);
 _st(_st(self["@surface"])._context2D())._scale_a_(fx,fy);
 return self}, function($ctx1) {$ctx1.fill(self,"scaleX:Y:",{fx:fx,fy:fy},smalltalk.AthensHTMLMatrix)})},
 args: ["fx", "fy"],
-source: "scaleX: fx Y: fy\x0a\x09surface context2D scale: fx a: fy.",
-messageSends: ["scale:a:", "context2D"],
+source: "scaleX: fx Y: fy\x0a\x09super scaleX: fx Y: fy.\x0a\x09surface context2D scale: fx a: fy.",
+messageSends: ["scaleX:Y:", "scale:a:", "context2D"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLMatrix);
@@ -150,11 +173,12 @@ category: 'transformations',
 fn: function (px,py){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
+smalltalk.AthensAffineTransform.fn.prototype._translateX_Y_.apply(_st(self), [px,py]);
 _st(_st(self["@surface"])._context2D())._translate_a_(px,py);
 return self}, function($ctx1) {$ctx1.fill(self,"translateX:Y:",{px:px,py:py},smalltalk.AthensHTMLMatrix)})},
 args: ["px", "py"],
-source: "translateX: px Y: py\x0a\x09surface context2D translate: px a: py.",
-messageSends: ["translate:a:", "context2D"],
+source: "translateX: px Y: py\x0a\x09super translateX: px Y: py.\x0a\x09surface context2D translate: px a: py.",
+messageSends: ["translateX:Y:", "translate:a:", "context2D"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLMatrix);
@@ -170,13 +194,14 @@ return smalltalk.withContext(function($ctx1) {
 var $2,$3,$1;
 $2=self._basicNew();
 _st($2)._surface_(anHTMLSurface);
+_st($2)._initialize();
 $3=_st($2)._yourself();
 $1=$3;
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"on:",{anHTMLSurface:anHTMLSurface},smalltalk.AthensHTMLMatrix.klass)})},
 args: ["anHTMLSurface"],
-source: "on: anHTMLSurface\x0a\x09^ self basicNew\x0a\x09\x09surface: anHTMLSurface;\x0a\x09\x09yourself",
-messageSends: ["surface:", "basicNew", "yourself"],
+source: "on: anHTMLSurface\x0a\x09^ self basicNew\x0a\x09\x09surface: anHTMLSurface;\x0a\x09\x09initialize;\x0a\x09\x09yourself",
+messageSends: ["surface:", "basicNew", "initialize", "yourself"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLMatrix.klass);

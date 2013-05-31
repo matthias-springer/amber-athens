@@ -1179,12 +1179,45 @@ smalltalk.Color);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "cos",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return Math.cos(self); ;
+return self}, function($ctx1) {$ctx1.fill(self,"cos",{},smalltalk.Number)})},
+messageSends: []}),
+smalltalk.Number);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "degreesToRadians",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
  return self / 180.0 * Math.PI; ;
 return self}, function($ctx1) {$ctx1.fill(self,"degreesToRadians",{},smalltalk.Number)})},
+messageSends: []}),
+smalltalk.Number);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "sin",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return Math.sin(self); ;
+return self}, function($ctx1) {$ctx1.fill(self,"sin",{},smalltalk.Number)})},
+messageSends: []}),
+smalltalk.Number);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "tan",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return Math.tan(self); ;
+return self}, function($ctx1) {$ctx1.fill(self,"tan",{},smalltalk.Number)})},
 messageSends: []}),
 smalltalk.Number);
 

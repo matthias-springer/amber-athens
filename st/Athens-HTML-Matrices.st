@@ -1,6 +1,6 @@
 Smalltalk current createPackage: 'Athens-HTML-Matrices'!
-Object subclass: #AthensHTMLMatrix
-	instanceVariableNames: 'sx shx x shy sy y surface'
+AthensAffineTransform subclass: #AthensHTMLMatrix
+	instanceVariableNames: 'surface'
 	package: 'Athens-HTML-Matrices'!
 
 !AthensHTMLMatrix methodsFor: 'accessing'!
@@ -13,41 +13,46 @@ surface: aSurface
 	surface := aSurface.
 ! !
 
-!AthensHTMLMatrix methodsFor: 'initialize-release'!
-
-initialize
-	self loadIdentity
-! !
-
 !AthensHTMLMatrix methodsFor: 'transformations'!
 
-loadIdentity
-	"initialize with identity transform"
-	sx := sy := 1.0.
-	shx := shy := x := y := 0.0.
+applyToContext
+	surface ifNotNil: [
+		surface context2D setTransform: sx a: shy a: shx a: sy a: x a: y].
 !
 
-rotateByDegrees: angle
-	^ self rotateByRadians: angle degreesToRadians
+loadAffineTransform: m
+	super loadAffineTransform: m.
+	self applyToContext.
+!
+
+loadIdentity
+	super loadIdentity.
+	self applyToContext.
+!
+
+restoreAfter: aBlock
+	surface context2D save.
+	aBlock ensure: [surface context2D restore].
 !
 
 rotateByRadians: angle
-	surface context2D rotate: angle
+	super rotateByRadians: angle.
+	surface context2D rotate: angle.
 !
 
 scaleBy: factor
-	"Do a uniform scale if factor is a number."
-	
 	factor isPoint 
 		ifTrue: [self scaleX: factor x Y: factor y] 
 		ifFalse: [self scaleX: factor Y: factor].
 !
 
 scaleX: fx Y: fy
+	super scaleX: fx Y: fy.
 	surface context2D scale: fx a: fy.
 !
 
 translateX: px Y: py
+	super translateX: px Y: py.
 	surface context2D translate: px a: py.
 ! !
 
@@ -56,6 +61,7 @@ translateX: px Y: py
 on: anHTMLSurface
 	^ self basicNew
 		surface: anHTMLSurface;
+		initialize;
 		yourself
 ! !
 

@@ -1669,6 +1669,22 @@ smalltalk.Color);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "cos",
+category: '*Athens-Core',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return Math.cos(self); ;
+return self}, function($ctx1) {$ctx1.fill(self,"cos",{},smalltalk.Number)})},
+args: [],
+source: "cos\x0a\x09< return Math.cos(self); >",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.Number);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "degreesToRadians",
 category: '*Athens-Core',
 fn: function (){
@@ -1678,6 +1694,38 @@ return smalltalk.withContext(function($ctx1) {
 return self}, function($ctx1) {$ctx1.fill(self,"degreesToRadians",{},smalltalk.Number)})},
 args: [],
 source: "degreesToRadians\x0a\x09< return self / 180.0 * Math.PI; >",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.Number);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "sin",
+category: '*Athens-Core',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return Math.sin(self); ;
+return self}, function($ctx1) {$ctx1.fill(self,"sin",{},smalltalk.Number)})},
+args: [],
+source: "sin\x0a\x09< return Math.sin(self); >",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.Number);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "tan",
+category: '*Athens-Core',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return Math.tan(self); ;
+return self}, function($ctx1) {$ctx1.fill(self,"tan",{},smalltalk.Number)})},
+args: [],
+source: "tan\x0a\x09< return Math.tan(self); >",
 messageSends: [],
 referencedClasses: []
 }),

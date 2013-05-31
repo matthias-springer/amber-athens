@@ -632,8 +632,20 @@ asAthensPaintOn: anAthensCanvas
 
 !Number methodsFor: '*Athens-Core'!
 
+cos
+	< return Math.cos(self); >
+!
+
 degreesToRadians
 	< return self / 180.0 * Math.PI; >
+!
+
+sin
+	< return Math.sin(self); >
+!
+
+tan
+	< return Math.tan(self); >
 ! !
 
 !Point methodsFor: '*Athens-Core'!
