@@ -499,13 +499,18 @@ selector: "step2",
 category: 'steps',
 fn: function (){
 var self=this;
+var container;
 function $AthensHTMLSurface(){return smalltalk.AthensHTMLSurface||(typeof AthensHTMLSurface=="undefined"?nil:AthensHTMLSurface)}
 return smalltalk.withContext(function($ctx1) { 
+container="#canvas-container"._asJQuery();
+_st(container)._empty();
 self["@surface"]=_st($AthensHTMLSurface())._extent_((500).__at((400)));
-return self}, function($ctx1) {$ctx1.fill(self,"step2",{},smalltalk.AthensTutorial)})},
+_st(self["@surface"])._appendToJQuery_("#canvas-container"._asJQuery());
+_st(_st(_st(self["@surface"])._canvasTag())._asJQuery())._css_with_("border","1px #aaa solid");
+return self}, function($ctx1) {$ctx1.fill(self,"step2",{container:container},smalltalk.AthensTutorial)})},
 args: [],
-source: "step2\x0a\x22Step 2:\x0a\x0aCreating a surface.\x0a\x0aProtocol:\x0a\x0a<SurfaceClass> extent: x@y\x0a\x0awill create a surface using specific class.\x0a\x0aAll surfaces is conformant to AthensSurface protocol.\x0a\x0aExample: \x0a\x22\x0a\x0asurface := AthensHTMLSurface extent: 500@400.\x0a\x0a\x22surface := AthensCairoSurface extent: self extent asIntegerPoint.\x22\x0a\x0a\x22IMPORTANT NOTE:\x0a\x09the surface which we will create at this step will be used in later steps.\x0a\x09This means that if you resize the window (changing the view size), you may need to recreate surface.\x0a\x09Also, since surface uses external resources, quitting an image and restarting it, will also require to \x0a\x09create a new surface, because the one from previous session will be no longer accessible.\x0a\x22",
-messageSends: ["extent:", "@"],
+source: "step2\x0a\x22Step 2:\x0a\x0aCreating a surface.\x0a\x0aProtocol:\x0a\x0a<SurfaceClass> extent: x@y\x0a\x0awill create a surface using specific class.\x0a\x0aAll surfaces is conformant to AthensSurface protocol.\x0a\x0aExample: \x0a\x22\x0a\x0a|container|\x0acontainer := '#canvas-container' asJQuery.\x0a\x0a\x22Clear previous canvases\x22\x0acontainer empty.\x0a\x0asurface := AthensHTMLSurface extent: 500@400.\x0asurface appendToJQuery: '#canvas-container' asJQuery.\x0a\x0a\x22Render border around canvas.\x22\x0asurface canvasTag asJQuery \x0a\x09css: 'border' with: '1px #aaa solid'.\x0a\x0a\x22IMPORTANT NOTE:\x0a\x09the surface which we will create at this step will be used in later steps.\x0a\x09This means that if you resize the window (changing the view size), you may need to recreate surface.\x0a\x09Also, since surface uses external resources, quitting an image and restarting it, will also require to \x0a\x09create a new surface, because the one from previous session will be no longer accessible.\x0a\x22",
+messageSends: ["asJQuery", "empty", "extent:", "@", "appendToJQuery:", "css:with:", "canvasTag"],
 referencedClasses: ["AthensHTMLSurface"]
 }),
 smalltalk.AthensTutorial);
@@ -1108,6 +1113,187 @@ messageSends: ["drawDuring:", "clear:", "gray", "setShape:", "corner:", "@", "sc
 referencedClasses: ["Color"]
 }),
 smalltalk.AthensTutorial);
+
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "open",
+category: 'starting',
+fn: function (){
+var self=this;
+var html;
+function $HTMLCanvas(){return smalltalk.HTMLCanvas||(typeof HTMLCanvas=="undefined"?nil:HTMLCanvas)}
+function $AthensTutorialWidget(){return smalltalk.AthensTutorialWidget||(typeof AthensTutorialWidget=="undefined"?nil:AthensTutorialWidget)}
+return smalltalk.withContext(function($ctx1) { 
+html=_st($HTMLCanvas())._onJQuery_("#workspace"._asJQuery());
+_st(html)._with_(_st($AthensTutorialWidget())._new());
+return self}, function($ctx1) {$ctx1.fill(self,"open",{html:html},smalltalk.AthensTutorial.klass)})},
+args: [],
+source: "open\x0a\x09|html|\x0a\x09html := HTMLCanvas onJQuery: '#workspace' asJQuery.\x0a\x09html with: AthensTutorialWidget new.",
+messageSends: ["onJQuery:", "asJQuery", "with:", "new"],
+referencedClasses: ["HTMLCanvas", "AthensTutorialWidget"]
+}),
+smalltalk.AthensTutorial.klass);
+
+
+smalltalk.addClass('AthensTutorialWidget', smalltalk.Widget, ['canvasContainer', 'step', 'codeArea', 'tutorial'], 'Athens-HTML-Tutorial');
+smalltalk.addMethod(
+smalltalk.method({
+selector: "initialize",
+category: 'initialize-release',
+fn: function (){
+var self=this;
+function $AthensTutorial(){return smalltalk.AthensTutorial||(typeof AthensTutorial=="undefined"?nil:AthensTutorial)}
+return smalltalk.withContext(function($ctx1) { 
+self["@step"]=(1);
+self["@tutorial"]=_st($AthensTutorial())._new();
+return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensTutorialWidget)})},
+args: [],
+source: "initialize\x0a\x09step := 1.\x0a\x09tutorial := AthensTutorial new.",
+messageSends: ["new"],
+referencedClasses: ["AthensTutorial"]
+}),
+smalltalk.AthensTutorialWidget);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "nextStep",
+category: 'interactions',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+self["@step"]=_st(self["@step"]).__plus((1));
+$1=_st(self["@step"]).__gt((31));
+if(smalltalk.assert($1)){
+self["@step"]=(31);
+self["@step"];
+};
+self._showStep_(self["@step"]);
+return self}, function($ctx1) {$ctx1.fill(self,"nextStep",{},smalltalk.AthensTutorialWidget)})},
+args: [],
+source: "nextStep\x0a\x09step := step + 1.\x0a\x09step > 31\x0a\x09\x09ifTrue: [step := 31].\x0a\x09self showStep: step.",
+messageSends: ["+", "ifTrue:", ">", "showStep:"],
+referencedClasses: []
+}),
+smalltalk.AthensTutorialWidget);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "previousStep",
+category: 'interactions',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+self["@step"]=_st(self["@step"]).__minus((1));
+$1=_st(self["@step"]).__lt((1));
+if(smalltalk.assert($1)){
+self["@step"]=(1);
+self["@step"];
+};
+self._showStep_(self["@step"]);
+return self}, function($ctx1) {$ctx1.fill(self,"previousStep",{},smalltalk.AthensTutorialWidget)})},
+args: [],
+source: "previousStep\x0a\x09step := step - 1.\x0a\x09step < 1\x0a\x09\x09ifTrue: [step := 1].\x0a\x09self showStep: step.",
+messageSends: ["-", "ifTrue:", "<", "showStep:"],
+referencedClasses: []
+}),
+smalltalk.AthensTutorialWidget);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "renderOn:",
+category: 'rendering',
+fn: function (html){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2,$3,$5,$6,$7,$8,$9,$10,$4;
+$1=_st(html)._div();
+_st($1)._style_("height: 100%; float: left; margin: 50px;");
+$2=_st($1)._id_("canvas-container");
+self["@canvasContainer"]=$2;
+$3=_st(html)._div();
+_st($3)._style_("height: 100%;; margin: 50px; display: inline-block;");
+$4=_st($3)._with_((function(){
+return smalltalk.withContext(function($ctx2) {
+self["@codeArea"]=_st(_st(html)._textarea())._style_("width: 100%; height: 350px;");
+self["@codeArea"];
+$5=_st(html)._input();
+_st($5)._type_("button");
+_st($5)._class_("btn btn-primary");
+_st($5)._style_("margin-right: 10px;");
+_st($5)._onClick_((function(){
+return smalltalk.withContext(function($ctx3) {
+return self._stepDoIt();
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2)})}));
+$6=_st($5)._value_("Do it");
+$6;
+$7=_st(html)._input();
+_st($7)._type_("button");
+_st($7)._class_("btn btn-primary");
+_st($7)._style_("margin-right: 10px;");
+_st($7)._onClick_((function(){
+return smalltalk.withContext(function($ctx3) {
+return self._previousStep();
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2)})}));
+$8=_st($7)._value_("Previous step");
+$8;
+$9=_st(html)._input();
+_st($9)._type_("button");
+_st($9)._class_("btn btn-primary");
+_st($9)._onClick_((function(){
+return smalltalk.withContext(function($ctx3) {
+return self._nextStep();
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2)})}));
+$10=_st($9)._value_("Next step");
+return $10;
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
+self._showStep_((1));
+return self}, function($ctx1) {$ctx1.fill(self,"renderOn:",{html:html},smalltalk.AthensTutorialWidget)})},
+args: ["html"],
+source: "renderOn: html\x0a\x09canvasContainer := html div\x0a\x09\x09style: 'height: 100%; float: left; margin: 50px;';\x0a\x09\x09id: 'canvas-container'.\x0a\x09html div\x0a\x09\x09style: 'height: 100%;; margin: 50px; display: inline-block;';\x0a\x09\x09with: [\x0a\x09\x09\x09codeArea := html textarea\x0a\x09\x09\x09\x09style: 'width: 100%; height: 350px;'.\x0a\x09\x09\x09html input\x0a\x09\x09\x09\x09type: 'button';\x0a\x09\x09\x09\x09class: 'btn btn-primary';\x0a\x09\x09\x09\x09style: 'margin-right: 10px;';\x0a\x09\x09\x09\x09onClick: [self stepDoIt];\x0a\x09\x09\x09\x09value: 'Do it'.\x0a\x09\x09\x09html input\x0a\x09\x09\x09\x09type: 'button';\x0a\x09\x09\x09\x09class: 'btn btn-primary';\x0a\x09\x09\x09\x09style: 'margin-right: 10px;';\x0a\x09\x09\x09\x09onClick: [self previousStep];\x0a\x09\x09\x09\x09value: 'Previous step'.\x0a\x09\x09\x09html input\x0a\x09\x09\x09\x09type: 'button';\x0a\x09\x09\x09\x09class: 'btn btn-primary';\x0a\x09\x09\x09\x09onClick: [self nextStep];\x0a\x09\x09\x09\x09value: 'Next step'].\x0a\x09self showStep: 1.",
+messageSends: ["style:", "div", "id:", "with:", "textarea", "type:", "input", "class:", "onClick:", "stepDoIt", "value:", "previousStep", "nextStep", "showStep:"],
+referencedClasses: []
+}),
+smalltalk.AthensTutorialWidget);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "showStep:",
+category: 'interactions',
+fn: function (anInteger){
+var self=this;
+var selector;
+function $AthensTutorial(){return smalltalk.AthensTutorial||(typeof AthensTutorial=="undefined"?nil:AthensTutorial)}
+return smalltalk.withContext(function($ctx1) { 
+selector=_st("step".__comma(_st(anInteger)._asString()))._asSymbol();
+_st(_st(self["@codeArea"])._asJQuery())._val_(_st(_st($AthensTutorial())._methodAt_(selector))._source());
+return self}, function($ctx1) {$ctx1.fill(self,"showStep:",{anInteger:anInteger,selector:selector},smalltalk.AthensTutorialWidget)})},
+args: ["anInteger"],
+source: "showStep: anInteger\x0a\x09|selector|\x0a\x09selector := ('step', anInteger asString) asSymbol.\x0a\x09codeArea asJQuery\x0a\x09\x09val: (AthensTutorial methodAt: selector) source.",
+messageSends: ["asSymbol", ",", "asString", "val:", "source", "methodAt:", "asJQuery"],
+referencedClasses: ["AthensTutorial"]
+}),
+smalltalk.AthensTutorialWidget);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "stepDoIt",
+category: 'interactions',
+fn: function (){
+var self=this;
+function $AthensTutorial(){return smalltalk.AthensTutorial||(typeof AthensTutorial=="undefined"?nil:AthensTutorial)}
+return smalltalk.withContext(function($ctx1) { 
+_st($AthensTutorial())._compile_("doIt".__comma(_st(_st(self["@codeArea"])._asJQuery())._val()));
+_st(self["@tutorial"])._perform_(_st("doItstep".__comma(_st(self["@step"])._asString()))._asSymbol());
+return self}, function($ctx1) {$ctx1.fill(self,"stepDoIt",{},smalltalk.AthensTutorialWidget)})},
+args: [],
+source: "stepDoIt\x0a\x09AthensTutorial compile: 'doIt', codeArea asJQuery val.\x0a\x09tutorial perform: ('doItstep', step asString) asSymbol.",
+messageSends: ["compile:", ",", "val", "asJQuery", "perform:", "asSymbol", "asString"],
+referencedClasses: ["AthensTutorial"]
+}),
+smalltalk.AthensTutorialWidget);
 
 
 

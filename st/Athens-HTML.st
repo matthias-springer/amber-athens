@@ -90,6 +90,16 @@ width
 	^ extent x
 ! !
 
+!AthensHTMLSurface methodsFor: 'adding'!
+
+appendToBrush: aTagBrush
+	self appendToJQuery: aTagBrush asJQuery
+!
+
+appendToJQuery: aJQuery
+	self renderOn: (HTMLCanvas onJQuery: aJQuery)
+! !
+
 !AthensHTMLSurface methodsFor: 'creation'!
 
 createPath: aPathCreatingBlock
@@ -109,22 +119,9 @@ drawDuring: aBlock
 
 	currentCanvas ifNotNil: [self attemptToRecurseDrawing].
 	[currentCanvas := athensCanvas.
+		self setDefaults.
 		aBlock value: currentCanvas.
 	] ensure: [currentCanvas := nil].
-! !
-
-!AthensHTMLSurface methodsFor: 'initializing'!
-
-initialize
-	|html|
-	html := HTMLCanvas onJQuery: '#workspace' asJQuery.
-	'#workspace' asJQuery empty.
-	canvasTag := html canvas.
-	canvasTag height: self height.
-	canvasTag width: self width.
-	canvasTag asJQuery css: 'background-color' with: '#000000'.
-	context2D := canvasTag element getContext: '2d'.
-	athensCanvas := self newCanvas.
 ! !
 
 !AthensHTMLSurface methodsFor: 'paints'!
@@ -141,6 +138,21 @@ createStrokePaintFor: aPaint
 
 newCanvas
 	^ AthensHTMLCanvas on: self
+!
+
+setDefaults
+	currentCanvas pathTransform loadIdentity.
+	currentCanvas paintTransform loadIdentity.
+! !
+
+!AthensHTMLSurface methodsFor: 'rendering'!
+
+renderOn: html
+	canvasTag := html canvas.
+	canvasTag height: self height.
+	canvasTag width: self width.
+	context2D := canvasTag element getContext: '2d'.
+	athensCanvas := self newCanvas.
 ! !
 
 !AthensHTMLSurface class methodsFor: 'instance creation'!

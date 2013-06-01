@@ -595,9 +595,18 @@ All surfaces is conformant to AthensSurface protocol.
 Example: 
 "
 
-surface := AthensHTMLSurface extent: 500@400.
+|container|
+container := '#canvas-container' asJQuery.
 
-"surface := AthensCairoSurface extent: self extent asIntegerPoint."
+"Clear previous canvases"
+container empty.
+
+surface := AthensHTMLSurface extent: 500@400.
+surface appendToJQuery: '#canvas-container' asJQuery.
+
+"Render border around canvas."
+surface canvasTag asJQuery 
+	css: 'border' with: '1px #aaa solid'.
 
 "IMPORTANT NOTE:
 	the surface which we will create at this step will be used in later steps.
@@ -1286,5 +1295,83 @@ and see the difference"
 	canvas setPaint: (Color yellow).
 	canvas draw.
 	]
+! !
+
+!AthensTutorial class methodsFor: 'starting'!
+
+open
+	|html|
+	html := HTMLCanvas onJQuery: '#workspace' asJQuery.
+	html with: AthensTutorialWidget new.
+! !
+
+Widget subclass: #AthensTutorialWidget
+	instanceVariableNames: 'canvasContainer step codeArea tutorial'
+	package: 'Athens-HTML-Tutorial'!
+
+!AthensTutorialWidget methodsFor: 'initialize-release'!
+
+initialize
+	step := 1.
+	tutorial := AthensTutorial new.
+! !
+
+!AthensTutorialWidget methodsFor: 'interactions'!
+
+nextStep
+	step := step + 1.
+	step > 31
+		ifTrue: [step := 31].
+	self showStep: step.
+!
+
+previousStep
+	step := step - 1.
+	step < 1
+		ifTrue: [step := 1].
+	self showStep: step.
+!
+
+showStep: anInteger
+	|selector|
+	selector := ('step', anInteger asString) asSymbol.
+	codeArea asJQuery
+		val: (AthensTutorial methodAt: selector) source.
+!
+
+stepDoIt
+	AthensTutorial compile: 'doIt', codeArea asJQuery val.
+	tutorial perform: ('doItstep', step asString) asSymbol.
+! !
+
+!AthensTutorialWidget methodsFor: 'rendering'!
+
+renderOn: html
+	canvasContainer := html div
+		style: 'height: 100%; float: left; margin: 50px;';
+		id: 'canvas-container'.
+	html div
+		style: 'height: 100%;; margin: 50px; display: inline-block;';
+		with: [
+			codeArea := html textarea
+				style: 'width: 100%; height: 350px;'.
+			html input
+				type: 'button';
+				class: 'btn btn-primary';
+				style: 'margin-right: 10px;';
+				onClick: [self stepDoIt];
+				value: 'Do it'.
+			html input
+				type: 'button';
+				class: 'btn btn-primary';
+				style: 'margin-right: 10px;';
+				onClick: [self previousStep];
+				value: 'Previous step'.
+			html input
+				type: 'button';
+				class: 'btn btn-primary';
+				onClick: [self nextStep];
+				value: 'Next step'].
+	self showStep: 1.
 ! !
 

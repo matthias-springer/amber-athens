@@ -95,6 +95,29 @@ smalltalk.AthensHTMLCanvas.klass);
 smalltalk.addClass('AthensHTMLSurface', smalltalk.AthensSurface, ['extent', 'canvasTag', 'context2D', 'athensCanvas'], 'Athens-HTML');
 smalltalk.addMethod(
 smalltalk.method({
+selector: "appendToBrush:",
+fn: function (aTagBrush){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self._appendToJQuery_(_st(aTagBrush)._asJQuery());
+return self}, function($ctx1) {$ctx1.fill(self,"appendToBrush:",{aTagBrush:aTagBrush},smalltalk.AthensHTMLSurface)})},
+messageSends: ["appendToJQuery:", "asJQuery"]}),
+smalltalk.AthensHTMLSurface);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "appendToJQuery:",
+fn: function (aJQuery){
+var self=this;
+function $HTMLCanvas(){return smalltalk.HTMLCanvas||(typeof HTMLCanvas=="undefined"?nil:HTMLCanvas)}
+return smalltalk.withContext(function($ctx1) { 
+self._renderOn_(_st($HTMLCanvas())._onJQuery_(aJQuery));
+return self}, function($ctx1) {$ctx1.fill(self,"appendToJQuery:",{aJQuery:aJQuery},smalltalk.AthensHTMLSurface)})},
+messageSends: ["renderOn:", "onJQuery:"]}),
+smalltalk.AthensHTMLSurface);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "attemptToRecurseDrawing",
 fn: function (){
 var self=this;
@@ -238,6 +261,7 @@ _st((function(){
 return smalltalk.withContext(function($ctx2) {
 self["@currentCanvas"]=self["@athensCanvas"];
 self["@currentCanvas"];
+self._setDefaults();
 return _st(aBlock)._value_(self["@currentCanvas"]);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}))._ensure_((function(){
 return smalltalk.withContext(function($ctx2) {
@@ -245,7 +269,7 @@ self["@currentCanvas"]=nil;
 return self["@currentCanvas"];
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"drawDuring:",{aBlock:aBlock},smalltalk.AthensHTMLSurface)})},
-messageSends: ["ifNotNil:", "attemptToRecurseDrawing", "ensure:", "value:"]}),
+messageSends: ["ifNotNil:", "attemptToRecurseDrawing", "ensure:", "setDefaults", "value:"]}),
 smalltalk.AthensHTMLSurface);
 
 smalltalk.addMethod(
@@ -287,26 +311,6 @@ smalltalk.AthensHTMLSurface);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "initialize",
-fn: function (){
-var self=this;
-var html;
-function $HTMLCanvas(){return smalltalk.HTMLCanvas||(typeof HTMLCanvas=="undefined"?nil:HTMLCanvas)}
-return smalltalk.withContext(function($ctx1) { 
-html=_st($HTMLCanvas())._onJQuery_("#workspace"._asJQuery());
-_st("#workspace"._asJQuery())._empty();
-self["@canvasTag"]=_st(html)._canvas();
-_st(self["@canvasTag"])._height_(self._height());
-_st(self["@canvasTag"])._width_(self._width());
-_st(_st(self["@canvasTag"])._asJQuery())._css_with_("background-color","#000000");
-self["@context2D"]=_st(_st(self["@canvasTag"])._element())._getContext_("2d");
-self["@athensCanvas"]=self._newCanvas();
-return self}, function($ctx1) {$ctx1.fill(self,"initialize",{html:html},smalltalk.AthensHTMLSurface)})},
-messageSends: ["onJQuery:", "asJQuery", "empty", "canvas", "height:", "height", "width:", "width", "css:with:", "getContext:", "element", "newCanvas"]}),
-smalltalk.AthensHTMLSurface);
-
-smalltalk.addMethod(
-smalltalk.method({
 selector: "newCanvas",
 fn: function (){
 var self=this;
@@ -317,6 +321,33 @@ $1=_st($AthensHTMLCanvas())._on_(self);
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"newCanvas",{},smalltalk.AthensHTMLSurface)})},
 messageSends: ["on:"]}),
+smalltalk.AthensHTMLSurface);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "renderOn:",
+fn: function (html){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self["@canvasTag"]=_st(html)._canvas();
+_st(self["@canvasTag"])._height_(self._height());
+_st(self["@canvasTag"])._width_(self._width());
+self["@context2D"]=_st(_st(self["@canvasTag"])._element())._getContext_("2d");
+self["@athensCanvas"]=self._newCanvas();
+return self}, function($ctx1) {$ctx1.fill(self,"renderOn:",{html:html},smalltalk.AthensHTMLSurface)})},
+messageSends: ["canvas", "height:", "height", "width:", "width", "getContext:", "element", "newCanvas"]}),
+smalltalk.AthensHTMLSurface);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "setDefaults",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+_st(_st(self["@currentCanvas"])._pathTransform())._loadIdentity();
+_st(_st(self["@currentCanvas"])._paintTransform())._loadIdentity();
+return self}, function($ctx1) {$ctx1.fill(self,"setDefaults",{},smalltalk.AthensHTMLSurface)})},
+messageSends: ["loadIdentity", "pathTransform", "paintTransform"]}),
 smalltalk.AthensHTMLSurface);
 
 smalltalk.addMethod(
