@@ -2,6 +2,17 @@ smalltalk.addPackage('Athens-HTML');
 smalltalk.addClass('AthensHTMLCanvas', smalltalk.AthensCanvas, ['pathTransform', 'paintTransform', 'currentClipRect'], 'Athens-HTML');
 smalltalk.addMethod(
 smalltalk.method({
+selector: "newPath",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+_st(_st(self["@surface"])._context2D())._beginPath();
+return self}, function($ctx1) {$ctx1.fill(self,"newPath",{},smalltalk.AthensHTMLCanvas)})},
+messageSends: ["beginPath", "context2D"]}),
+smalltalk.AthensHTMLCanvas);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "paintTransform",
 fn: function (){
 var self=this;
@@ -170,6 +181,20 @@ smalltalk.AthensHTMLSurface);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "createPath:",
+fn: function (aPathCreatingBlock){
+var self=this;
+function $AthensHTMLPathBuilder(){return smalltalk.AthensHTMLPathBuilder||(typeof AthensHTMLPathBuilder=="undefined"?nil:AthensHTMLPathBuilder)}
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st($AthensHTMLPathBuilder())._on_with_(self,aPathCreatingBlock);
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"createPath:",{aPathCreatingBlock:aPathCreatingBlock},smalltalk.AthensHTMLSurface)})},
+messageSends: ["on:with:"]}),
+smalltalk.AthensHTMLSurface);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "createSolidColorPaint:",
 fn: function (aColor){
 var self=this;
@@ -180,6 +205,20 @@ $1=_st(_st($AthensHTMLSolidPaint())._new())._color_(aColor);
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"createSolidColorPaint:",{aColor:aColor},smalltalk.AthensHTMLSurface)})},
 messageSends: ["color:", "new"]}),
+smalltalk.AthensHTMLSurface);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "createStrokePaintFor:",
+fn: function (aPaint){
+var self=this;
+function $AthensHTMLStrokePaint(){return smalltalk.AthensHTMLStrokePaint||(typeof AthensHTMLStrokePaint=="undefined"?nil:AthensHTMLStrokePaint)}
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(_st($AthensHTMLStrokePaint())._new())._fillPaint_(aPaint);
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"createStrokePaintFor:",{aPaint:aPaint},smalltalk.AthensHTMLSurface)})},
+messageSends: ["fillPaint:", "new"]}),
 smalltalk.AthensHTMLSurface);
 
 smalltalk.addMethod(

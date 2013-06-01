@@ -196,6 +196,24 @@ referencedClasses: []
 }),
 smalltalk.AthensPathBuilder.klass);
 
+smalltalk.addMethod(
+smalltalk.method({
+selector: "zeroPoint",
+category: 'accessing',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self["@zeroPoint"];
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"zeroPoint",{},smalltalk.AthensPathBuilder.klass)})},
+args: [],
+source: "zeroPoint\x0a\x09^ zeroPoint",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.AthensPathBuilder.klass);
+
 
 smalltalk.addClass('AthensSimplePathBuilder', smalltalk.AthensPathBuilder, ['absolute', 'open', 'contourStartPt', 'xMin', 'yMin', 'xMax', 'yMax', 'pathStart', 'lastSegment'], 'Athens-Core-Paths');
 smalltalk.addMethod(

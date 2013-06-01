@@ -21,6 +21,10 @@ surface: anHTMLSurface
 
 !AthensHTMLCanvas methodsFor: 'private'!
 
+newPath
+	surface context2D beginPath.
+!
+
 rectangleX: x y: y width: aWidth height: aHeight
 	surface context2D fillRect: x a: y a: aWidth a: aHeight.
 !
@@ -86,6 +90,12 @@ width
 	^ extent x
 ! !
 
+!AthensHTMLSurface methodsFor: 'creation'!
+
+createPath: aPathCreatingBlock
+	^ AthensHTMLPathBuilder on: self with: aPathCreatingBlock
+! !
+
 !AthensHTMLSurface methodsFor: 'drawing'!
 
 attemptToRecurseDrawing
@@ -120,8 +130,11 @@ initialize
 !AthensHTMLSurface methodsFor: 'paints'!
 
 createSolidColorPaint: aColor 
-
 	^ AthensHTMLSolidPaint new color: aColor
+!
+
+createStrokePaintFor: aPaint
+	^ AthensHTMLStrokePaint new fillPaint: aPaint
 ! !
 
 !AthensHTMLSurface methodsFor: 'private'!

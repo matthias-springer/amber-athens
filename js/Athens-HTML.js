@@ -2,6 +2,22 @@ smalltalk.addPackage('Athens-HTML');
 smalltalk.addClass('AthensHTMLCanvas', smalltalk.AthensCanvas, ['pathTransform', 'paintTransform', 'currentClipRect'], 'Athens-HTML');
 smalltalk.addMethod(
 smalltalk.method({
+selector: "newPath",
+category: 'private',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+_st(_st(self["@surface"])._context2D())._beginPath();
+return self}, function($ctx1) {$ctx1.fill(self,"newPath",{},smalltalk.AthensHTMLCanvas)})},
+args: [],
+source: "newPath\x0a\x09surface context2D beginPath.",
+messageSends: ["beginPath", "context2D"],
+referencedClasses: []
+}),
+smalltalk.AthensHTMLCanvas);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "paintTransform",
 category: 'accessing',
 fn: function (){
@@ -230,6 +246,25 @@ smalltalk.AthensHTMLSurface);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "createPath:",
+category: 'creation',
+fn: function (aPathCreatingBlock){
+var self=this;
+function $AthensHTMLPathBuilder(){return smalltalk.AthensHTMLPathBuilder||(typeof AthensHTMLPathBuilder=="undefined"?nil:AthensHTMLPathBuilder)}
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st($AthensHTMLPathBuilder())._on_with_(self,aPathCreatingBlock);
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"createPath:",{aPathCreatingBlock:aPathCreatingBlock},smalltalk.AthensHTMLSurface)})},
+args: ["aPathCreatingBlock"],
+source: "createPath: aPathCreatingBlock\x0a\x09^ AthensHTMLPathBuilder on: self with: aPathCreatingBlock ",
+messageSends: ["on:with:"],
+referencedClasses: ["AthensHTMLPathBuilder"]
+}),
+smalltalk.AthensHTMLSurface);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "createSolidColorPaint:",
 category: 'paints',
 fn: function (aColor){
@@ -241,9 +276,28 @@ $1=_st(_st($AthensHTMLSolidPaint())._new())._color_(aColor);
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"createSolidColorPaint:",{aColor:aColor},smalltalk.AthensHTMLSurface)})},
 args: ["aColor"],
-source: "createSolidColorPaint: aColor \x0a\x0a\x09^ AthensHTMLSolidPaint new color: aColor",
+source: "createSolidColorPaint: aColor \x0a\x09^ AthensHTMLSolidPaint new color: aColor",
 messageSends: ["color:", "new"],
 referencedClasses: ["AthensHTMLSolidPaint"]
+}),
+smalltalk.AthensHTMLSurface);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "createStrokePaintFor:",
+category: 'paints',
+fn: function (aPaint){
+var self=this;
+function $AthensHTMLStrokePaint(){return smalltalk.AthensHTMLStrokePaint||(typeof AthensHTMLStrokePaint=="undefined"?nil:AthensHTMLStrokePaint)}
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(_st($AthensHTMLStrokePaint())._new())._fillPaint_(aPaint);
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"createStrokePaintFor:",{aPaint:aPaint},smalltalk.AthensHTMLSurface)})},
+args: ["aPaint"],
+source: "createStrokePaintFor: aPaint\x0a\x09^ AthensHTMLStrokePaint new fillPaint: aPaint",
+messageSends: ["fillPaint:", "new"],
+referencedClasses: ["AthensHTMLStrokePaint"]
 }),
 smalltalk.AthensHTMLSurface);
 

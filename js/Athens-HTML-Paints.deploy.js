@@ -2,6 +2,32 @@ smalltalk.addPackage('Athens-HTML-Paints');
 smalltalk.addClass('AthensHTMLSolidPaint', smalltalk.AthensPaint, ['r', 'g', 'b', 'a'], 'Athens-HTML-Paints');
 smalltalk.addMethod(
 smalltalk.method({
+selector: "alpha",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self["@a"];
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"alpha",{},smalltalk.AthensHTMLSolidPaint)})},
+messageSends: []}),
+smalltalk.AthensHTMLSolidPaint);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "blue",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self["@b"];
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"blue",{},smalltalk.AthensHTMLSolidPaint)})},
+messageSends: []}),
+smalltalk.AthensHTMLSolidPaint);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "color:",
 fn: function (aColor){
 var self=this;
@@ -44,6 +70,19 @@ smalltalk.AthensHTMLSolidPaint);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "green",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self["@g"];
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"green",{},smalltalk.AthensHTMLSolidPaint)})},
+messageSends: []}),
+smalltalk.AthensHTMLSolidPaint);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "loadOn:",
 fn: function (anAthensCanvas){
 var self=this;
@@ -52,6 +91,63 @@ _st(anAthensCanvas)._setSourceR_g_b_a_(self["@r"],self["@g"],self["@b"],self["@a
 return self}, function($ctx1) {$ctx1.fill(self,"loadOn:",{anAthensCanvas:anAthensCanvas},smalltalk.AthensHTMLSolidPaint)})},
 messageSends: ["setSourceR:g:b:a:"]}),
 smalltalk.AthensHTMLSolidPaint);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "red",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self["@r"];
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"red",{},smalltalk.AthensHTMLSolidPaint)})},
+messageSends: []}),
+smalltalk.AthensHTMLSolidPaint);
+
+
+
+smalltalk.addClass('AthensHTMLStrokePaint', smalltalk.AthensStrokePaint, ['dashLenghts', 'dashOffset'], 'Athens-HTML-Paints');
+smalltalk.addMethod(
+smalltalk.method({
+selector: "fillPath:on:",
+fn: function (aPath,anAthensCanvas){
+var self=this;
+var context;
+return smalltalk.withContext(function($ctx1) { 
+context=_st(_st(anAthensCanvas)._surface())._context2D();
+_st(context)._strokeStyle_(_st(_st(_st(_st(_st(_st(_st("rgba(".__comma(_st(self["@fillPaint"])._red())).__comma(", ")).__comma(_st(self["@fillPaint"])._green())).__comma(", ")).__comma(_st(self["@fillPaint"])._blue())).__comma(", ")).__comma(_st(self["@fillPaint"])._alpha())).__comma(")"));
+_st(context)._lineWidth_(self["@width"]);
+_st(aPath)._draw();
+_st(context)._stroke();
+return self}, function($ctx1) {$ctx1.fill(self,"fillPath:on:",{aPath:aPath,anAthensCanvas:anAthensCanvas,context:context},smalltalk.AthensHTMLStrokePaint)})},
+messageSends: ["context2D", "surface", "strokeStyle:", ",", "alpha", "blue", "green", "red", "lineWidth:", "draw", "stroke"]}),
+smalltalk.AthensHTMLStrokePaint);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "initialize",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+smalltalk.AthensStrokePaint.fn.prototype._initialize.apply(_st(self), []);
+self["@width"]=(1);
+self["@joinStyle"]=nil;
+self["@capStyle"]=self["@joinStyle"];
+return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensHTMLStrokePaint)})},
+messageSends: ["initialize"]}),
+smalltalk.AthensHTMLStrokePaint);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "loadOn:",
+fn: function (aCanvas){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+_st(self._fillPaint())._loadOn_(aCanvas);
+return self}, function($ctx1) {$ctx1.fill(self,"loadOn:",{aCanvas:aCanvas},smalltalk.AthensHTMLStrokePaint)})},
+messageSends: ["loadOn:", "fillPaint"]}),
+smalltalk.AthensHTMLStrokePaint);
 
 
 
