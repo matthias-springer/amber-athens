@@ -143,10 +143,10 @@ fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 var $1;
-$1=self["@zeroPoint"];
+$1=(0).__at((0));
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"zeroPoint",{},smalltalk.AthensPathBuilder.klass)})},
-messageSends: []}),
+messageSends: ["@"]}),
 smalltalk.AthensPathBuilder.klass);
 
 

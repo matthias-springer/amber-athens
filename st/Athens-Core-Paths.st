@@ -78,7 +78,7 @@ AthensPathBuilder class instanceVariableNames: 'zeroPoint'!
 !AthensPathBuilder class methodsFor: 'accessing'!
 
 zeroPoint
-	^ zeroPoint
+	^ 0@0
 ! !
 
 !AthensPathBuilder class methodsFor: 'initializing'!

@@ -1179,6 +1179,39 @@ smalltalk.Color);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "arcCos",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return Math.acos(self); ;
+return self}, function($ctx1) {$ctx1.fill(self,"arcCos",{},smalltalk.Number)})},
+messageSends: []}),
+smalltalk.Number);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "arcSin",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return Math.asin(self); ;
+return self}, function($ctx1) {$ctx1.fill(self,"arcSin",{},smalltalk.Number)})},
+messageSends: []}),
+smalltalk.Number);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "arcTan",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return Math.atan(self); ;
+return self}, function($ctx1) {$ctx1.fill(self,"arcTan",{},smalltalk.Number)})},
+messageSends: []}),
+smalltalk.Number);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "cos",
 fn: function (){
 var self=this;
@@ -1244,6 +1277,34 @@ return smalltalk.withContext(function($ctx1) {
 return true;
 }, function($ctx1) {$ctx1.fill(self,"isPoint",{},smalltalk.Point)})},
 messageSends: []}),
+smalltalk.Point);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "normalized",
+fn: function (){
+var self=this;
+var r;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+r=_st(_st(_st(self["@x"]).__star(self["@x"])).__plus(_st(self["@y"]).__star(self["@y"])))._sqrt();
+$1=_st(_st(self["@x"]).__slash(r)).__at(_st(self["@y"]).__slash(r));
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"normalized",{r:r},smalltalk.Point)})},
+messageSends: ["sqrt", "+", "*", "@", "/"]}),
+smalltalk.Point);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "r",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(_st(_st(self["@x"]).__star(self["@x"])).__plus(_st(self["@y"]).__star(self["@y"])))._sqrt();
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"r",{},smalltalk.Point)})},
+messageSends: ["sqrt", "+", "*"]}),
 smalltalk.Point);
 
 smalltalk.addMethod(

@@ -203,6 +203,83 @@ smalltalk.AthensTutorial);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "step14a",
+category: 'steps',
+fn: function (){
+var self=this;
+var path;
+function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2,$3,$4;
+path=_st(self["@surface"])._createPath_((function(builder){
+return smalltalk.withContext(function($ctx2) {
+$1=builder;
+_st($1)._absolute();
+_st($1)._lineTo_((-50).__at((-50)));
+_st($1)._curveVia_to_((0).__at((-80)),(50).__at((-50)));
+$2=_st($1)._curveVia_and_to_((100).__at((-20)),(-50).__at((20)),(50).__at((50)));
+$2;
+return _st(builder)._close();
+}, function($ctx2) {$ctx2.fillBlock({builder:builder},$ctx1)})}));
+_st(self["@surface"])._drawDuring_((function(canvas){
+return smalltalk.withContext(function($ctx2) {
+_st(self["@surface"])._clear_(_st($Color())._gray());
+$3=_st(canvas)._pathTransform();
+_st($3)._translateX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((2)));
+$4=_st($3)._scaleBy_((2));
+$4;
+_st(canvas)._setShape_(path);
+_st(_st(canvas)._setStrokePaint_(_st($Color())._yellow()))._width_((4));
+return _st(canvas)._draw();
+}, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
+return self}, function($ctx1) {$ctx1.fill(self,"step14a",{path:path},smalltalk.AthensTutorial)})},
+args: [],
+source: "step14a\x0a\x22Step 14a: Various path segment types.\x0a\x0a\x0a\x22\x0a\x09| path |\x0a\x0a\x09path := surface createPath: [:builder |\x0a\x09\x09\x09\x0a\x09\x09builder \x0a\x09\x09\x09absolute;\x0a\x09\x09\x09\x09\x0a\x09\x09\x09\x22The path consists from a list of segments connected with each other, e.g.\x0a\x09\x09\x09the starting point of next segment is always an end point of previous one\x22\x0a\x09\x09\x09 \x09\x09\x09\x09\x0a\x09\x09\x09lineTo: -50@ -50;\x0a\x09\x09\x09\x0a\x09\x09\x09\x22quadric Bezier curve\x22\x0a\x09\x09\x09\x0a\x09\x09\x09curveVia: 0@ -80 to: 50@ -50;\x0a\x09\x09\x09\x0a\x09\x09\x09\x22cubic Bezier curve\x22 \x0a\x09\x09\x09\x0a\x09\x09\x09curveVia: 100@ -20 and: -50@20 to: 50@ 50.\x0a\x0a\x09\x09\x09 \x22clockwise arc\x22\x0a\x09\x09\x09\x0a\x09\x09\x09\x22cwArcTo: 50@100 angle: 45; \x22\x0a\x09\x09\x09\x0a\x09\x09\x09\x22counter-clockwise arc\x22\x0a\x0a\x09\x09\x09\x22ccwArcTo: -50@100 angle: 45.\x22\x0a\x09\x09\x09\x0a\x09\x09\x09\x22close segment. Simply connects endpoint of previous segment with path starting point.\x0a\x09\x09\x09Try to comment following line to see the difference\x22 \x0a\x09\x09\x09builder close.\x0a\x09\x09].\x0a\x0a\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x0a\x09\x09canvas pathTransform\x0a\x09\x09\x09translateX: surface width/2.0 Y: surface height / 2.0 ;\x0a\x09\x09\x09scaleBy:2.\x0a\x09\x0a\x09\x09canvas setShape: path.\x0a\x09\x09\x0a\x09\x09(canvas setStrokePaint: Color yellow) width:4.\x0a\x09\x09\x0a\x09\x09canvas draw.\x0a\x09].",
+messageSends: ["createPath:", "absolute", "lineTo:", "@", "curveVia:to:", "curveVia:and:to:", "close", "drawDuring:", "clear:", "gray", "translateX:Y:", "/", "width", "height", "pathTransform", "scaleBy:", "setShape:", "width:", "setStrokePaint:", "yellow", "draw"],
+referencedClasses: ["Color"]
+}),
+smalltalk.AthensTutorial);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "step14b",
+category: 'steps',
+fn: function (){
+var self=this;
+var path;
+function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2,$3,$4;
+path=_st(self["@surface"])._createPath_((function(builder){
+return smalltalk.withContext(function($ctx2) {
+$1=builder;
+_st($1)._absolute();
+_st($1)._cwArcTo_angle_((50).__at((100)),(45));
+$2=_st($1)._ccwArcTo_angle_((-50).__at((100)),(45));
+$2;
+return _st(builder)._close();
+}, function($ctx2) {$ctx2.fillBlock({builder:builder},$ctx1)})}));
+_st(self["@surface"])._drawDuring_((function(canvas){
+return smalltalk.withContext(function($ctx2) {
+_st(self["@surface"])._clear_(_st($Color())._gray());
+$3=_st(canvas)._pathTransform();
+_st($3)._translateX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((5)));
+$4=_st($3)._scaleBy_((1));
+$4;
+_st(canvas)._setShape_(path);
+_st(_st(canvas)._setStrokePaint_(_st($Color())._yellow()))._width_((4));
+return _st(canvas)._draw();
+}, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
+return self}, function($ctx1) {$ctx1.fill(self,"step14b",{path:path},smalltalk.AthensTutorial)})},
+args: [],
+source: "step14b\x0a\x22Step 14b: Various path segment types.\x0a\x0a\x0a\x22\x0a\x09| path |\x0a\x0a\x09path := surface createPath: [:builder |\x0a\x09\x09\x09\x0a\x09\x09builder \x0a\x09\x09\x09absolute;\x0a\x09\x09\x09\x09\x0a\x09\x09\x09\x22The path consists from a list of segments connected with each other, e.g.\x0a\x09\x09\x09the starting point of next segment is always an end point of previous one\x22\x0a\x09\x09\x09 \x09\x09\x09\x09\x0a\x09\x09\x09\x22lineTo: -50@ -50;\x22\x0a\x09\x09\x09\x0a\x09\x09\x09\x22quadric Bezier curve\x22\x0a\x09\x09\x09\x0a\x09\x09\x09\x22curveVia: 0@ -80 to: 50@ -50;\x22\x0a\x09\x09\x09\x0a\x09\x09\x09\x22cubic Bezier curve\x22 \x0a\x09\x09\x09\x0a\x09\x09\x09\x22curveVia: 100@ -20 and: -50@20 to: 50@ 50;\x22\x0a\x0a\x09\x09\x09 \x22clockwise arc\x22\x0a\x09\x09\x09\x0a\x09\x09\x09cwArcTo: 50@100 angle: 45;\x0a\x09\x09\x09\x0a\x09\x09\x09\x22counter-clockwise arc\x22\x0a\x0a\x09\x09\x09ccwArcTo: -50@100 angle: 45.\x0a\x09\x09\x09\x0a\x09\x09\x09\x22close segment. Simply connects endpoint of previous segment with path starting point.\x0a\x09\x09\x09Try to comment following line to see the difference\x22 \x0a\x09\x09\x09builder close.\x0a\x09\x09].\x0a\x0a\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x0a\x09\x09canvas pathTransform\x0a\x09\x09\x09translateX: surface width/2.0 Y: surface height / 5.0 ;\x0a\x09\x09\x09scaleBy:1.\x0a\x09\x0a\x09\x09canvas setShape: path.\x0a\x09\x09\x0a\x09\x09(canvas setStrokePaint: Color yellow) width:4.\x0a\x09\x09\x0a\x09\x09canvas draw.\x0a\x09].",
+messageSends: ["createPath:", "absolute", "cwArcTo:angle:", "@", "ccwArcTo:angle:", "close", "drawDuring:", "clear:", "gray", "translateX:Y:", "/", "width", "height", "pathTransform", "scaleBy:", "setShape:", "width:", "setStrokePaint:", "yellow", "draw"],
+referencedClasses: ["Color"]
+}),
+smalltalk.AthensTutorial);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "step15",
 category: 'steps',
 fn: function (){
@@ -237,6 +314,45 @@ return self}, function($ctx1) {$ctx1.fill(self,"step15",{path:path},smalltalk.At
 args: [],
 source: "step15\x0a\x22Step 15: Path origin and moveTo: segment.\x0a\x0a\x0a\x22\x0a\x09| path |\x0a\x0a\x09path := surface createPath: [:builder |\x0a\x09\x09\x09\x0a\x09\x09builder \x0a\x09\x09\x09absolute;\x0a\x0a\x09\x09\x09\x22All paths always having same origin, which is (0@0) point.\x0a\x09\x09\x09To use different origin, use #moveTo: as initial command.\x0a\x09\x09\x09Try to change moveTo: parameter to see the difference\x22\x0a\x0a\x09\x09\x09 \x09\x09\x09\x09\x0a\x09\x09\x09moveTo: -50@ -50;\x0a\x09\x09\x09\x0a\x09\x09\x09\x22quadric Bezier curve\x22\x0a\x09\x09\x09\x0a\x09\x09\x09curveVia: 0@ -80 to: 50@ -50;\x0a\x09\x09\x09\x0a\x09\x09\x09\x22cubic Bezier curve\x22 \x0a\x09\x09\x09\x0a\x09\x09\x09curveVia: 100@ -20 and: -50@20 to: 50@ 50;\x0a\x0a\x09\x09\x09 \x22clockwise arc\x22\x0a\x09\x09\x09\x0a\x09\x09\x09cwArcTo: 50@100 angle: 45; \x0a\x09\x09\x09\x0a\x09\x09\x09\x22counter-clockwise arc\x22\x0a\x0a\x09\x09\x09ccwArcTo: -50@100 angle: 45.\x0a\x09\x09\x09\x0a\x09\x09\x09\x0a\x09\x09].\x0a\x0a\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x0a\x09\x09canvas pathTransform\x0a\x09\x09\x09translateX: surface width/2.0 Y: surface height / 2.0 ;\x0a\x09\x09\x09scaleBy:2.\x0a\x09\x0a\x09\x09canvas setShape: path.\x0a\x09\x09(canvas setStrokePaint: Color yellow) width:4.\x0a\x09\x09\x0a\x09\x09canvas draw.\x0a\x09].",
 messageSends: ["createPath:", "absolute", "moveTo:", "@", "curveVia:to:", "curveVia:and:to:", "cwArcTo:angle:", "ccwArcTo:angle:", "drawDuring:", "clear:", "gray", "translateX:Y:", "/", "width", "height", "pathTransform", "scaleBy:", "setShape:", "width:", "setStrokePaint:", "yellow", "draw"],
+referencedClasses: ["Color"]
+}),
+smalltalk.AthensTutorial);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "step16",
+category: 'steps',
+fn: function (){
+var self=this;
+var path;
+function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2,$3,$4;
+path=_st(self["@surface"])._createPath_((function(builder){
+return smalltalk.withContext(function($ctx2) {
+$1=builder;
+_st($1)._relative();
+_st($1)._moveTo_((-50).__at((-50)));
+_st($1)._lineTo_((50).__at((0)));
+_st($1)._lineTo_((0).__at((50)));
+$2=_st($1)._lineTo_((-50).__at((0)));
+return $2;
+}, function($ctx2) {$ctx2.fillBlock({builder:builder},$ctx1)})}));
+_st(self["@surface"])._drawDuring_((function(canvas){
+return smalltalk.withContext(function($ctx2) {
+_st(self["@surface"])._clear_(_st($Color())._gray());
+$3=_st(canvas)._pathTransform();
+_st($3)._translateX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((2)));
+$4=_st($3)._scaleBy_((2));
+$4;
+_st(canvas)._setShape_(path);
+_st(_st(canvas)._setStrokePaint_(_st($Color())._yellow()))._width_((4));
+return _st(canvas)._draw();
+}, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
+return self}, function($ctx1) {$ctx1.fill(self,"step16",{path:path},smalltalk.AthensTutorial)})},
+args: [],
+source: "step16\x0a\x22Step 16: Absolute versus relative path building mode.\x0a\x0a\x0a\x22\x0a\x09| path |\x0a\x0a\x09path := surface createPath: [:builder |\x0a\x0a\x09\x22In absolute path building mode, all segment coordinates is absolute (relative to coordinate system origin which is 0@0).\x0a\x09\x0a\x09In relative path building mode, the coordinates of next segment computed relative\x0a\x09to the end point of previous segment\x22\x0a\x09\x0a\x09\x09\x09\x0a\x09\x09builder \x0a\x09\x09\x09relative;  \x22actually, relative is default. You can simply delete this line without any effect\x22\x0a\x0a\x09\x09\x09moveTo: -50@ -50;\x0a\x09\x09\x09\x0a\x09\x09\x09\x0a\x09\x09\x09lineTo: 50@0;\x0a\x09\x09\x09\x0a\x09\x09\x09\x22The building mode can be switched at any moment. \x0a\x09\x09\x09Try to uncomment line below to see the difference\x22\x0a\x09\x09\x09\x22absolute;\x22\x0a\x09\x09\x09\x0a\x09\x09\x09lineTo: 0@50;\x0a\x09\x09\x09lineTo: -50@0\x0a\x09\x09].\x0a\x0a\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x0a\x09\x09canvas pathTransform\x0a\x09\x09\x09translateX: surface width/2.0 Y: surface height / 2.0 ;\x0a\x09\x09\x09scaleBy:2.\x0a\x09\x0a\x09\x09canvas setShape: path.\x0a\x09\x09(canvas setStrokePaint: Color yellow) width:4.\x0a\x09\x09\x0a\x09\x09canvas draw.\x0a\x09].",
+messageSends: ["createPath:", "relative", "moveTo:", "@", "lineTo:", "drawDuring:", "clear:", "gray", "translateX:Y:", "/", "width", "height", "pathTransform", "scaleBy:", "setShape:", "width:", "setStrokePaint:", "yellow", "draw"],
 referencedClasses: ["Color"]
 }),
 smalltalk.AthensTutorial);

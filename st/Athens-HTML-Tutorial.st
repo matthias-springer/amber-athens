@@ -209,6 +209,114 @@ step14
 	].
 !
 
+step14a
+"Step 14a: Various path segment types.
+
+
+"
+	| path |
+
+	path := surface createPath: [:builder |
+			
+		builder 
+			absolute;
+				
+			"The path consists from a list of segments connected with each other, e.g.
+			the starting point of next segment is always an end point of previous one"
+			 				
+			lineTo: -50@ -50;
+			
+			"quadric Bezier curve"
+			
+			curveVia: 0@ -80 to: 50@ -50;
+			
+			"cubic Bezier curve" 
+			
+			curveVia: 100@ -20 and: -50@20 to: 50@ 50.
+
+			 "clockwise arc"
+			
+			"cwArcTo: 50@100 angle: 45; "
+			
+			"counter-clockwise arc"
+
+			"ccwArcTo: -50@100 angle: 45."
+			
+			"close segment. Simply connects endpoint of previous segment with path starting point.
+			Try to comment following line to see the difference" 
+			builder close.
+		].
+
+
+	surface drawDuring: [:canvas |
+		surface clear: Color gray.
+		
+		canvas pathTransform
+			translateX: surface width/2.0 Y: surface height / 2.0 ;
+			scaleBy:2.
+	
+		canvas setShape: path.
+		
+		(canvas setStrokePaint: Color yellow) width:4.
+		
+		canvas draw.
+	].
+!
+
+step14b
+"Step 14b: Various path segment types.
+
+
+"
+	| path |
+
+	path := surface createPath: [:builder |
+			
+		builder 
+			absolute;
+				
+			"The path consists from a list of segments connected with each other, e.g.
+			the starting point of next segment is always an end point of previous one"
+			 				
+			"lineTo: -50@ -50;"
+			
+			"quadric Bezier curve"
+			
+			"curveVia: 0@ -80 to: 50@ -50;"
+			
+			"cubic Bezier curve" 
+			
+			"curveVia: 100@ -20 and: -50@20 to: 50@ 50;"
+
+			 "clockwise arc"
+			
+			cwArcTo: 50@100 angle: 45;
+			
+			"counter-clockwise arc"
+
+			ccwArcTo: -50@100 angle: 45.
+			
+			"close segment. Simply connects endpoint of previous segment with path starting point.
+			Try to comment following line to see the difference" 
+			builder close.
+		].
+
+
+	surface drawDuring: [:canvas |
+		surface clear: Color gray.
+		
+		canvas pathTransform
+			translateX: surface width/2.0 Y: surface height / 5.0 ;
+			scaleBy:1.
+	
+		canvas setShape: path.
+		
+		(canvas setStrokePaint: Color yellow) width:4.
+		
+		canvas draw.
+	].
+!
+
 step15
 "Step 15: Path origin and moveTo: segment.
 
@@ -245,6 +353,52 @@ step15
 			ccwArcTo: -50@100 angle: 45.
 			
 			
+		].
+
+
+	surface drawDuring: [:canvas |
+		surface clear: Color gray.
+		
+		canvas pathTransform
+			translateX: surface width/2.0 Y: surface height / 2.0 ;
+			scaleBy:2.
+	
+		canvas setShape: path.
+		(canvas setStrokePaint: Color yellow) width:4.
+		
+		canvas draw.
+	].
+!
+
+step16
+"Step 16: Absolute versus relative path building mode.
+
+
+"
+	| path |
+
+	path := surface createPath: [:builder |
+
+	"In absolute path building mode, all segment coordinates is absolute (relative to coordinate system origin which is 0@0).
+	
+	In relative path building mode, the coordinates of next segment computed relative
+	to the end point of previous segment"
+	
+			
+		builder 
+			relative;  "actually, relative is default. You can simply delete this line without any effect"
+
+			moveTo: -50@ -50;
+			
+			
+			lineTo: 50@0;
+			
+			"The building mode can be switched at any moment. 
+			Try to uncomment line below to see the difference"
+			"absolute;"
+			
+			lineTo: 0@50;
+			lineTo: -50@0
 		].
 
 

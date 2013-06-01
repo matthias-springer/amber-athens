@@ -168,6 +168,73 @@ smalltalk.AthensTutorial);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "step14a",
+fn: function (){
+var self=this;
+var path;
+function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2,$3,$4;
+path=_st(self["@surface"])._createPath_((function(builder){
+return smalltalk.withContext(function($ctx2) {
+$1=builder;
+_st($1)._absolute();
+_st($1)._lineTo_((-50).__at((-50)));
+_st($1)._curveVia_to_((0).__at((-80)),(50).__at((-50)));
+$2=_st($1)._curveVia_and_to_((100).__at((-20)),(-50).__at((20)),(50).__at((50)));
+$2;
+return _st(builder)._close();
+}, function($ctx2) {$ctx2.fillBlock({builder:builder},$ctx1)})}));
+_st(self["@surface"])._drawDuring_((function(canvas){
+return smalltalk.withContext(function($ctx2) {
+_st(self["@surface"])._clear_(_st($Color())._gray());
+$3=_st(canvas)._pathTransform();
+_st($3)._translateX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((2)));
+$4=_st($3)._scaleBy_((2));
+$4;
+_st(canvas)._setShape_(path);
+_st(_st(canvas)._setStrokePaint_(_st($Color())._yellow()))._width_((4));
+return _st(canvas)._draw();
+}, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
+return self}, function($ctx1) {$ctx1.fill(self,"step14a",{path:path},smalltalk.AthensTutorial)})},
+messageSends: ["createPath:", "absolute", "lineTo:", "@", "curveVia:to:", "curveVia:and:to:", "close", "drawDuring:", "clear:", "gray", "translateX:Y:", "/", "width", "height", "pathTransform", "scaleBy:", "setShape:", "width:", "setStrokePaint:", "yellow", "draw"]}),
+smalltalk.AthensTutorial);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "step14b",
+fn: function (){
+var self=this;
+var path;
+function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2,$3,$4;
+path=_st(self["@surface"])._createPath_((function(builder){
+return smalltalk.withContext(function($ctx2) {
+$1=builder;
+_st($1)._absolute();
+_st($1)._cwArcTo_angle_((50).__at((100)),(45));
+$2=_st($1)._ccwArcTo_angle_((-50).__at((100)),(45));
+$2;
+return _st(builder)._close();
+}, function($ctx2) {$ctx2.fillBlock({builder:builder},$ctx1)})}));
+_st(self["@surface"])._drawDuring_((function(canvas){
+return smalltalk.withContext(function($ctx2) {
+_st(self["@surface"])._clear_(_st($Color())._gray());
+$3=_st(canvas)._pathTransform();
+_st($3)._translateX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((5)));
+$4=_st($3)._scaleBy_((1));
+$4;
+_st(canvas)._setShape_(path);
+_st(_st(canvas)._setStrokePaint_(_st($Color())._yellow()))._width_((4));
+return _st(canvas)._draw();
+}, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
+return self}, function($ctx1) {$ctx1.fill(self,"step14b",{path:path},smalltalk.AthensTutorial)})},
+messageSends: ["createPath:", "absolute", "cwArcTo:angle:", "@", "ccwArcTo:angle:", "close", "drawDuring:", "clear:", "gray", "translateX:Y:", "/", "width", "height", "pathTransform", "scaleBy:", "setShape:", "width:", "setStrokePaint:", "yellow", "draw"]}),
+smalltalk.AthensTutorial);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "step15",
 fn: function (){
 var self=this;
@@ -199,6 +266,40 @@ return _st(canvas)._draw();
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step15",{path:path},smalltalk.AthensTutorial)})},
 messageSends: ["createPath:", "absolute", "moveTo:", "@", "curveVia:to:", "curveVia:and:to:", "cwArcTo:angle:", "ccwArcTo:angle:", "drawDuring:", "clear:", "gray", "translateX:Y:", "/", "width", "height", "pathTransform", "scaleBy:", "setShape:", "width:", "setStrokePaint:", "yellow", "draw"]}),
+smalltalk.AthensTutorial);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "step16",
+fn: function (){
+var self=this;
+var path;
+function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2,$3,$4;
+path=_st(self["@surface"])._createPath_((function(builder){
+return smalltalk.withContext(function($ctx2) {
+$1=builder;
+_st($1)._relative();
+_st($1)._moveTo_((-50).__at((-50)));
+_st($1)._lineTo_((50).__at((0)));
+_st($1)._lineTo_((0).__at((50)));
+$2=_st($1)._lineTo_((-50).__at((0)));
+return $2;
+}, function($ctx2) {$ctx2.fillBlock({builder:builder},$ctx1)})}));
+_st(self["@surface"])._drawDuring_((function(canvas){
+return smalltalk.withContext(function($ctx2) {
+_st(self["@surface"])._clear_(_st($Color())._gray());
+$3=_st(canvas)._pathTransform();
+_st($3)._translateX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((2)));
+$4=_st($3)._scaleBy_((2));
+$4;
+_st(canvas)._setShape_(path);
+_st(_st(canvas)._setStrokePaint_(_st($Color())._yellow()))._width_((4));
+return _st(canvas)._draw();
+}, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
+return self}, function($ctx1) {$ctx1.fill(self,"step16",{path:path},smalltalk.AthensTutorial)})},
+messageSends: ["createPath:", "relative", "moveTo:", "@", "lineTo:", "drawDuring:", "clear:", "gray", "translateX:Y:", "/", "width", "height", "pathTransform", "scaleBy:", "setShape:", "width:", "setStrokePaint:", "yellow", "draw"]}),
 smalltalk.AthensTutorial);
 
 smalltalk.addMethod(

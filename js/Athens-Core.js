@@ -1669,6 +1669,54 @@ smalltalk.Color);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "arcCos",
+category: '*Athens-Core',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return Math.acos(self); ;
+return self}, function($ctx1) {$ctx1.fill(self,"arcCos",{},smalltalk.Number)})},
+args: [],
+source: "arcCos\x0a\x09< return Math.acos(self); >",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.Number);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "arcSin",
+category: '*Athens-Core',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return Math.asin(self); ;
+return self}, function($ctx1) {$ctx1.fill(self,"arcSin",{},smalltalk.Number)})},
+args: [],
+source: "arcSin\x0a\x09< return Math.asin(self); >",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.Number);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "arcTan",
+category: '*Athens-Core',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return Math.atan(self); ;
+return self}, function($ctx1) {$ctx1.fill(self,"arcTan",{},smalltalk.Number)})},
+args: [],
+source: "arcTan\x0a\x09< return Math.atan(self); >",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.Number);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "cos",
 category: '*Athens-Core',
 fn: function (){
@@ -1762,6 +1810,44 @@ return true;
 args: [],
 source: "isPoint\x0a\x09^ true",
 messageSends: [],
+referencedClasses: []
+}),
+smalltalk.Point);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "normalized",
+category: '*Athens-Core',
+fn: function (){
+var self=this;
+var r;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+r=_st(_st(_st(self["@x"]).__star(self["@x"])).__plus(_st(self["@y"]).__star(self["@y"])))._sqrt();
+$1=_st(_st(self["@x"]).__slash(r)).__at(_st(self["@y"]).__slash(r));
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"normalized",{r:r},smalltalk.Point)})},
+args: [],
+source: "normalized\x0a\x09| r |\x0a\x09r := (x * x + (y * y)) sqrt.\x0a\x09^ (x / r) @ (y / r)",
+messageSends: ["sqrt", "+", "*", "@", "/"],
+referencedClasses: []
+}),
+smalltalk.Point);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "r",
+category: '*Athens-Core',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(_st(_st(self["@x"]).__star(self["@x"])).__plus(_st(self["@y"]).__star(self["@y"])))._sqrt();
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"r",{},smalltalk.Point)})},
+args: [],
+source: "r\x0a\x09^ (x*x + (y*y)) sqrt",
+messageSends: ["sqrt", "+", "*"],
 referencedClasses: []
 }),
 smalltalk.Point);

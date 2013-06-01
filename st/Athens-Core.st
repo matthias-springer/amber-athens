@@ -632,6 +632,18 @@ asAthensPaintOn: anAthensCanvas
 
 !Number methodsFor: '*Athens-Core'!
 
+arcCos
+	< return Math.acos(self); >
+!
+
+arcSin
+	< return Math.asin(self); >
+!
+
+arcTan
+	< return Math.atan(self); >
+!
+
 cos
 	< return Math.cos(self); >
 !
@@ -656,6 +668,16 @@ corner: cornerPoint
 
 isPoint
 	^ true
+!
+
+normalized
+	| r |
+	r := (x * x + (y * y)) sqrt.
+	^ (x / r) @ (y / r)
+!
+
+r
+	^ (x*x + (y*y)) sqrt
 ! !
 
 !Rectangle methodsFor: '*Athens-Core'!
