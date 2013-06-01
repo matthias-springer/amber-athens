@@ -1,5 +1,5 @@
 smalltalk.addPackage('Athens-HTML-Paths');
-smalltalk.addClass('AthensHTMLPathBuilder', smalltalk.AthensPathBuilder, ['surface', 'absolute', 'endPoint', 'pathCreatingBlock'], 'Athens-HTML-Paths');
+smalltalk.addClass('AthensHTMLPathBuilder', smalltalk.AthensPathBuilder, ['surface', 'absolute', 'endPoint', 'startPoint', 'pathCreatingBlock'], 'Athens-HTML-Paths');
 smalltalk.addMethod(
 smalltalk.method({
 selector: "absolute",
@@ -115,6 +115,7 @@ fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 self._closePath();
+self["@endPoint"]=self["@startPoint"];
 return self}, function($ctx1) {$ctx1.fill(self,"close",{},smalltalk.AthensHTMLPathBuilder)})},
 messageSends: ["closePath"]}),
 smalltalk.AthensHTMLPathBuilder);
@@ -253,6 +254,7 @@ var self=this;
 return smalltalk.withContext(function($ctx1) { 
 var $1;
 self["@endPoint"]=self._toAbsolute_(aPoint);
+self["@startPoint"]=self["@endPoint"];
 $1=self._moveToX_Y_(_st(self["@endPoint"])._x(),_st(self["@endPoint"])._y());
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"moveTo:",{aPoint:aPoint},smalltalk.AthensHTMLPathBuilder)})},
@@ -277,6 +279,7 @@ fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 _st(_st(self["@surface"])._context2D())._beginPath();
+self["@startPoint"]=self["@endPoint"];
 return self}, function($ctx1) {$ctx1.fill(self,"newPath",{},smalltalk.AthensHTMLPathBuilder)})},
 messageSends: ["beginPath", "context2D"]}),
 smalltalk.AthensHTMLPathBuilder);

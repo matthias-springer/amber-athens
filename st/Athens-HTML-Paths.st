@@ -1,6 +1,6 @@
 Smalltalk current createPackage: 'Athens-HTML-Paths'!
 AthensPathBuilder subclass: #AthensHTMLPathBuilder
-	instanceVariableNames: 'surface absolute endPoint pathCreatingBlock'
+	instanceVariableNames: 'surface absolute endPoint startPoint pathCreatingBlock'
 	package: 'Athens-HTML-Paths'!
 
 !AthensHTMLPathBuilder methodsFor: 'accessing'!
@@ -36,6 +36,7 @@ ccwArcTo: newEndPoint angle: angle
 
 close
 	self closePath.
+	endPoint := startPoint.
 !
 
 curveVia: p1 and: p2 to: aPoint
@@ -73,14 +74,14 @@ lineTo: aPoint
 !
 
 moveTo: aPoint
-	
 	endPoint := self toAbsolute: aPoint.
-	
+	startPoint := endPoint.
 	^ self moveToX: endPoint x Y: endPoint y
 !
 
 newPath
 	surface context2D beginPath.
+	startPoint := endPoint.
 !
 
 paintFillsUsing: aPaint on: anAthensCanvas 

@@ -1,5 +1,5 @@
 smalltalk.addPackage('Athens-HTML-Paths');
-smalltalk.addClass('AthensHTMLPathBuilder', smalltalk.AthensPathBuilder, ['surface', 'absolute', 'endPoint', 'pathCreatingBlock'], 'Athens-HTML-Paths');
+smalltalk.addClass('AthensHTMLPathBuilder', smalltalk.AthensPathBuilder, ['surface', 'absolute', 'endPoint', 'startPoint', 'pathCreatingBlock'], 'Athens-HTML-Paths');
 smalltalk.addMethod(
 smalltalk.method({
 selector: "absolute",
@@ -146,9 +146,10 @@ fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 self._closePath();
+self["@endPoint"]=self["@startPoint"];
 return self}, function($ctx1) {$ctx1.fill(self,"close",{},smalltalk.AthensHTMLPathBuilder)})},
 args: [],
-source: "close\x0a\x09self closePath.",
+source: "close\x0a\x09self closePath.\x0a\x09endPoint := startPoint.",
 messageSends: ["closePath"],
 referencedClasses: []
 }),
@@ -339,11 +340,12 @@ var self=this;
 return smalltalk.withContext(function($ctx1) { 
 var $1;
 self["@endPoint"]=self._toAbsolute_(aPoint);
+self["@startPoint"]=self["@endPoint"];
 $1=self._moveToX_Y_(_st(self["@endPoint"])._x(),_st(self["@endPoint"])._y());
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"moveTo:",{aPoint:aPoint},smalltalk.AthensHTMLPathBuilder)})},
 args: ["aPoint"],
-source: "moveTo: aPoint\x0a\x09\x0a\x09endPoint := self toAbsolute: aPoint.\x0a\x09\x0a\x09^ self moveToX: endPoint x Y: endPoint y ",
+source: "moveTo: aPoint\x0a\x09endPoint := self toAbsolute: aPoint.\x0a\x09startPoint := endPoint.\x0a\x09^ self moveToX: endPoint x Y: endPoint y ",
 messageSends: ["toAbsolute:", "moveToX:Y:", "x", "y"],
 referencedClasses: []
 }),
@@ -373,9 +375,10 @@ fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 _st(_st(self["@surface"])._context2D())._beginPath();
+self["@startPoint"]=self["@endPoint"];
 return self}, function($ctx1) {$ctx1.fill(self,"newPath",{},smalltalk.AthensHTMLPathBuilder)})},
 args: [],
-source: "newPath\x0a\x09surface context2D beginPath.",
+source: "newPath\x0a\x09surface context2D beginPath.\x0a\x09startPoint := endPoint.",
 messageSends: ["beginPath", "context2D"],
 referencedClasses: []
 }),
