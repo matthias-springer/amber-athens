@@ -118,19 +118,6 @@ smalltalk.AthensHTMLSurface);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "attemptToRecurseDrawing",
-fn: function (){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=self;
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"attemptToRecurseDrawing",{},smalltalk.AthensHTMLSurface)})},
-messageSends: []}),
-smalltalk.AthensHTMLSurface);
-
-smalltalk.addMethod(
-smalltalk.method({
 selector: "canvasTag",
 fn: function (){
 var self=this;
@@ -250,13 +237,6 @@ selector: "drawDuring:",
 fn: function (aBlock){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=self["@currentCanvas"];
-if(($receiver = $1) == nil || $receiver == undefined){
-$1;
-} else {
-self._attemptToRecurseDrawing();
-};
 _st((function(){
 return smalltalk.withContext(function($ctx2) {
 self["@currentCanvas"]=self["@athensCanvas"];
@@ -269,7 +249,7 @@ self["@currentCanvas"]=nil;
 return self["@currentCanvas"];
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"drawDuring:",{aBlock:aBlock},smalltalk.AthensHTMLSurface)})},
-messageSends: ["ifNotNil:", "attemptToRecurseDrawing", "ensure:", "setDefaults", "value:"]}),
+messageSends: ["ensure:", "setDefaults", "value:"]}),
 smalltalk.AthensHTMLSurface);
 
 smalltalk.addMethod(

@@ -108,16 +108,11 @@ createPath: aPathCreatingBlock
 
 !AthensHTMLSurface methodsFor: 'drawing'!
 
-attemptToRecurseDrawing
-	^ self
-!
-
 drawDuring: aBlock
 
 	"You may draw on receiver only when inside a block and only using provided canvas object.
 	This ensures releasing system resources used after finishing drawing"
 
-	currentCanvas ifNotNil: [self attemptToRecurseDrawing].
 	[currentCanvas := athensCanvas.
 		self setDefaults.
 		aBlock value: currentCanvas.

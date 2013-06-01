@@ -163,24 +163,6 @@ smalltalk.AthensHTMLSurface);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "attemptToRecurseDrawing",
-category: 'drawing',
-fn: function (){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=self;
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"attemptToRecurseDrawing",{},smalltalk.AthensHTMLSurface)})},
-args: [],
-source: "attemptToRecurseDrawing\x0a\x09^ self",
-messageSends: [],
-referencedClasses: []
-}),
-smalltalk.AthensHTMLSurface);
-
-smalltalk.addMethod(
-smalltalk.method({
 selector: "canvasTag",
 category: 'accessing',
 fn: function (){
@@ -341,13 +323,6 @@ category: 'drawing',
 fn: function (aBlock){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=self["@currentCanvas"];
-if(($receiver = $1) == nil || $receiver == undefined){
-$1;
-} else {
-self._attemptToRecurseDrawing();
-};
 _st((function(){
 return smalltalk.withContext(function($ctx2) {
 self["@currentCanvas"]=self["@athensCanvas"];
@@ -361,8 +336,8 @@ return self["@currentCanvas"];
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"drawDuring:",{aBlock:aBlock},smalltalk.AthensHTMLSurface)})},
 args: ["aBlock"],
-source: "drawDuring: aBlock\x0a\x0a\x09\x22You may draw on receiver only when inside a block and only using provided canvas object.\x0a\x09This ensures releasing system resources used after finishing drawing\x22\x0a\x0a\x09currentCanvas ifNotNil: [self attemptToRecurseDrawing].\x0a\x09[currentCanvas := athensCanvas.\x0a\x09\x09self setDefaults.\x0a\x09\x09aBlock value: currentCanvas.\x0a\x09] ensure: [currentCanvas := nil].",
-messageSends: ["ifNotNil:", "attemptToRecurseDrawing", "ensure:", "setDefaults", "value:"],
+source: "drawDuring: aBlock\x0a\x0a\x09\x22You may draw on receiver only when inside a block and only using provided canvas object.\x0a\x09This ensures releasing system resources used after finishing drawing\x22\x0a\x0a\x09[currentCanvas := athensCanvas.\x0a\x09\x09self setDefaults.\x0a\x09\x09aBlock value: currentCanvas.\x0a\x09] ensure: [currentCanvas := nil].",
+messageSends: ["ensure:", "setDefaults", "value:"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLSurface);
