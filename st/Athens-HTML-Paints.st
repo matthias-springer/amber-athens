@@ -30,13 +30,12 @@ red
 
 !AthensHTMLSolidPaint methodsFor: 'drawing'!
 
-fillPath: path on: anAthensCanvas 
-	self loadOn: anAthensCanvas.
-	anAthensCanvas
-		newPath;
-		loadPath: path.
-		
-	self fillOn: anAthensCanvas
+fillPath: aPath on: anAthensCanvas
+	|context|
+	context := anAthensCanvas surface context2D.
+	context fillStyle: 'rgba(', r, ', ', g, ', ', b, ', ', a, ')'.
+	aPath draw.
+	context fill.
 !
 
 fillRectangle: aRect on: anAthensCanvas

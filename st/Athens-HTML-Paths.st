@@ -5,26 +5,6 @@ AthensPathBuilder subclass: #AthensHTMLPathBuilder
 
 !AthensHTMLPathBuilder methodsFor: 'accessing'!
 
-createPath: aBlock
-	self newPath.
-	
-	absolute := false.
-	endPoint := self class zeroPoint.
-	
-	"set the implicit path origin"
-	self moveToX: 0 Y: 0.
-
-	aBlock value: self.
-!
-
-pathCreatingBlock
-	^ pathCreatingBlock
-!
-
-pathCreatingBlock: aBlock
-	pathCreatingBlock := aBlock.
-!
-
 surface
 	^ surface
 !
@@ -33,9 +13,11 @@ surface: anObject
 	surface := anObject.
 ! !
 
-!AthensHTMLPathBuilder methodsFor: 'initializing'!
+!AthensHTMLPathBuilder methodsFor: 'drawing'!
 
-initialize
+createPath: aPathCreatingBlock
+	pathCreatingBlock := aPathCreatingBlock.
+	absolute := false.
 	endPoint := self class zeroPoint.
 ! !
 
@@ -79,7 +61,9 @@ cwArcTo: newEndPoint angle: angle
 !
 
 draw
+	self newPath.
 	self moveToX: 0 Y: 0.
+	
 	pathCreatingBlock value: self.
 !
 
@@ -96,7 +80,7 @@ moveTo: aPoint
 !
 
 newPath
-	"surface context2D beginPath."
+	surface context2D beginPath.
 !
 
 paintFillsUsing: aPaint on: anAthensCanvas 
@@ -195,8 +179,8 @@ moveToX: x Y: y
 on: anHTMLSurface with: aPathCreatingBlock
 	^ self basicNew
 		surface: anHTMLSurface;
-		pathCreatingBlock: aPathCreatingBlock;
 		initialize;
+		createPath: aPathCreatingBlock;
 		yourself
 ! !
 

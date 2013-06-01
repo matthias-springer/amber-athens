@@ -173,19 +173,17 @@ smalltalk.AthensHTMLPathBuilder);
 smalltalk.addMethod(
 smalltalk.method({
 selector: "createPath:",
-category: 'accessing',
-fn: function (aBlock){
+category: 'drawing',
+fn: function (aPathCreatingBlock){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self._newPath();
+self["@pathCreatingBlock"]=aPathCreatingBlock;
 self["@absolute"]=false;
 self["@endPoint"]=_st(self._class())._zeroPoint();
-self._moveToX_Y_((0),(0));
-_st(aBlock)._value_(self);
-return self}, function($ctx1) {$ctx1.fill(self,"createPath:",{aBlock:aBlock},smalltalk.AthensHTMLPathBuilder)})},
-args: ["aBlock"],
-source: "createPath: aBlock\x0a\x09self newPath.\x0a\x09\x0a\x09absolute := false.\x0a\x09endPoint := self class zeroPoint.\x0a\x09\x0a\x09\x22set the implicit path origin\x22\x0a\x09self moveToX: 0 Y: 0.\x0a\x0a\x09aBlock value: self.",
-messageSends: ["newPath", "zeroPoint", "class", "moveToX:Y:", "value:"],
+return self}, function($ctx1) {$ctx1.fill(self,"createPath:",{aPathCreatingBlock:aPathCreatingBlock},smalltalk.AthensHTMLPathBuilder)})},
+args: ["aPathCreatingBlock"],
+source: "createPath: aPathCreatingBlock\x0a\x09pathCreatingBlock := aPathCreatingBlock.\x0a\x09absolute := false.\x0a\x09endPoint := self class zeroPoint.",
+messageSends: ["zeroPoint", "class"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLPathBuilder);
@@ -286,28 +284,13 @@ category: 'path commands',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
+self._newPath();
 self._moveToX_Y_((0),(0));
 _st(self["@pathCreatingBlock"])._value_(self);
 return self}, function($ctx1) {$ctx1.fill(self,"draw",{},smalltalk.AthensHTMLPathBuilder)})},
 args: [],
-source: "draw\x0a\x09self moveToX: 0 Y: 0.\x0a\x09pathCreatingBlock value: self.",
-messageSends: ["moveToX:Y:", "value:"],
-referencedClasses: []
-}),
-smalltalk.AthensHTMLPathBuilder);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "initialize",
-category: 'initializing',
-fn: function (){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-self["@endPoint"]=_st(self._class())._zeroPoint();
-return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensHTMLPathBuilder)})},
-args: [],
-source: "initialize\x0a\x09endPoint := self class zeroPoint.",
-messageSends: ["zeroPoint", "class"],
+source: "draw\x0a\x09self newPath.\x0a\x09self moveToX: 0 Y: 0.\x0a\x09\x0a\x09pathCreatingBlock value: self.",
+messageSends: ["newPath", "moveToX:Y:", "value:"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLPathBuilder);
@@ -389,10 +372,11 @@ category: 'path commands',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
+_st(_st(self["@surface"])._context2D())._beginPath();
 return self}, function($ctx1) {$ctx1.fill(self,"newPath",{},smalltalk.AthensHTMLPathBuilder)})},
 args: [],
-source: "newPath\x0a\x09\x22surface context2D beginPath.\x22",
-messageSends: [],
+source: "newPath\x0a\x09surface context2D beginPath.",
+messageSends: ["beginPath", "context2D"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLPathBuilder);
@@ -411,40 +395,6 @@ return $1;
 args: ["aPaint", "anAthensCanvas"],
 source: "paintFillsUsing: aPaint on: anAthensCanvas \x0a\x09^ aPaint fillPath: self on: anAthensCanvas",
 messageSends: ["fillPath:on:"],
-referencedClasses: []
-}),
-smalltalk.AthensHTMLPathBuilder);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "pathCreatingBlock",
-category: 'accessing',
-fn: function (){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=self["@pathCreatingBlock"];
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"pathCreatingBlock",{},smalltalk.AthensHTMLPathBuilder)})},
-args: [],
-source: "pathCreatingBlock\x0a\x09^ pathCreatingBlock",
-messageSends: [],
-referencedClasses: []
-}),
-smalltalk.AthensHTMLPathBuilder);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "pathCreatingBlock:",
-category: 'accessing',
-fn: function (aBlock){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-self["@pathCreatingBlock"]=aBlock;
-return self}, function($ctx1) {$ctx1.fill(self,"pathCreatingBlock:",{aBlock:aBlock},smalltalk.AthensHTMLPathBuilder)})},
-args: ["aBlock"],
-source: "pathCreatingBlock: aBlock\x0a\x09pathCreatingBlock := aBlock.",
-messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLPathBuilder);
@@ -533,15 +483,15 @@ return smalltalk.withContext(function($ctx1) {
 var $2,$3,$1;
 $2=self._basicNew();
 _st($2)._surface_(anHTMLSurface);
-_st($2)._pathCreatingBlock_(aPathCreatingBlock);
 _st($2)._initialize();
+_st($2)._createPath_(aPathCreatingBlock);
 $3=_st($2)._yourself();
 $1=$3;
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"on:with:",{anHTMLSurface:anHTMLSurface,aPathCreatingBlock:aPathCreatingBlock},smalltalk.AthensHTMLPathBuilder.klass)})},
 args: ["anHTMLSurface", "aPathCreatingBlock"],
-source: "on: anHTMLSurface with: aPathCreatingBlock\x0a\x09^ self basicNew\x0a\x09\x09surface: anHTMLSurface;\x0a\x09\x09pathCreatingBlock: aPathCreatingBlock;\x0a\x09\x09initialize;\x0a\x09\x09yourself",
-messageSends: ["surface:", "basicNew", "pathCreatingBlock:", "initialize", "yourself"],
+source: "on: anHTMLSurface with: aPathCreatingBlock\x0a\x09^ self basicNew\x0a\x09\x09surface: anHTMLSurface;\x0a\x09\x09initialize;\x0a\x09\x09createPath: aPathCreatingBlock;\x0a\x09\x09yourself",
+messageSends: ["surface:", "basicNew", "initialize", "createPath:", "yourself"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLPathBuilder.klass);

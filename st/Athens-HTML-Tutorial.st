@@ -398,9 +398,8 @@ step16
 			"absolute;"
 			
 			lineTo: 0@50;
-			lineTo: -50@0
+			lineTo: -50@0.
 		].
-
 
 	surface drawDuring: [:canvas |
 		surface clear: Color gray.

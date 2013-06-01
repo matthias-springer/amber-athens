@@ -59,19 +59,18 @@ smalltalk.addMethod(
 smalltalk.method({
 selector: "fillPath:on:",
 category: 'drawing',
-fn: function (path,anAthensCanvas){
+fn: function (aPath,anAthensCanvas){
 var self=this;
+var context;
 return smalltalk.withContext(function($ctx1) { 
-var $1,$2;
-self._loadOn_(anAthensCanvas);
-$1=anAthensCanvas;
-_st($1)._newPath();
-$2=_st($1)._loadPath_(path);
-self._fillOn_(anAthensCanvas);
-return self}, function($ctx1) {$ctx1.fill(self,"fillPath:on:",{path:path,anAthensCanvas:anAthensCanvas},smalltalk.AthensHTMLSolidPaint)})},
-args: ["path", "anAthensCanvas"],
-source: "fillPath: path on: anAthensCanvas \x0a\x09self loadOn: anAthensCanvas.\x0a\x09anAthensCanvas\x0a\x09\x09newPath;\x0a\x09\x09loadPath: path.\x0a\x09\x09\x0a\x09self fillOn: anAthensCanvas",
-messageSends: ["loadOn:", "newPath", "loadPath:", "fillOn:"],
+context=_st(_st(anAthensCanvas)._surface())._context2D();
+_st(context)._fillStyle_(_st(_st(_st(_st(_st(_st(_st("rgba(".__comma(self["@r"])).__comma(", ")).__comma(self["@g"])).__comma(", ")).__comma(self["@b"])).__comma(", ")).__comma(self["@a"])).__comma(")"));
+_st(aPath)._draw();
+_st(context)._fill();
+return self}, function($ctx1) {$ctx1.fill(self,"fillPath:on:",{aPath:aPath,anAthensCanvas:anAthensCanvas,context:context},smalltalk.AthensHTMLSolidPaint)})},
+args: ["aPath", "anAthensCanvas"],
+source: "fillPath: aPath on: anAthensCanvas\x0a\x09|context|\x0a\x09context := anAthensCanvas surface context2D.\x0a\x09context fillStyle: 'rgba(', r, ', ', g, ', ', b, ', ', a, ')'.\x0a\x09aPath draw.\x0a\x09context fill.",
+messageSends: ["context2D", "surface", "fillStyle:", ",", "draw", "fill"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLSolidPaint);
