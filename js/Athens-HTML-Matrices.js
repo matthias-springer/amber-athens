@@ -84,11 +84,10 @@ fn: function (angle){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 smalltalk.AthensAffineTransform.fn.prototype._rotateByRadians_.apply(_st(self), [angle]);
-_st(_st(self["@surface"])._context2D())._rotate_(angle);
 return self}, function($ctx1) {$ctx1.fill(self,"rotateByRadians:",{angle:angle},smalltalk.AthensHTMLMatrix)})},
 args: ["angle"],
-source: "rotateByRadians: angle\x0a\x09super rotateByRadians: angle.\x0a\x09surface context2D rotate: angle.",
-messageSends: ["rotateByRadians:", "rotate:", "context2D"],
+source: "rotateByRadians: angle\x0a\x09super rotateByRadians: angle.\x0a\x09\x22surface context2D rotate: angle.\x22",
+messageSends: ["rotateByRadians:"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLMatrix);
@@ -123,11 +122,10 @@ fn: function (fx,fy){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 smalltalk.AthensAffineTransform.fn.prototype._scaleX_Y_.apply(_st(self), [fx,fy]);
-_st(_st(self["@surface"])._context2D())._scale_a_(fx,fy);
 return self}, function($ctx1) {$ctx1.fill(self,"scaleX:Y:",{fx:fx,fy:fy},smalltalk.AthensHTMLMatrix)})},
 args: ["fx", "fy"],
-source: "scaleX: fx Y: fy\x0a\x09super scaleX: fx Y: fy.\x0a\x09surface context2D scale: fx a: fy.",
-messageSends: ["scaleX:Y:", "scale:a:", "context2D"],
+source: "scaleX: fx Y: fy\x0a\x09super scaleX: fx Y: fy.\x0a\x09\x22surface context2D scale: fx a: fy.\x22",
+messageSends: ["scaleX:Y:"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLMatrix);
@@ -174,11 +172,10 @@ fn: function (px,py){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 smalltalk.AthensAffineTransform.fn.prototype._translateX_Y_.apply(_st(self), [px,py]);
-_st(_st(self["@surface"])._context2D())._translate_a_(px,py);
 return self}, function($ctx1) {$ctx1.fill(self,"translateX:Y:",{px:px,py:py},smalltalk.AthensHTMLMatrix)})},
 args: ["px", "py"],
-source: "translateX: px Y: py\x0a\x09super translateX: px Y: py.\x0a\x09surface context2D translate: px a: py.",
-messageSends: ["translateX:Y:", "translate:a:", "context2D"],
+source: "translateX: px Y: py\x0a\x09super translateX: px Y: py.\x0a\x09\x22surface context2D translate: px a: py.\x22",
+messageSends: ["translateX:Y:"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLMatrix);

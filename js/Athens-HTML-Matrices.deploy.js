@@ -63,9 +63,8 @@ fn: function (angle){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 smalltalk.AthensAffineTransform.fn.prototype._rotateByRadians_.apply(_st(self), [angle]);
-_st(_st(self["@surface"])._context2D())._rotate_(angle);
 return self}, function($ctx1) {$ctx1.fill(self,"rotateByRadians:",{angle:angle},smalltalk.AthensHTMLMatrix)})},
-messageSends: ["rotateByRadians:", "rotate:", "context2D"]}),
+messageSends: ["rotateByRadians:"]}),
 smalltalk.AthensHTMLMatrix);
 
 smalltalk.addMethod(
@@ -92,9 +91,8 @@ fn: function (fx,fy){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 smalltalk.AthensAffineTransform.fn.prototype._scaleX_Y_.apply(_st(self), [fx,fy]);
-_st(_st(self["@surface"])._context2D())._scale_a_(fx,fy);
 return self}, function($ctx1) {$ctx1.fill(self,"scaleX:Y:",{fx:fx,fy:fy},smalltalk.AthensHTMLMatrix)})},
-messageSends: ["scaleX:Y:", "scale:a:", "context2D"]}),
+messageSends: ["scaleX:Y:"]}),
 smalltalk.AthensHTMLMatrix);
 
 smalltalk.addMethod(
@@ -128,9 +126,8 @@ fn: function (px,py){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 smalltalk.AthensAffineTransform.fn.prototype._translateX_Y_.apply(_st(self), [px,py]);
-_st(_st(self["@surface"])._context2D())._translate_a_(px,py);
 return self}, function($ctx1) {$ctx1.fill(self,"translateX:Y:",{px:px,py:py},smalltalk.AthensHTMLMatrix)})},
-messageSends: ["translateX:Y:", "translate:a:", "context2D"]}),
+messageSends: ["translateX:Y:"]}),
 smalltalk.AthensHTMLMatrix);
 
 

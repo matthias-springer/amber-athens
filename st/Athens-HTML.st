@@ -23,14 +23,6 @@ surface: anHTMLSurface
 
 newPath
 	surface context2D beginPath.
-!
-
-rectangleX: x y: y width: aWidth height: aHeight
-	surface context2D fillRect: x a: y a: aWidth a: aHeight.
-!
-
-setSourceR: red g: green b: blue a: alpha
-	surface context2D fillStyle: 'rgba(', red asString, ', ', green asString, ', ', blue asString, ', ', alpha asString, ')'.
 ! !
 
 !AthensHTMLCanvas class methodsFor: 'instance creation'!
@@ -121,12 +113,26 @@ drawDuring: aBlock
 
 !AthensHTMLSurface methodsFor: 'paints'!
 
+createLinearGradient: aColorRamp start: aStartPoint stop: aStopPoint
+	^ AthensHTMLGradientPaint 
+		createLinearGradient: aColorRamp 
+		start: aStartPoint 
+		stop: aStopPoint
+		on: context2D
+!
+
 createSolidColorPaint: aColor 
-	^ AthensHTMLSolidPaint new color: aColor
+	^ AthensHTMLSolidPaint new 
+		color: aColor;
+		context: context2D;
+		yourself
 !
 
 createStrokePaintFor: aPaint
-	^ AthensHTMLStrokePaint new fillPaint: aPaint
+	^ AthensHTMLStrokePaint new 
+		fillPaint: aPaint;
+		context: context2D;
+		yourself
 ! !
 
 !AthensHTMLSurface methodsFor: 'private'!

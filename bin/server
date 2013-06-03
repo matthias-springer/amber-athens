@@ -1,3 +1,3 @@
 #!/bin/bash
 cd `dirname $0`/..
-node ./cli/js/amber-cli.js serve $@
+node ./cli/js/amber-cli.js serve --host 172.16.22.248 $@

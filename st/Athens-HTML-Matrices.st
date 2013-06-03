@@ -37,7 +37,7 @@ restoreAfter: aBlock
 
 rotateByRadians: angle
 	super rotateByRadians: angle.
-	surface context2D rotate: angle.
+	"surface context2D rotate: angle."
 !
 
 scaleBy: factor
@@ -48,12 +48,12 @@ scaleBy: factor
 
 scaleX: fx Y: fy
 	super scaleX: fx Y: fy.
-	surface context2D scale: fx a: fy.
+	"surface context2D scale: fx a: fy."
 !
 
 translateX: px Y: py
 	super translateX: px Y: py.
-	surface context2D translate: px a: py.
+	"surface context2D translate: px a: py."
 ! !
 
 !AthensHTMLMatrix class methodsFor: 'instance creation'!
