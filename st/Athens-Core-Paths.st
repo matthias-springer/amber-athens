@@ -421,9 +421,13 @@ AthensBezierConverter class instanceVariableNames: 'collinearityEps curveAngleTo
 
 initialize
 
-	collinearityEps := 1e-30.
-	distanceEps := 1e-30.
-	curveAngleTolerance := 0.01.
+	"collinearityEps := 1e-30."
+	"distanceEps := 1e-30."
+	"curveAngleTolerance := 0.01."
+	
+	< self['@curveAngleTolerance'] = 0.01;
+	self['@collinearityEps'] = 1e-30;
+	self['@distanceEps'] = 1e-30; >
 ! !
 
 Object subclass: #AthensPathSegment

@@ -859,13 +859,13 @@ category: 'initialize-release',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self["@collinearityEps"]=_st((1)._e()).__minus((30));
-self["@distanceEps"]=_st((1)._e()).__minus((30));
-self["@curveAngleTolerance"]=(0.01);
+ self['@curveAngleTolerance'] = 0.01;
+	self['@collinearityEps'] = 1e-30;
+	self['@distanceEps'] = 1e-30; ;
 return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensBezierConverter.klass)})},
 args: [],
-source: "initialize\x0a\x0a\x09collinearityEps := 1e-30.\x0a\x09distanceEps := 1e-30.\x0a\x09curveAngleTolerance := 0.01.",
-messageSends: ["-", "e"],
+source: "initialize\x0a\x0a\x09\x22collinearityEps := 1e-30.\x22\x0a\x09\x22distanceEps := 1e-30.\x22\x0a\x09\x22curveAngleTolerance := 0.01.\x22\x0a\x09\x0a\x09< self['@curveAngleTolerance'] = 0.01;\x0a\x09self['@collinearityEps'] = 1e-30;\x0a\x09self['@distanceEps'] = 1e-30; >\x0a\x0a\x09",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensBezierConverter.klass);

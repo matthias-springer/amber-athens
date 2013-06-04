@@ -653,11 +653,11 @@ selector: "initialize",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self["@collinearityEps"]=_st((1)._e()).__minus((30));
-self["@distanceEps"]=_st((1)._e()).__minus((30));
-self["@curveAngleTolerance"]=(0.01);
+ self['@curveAngleTolerance'] = 0.01;
+	self['@collinearityEps'] = 1e-30;
+	self['@distanceEps'] = 1e-30; ;
 return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensBezierConverter.klass)})},
-messageSends: ["-", "e"]}),
+messageSends: []}),
 smalltalk.AthensBezierConverter.klass);
 
 
