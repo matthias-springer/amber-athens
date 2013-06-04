@@ -1082,12 +1082,15 @@ smalltalk.method({
 selector: "stepDoIt",
 fn: function (){
 var self=this;
+var selector;
 function $AthensTutorial(){return smalltalk.AthensTutorial||(typeof AthensTutorial=="undefined"?nil:AthensTutorial)}
 return smalltalk.withContext(function($ctx1) { 
+selector=_st("doItstep".__comma(_st(self["@step"])._asString()))._asSymbol();
 _st($AthensTutorial())._compile_("doIt".__comma(_st(_st(self["@codeArea"])._asJQuery())._val()));
-_st(self["@tutorial"])._perform_(_st("doItstep".__comma(_st(self["@step"])._asString()))._asSymbol());
-return self}, function($ctx1) {$ctx1.fill(self,"stepDoIt",{},smalltalk.AthensTutorialWidget)})},
-messageSends: ["compile:", ",", "val", "asJQuery", "perform:", "asSymbol", "asString"]}),
+_st(self["@tutorial"])._perform_(selector);
+_st($AthensTutorial())._removeCompiledMethod_(_st($AthensTutorial())._methodAt_(selector));
+return self}, function($ctx1) {$ctx1.fill(self,"stepDoIt",{selector:selector},smalltalk.AthensTutorialWidget)})},
+messageSends: ["asSymbol", ",", "asString", "compile:", "val", "asJQuery", "perform:", "removeCompiledMethod:", "methodAt:"]}),
 smalltalk.AthensTutorialWidget);
 
 

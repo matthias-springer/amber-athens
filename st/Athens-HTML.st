@@ -118,7 +118,17 @@ createLinearGradient: aColorRamp start: aStartPoint stop: aStopPoint
 		createLinearGradient: aColorRamp 
 		start: aStartPoint 
 		stop: aStopPoint
-		on: context2D
+		context: context2D
+!
+
+createRadialGradient: colorRamp center: aCenter radius: aRadius focalPoint: fp
+	^AthensHTMLGradientPaint	
+		radialBetween: fp
+		extending: 0
+		and: aCenter
+		extending: aRadius
+		withColorRamp: colorRamp
+		context: context2D
 !
 
 createSolidColorPaint: aColor 

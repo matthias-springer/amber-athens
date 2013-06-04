@@ -10,7 +10,7 @@ asAthensPaintOn: anAthensCanvas
 ! !
 
 AthensHTMLPatternPaint subclass: #AthensHTMLGradientPaint
-	instanceVariableNames: 'start stop gradient context2D'
+	instanceVariableNames: 'start stop gradient context2D innerRadius outerRadius'
 	package: 'Athens-HTML-Paints'!
 
 !AthensHTMLGradientPaint methodsFor: 'accessing'!
@@ -21,6 +21,14 @@ context: aContext
 
 gradient
 	^ gradient
+!
+
+innerRadius: aNumber
+	innerRadius := aNumber.
+!
+
+outerRadius: aNumber
+	outerRadius := aNumber.
 !
 
 start: aPoint
@@ -35,25 +43,27 @@ stop: aPoint
 
 fillRectangle: aRect on: anAthensCanvas
 	context2D beginPath.
-	anAthensCanvas pathTransform applyToContext.
+	anAthensCanvas pathTransform set.
 	context2D rect: aRect left a: aRect top a: aRect width a: aRect height.
-	anAthensCanvas paintTransform applyToContext.
+	anAthensCanvas paintTransform apply.
 	context2D fillStyle: gradient.
 	context2D fill.
 !
 
 initialize
-	gradient := context2D createLinearGradient: start x a: start y a: stop x a: stop y.
+	innerRadius 
+		ifNil: [gradient := context2D createLinearGradient: start x a: start y a: stop x a: stop y]
+		ifNotNil: [gradient := context2D createRadialGradient: start x a: start y a: innerRadius a: stop x a: stop y a: outerRadius].
 !
 
 populateRamp: aRamp
 	aRamp do: [:assoc |
-		gradient addColorStop: assoc key a: assoc value hexString].
+		gradient addColorStop: assoc key a: assoc value rgbaString].
 ! !
 
 !AthensHTMLGradientPaint class methodsFor: 'instance creation'!
 
-createLinearGradient: aColorRamp start: aStartPoint stop: aStopPoint on: aContext
+createLinearGradient: aColorRamp start: aStartPoint stop: aStopPoint context: aContext
 	^ self basicNew
 		start: aStartPoint;
 		stop: aStopPoint;
@@ -61,54 +71,51 @@ createLinearGradient: aColorRamp start: aStartPoint stop: aStopPoint on: aContex
 		initialize;
 		populateRamp: aColorRamp;
 		yourself
+!
+
+radialBetween: origin extending: innerRadius and: outerOrigin  extending: outerRadius withColorRamp: aColorRamp context: aContext
+	^ self basicNew
+		start: origin;
+		stop: outerOrigin;
+		innerRadius: innerRadius;
+		outerRadius: outerRadius;
+		context: aContext;
+		initialize;
+		populateRamp: aColorRamp;
+		yourself
 ! !
 
 AthensPaint subclass: #AthensHTMLSolidPaint
-	instanceVariableNames: 'r g b a context2D'
+	instanceVariableNames: 'color context2D'
 	package: 'Athens-HTML-Paints'!
 
 !AthensHTMLSolidPaint methodsFor: 'accessing'!
 
-alpha
-	^ a
-!
-
-blue
-	^ b
-!
-
 color: aColor
-	r := aColor red * 255.
-	g := aColor green * 255.
-	b := aColor blue * 255.
-	a := aColor alpha.
+	color := aColor
 !
 
 context: aContext
 	context2D := aContext.
-!
-
-green
-	^ g
-!
-
-red
-	^ r
 ! !
 
 !AthensHTMLSolidPaint methodsFor: 'drawing'!
 
 fillPath: aPath on: anAthensCanvas
-	anAthensCanvas pathTransform applyToContext.
-	context2D fillStyle: 'rgba(', r, ', ', g, ', ', b, ', ', a, ')'.
+	anAthensCanvas pathTransform set.
+	context2D fillStyle: self rgbaString.
 	aPath draw.
 	context2D fill.
 !
 
 fillRectangle: aRect on: anAthensCanvas
-	anAthensCanvas pathTransform applyToContext.
-	context2D fillStyle: 'rgba(', r asString, ', ', g asString, ', ', b asString, ', ', a asString, ')'.
+	anAthensCanvas pathTransform set.
+	context2D fillStyle: self rgbaString.
 	context2D fillRect: aRect left a: aRect top a: aRect width a: aRect height.
+!
+
+rgbaString
+	^ color rgbaString
 ! !
 
 AthensStrokePaint subclass: #AthensHTMLStrokePaint
@@ -118,15 +125,11 @@ AthensStrokePaint subclass: #AthensHTMLStrokePaint
 !AthensHTMLStrokePaint methodsFor: 'drawing'!
 
 fillPath: aPath on: anAthensCanvas
-	anAthensCanvas pathTransform applyToContext.
-	context2D strokeStyle: 'rgba(', fillPaint red, ', ', fillPaint green, ', ', fillPaint blue, ', ', fillPaint alpha, ')'.
+	anAthensCanvas pathTransform set.
+	context2D strokeStyle: fillPaint rgbaString.
 	context2D lineWidth: width.
 	aPath draw.
 	context2D stroke.
-!
-
-loadOn: aCanvas
-	self fillPaint loadOn: aCanvas.
 ! !
 
 !AthensHTMLStrokePaint methodsFor: 'initialize-release'!

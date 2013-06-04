@@ -1340,8 +1340,11 @@ showStep: anInteger
 !
 
 stepDoIt
+	|selector|
+	selector := ('doItstep', step asString) asSymbol.
 	AthensTutorial compile: 'doIt', codeArea asJQuery val.
-	tutorial perform: ('doItstep', step asString) asSymbol.
+	tutorial perform: selector.
+	AthensTutorial removeCompiledMethod: (AthensTutorial methodAt: selector)
 ! !
 
 !AthensTutorialWidget methodsFor: 'rendering'!

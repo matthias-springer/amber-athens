@@ -59,6 +59,22 @@ smalltalk.Color);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "blueByte",
+category: 'accessing',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return parseInt(self['@hexString'].substr(4, 2), 16); ;
+return self}, function($ctx1) {$ctx1.fill(self,"blueByte",{},smalltalk.Color)})},
+args: [],
+source: "blueByte\x0a\x09< return parseInt(self['@hexString'].substr(4, 2), 16); >",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.Color);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "green",
 category: 'accessing',
 fn: function (){
@@ -68,6 +84,22 @@ return smalltalk.withContext(function($ctx1) {
 return self}, function($ctx1) {$ctx1.fill(self,"green",{},smalltalk.Color)})},
 args: [],
 source: "green\x0a\x09< return parseInt(self['@hexString'].substr(2, 2), 16) / 255.0; >",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.Color);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "greenByte",
+category: 'accessing',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return parseInt(self['@hexString'].substr(2, 2), 16); ;
+return self}, function($ctx1) {$ctx1.fill(self,"greenByte",{},smalltalk.Color)})},
+args: [],
+source: "greenByte\x0a\x09< return parseInt(self['@hexString'].substr(2, 2), 16); >",
 messageSends: [],
 referencedClasses: []
 }),
@@ -119,6 +151,40 @@ return self}, function($ctx1) {$ctx1.fill(self,"red",{},smalltalk.Color)})},
 args: [],
 source: "red\x0a\x09< return parseInt(self['@hexString'].substr(0, 2), 16) / 255.0; >",
 messageSends: [],
+referencedClasses: []
+}),
+smalltalk.Color);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "redByte",
+category: 'accessing',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return parseInt(self['@hexString'].substr(0, 2), 16); ;
+return self}, function($ctx1) {$ctx1.fill(self,"redByte",{},smalltalk.Color)})},
+args: [],
+source: "redByte\x0a\x09< return parseInt(self['@hexString'].substr(0, 2), 16); >",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.Color);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "rgbaString",
+category: 'accessing',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(_st(_st(_st(_st(_st(_st("rgba(".__comma(_st(self._redByte())._asString())).__comma(", ")).__comma(_st(self._greenByte())._asString())).__comma(", ")).__comma(_st(self._blueByte())._asString())).__comma(", ")).__comma(_st(self._alpha())._asString())).__comma(")");
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"rgbaString",{},smalltalk.Color)})},
+args: [],
+source: "rgbaString\x0a\x09^ 'rgba(', self redByte asString, ', ', self greenByte asString, ', ', self blueByte asString, ', ', self alpha asString, ')'",
+messageSends: [",", "asString", "alpha", "blueByte", "greenByte", "redByte"],
 referencedClasses: []
 }),
 smalltalk.Color);

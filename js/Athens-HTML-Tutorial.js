@@ -1283,14 +1283,17 @@ selector: "stepDoIt",
 category: 'interactions',
 fn: function (){
 var self=this;
+var selector;
 function $AthensTutorial(){return smalltalk.AthensTutorial||(typeof AthensTutorial=="undefined"?nil:AthensTutorial)}
 return smalltalk.withContext(function($ctx1) { 
+selector=_st("doItstep".__comma(_st(self["@step"])._asString()))._asSymbol();
 _st($AthensTutorial())._compile_("doIt".__comma(_st(_st(self["@codeArea"])._asJQuery())._val()));
-_st(self["@tutorial"])._perform_(_st("doItstep".__comma(_st(self["@step"])._asString()))._asSymbol());
-return self}, function($ctx1) {$ctx1.fill(self,"stepDoIt",{},smalltalk.AthensTutorialWidget)})},
+_st(self["@tutorial"])._perform_(selector);
+_st($AthensTutorial())._removeCompiledMethod_(_st($AthensTutorial())._methodAt_(selector));
+return self}, function($ctx1) {$ctx1.fill(self,"stepDoIt",{selector:selector},smalltalk.AthensTutorialWidget)})},
 args: [],
-source: "stepDoIt\x0a\x09AthensTutorial compile: 'doIt', codeArea asJQuery val.\x0a\x09tutorial perform: ('doItstep', step asString) asSymbol.",
-messageSends: ["compile:", ",", "val", "asJQuery", "perform:", "asSymbol", "asString"],
+source: "stepDoIt\x0a\x09|selector|\x0a\x09selector := ('doItstep', step asString) asSymbol.\x0a\x09AthensTutorial compile: 'doIt', codeArea asJQuery val.\x0a\x09tutorial perform: selector.\x0a\x09AthensTutorial removeCompiledMethod: (AthensTutorial methodAt: selector)",
+messageSends: ["asSymbol", ",", "asString", "compile:", "val", "asJQuery", "perform:", "removeCompiledMethod:", "methodAt:"],
 referencedClasses: ["AthensTutorial"]
 }),
 smalltalk.AthensTutorialWidget);

@@ -13,47 +13,36 @@ surface: aSurface
 	surface := aSurface.
 ! !
 
-!AthensHTMLMatrix methodsFor: 'transformations'!
+!AthensHTMLMatrix methodsFor: 'applying transformations'!
 
-applyToContext
+apply
+	"Applies this matrix to the current transformation (multiplication)."
+	surface ifNotNil: [
+		surface context2D transform: sx a: shy a: shx a: sy a: x a: y].
+!
+
+set
+	"Overwrites the current transformation."
 	surface ifNotNil: [
 		surface context2D setTransform: sx a: shy a: shx a: sy a: x a: y].
-!
+! !
+
+!AthensHTMLMatrix methodsFor: 'transformations'!
 
 loadAffineTransform: m
 	super loadAffineTransform: m.
-	self applyToContext.
+	self set.
 !
 
 loadIdentity
 	super loadIdentity.
-	self applyToContext.
+	self set.
 !
 
 restoreAfter: aBlock
-	surface context2D save.
-	aBlock ensure: [surface context2D restore].
-!
-
-rotateByRadians: angle
-	super rotateByRadians: angle.
-	"surface context2D rotate: angle."
-!
-
-scaleBy: factor
-	factor isPoint 
-		ifTrue: [self scaleX: factor x Y: factor y] 
-		ifFalse: [self scaleX: factor Y: factor].
-!
-
-scaleX: fx Y: fy
-	super scaleX: fx Y: fy.
-	"surface context2D scale: fx a: fy."
-!
-
-translateX: px Y: py
-	super translateX: px Y: py.
-	"surface context2D translate: px a: py."
+	|matrixBefore|
+	matrixBefore := self copy.
+	aBlock ensure: [self loadAffineTransform: matrixBefore].
 ! !
 
 !AthensHTMLMatrix class methodsFor: 'instance creation'!

@@ -236,12 +236,12 @@ var self=this;
 function $AthensHTMLGradientPaint(){return smalltalk.AthensHTMLGradientPaint||(typeof AthensHTMLGradientPaint=="undefined"?nil:AthensHTMLGradientPaint)}
 return smalltalk.withContext(function($ctx1) { 
 var $1;
-$1=_st($AthensHTMLGradientPaint())._createLinearGradient_start_stop_on_(aColorRamp,aStartPoint,aStopPoint,self["@context2D"]);
+$1=_st($AthensHTMLGradientPaint())._createLinearGradient_start_stop_context_(aColorRamp,aStartPoint,aStopPoint,self["@context2D"]);
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"createLinearGradient:start:stop:",{aColorRamp:aColorRamp,aStartPoint:aStartPoint,aStopPoint:aStopPoint},smalltalk.AthensHTMLSurface)})},
 args: ["aColorRamp", "aStartPoint", "aStopPoint"],
-source: "createLinearGradient: aColorRamp start: aStartPoint stop: aStopPoint\x0a\x09^ AthensHTMLGradientPaint \x0a\x09\x09createLinearGradient: aColorRamp \x0a\x09\x09start: aStartPoint \x0a\x09\x09stop: aStopPoint\x0a\x09\x09on: context2D",
-messageSends: ["createLinearGradient:start:stop:on:"],
+source: "createLinearGradient: aColorRamp start: aStartPoint stop: aStopPoint\x0a\x09^ AthensHTMLGradientPaint \x0a\x09\x09createLinearGradient: aColorRamp \x0a\x09\x09start: aStartPoint \x0a\x09\x09stop: aStopPoint\x0a\x09\x09context: context2D",
+messageSends: ["createLinearGradient:start:stop:context:"],
 referencedClasses: ["AthensHTMLGradientPaint"]
 }),
 smalltalk.AthensHTMLSurface);
@@ -262,6 +262,25 @@ args: ["aPathCreatingBlock"],
 source: "createPath: aPathCreatingBlock\x0a\x09^ AthensHTMLPathBuilder on: self with: aPathCreatingBlock ",
 messageSends: ["on:with:"],
 referencedClasses: ["AthensHTMLPathBuilder"]
+}),
+smalltalk.AthensHTMLSurface);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "createRadialGradient:center:radius:focalPoint:",
+category: 'paints',
+fn: function (colorRamp,aCenter,aRadius,fp){
+var self=this;
+function $AthensHTMLGradientPaint(){return smalltalk.AthensHTMLGradientPaint||(typeof AthensHTMLGradientPaint=="undefined"?nil:AthensHTMLGradientPaint)}
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st($AthensHTMLGradientPaint())._radialBetween_extending_and_extending_withColorRamp_context_(fp,(0),aCenter,aRadius,colorRamp,self["@context2D"]);
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"createRadialGradient:center:radius:focalPoint:",{colorRamp:colorRamp,aCenter:aCenter,aRadius:aRadius,fp:fp},smalltalk.AthensHTMLSurface)})},
+args: ["colorRamp", "aCenter", "aRadius", "fp"],
+source: "createRadialGradient: colorRamp center: aCenter radius: aRadius focalPoint: fp\x0a\x09^AthensHTMLGradientPaint\x09\x0a\x09\x09radialBetween: fp\x0a\x09\x09extending: 0\x0a\x09\x09and: aCenter\x0a\x09\x09extending: aRadius\x0a\x09\x09withColorRamp: colorRamp\x0a\x09\x09context: context2D",
+messageSends: ["radialBetween:extending:and:extending:withColorRamp:context:"],
+referencedClasses: ["AthensHTMLGradientPaint"]
 }),
 smalltalk.AthensHTMLSurface);
 

@@ -18,8 +18,16 @@ blue
 	< return parseInt(self['@hexString'].substr(4, 2), 16) / 255.0; >
 !
 
+blueByte
+	< return parseInt(self['@hexString'].substr(4, 2), 16); >
+!
+
 green
 	< return parseInt(self['@hexString'].substr(2, 2), 16) / 255.0; >
+!
+
+greenByte
+	< return parseInt(self['@hexString'].substr(2, 2), 16); >
 !
 
 hexString
@@ -32,6 +40,14 @@ hexString: aString
 
 red
 	< return parseInt(self['@hexString'].substr(0, 2), 16) / 255.0; >
+!
+
+redByte
+	< return parseInt(self['@hexString'].substr(0, 2), 16); >
+!
+
+rgbaString
+	^ 'rgba(', self redByte asString, ', ', self greenByte asString, ', ', self blueByte asString, ', ', self alpha asString, ')'
 ! !
 
 !Color class methodsFor: 'instance creation'!

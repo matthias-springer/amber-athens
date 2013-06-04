@@ -175,10 +175,10 @@ var self=this;
 function $AthensHTMLGradientPaint(){return smalltalk.AthensHTMLGradientPaint||(typeof AthensHTMLGradientPaint=="undefined"?nil:AthensHTMLGradientPaint)}
 return smalltalk.withContext(function($ctx1) { 
 var $1;
-$1=_st($AthensHTMLGradientPaint())._createLinearGradient_start_stop_on_(aColorRamp,aStartPoint,aStopPoint,self["@context2D"]);
+$1=_st($AthensHTMLGradientPaint())._createLinearGradient_start_stop_context_(aColorRamp,aStartPoint,aStopPoint,self["@context2D"]);
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"createLinearGradient:start:stop:",{aColorRamp:aColorRamp,aStartPoint:aStartPoint,aStopPoint:aStopPoint},smalltalk.AthensHTMLSurface)})},
-messageSends: ["createLinearGradient:start:stop:on:"]}),
+messageSends: ["createLinearGradient:start:stop:context:"]}),
 smalltalk.AthensHTMLSurface);
 
 smalltalk.addMethod(
@@ -193,6 +193,20 @@ $1=_st($AthensHTMLPathBuilder())._on_with_(self,aPathCreatingBlock);
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"createPath:",{aPathCreatingBlock:aPathCreatingBlock},smalltalk.AthensHTMLSurface)})},
 messageSends: ["on:with:"]}),
+smalltalk.AthensHTMLSurface);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "createRadialGradient:center:radius:focalPoint:",
+fn: function (colorRamp,aCenter,aRadius,fp){
+var self=this;
+function $AthensHTMLGradientPaint(){return smalltalk.AthensHTMLGradientPaint||(typeof AthensHTMLGradientPaint=="undefined"?nil:AthensHTMLGradientPaint)}
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st($AthensHTMLGradientPaint())._radialBetween_extending_and_extending_withColorRamp_context_(fp,(0),aCenter,aRadius,colorRamp,self["@context2D"]);
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"createRadialGradient:center:radius:focalPoint:",{colorRamp:colorRamp,aCenter:aCenter,aRadius:aRadius,fp:fp},smalltalk.AthensHTMLSurface)})},
+messageSends: ["radialBetween:extending:and:extending:withColorRamp:context:"]}),
 smalltalk.AthensHTMLSurface);
 
 smalltalk.addMethod(

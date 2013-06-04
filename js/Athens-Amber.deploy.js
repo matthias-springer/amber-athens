@@ -44,12 +44,34 @@ smalltalk.Color);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "blueByte",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return parseInt(self['@hexString'].substr(4, 2), 16); ;
+return self}, function($ctx1) {$ctx1.fill(self,"blueByte",{},smalltalk.Color)})},
+messageSends: []}),
+smalltalk.Color);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "green",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
  return parseInt(self['@hexString'].substr(2, 2), 16) / 255.0; ;
 return self}, function($ctx1) {$ctx1.fill(self,"green",{},smalltalk.Color)})},
+messageSends: []}),
+smalltalk.Color);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "greenByte",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return parseInt(self['@hexString'].substr(2, 2), 16); ;
+return self}, function($ctx1) {$ctx1.fill(self,"greenByte",{},smalltalk.Color)})},
 messageSends: []}),
 smalltalk.Color);
 
@@ -86,6 +108,30 @@ return smalltalk.withContext(function($ctx1) {
  return parseInt(self['@hexString'].substr(0, 2), 16) / 255.0; ;
 return self}, function($ctx1) {$ctx1.fill(self,"red",{},smalltalk.Color)})},
 messageSends: []}),
+smalltalk.Color);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "redByte",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return parseInt(self['@hexString'].substr(0, 2), 16); ;
+return self}, function($ctx1) {$ctx1.fill(self,"redByte",{},smalltalk.Color)})},
+messageSends: []}),
+smalltalk.Color);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "rgbaString",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(_st(_st(_st(_st(_st(_st("rgba(".__comma(_st(self._redByte())._asString())).__comma(", ")).__comma(_st(self._greenByte())._asString())).__comma(", ")).__comma(_st(self._blueByte())._asString())).__comma(", ")).__comma(_st(self._alpha())._asString())).__comma(")");
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"rgbaString",{},smalltalk.Color)})},
+messageSends: [",", "asString", "alpha", "blueByte", "greenByte", "redByte"]}),
 smalltalk.Color);
 
 
