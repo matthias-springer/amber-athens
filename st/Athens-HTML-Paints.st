@@ -1,4 +1,58 @@
 Smalltalk current createPackage: 'Athens-HTML-Paints'!
+Object subclass: #AthensHTMLBitmapPaint
+	instanceVariableNames: 'bitmap repeatMode context2D'
+	package: 'Athens-HTML-Paints'!
+
+!AthensHTMLBitmapPaint methodsFor: 'accessing'!
+
+bitmap: aBitmap
+	bitmap := aBitmap.
+!
+
+context: aContext
+	context2D := aContext.
+! !
+
+!AthensHTMLBitmapPaint methodsFor: 'converting'!
+
+asAthensPaintOn: anAthensCanvas	
+	^ self
+! !
+
+!AthensHTMLBitmapPaint methodsFor: 'drawing'!
+
+fillRectangle: aRect on: anAthensCanvas
+	context2D beginPath.
+	anAthensCanvas pathTransform set.
+	context2D rect: aRect left a: aRect top a: aRect width a: aRect height.
+	anAthensCanvas paintTransform apply.
+	context2D fillStyle: (context2D createPattern: bitmap image a: repeatMode).
+	context2D fill.
+!
+
+noRepeat
+	repeatMode := 'no-repeat'.
+!
+
+repeat
+	repeatMode := 'repeat'.
+! !
+
+!AthensHTMLBitmapPaint methodsFor: 'initialize-release'!
+
+initialize
+	self noRepeat.
+! !
+
+!AthensHTMLBitmapPaint class methodsFor: 'instance creation'!
+
+forBitmap: aBitmap context: aContext
+	^ self new
+		bitmap: aBitmap;
+		context: aContext;
+		yourself
+! !
+
 Object subclass: #AthensHTMLPatternPaint
 	instanceVariableNames: ''
 	package: 'Athens-HTML-Paints'!
@@ -39,7 +93,7 @@ stop: aPoint
 	stop := aPoint.
 ! !
 
-!AthensHTMLGradientPaint methodsFor: 'initialize-release'!
+!AthensHTMLGradientPaint methodsFor: 'drawing'!
 
 fillRectangle: aRect on: anAthensCanvas
 	context2D beginPath.

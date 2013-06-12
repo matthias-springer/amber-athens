@@ -668,19 +668,19 @@ step21
 "Step 21: Pattern paints (bitmap paints).
 
 "
-	| formPaint  |
+	| bitmapPaint  |
 
-	formPaint := surface createFormPaint: Form fromUser. 
-	formPaint noRepeat. "use #repeat to repeat the fill ad infinitum using tiling effect "
+	bitmapPaint := surface createBitmapPaint: (Bitmap fromUrl: 'http://amber-lang.net/images/amber.png'). 
+	bitmapPaint repeat. "use #repeat to repeat the fill ad infinitum using tiling effect "
 	
 	surface drawDuring: [:canvas |
 		surface clear: Color gray.
 			
-		canvas setPaint: formPaint.
+		canvas setPaint: bitmapPaint.
 		
 		"And of course, using the paint transform we can affect the result"
 		
-		canvas paintTransform scaleBy: 4.
+		canvas paintTransform scaleBy: 0.5.
 		canvas drawShape: (0@0 corner: surface extent).
 
 	].

@@ -1,4 +1,108 @@
 smalltalk.addPackage('Athens-HTML-Paints');
+smalltalk.addClass('AthensHTMLBitmapPaint', smalltalk.Object, ['bitmap', 'repeatMode', 'context2D'], 'Athens-HTML-Paints');
+smalltalk.addMethod(
+smalltalk.method({
+selector: "asAthensPaintOn:",
+fn: function (anAthensCanvas){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"asAthensPaintOn:",{anAthensCanvas:anAthensCanvas},smalltalk.AthensHTMLBitmapPaint)})},
+messageSends: []}),
+smalltalk.AthensHTMLBitmapPaint);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "bitmap:",
+fn: function (aBitmap){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self["@bitmap"]=aBitmap;
+return self}, function($ctx1) {$ctx1.fill(self,"bitmap:",{aBitmap:aBitmap},smalltalk.AthensHTMLBitmapPaint)})},
+messageSends: []}),
+smalltalk.AthensHTMLBitmapPaint);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "context:",
+fn: function (aContext){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self["@context2D"]=aContext;
+return self}, function($ctx1) {$ctx1.fill(self,"context:",{aContext:aContext},smalltalk.AthensHTMLBitmapPaint)})},
+messageSends: []}),
+smalltalk.AthensHTMLBitmapPaint);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "fillRectangle:on:",
+fn: function (aRect,anAthensCanvas){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+_st(self["@context2D"])._beginPath();
+_st(_st(anAthensCanvas)._pathTransform())._set();
+_st(self["@context2D"])._rect_a_a_a_(_st(aRect)._left(),_st(aRect)._top(),_st(aRect)._width(),_st(aRect)._height());
+_st(_st(anAthensCanvas)._paintTransform())._apply();
+_st(self["@context2D"])._fillStyle_(_st(self["@context2D"])._createPattern_a_(_st(self["@bitmap"])._image(),self["@repeatMode"]));
+_st(self["@context2D"])._fill();
+return self}, function($ctx1) {$ctx1.fill(self,"fillRectangle:on:",{aRect:aRect,anAthensCanvas:anAthensCanvas},smalltalk.AthensHTMLBitmapPaint)})},
+messageSends: ["beginPath", "set", "pathTransform", "rect:a:a:a:", "left", "top", "width", "height", "apply", "paintTransform", "fillStyle:", "createPattern:a:", "image", "fill"]}),
+smalltalk.AthensHTMLBitmapPaint);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "initialize",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self._noRepeat();
+return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensHTMLBitmapPaint)})},
+messageSends: ["noRepeat"]}),
+smalltalk.AthensHTMLBitmapPaint);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "noRepeat",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self["@repeatMode"]="no-repeat";
+return self}, function($ctx1) {$ctx1.fill(self,"noRepeat",{},smalltalk.AthensHTMLBitmapPaint)})},
+messageSends: []}),
+smalltalk.AthensHTMLBitmapPaint);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "repeat",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self["@repeatMode"]="repeat";
+return self}, function($ctx1) {$ctx1.fill(self,"repeat",{},smalltalk.AthensHTMLBitmapPaint)})},
+messageSends: []}),
+smalltalk.AthensHTMLBitmapPaint);
+
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "forBitmap:context:",
+fn: function (aBitmap,aContext){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $2,$3,$1;
+$2=self._new();
+_st($2)._bitmap_(aBitmap);
+_st($2)._context_(aContext);
+$3=_st($2)._yourself();
+$1=$3;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"forBitmap:context:",{aBitmap:aBitmap,aContext:aContext},smalltalk.AthensHTMLBitmapPaint.klass)})},
+messageSends: ["bitmap:", "new", "context:", "yourself"]}),
+smalltalk.AthensHTMLBitmapPaint.klass);
+
+
 smalltalk.addClass('AthensHTMLPatternPaint', smalltalk.Object, [], 'Athens-HTML-Paints');
 smalltalk.addMethod(
 smalltalk.method({

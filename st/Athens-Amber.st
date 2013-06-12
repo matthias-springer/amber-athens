@@ -1,4 +1,26 @@
 Smalltalk current createPackage: 'Athens-Amber'!
+Object subclass: #Bitmap
+	instanceVariableNames: 'url'
+	package: 'Athens-Amber'!
+
+!Bitmap methodsFor: 'accessing'!
+
+image
+	^ Image fromUrl: url
+!
+
+url: anUrl
+	url := anUrl.
+! !
+
+!Bitmap class methodsFor: 'instance creation'!
+
+fromUrl: aString
+	^ self new
+		url: aString;
+		yourself
+! !
+
 Object subclass: #Color
 	instanceVariableNames: 'hexString alpha'
 	package: 'Athens-Amber'!
@@ -98,6 +120,28 @@ white
 yellow
 	^ self new
 		hexString: 'ffff00';
+		yourself
+! !
+
+Object subclass: #Image
+	instanceVariableNames: ''
+	package: 'Athens-Amber'!
+
+!Image methodsFor: 'accessing'!
+
+source: anUrl
+	<return self.src = anUrl>
+!
+
+yourself
+	<return self>
+! !
+
+!Image class methodsFor: 'instance creation'!
+
+fromUrl: anUrl
+	^ Image new
+		source: anUrl;
 		yourself
 ! !
 

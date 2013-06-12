@@ -471,21 +471,21 @@ smalltalk.method({
 selector: "step21",
 fn: function (){
 var self=this;
-var formPaint;
-function $Form(){return smalltalk.Form||(typeof Form=="undefined"?nil:Form)}
+var bitmapPaint;
+function $Bitmap(){return smalltalk.Bitmap||(typeof Bitmap=="undefined"?nil:Bitmap)}
 function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
 return smalltalk.withContext(function($ctx1) { 
-formPaint=_st(self["@surface"])._createFormPaint_(_st($Form())._fromUser());
-_st(formPaint)._noRepeat();
+bitmapPaint=_st(self["@surface"])._createBitmapPaint_(_st($Bitmap())._fromUrl_("http://amber-lang.net/images/amber.png"));
+_st(bitmapPaint)._repeat();
 _st(self["@surface"])._drawDuring_((function(canvas){
 return smalltalk.withContext(function($ctx2) {
 _st(self["@surface"])._clear_(_st($Color())._gray());
-_st(canvas)._setPaint_(formPaint);
-_st(_st(canvas)._paintTransform())._scaleBy_((4));
+_st(canvas)._setPaint_(bitmapPaint);
+_st(_st(canvas)._paintTransform())._scaleBy_((0.5));
 return _st(canvas)._drawShape_(_st((0).__at((0)))._corner_(_st(self["@surface"])._extent()));
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
-return self}, function($ctx1) {$ctx1.fill(self,"step21",{formPaint:formPaint},smalltalk.AthensTutorial)})},
-messageSends: ["createFormPaint:", "fromUser", "noRepeat", "drawDuring:", "clear:", "gray", "setPaint:", "scaleBy:", "paintTransform", "drawShape:", "corner:", "extent", "@"]}),
+return self}, function($ctx1) {$ctx1.fill(self,"step21",{bitmapPaint:bitmapPaint},smalltalk.AthensTutorial)})},
+messageSends: ["createBitmapPaint:", "fromUrl:", "repeat", "drawDuring:", "clear:", "gray", "setPaint:", "scaleBy:", "paintTransform", "drawShape:", "corner:", "extent", "@"]}),
 smalltalk.AthensTutorial);
 
 smalltalk.addMethod(

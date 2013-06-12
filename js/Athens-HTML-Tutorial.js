@@ -552,24 +552,24 @@ selector: "step21",
 category: 'steps',
 fn: function (){
 var self=this;
-var formPaint;
-function $Form(){return smalltalk.Form||(typeof Form=="undefined"?nil:Form)}
+var bitmapPaint;
+function $Bitmap(){return smalltalk.Bitmap||(typeof Bitmap=="undefined"?nil:Bitmap)}
 function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
 return smalltalk.withContext(function($ctx1) { 
-formPaint=_st(self["@surface"])._createFormPaint_(_st($Form())._fromUser());
-_st(formPaint)._noRepeat();
+bitmapPaint=_st(self["@surface"])._createBitmapPaint_(_st($Bitmap())._fromUrl_("http://amber-lang.net/images/amber.png"));
+_st(bitmapPaint)._repeat();
 _st(self["@surface"])._drawDuring_((function(canvas){
 return smalltalk.withContext(function($ctx2) {
 _st(self["@surface"])._clear_(_st($Color())._gray());
-_st(canvas)._setPaint_(formPaint);
-_st(_st(canvas)._paintTransform())._scaleBy_((4));
+_st(canvas)._setPaint_(bitmapPaint);
+_st(_st(canvas)._paintTransform())._scaleBy_((0.5));
 return _st(canvas)._drawShape_(_st((0).__at((0)))._corner_(_st(self["@surface"])._extent()));
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
-return self}, function($ctx1) {$ctx1.fill(self,"step21",{formPaint:formPaint},smalltalk.AthensTutorial)})},
+return self}, function($ctx1) {$ctx1.fill(self,"step21",{bitmapPaint:bitmapPaint},smalltalk.AthensTutorial)})},
 args: [],
-source: "step21\x0a\x22Step 21: Pattern paints (bitmap paints).\x0a\x0a\x22\x0a\x09| formPaint  |\x0a\x0a\x09formPaint := surface createFormPaint: Form fromUser. \x0a\x09formPaint noRepeat. \x22use #repeat to repeat the fill ad infinitum using tiling effect \x22\x0a\x09\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x09\x0a\x09\x09canvas setPaint: formPaint.\x0a\x09\x09\x0a\x09\x09\x22And of course, using the paint transform we can affect the result\x22\x0a\x09\x09\x0a\x09\x09canvas paintTransform scaleBy: 4.\x0a\x09\x09canvas drawShape: (0@0 corner: surface extent).\x0a\x0a\x09].",
-messageSends: ["createFormPaint:", "fromUser", "noRepeat", "drawDuring:", "clear:", "gray", "setPaint:", "scaleBy:", "paintTransform", "drawShape:", "corner:", "extent", "@"],
-referencedClasses: ["Form", "Color"]
+source: "step21\x0a\x22Step 21: Pattern paints (bitmap paints).\x0a\x0a\x22\x0a\x09| bitmapPaint  |\x0a\x0a\x09bitmapPaint := surface createBitmapPaint: (Bitmap fromUrl: 'http://amber-lang.net/images/amber.png'). \x0a\x09bitmapPaint repeat. \x22use #repeat to repeat the fill ad infinitum using tiling effect \x22\x0a\x09\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x09\x0a\x09\x09canvas setPaint: bitmapPaint.\x0a\x09\x09\x0a\x09\x09\x22And of course, using the paint transform we can affect the result\x22\x0a\x09\x09\x0a\x09\x09canvas paintTransform scaleBy: 0.5.\x0a\x09\x09canvas drawShape: (0@0 corner: surface extent).\x0a\x0a\x09].",
+messageSends: ["createBitmapPaint:", "fromUrl:", "repeat", "drawDuring:", "clear:", "gray", "setPaint:", "scaleBy:", "paintTransform", "drawShape:", "corner:", "extent", "@"],
+referencedClasses: ["Bitmap", "Color"]
 }),
 smalltalk.AthensTutorial);
 

@@ -1,4 +1,48 @@
 smalltalk.addPackage('Athens-Amber');
+smalltalk.addClass('Bitmap', smalltalk.Object, ['url'], 'Athens-Amber');
+smalltalk.addMethod(
+smalltalk.method({
+selector: "image",
+fn: function (){
+var self=this;
+function $Image(){return smalltalk.Image||(typeof Image=="undefined"?nil:Image)}
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st($Image())._fromUrl_(self["@url"]);
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"image",{},smalltalk.Bitmap)})},
+messageSends: ["fromUrl:"]}),
+smalltalk.Bitmap);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "url:",
+fn: function (anUrl){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self["@url"]=anUrl;
+return self}, function($ctx1) {$ctx1.fill(self,"url:",{anUrl:anUrl},smalltalk.Bitmap)})},
+messageSends: []}),
+smalltalk.Bitmap);
+
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "fromUrl:",
+fn: function (aString){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $2,$3,$1;
+$2=self._new();
+_st($2)._url_(aString);
+$3=_st($2)._yourself();
+$1=$3;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"fromUrl:",{aString:aString},smalltalk.Bitmap.klass)})},
+messageSends: ["url:", "new", "yourself"]}),
+smalltalk.Bitmap.klass);
+
+
 smalltalk.addClass('Color', smalltalk.Object, ['hexString', 'alpha'], 'Athens-Amber');
 smalltalk.addMethod(
 smalltalk.method({
@@ -263,6 +307,48 @@ return $1;
 }, function($ctx1) {$ctx1.fill(self,"yellow",{},smalltalk.Color.klass)})},
 messageSends: ["hexString:", "new", "yourself"]}),
 smalltalk.Color.klass);
+
+
+smalltalk.addClass('Image', smalltalk.Object, [], 'Athens-Amber');
+smalltalk.addMethod(
+smalltalk.method({
+selector: "source:",
+fn: function (anUrl){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+return self.src = anUrl;
+return self}, function($ctx1) {$ctx1.fill(self,"source:",{anUrl:anUrl},smalltalk.Image)})},
+messageSends: []}),
+smalltalk.Image);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "yourself",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+return self;
+return self}, function($ctx1) {$ctx1.fill(self,"yourself",{},smalltalk.Image)})},
+messageSends: []}),
+smalltalk.Image);
+
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "fromUrl:",
+fn: function (anUrl){
+var self=this;
+function $Image(){return smalltalk.Image||(typeof Image=="undefined"?nil:Image)}
+return smalltalk.withContext(function($ctx1) { 
+var $2,$3,$1;
+$2=_st($Image())._new();
+_st($2)._source_(anUrl);
+$3=_st($2)._yourself();
+$1=$3;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"fromUrl:",{anUrl:anUrl},smalltalk.Image.klass)})},
+messageSends: ["source:", "new", "yourself"]}),
+smalltalk.Image.klass);
 
 
 smalltalk.addClass('Rectangle', smalltalk.Object, ['origin', 'corner'], 'Athens-Amber');

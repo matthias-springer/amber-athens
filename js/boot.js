@@ -876,6 +876,8 @@ smalltalk.wrapClassName("RegularExpression", "Kernel-Collections", RegExp, small
 smalltalk.wrapClassName("Error", "Kernel-Exceptions", Error, smalltalk.Object);
 smalltalk.wrapClassName("MethodContext", "Kernel-Methods", SmalltalkMethodContext, smalltalk.Object, false);
 
+smalltalk.wrapClassName("Image", "Athens-Amber", Image, smalltalk.Object);
+
 /* Alias definitions */
 
 smalltalk.alias(smalltalk.Array, "OrderedCollection");

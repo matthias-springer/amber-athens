@@ -113,6 +113,10 @@ drawDuring: aBlock
 
 !AthensHTMLSurface methodsFor: 'paints'!
 
+createBitmapPaint: aBitmap
+	^ AthensHTMLBitmapPaint forBitmap: aBitmap context: context2D
+!
+
 createLinearGradient: aColorRamp start: aStartPoint stop: aStopPoint
 	^ AthensHTMLGradientPaint 
 		createLinearGradient: aColorRamp 
