@@ -1,5 +1,5 @@
 smalltalk.addPackage('Athens-HTML-Paints');
-smalltalk.addClass('AthensHTMLBitmapPaint', smalltalk.Object, ['bitmap', 'repeatMode', 'context2D'], 'Athens-HTML-Paints');
+smalltalk.addClass('AthensHTMLGradientPaint', smalltalk.Object, ['start', 'stop', 'gradient', 'innerRadius', 'outerRadius', 'colorRamp'], 'Athens-HTML-Paints');
 smalltalk.addMethod(
 smalltalk.method({
 selector: "asAthensPaintOn:",
@@ -9,126 +9,38 @@ return smalltalk.withContext(function($ctx1) {
 var $1;
 $1=self;
 return $1;
-}, function($ctx1) {$ctx1.fill(self,"asAthensPaintOn:",{anAthensCanvas:anAthensCanvas},smalltalk.AthensHTMLBitmapPaint)})},
+}, function($ctx1) {$ctx1.fill(self,"asAthensPaintOn:",{anAthensCanvas:anAthensCanvas},smalltalk.AthensHTMLGradientPaint)})},
 messageSends: []}),
-smalltalk.AthensHTMLBitmapPaint);
+smalltalk.AthensHTMLGradientPaint);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "bitmap:",
-fn: function (aBitmap){
+selector: "colorRamp:",
+fn: function (aColorRamp){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self["@bitmap"]=aBitmap;
-return self}, function($ctx1) {$ctx1.fill(self,"bitmap:",{aBitmap:aBitmap},smalltalk.AthensHTMLBitmapPaint)})},
+self["@colorRamp"]=aColorRamp;
+return self}, function($ctx1) {$ctx1.fill(self,"colorRamp:",{aColorRamp:aColorRamp},smalltalk.AthensHTMLGradientPaint)})},
 messageSends: []}),
-smalltalk.AthensHTMLBitmapPaint);
+smalltalk.AthensHTMLGradientPaint);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "context:",
-fn: function (aContext){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-self["@context2D"]=aContext;
-return self}, function($ctx1) {$ctx1.fill(self,"context:",{aContext:aContext},smalltalk.AthensHTMLBitmapPaint)})},
-messageSends: []}),
-smalltalk.AthensHTMLBitmapPaint);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "fillRectangle:on:",
-fn: function (aRect,anAthensCanvas){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-_st(self["@context2D"])._beginPath();
-_st(_st(anAthensCanvas)._pathTransform())._set();
-_st(self["@context2D"])._rect_a_a_a_(_st(aRect)._left(),_st(aRect)._top(),_st(aRect)._width(),_st(aRect)._height());
-_st(_st(anAthensCanvas)._paintTransform())._apply();
-_st(self["@context2D"])._fillStyle_(_st(self["@context2D"])._createPattern_a_(_st(self["@bitmap"])._image(),self["@repeatMode"]));
-_st(self["@context2D"])._fill();
-return self}, function($ctx1) {$ctx1.fill(self,"fillRectangle:on:",{aRect:aRect,anAthensCanvas:anAthensCanvas},smalltalk.AthensHTMLBitmapPaint)})},
-messageSends: ["beginPath", "set", "pathTransform", "rect:a:a:a:", "left", "top", "width", "height", "apply", "paintTransform", "fillStyle:", "createPattern:a:", "image", "fill"]}),
-smalltalk.AthensHTMLBitmapPaint);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "initialize",
-fn: function (){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-self._noRepeat();
-return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensHTMLBitmapPaint)})},
-messageSends: ["noRepeat"]}),
-smalltalk.AthensHTMLBitmapPaint);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "noRepeat",
-fn: function (){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-self["@repeatMode"]="no-repeat";
-return self}, function($ctx1) {$ctx1.fill(self,"noRepeat",{},smalltalk.AthensHTMLBitmapPaint)})},
-messageSends: []}),
-smalltalk.AthensHTMLBitmapPaint);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "repeat",
-fn: function (){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-self["@repeatMode"]="repeat";
-return self}, function($ctx1) {$ctx1.fill(self,"repeat",{},smalltalk.AthensHTMLBitmapPaint)})},
-messageSends: []}),
-smalltalk.AthensHTMLBitmapPaint);
-
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "forBitmap:context:",
-fn: function (aBitmap,aContext){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-var $2,$3,$1;
-$2=self._new();
-_st($2)._bitmap_(aBitmap);
-_st($2)._context_(aContext);
-$3=_st($2)._yourself();
-$1=$3;
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"forBitmap:context:",{aBitmap:aBitmap,aContext:aContext},smalltalk.AthensHTMLBitmapPaint.klass)})},
-messageSends: ["bitmap:", "new", "context:", "yourself"]}),
-smalltalk.AthensHTMLBitmapPaint.klass);
-
-
-smalltalk.addClass('AthensHTMLPatternPaint', smalltalk.Object, [], 'Athens-HTML-Paints');
-smalltalk.addMethod(
-smalltalk.method({
-selector: "asAthensPaintOn:",
-fn: function (anAthensCanvas){
+selector: "createGradient:",
+fn: function (context2D){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 var $1;
-$1=self;
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"asAthensPaintOn:",{anAthensCanvas:anAthensCanvas},smalltalk.AthensHTMLPatternPaint)})},
-messageSends: []}),
-smalltalk.AthensHTMLPatternPaint);
-
-
-
-smalltalk.addClass('AthensHTMLGradientPaint', smalltalk.AthensHTMLPatternPaint, ['start', 'stop', 'gradient', 'context2D', 'innerRadius', 'outerRadius'], 'Athens-HTML-Paints');
-smalltalk.addMethod(
-smalltalk.method({
-selector: "context:",
-fn: function (aContext){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-self["@context2D"]=aContext;
-return self}, function($ctx1) {$ctx1.fill(self,"context:",{aContext:aContext},smalltalk.AthensHTMLGradientPaint)})},
-messageSends: []}),
+$1=self["@innerRadius"];
+if(($receiver = $1) == nil || $receiver == undefined){
+self["@gradient"]=_st(context2D)._createLinearGradient_a_a_a_(_st(self["@start"])._x(),_st(self["@start"])._y(),_st(self["@stop"])._x(),_st(self["@stop"])._y());
+self["@gradient"];
+} else {
+self["@gradient"]=_st(context2D)._createRadialGradient_a_a_a_a_a_(_st(self["@start"])._x(),_st(self["@start"])._y(),self["@innerRadius"],_st(self["@stop"])._x(),_st(self["@stop"])._y(),self["@outerRadius"]);
+self["@gradient"];
+};
+return self}, function($ctx1) {$ctx1.fill(self,"createGradient:",{context2D:context2D},smalltalk.AthensHTMLGradientPaint)})},
+messageSends: ["ifNil:ifNotNil:", "createLinearGradient:a:a:a:", "x", "y", "createRadialGradient:a:a:a:a:a:"]}),
 smalltalk.AthensHTMLGradientPaint);
 
 smalltalk.addMethod(
@@ -136,15 +48,19 @@ smalltalk.method({
 selector: "fillRectangle:on:",
 fn: function (aRect,anAthensCanvas){
 var self=this;
+var context2D;
 return smalltalk.withContext(function($ctx1) { 
-_st(self["@context2D"])._beginPath();
+context2D=_st(anAthensCanvas)._context2D();
+self._createGradient_(context2D);
+self._populateRamp_(self["@colorRamp"]);
+_st(context2D)._beginPath();
 _st(_st(anAthensCanvas)._pathTransform())._set();
-_st(self["@context2D"])._rect_a_a_a_(_st(aRect)._left(),_st(aRect)._top(),_st(aRect)._width(),_st(aRect)._height());
+_st(context2D)._rect_a_a_a_(_st(aRect)._left(),_st(aRect)._top(),_st(aRect)._width(),_st(aRect)._height());
 _st(_st(anAthensCanvas)._paintTransform())._apply();
-_st(self["@context2D"])._fillStyle_(self["@gradient"]);
-_st(self["@context2D"])._fill();
-return self}, function($ctx1) {$ctx1.fill(self,"fillRectangle:on:",{aRect:aRect,anAthensCanvas:anAthensCanvas},smalltalk.AthensHTMLGradientPaint)})},
-messageSends: ["beginPath", "set", "pathTransform", "rect:a:a:a:", "left", "top", "width", "height", "apply", "paintTransform", "fillStyle:", "fill"]}),
+_st(context2D)._fillStyle_(self["@gradient"]);
+_st(context2D)._fill();
+return self}, function($ctx1) {$ctx1.fill(self,"fillRectangle:on:",{aRect:aRect,anAthensCanvas:anAthensCanvas,context2D:context2D},smalltalk.AthensHTMLGradientPaint)})},
+messageSends: ["context2D", "createGradient:", "populateRamp:", "beginPath", "set", "pathTransform", "rect:a:a:a:", "left", "top", "width", "height", "apply", "paintTransform", "fillStyle:", "fill"]}),
 smalltalk.AthensHTMLGradientPaint);
 
 smalltalk.addMethod(
@@ -158,25 +74,6 @@ $1=self["@gradient"];
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"gradient",{},smalltalk.AthensHTMLGradientPaint)})},
 messageSends: []}),
-smalltalk.AthensHTMLGradientPaint);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "initialize",
-fn: function (){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=self["@innerRadius"];
-if(($receiver = $1) == nil || $receiver == undefined){
-self["@gradient"]=_st(self["@context2D"])._createLinearGradient_a_a_a_(_st(self["@start"])._x(),_st(self["@start"])._y(),_st(self["@stop"])._x(),_st(self["@stop"])._y());
-self["@gradient"];
-} else {
-self["@gradient"]=_st(self["@context2D"])._createRadialGradient_a_a_a_a_a_(_st(self["@start"])._x(),_st(self["@start"])._y(),self["@innerRadius"],_st(self["@stop"])._x(),_st(self["@stop"])._y(),self["@outerRadius"]);
-self["@gradient"];
-};
-return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensHTMLGradientPaint)})},
-messageSends: ["ifNil:ifNotNil:", "createLinearGradient:a:a:a:", "x", "y", "createRadialGradient:a:a:a:a:a:"]}),
 smalltalk.AthensHTMLGradientPaint);
 
 smalltalk.addMethod(
@@ -240,28 +137,27 @@ smalltalk.AthensHTMLGradientPaint);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "createLinearGradient:start:stop:context:",
-fn: function (aColorRamp,aStartPoint,aStopPoint,aContext){
+selector: "createLinearGradient:start:stop:",
+fn: function (aColorRamp,aStartPoint,aStopPoint){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 var $2,$3,$1;
 $2=self._basicNew();
 _st($2)._start_(aStartPoint);
 _st($2)._stop_(aStopPoint);
-_st($2)._context_(aContext);
 _st($2)._initialize();
-_st($2)._populateRamp_(aColorRamp);
+_st($2)._colorRamp_(aColorRamp);
 $3=_st($2)._yourself();
 $1=$3;
 return $1;
-}, function($ctx1) {$ctx1.fill(self,"createLinearGradient:start:stop:context:",{aColorRamp:aColorRamp,aStartPoint:aStartPoint,aStopPoint:aStopPoint,aContext:aContext},smalltalk.AthensHTMLGradientPaint.klass)})},
-messageSends: ["start:", "basicNew", "stop:", "context:", "initialize", "populateRamp:", "yourself"]}),
+}, function($ctx1) {$ctx1.fill(self,"createLinearGradient:start:stop:",{aColorRamp:aColorRamp,aStartPoint:aStartPoint,aStopPoint:aStopPoint},smalltalk.AthensHTMLGradientPaint.klass)})},
+messageSends: ["start:", "basicNew", "stop:", "initialize", "colorRamp:", "yourself"]}),
 smalltalk.AthensHTMLGradientPaint.klass);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "radialBetween:extending:and:extending:withColorRamp:context:",
-fn: function (origin,innerRadius,outerOrigin,outerRadius,aColorRamp,aContext){
+selector: "radialBetween:extending:and:extending:withColorRamp:",
+fn: function (origin,innerRadius,outerOrigin,outerRadius,aColorRamp){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 var $2,$3,$1;
@@ -270,18 +166,181 @@ _st($2)._start_(origin);
 _st($2)._stop_(outerOrigin);
 _st($2)._innerRadius_(innerRadius);
 _st($2)._outerRadius_(outerRadius);
-_st($2)._context_(aContext);
 _st($2)._initialize();
-_st($2)._populateRamp_(aColorRamp);
+_st($2)._colorRamp_(aColorRamp);
 $3=_st($2)._yourself();
 $1=$3;
 return $1;
-}, function($ctx1) {$ctx1.fill(self,"radialBetween:extending:and:extending:withColorRamp:context:",{origin:origin,innerRadius:innerRadius,outerOrigin:outerOrigin,outerRadius:outerRadius,aColorRamp:aColorRamp,aContext:aContext},smalltalk.AthensHTMLGradientPaint.klass)})},
-messageSends: ["start:", "basicNew", "stop:", "innerRadius:", "outerRadius:", "context:", "initialize", "populateRamp:", "yourself"]}),
+}, function($ctx1) {$ctx1.fill(self,"radialBetween:extending:and:extending:withColorRamp:",{origin:origin,innerRadius:innerRadius,outerOrigin:outerOrigin,outerRadius:outerRadius,aColorRamp:aColorRamp},smalltalk.AthensHTMLGradientPaint.klass)})},
+messageSends: ["start:", "basicNew", "stop:", "innerRadius:", "outerRadius:", "initialize", "colorRamp:", "yourself"]}),
 smalltalk.AthensHTMLGradientPaint.klass);
 
 
-smalltalk.addClass('AthensHTMLSolidPaint', smalltalk.AthensPaint, ['color', 'context2D'], 'Athens-HTML-Paints');
+smalltalk.addClass('AthensHTMLPatternPaint', smalltalk.Object, ['repeatMode'], 'Athens-HTML-Paints');
+smalltalk.addMethod(
+smalltalk.method({
+selector: "asAthensPaintOn:",
+fn: function (anAthensCanvas){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"asAthensPaintOn:",{anAthensCanvas:anAthensCanvas},smalltalk.AthensHTMLPatternPaint)})},
+messageSends: []}),
+smalltalk.AthensHTMLPatternPaint);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "fillRectangle:on:",
+fn: function (aRect,anAthensCanvas){
+var self=this;
+var context2D;
+return smalltalk.withContext(function($ctx1) { 
+context2D=_st(anAthensCanvas)._context2D();
+_st(context2D)._beginPath();
+_st(_st(anAthensCanvas)._pathTransform())._set();
+_st(context2D)._rect_a_a_a_(_st(aRect)._left(),_st(aRect)._top(),_st(aRect)._width(),_st(aRect)._height());
+_st(_st(anAthensCanvas)._paintTransform())._apply();
+_st(context2D)._fillStyle_(_st(context2D)._createPattern_a_(self._patternSource(),self["@repeatMode"]));
+_st(context2D)._fill();
+return self}, function($ctx1) {$ctx1.fill(self,"fillRectangle:on:",{aRect:aRect,anAthensCanvas:anAthensCanvas,context2D:context2D},smalltalk.AthensHTMLPatternPaint)})},
+messageSends: ["context2D", "beginPath", "set", "pathTransform", "rect:a:a:a:", "left", "top", "width", "height", "apply", "paintTransform", "fillStyle:", "createPattern:a:", "patternSource", "fill"]}),
+smalltalk.AthensHTMLPatternPaint);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "initialize",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self._noRepeat();
+return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensHTMLPatternPaint)})},
+messageSends: ["noRepeat"]}),
+smalltalk.AthensHTMLPatternPaint);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "noRepeat",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self["@repeatMode"]="no-repeat";
+return self}, function($ctx1) {$ctx1.fill(self,"noRepeat",{},smalltalk.AthensHTMLPatternPaint)})},
+messageSends: []}),
+smalltalk.AthensHTMLPatternPaint);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "patternSource",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self._subclassResponsibility();
+return self}, function($ctx1) {$ctx1.fill(self,"patternSource",{},smalltalk.AthensHTMLPatternPaint)})},
+messageSends: ["subclassResponsibility"]}),
+smalltalk.AthensHTMLPatternPaint);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "repeat",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self["@repeatMode"]="repeat";
+return self}, function($ctx1) {$ctx1.fill(self,"repeat",{},smalltalk.AthensHTMLPatternPaint)})},
+messageSends: []}),
+smalltalk.AthensHTMLPatternPaint);
+
+
+
+smalltalk.addClass('AthensHTMLBitmapPaint', smalltalk.AthensHTMLPatternPaint, ['bitmap'], 'Athens-HTML-Paints');
+smalltalk.addMethod(
+smalltalk.method({
+selector: "bitmap:",
+fn: function (aBitmap){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self["@bitmap"]=aBitmap;
+return self}, function($ctx1) {$ctx1.fill(self,"bitmap:",{aBitmap:aBitmap},smalltalk.AthensHTMLBitmapPaint)})},
+messageSends: []}),
+smalltalk.AthensHTMLBitmapPaint);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "patternSource",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(self["@bitmap"])._image();
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"patternSource",{},smalltalk.AthensHTMLBitmapPaint)})},
+messageSends: ["image"]}),
+smalltalk.AthensHTMLBitmapPaint);
+
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "forBitmap:",
+fn: function (aBitmap){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $2,$3,$1;
+$2=self._new();
+_st($2)._bitmap_(aBitmap);
+$3=_st($2)._yourself();
+$1=$3;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"forBitmap:",{aBitmap:aBitmap},smalltalk.AthensHTMLBitmapPaint.klass)})},
+messageSends: ["bitmap:", "new", "yourself"]}),
+smalltalk.AthensHTMLBitmapPaint.klass);
+
+
+smalltalk.addClass('AthensHTMLPatternSurfacePaint', smalltalk.AthensHTMLPatternPaint, ['surface'], 'Athens-HTML-Paints');
+smalltalk.addMethod(
+smalltalk.method({
+selector: "patternSource",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(self["@surface"])._canvasTag();
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"patternSource",{},smalltalk.AthensHTMLPatternSurfacePaint)})},
+messageSends: ["canvasTag"]}),
+smalltalk.AthensHTMLPatternSurfacePaint);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "surface:",
+fn: function (aSurface){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self["@surface"]=aSurface;
+return self}, function($ctx1) {$ctx1.fill(self,"surface:",{aSurface:aSurface},smalltalk.AthensHTMLPatternSurfacePaint)})},
+messageSends: []}),
+smalltalk.AthensHTMLPatternSurfacePaint);
+
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "forSurface:",
+fn: function (aSurface){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $2,$3,$1;
+$2=self._new();
+_st($2)._surface_(aSurface);
+$3=_st($2)._yourself();
+$1=$3;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"forSurface:",{aSurface:aSurface},smalltalk.AthensHTMLPatternSurfacePaint.klass)})},
+messageSends: ["surface:", "new", "yourself"]}),
+smalltalk.AthensHTMLPatternSurfacePaint.klass);
+
+
+smalltalk.addClass('AthensHTMLSolidPaint', smalltalk.AthensPaint, ['color'], 'Athens-HTML-Paints');
 smalltalk.addMethod(
 smalltalk.method({
 selector: "color:",
@@ -295,27 +354,18 @@ smalltalk.AthensHTMLSolidPaint);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "context:",
-fn: function (aContext){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-self["@context2D"]=aContext;
-return self}, function($ctx1) {$ctx1.fill(self,"context:",{aContext:aContext},smalltalk.AthensHTMLSolidPaint)})},
-messageSends: []}),
-smalltalk.AthensHTMLSolidPaint);
-
-smalltalk.addMethod(
-smalltalk.method({
 selector: "fillPath:on:",
 fn: function (aPath,anAthensCanvas){
 var self=this;
+var context2D;
 return smalltalk.withContext(function($ctx1) { 
+context2D=_st(anAthensCanvas)._context2D();
 _st(_st(anAthensCanvas)._pathTransform())._set();
-_st(self["@context2D"])._fillStyle_(self._rgbaString());
+_st(context2D)._fillStyle_(self._rgbaString());
 _st(aPath)._draw();
-_st(self["@context2D"])._fill();
-return self}, function($ctx1) {$ctx1.fill(self,"fillPath:on:",{aPath:aPath,anAthensCanvas:anAthensCanvas},smalltalk.AthensHTMLSolidPaint)})},
-messageSends: ["set", "pathTransform", "fillStyle:", "rgbaString", "draw", "fill"]}),
+_st(context2D)._fill();
+return self}, function($ctx1) {$ctx1.fill(self,"fillPath:on:",{aPath:aPath,anAthensCanvas:anAthensCanvas,context2D:context2D},smalltalk.AthensHTMLSolidPaint)})},
+messageSends: ["context2D", "set", "pathTransform", "fillStyle:", "rgbaString", "draw", "fill"]}),
 smalltalk.AthensHTMLSolidPaint);
 
 smalltalk.addMethod(
@@ -323,12 +373,14 @@ smalltalk.method({
 selector: "fillRectangle:on:",
 fn: function (aRect,anAthensCanvas){
 var self=this;
+var context2D;
 return smalltalk.withContext(function($ctx1) { 
+context2D=_st(anAthensCanvas)._context2D();
 _st(_st(anAthensCanvas)._pathTransform())._set();
-_st(self["@context2D"])._fillStyle_(self._rgbaString());
-_st(self["@context2D"])._fillRect_a_a_a_(_st(aRect)._left(),_st(aRect)._top(),_st(aRect)._width(),_st(aRect)._height());
-return self}, function($ctx1) {$ctx1.fill(self,"fillRectangle:on:",{aRect:aRect,anAthensCanvas:anAthensCanvas},smalltalk.AthensHTMLSolidPaint)})},
-messageSends: ["set", "pathTransform", "fillStyle:", "rgbaString", "fillRect:a:a:a:", "left", "top", "width", "height"]}),
+_st(context2D)._fillStyle_(self._rgbaString());
+_st(context2D)._fillRect_a_a_a_(_st(aRect)._left(),_st(aRect)._top(),_st(aRect)._width(),_st(aRect)._height());
+return self}, function($ctx1) {$ctx1.fill(self,"fillRectangle:on:",{aRect:aRect,anAthensCanvas:anAthensCanvas,context2D:context2D},smalltalk.AthensHTMLSolidPaint)})},
+messageSends: ["context2D", "set", "pathTransform", "fillStyle:", "rgbaString", "fillRect:a:a:a:", "left", "top", "width", "height"]}),
 smalltalk.AthensHTMLSolidPaint);
 
 smalltalk.addMethod(
@@ -346,7 +398,7 @@ smalltalk.AthensHTMLSolidPaint);
 
 
 
-smalltalk.addClass('AthensHTMLStrokePaint', smalltalk.AthensStrokePaint, ['dashLenghts', 'dashOffset', 'context2D'], 'Athens-HTML-Paints');
+smalltalk.addClass('AthensHTMLStrokePaint', smalltalk.AthensStrokePaint, ['dashLenghts', 'dashOffset'], 'Athens-HTML-Paints');
 smalltalk.addMethod(
 smalltalk.method({
 selector: "context:",
@@ -363,14 +415,16 @@ smalltalk.method({
 selector: "fillPath:on:",
 fn: function (aPath,anAthensCanvas){
 var self=this;
+var context2D;
 return smalltalk.withContext(function($ctx1) { 
+context2D=_st(anAthensCanvas)._context2D();
 _st(_st(anAthensCanvas)._pathTransform())._set();
-_st(self["@context2D"])._strokeStyle_(_st(self["@fillPaint"])._rgbaString());
-_st(self["@context2D"])._lineWidth_(self["@width"]);
+_st(context2D)._strokeStyle_(_st(self["@fillPaint"])._rgbaString());
+_st(context2D)._lineWidth_(self["@width"]);
 _st(aPath)._draw();
-_st(self["@context2D"])._stroke();
-return self}, function($ctx1) {$ctx1.fill(self,"fillPath:on:",{aPath:aPath,anAthensCanvas:anAthensCanvas},smalltalk.AthensHTMLStrokePaint)})},
-messageSends: ["set", "pathTransform", "strokeStyle:", "rgbaString", "lineWidth:", "draw", "stroke"]}),
+_st(context2D)._stroke();
+return self}, function($ctx1) {$ctx1.fill(self,"fillPath:on:",{aPath:aPath,anAthensCanvas:anAthensCanvas,context2D:context2D},smalltalk.AthensHTMLStrokePaint)})},
+messageSends: ["context2D", "set", "pathTransform", "strokeStyle:", "rgbaString", "lineWidth:", "draw", "stroke"]}),
 smalltalk.AthensHTMLStrokePaint);
 
 smalltalk.addMethod(

@@ -694,7 +694,7 @@ Simply pass surface as an argument to #setPaint: method.
 "
 	| surface2  |
 
-	surface2 := AthensCairoSurface extent: 10@10.
+	surface2 := AthensHTMLSurface extent: 10@10.
 	
 	"checker board"
 	surface2 drawDuring: [:canvas |

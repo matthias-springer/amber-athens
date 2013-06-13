@@ -5,6 +5,10 @@ AthensCanvas subclass: #AthensHTMLCanvas
 
 !AthensHTMLCanvas methodsFor: 'accessing'!
 
+context2D
+	^ surface context2D
+!
+
 paintTransform
 	^ paintTransform
 !
@@ -92,6 +96,12 @@ appendToJQuery: aJQuery
 	self renderOn: (HTMLCanvas onJQuery: aJQuery)
 ! !
 
+!AthensHTMLSurface methodsFor: 'converting'!
+
+asAthensPaintOn: aCanvas
+	^ AthensHTMLPatternSurfacePaint forSurface: self
+! !
+
 !AthensHTMLSurface methodsFor: 'creation'!
 
 createPath: aPathCreatingBlock
@@ -114,7 +124,7 @@ drawDuring: aBlock
 !AthensHTMLSurface methodsFor: 'paints'!
 
 createBitmapPaint: aBitmap
-	^ AthensHTMLBitmapPaint forBitmap: aBitmap context: context2D
+	^ AthensHTMLBitmapPaint forBitmap: aBitmap
 !
 
 createLinearGradient: aColorRamp start: aStartPoint stop: aStopPoint
@@ -122,7 +132,6 @@ createLinearGradient: aColorRamp start: aStartPoint stop: aStopPoint
 		createLinearGradient: aColorRamp 
 		start: aStartPoint 
 		stop: aStopPoint
-		context: context2D
 !
 
 createRadialGradient: colorRamp center: aCenter radius: aRadius focalPoint: fp
@@ -132,20 +141,17 @@ createRadialGradient: colorRamp center: aCenter radius: aRadius focalPoint: fp
 		and: aCenter
 		extending: aRadius
 		withColorRamp: colorRamp
-		context: context2D
 !
 
 createSolidColorPaint: aColor 
 	^ AthensHTMLSolidPaint new 
 		color: aColor;
-		context: context2D;
 		yourself
 !
 
 createStrokePaintFor: aPaint
 	^ AthensHTMLStrokePaint new 
 		fillPaint: aPaint;
-		context: context2D;
 		yourself
 ! !
 
@@ -162,12 +168,21 @@ setDefaults
 
 !AthensHTMLSurface methodsFor: 'rendering'!
 
-renderOn: html
-	canvasTag := html canvas.
+initialize
+	super initialize.
+	self initializeCanvas.
 	canvasTag height: self height.
 	canvasTag width: self width.
-	context2D := canvasTag element getContext: '2d'.
+	context2D := canvasTag getContext: '2d'.
 	athensCanvas := self newCanvas.
+!
+
+initializeCanvas
+	< self['@canvasTag'] = document.createElement('canvas'); >
+!
+
+renderOn: html
+	html with: (TagBrush fromJQuery: canvasTag asJQuery canvas: html).
 ! !
 
 !AthensHTMLSurface class methodsFor: 'instance creation'!

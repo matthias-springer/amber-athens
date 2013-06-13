@@ -580,11 +580,11 @@ category: 'steps',
 fn: function (){
 var self=this;
 var surface2;
-function $AthensCairoSurface(){return smalltalk.AthensCairoSurface||(typeof AthensCairoSurface=="undefined"?nil:AthensCairoSurface)}
+function $AthensHTMLSurface(){return smalltalk.AthensHTMLSurface||(typeof AthensHTMLSurface=="undefined"?nil:AthensHTMLSurface)}
 function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
 return smalltalk.withContext(function($ctx1) { 
 var $1,$2;
-surface2=_st($AthensCairoSurface())._extent_((10).__at((10)));
+surface2=_st($AthensHTMLSurface())._extent_((10).__at((10)));
 _st(surface2)._drawDuring_((function(canvas){
 return smalltalk.withContext(function($ctx2) {
 _st(surface2)._clear();
@@ -602,9 +602,9 @@ return _st(canvas)._drawShape_(_st((0).__at((0)))._corner_(_st(self["@surface"])
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step22",{surface2:surface2},smalltalk.AthensTutorial)})},
 args: [],
-source: "step22\x0a\x22Step 22: Using another surface as paint.\x0a\x0aSimply pass surface as an argument to #setPaint: method.\x0a\x0a\x22\x0a\x09| surface2  |\x0a\x0a\x09surface2 := AthensCairoSurface extent: 10@10.\x0a\x09\x0a\x09\x22checker board\x22\x0a\x09surface2 drawDuring: [:canvas |\x0a\x09\x09surface2 clear.\x0a\x09\x09canvas setPaint: Color white.\x0a\x09\x09\x0a\x09\x09canvas \x0a\x09\x09\x09drawShape: (0@0 corner: 5@5);\x0a\x09\x09\x09drawShape: (5@5 corner: 10@10)\x0a\x09\x09].\x0a\x0a\x09\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x09\x0a\x09\x09(canvas setPaint: surface2) repeat.\x0a\x09\x09\x0a\x09\x09\x22And of course, using the paint transform we can affect the result.\x0a\x09\x09Uncomment the line below to see the difference\x22\x0a\x09\x09\x22canvas paintTransform scaleX: 3 Y:1; rotateByDegrees: 45 .\x22\x0a\x09\x09canvas drawShape: (0@0 corner: surface extent).\x0a\x0a\x09].",
+source: "step22\x0a\x22Step 22: Using another surface as paint.\x0a\x0aSimply pass surface as an argument to #setPaint: method.\x0a\x0a\x22\x0a\x09| surface2  |\x0a\x0a\x09surface2 := AthensHTMLSurface extent: 10@10.\x0a\x09\x0a\x09\x22checker board\x22\x0a\x09surface2 drawDuring: [:canvas |\x0a\x09\x09surface2 clear.\x0a\x09\x09canvas setPaint: Color white.\x0a\x09\x09\x0a\x09\x09canvas \x0a\x09\x09\x09drawShape: (0@0 corner: 5@5);\x0a\x09\x09\x09drawShape: (5@5 corner: 10@10)\x0a\x09\x09].\x0a\x0a\x09\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x09\x0a\x09\x09(canvas setPaint: surface2) repeat.\x0a\x09\x09\x0a\x09\x09\x22And of course, using the paint transform we can affect the result.\x0a\x09\x09Uncomment the line below to see the difference\x22\x0a\x09\x09\x22canvas paintTransform scaleX: 3 Y:1; rotateByDegrees: 45 .\x22\x0a\x09\x09canvas drawShape: (0@0 corner: surface extent).\x0a\x0a\x09].",
 messageSends: ["extent:", "@", "drawDuring:", "clear", "setPaint:", "white", "drawShape:", "corner:", "clear:", "gray", "repeat", "extent"],
-referencedClasses: ["AthensCairoSurface", "Color"]
+referencedClasses: ["AthensHTMLSurface", "Color"]
 }),
 smalltalk.AthensTutorial);
 

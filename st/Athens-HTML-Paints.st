@@ -1,76 +1,12 @@
 Smalltalk current createPackage: 'Athens-HTML-Paints'!
-Object subclass: #AthensHTMLBitmapPaint
-	instanceVariableNames: 'bitmap repeatMode context2D'
-	package: 'Athens-HTML-Paints'!
-
-!AthensHTMLBitmapPaint methodsFor: 'accessing'!
-
-bitmap: aBitmap
-	bitmap := aBitmap.
-!
-
-context: aContext
-	context2D := aContext.
-! !
-
-!AthensHTMLBitmapPaint methodsFor: 'converting'!
-
-asAthensPaintOn: anAthensCanvas	
-	^ self
-! !
-
-!AthensHTMLBitmapPaint methodsFor: 'drawing'!
-
-fillRectangle: aRect on: anAthensCanvas
-	context2D beginPath.
-	anAthensCanvas pathTransform set.
-	context2D rect: aRect left a: aRect top a: aRect width a: aRect height.
-	anAthensCanvas paintTransform apply.
-	context2D fillStyle: (context2D createPattern: bitmap image a: repeatMode).
-	context2D fill.
-!
-
-noRepeat
-	repeatMode := 'no-repeat'.
-!
-
-repeat
-	repeatMode := 'repeat'.
-! !
-
-!AthensHTMLBitmapPaint methodsFor: 'initialize-release'!
-
-initialize
-	self noRepeat.
-! !
-
-!AthensHTMLBitmapPaint class methodsFor: 'instance creation'!
-
-forBitmap: aBitmap context: aContext
-	^ self new
-		bitmap: aBitmap;
-		context: aContext;
-		yourself
-! !
-
-Object subclass: #AthensHTMLPatternPaint
-	instanceVariableNames: ''
-	package: 'Athens-HTML-Paints'!
-
-!AthensHTMLPatternPaint methodsFor: 'converting'!
-
-asAthensPaintOn: anAthensCanvas	
-	^ self
-! !
-
-AthensHTMLPatternPaint subclass: #AthensHTMLGradientPaint
-	instanceVariableNames: 'start stop gradient context2D innerRadius outerRadius'
+Object subclass: #AthensHTMLGradientPaint
+	instanceVariableNames: 'start stop gradient innerRadius outerRadius colorRamp'
 	package: 'Athens-HTML-Paints'!
 
 !AthensHTMLGradientPaint methodsFor: 'accessing'!
 
-context: aContext
-	context2D := aContext.
+colorRamp: aColorRamp
+	colorRamp := aColorRamp.
 !
 
 gradient
@@ -93,21 +29,31 @@ stop: aPoint
 	stop := aPoint.
 ! !
 
+!AthensHTMLGradientPaint methodsFor: 'converting'!
+
+asAthensPaintOn: anAthensCanvas	
+	^ self
+! !
+
 !AthensHTMLGradientPaint methodsFor: 'drawing'!
 
+createGradient: context2D
+	innerRadius 
+		ifNil: [gradient := context2D createLinearGradient: start x a: start y a: stop x a: stop y]
+		ifNotNil: [gradient := context2D createRadialGradient: start x a: start y a: innerRadius a: stop x a: stop y a: outerRadius].
+!
+
 fillRectangle: aRect on: anAthensCanvas
+	|context2D|
+	context2D := anAthensCanvas context2D.
+	self createGradient: context2D.
+	self populateRamp: colorRamp.
 	context2D beginPath.
 	anAthensCanvas pathTransform set.
 	context2D rect: aRect left a: aRect top a: aRect width a: aRect height.
 	anAthensCanvas paintTransform apply.
 	context2D fillStyle: gradient.
 	context2D fill.
-!
-
-initialize
-	innerRadius 
-		ifNil: [gradient := context2D createLinearGradient: start x a: start y a: stop x a: stop y]
-		ifNotNil: [gradient := context2D createRadialGradient: start x a: start y a: innerRadius a: stop x a: stop y a: outerRadius].
 !
 
 populateRamp: aRamp
@@ -117,45 +63,128 @@ populateRamp: aRamp
 
 !AthensHTMLGradientPaint class methodsFor: 'instance creation'!
 
-createLinearGradient: aColorRamp start: aStartPoint stop: aStopPoint context: aContext
+createLinearGradient: aColorRamp start: aStartPoint stop: aStopPoint
 	^ self basicNew
 		start: aStartPoint;
 		stop: aStopPoint;
-		context: aContext;
 		initialize;
-		populateRamp: aColorRamp;
+		colorRamp: aColorRamp;
 		yourself
 !
 
-radialBetween: origin extending: innerRadius and: outerOrigin  extending: outerRadius withColorRamp: aColorRamp context: aContext
+radialBetween: origin extending: innerRadius and: outerOrigin  extending: outerRadius withColorRamp: aColorRamp
 	^ self basicNew
 		start: origin;
 		stop: outerOrigin;
 		innerRadius: innerRadius;
 		outerRadius: outerRadius;
-		context: aContext;
 		initialize;
-		populateRamp: aColorRamp;
+		colorRamp: aColorRamp;
+		yourself
+! !
+
+Object subclass: #AthensHTMLPatternPaint
+	instanceVariableNames: 'repeatMode'
+	package: 'Athens-HTML-Paints'!
+
+!AthensHTMLPatternPaint methodsFor: 'converting'!
+
+asAthensPaintOn: anAthensCanvas	
+	^ self
+! !
+
+!AthensHTMLPatternPaint methodsFor: 'drawing'!
+
+fillRectangle: aRect on: anAthensCanvas
+	|context2D|
+	context2D := anAthensCanvas context2D.
+	context2D beginPath.
+	anAthensCanvas pathTransform set.
+	context2D rect: aRect left a: aRect top a: aRect width a: aRect height.
+	anAthensCanvas paintTransform apply.
+	context2D fillStyle: (context2D createPattern: self patternSource a: repeatMode).
+	context2D fill.
+!
+
+noRepeat
+	repeatMode := 'no-repeat'.
+!
+
+patternSource
+	self subclassResponsibility.
+!
+
+repeat
+	repeatMode := 'repeat'.
+! !
+
+!AthensHTMLPatternPaint methodsFor: 'initialize-release'!
+
+initialize
+	self noRepeat.
+! !
+
+AthensHTMLPatternPaint subclass: #AthensHTMLBitmapPaint
+	instanceVariableNames: 'bitmap'
+	package: 'Athens-HTML-Paints'!
+
+!AthensHTMLBitmapPaint methodsFor: 'accessing'!
+
+bitmap: aBitmap
+	bitmap := aBitmap.
+! !
+
+!AthensHTMLBitmapPaint methodsFor: 'drawing'!
+
+patternSource
+	^ bitmap image
+! !
+
+!AthensHTMLBitmapPaint class methodsFor: 'instance creation'!
+
+forBitmap: aBitmap
+	^ self new
+		bitmap: aBitmap;
+		yourself
+! !
+
+AthensHTMLPatternPaint subclass: #AthensHTMLPatternSurfacePaint
+	instanceVariableNames: 'surface'
+	package: 'Athens-HTML-Paints'!
+
+!AthensHTMLPatternSurfacePaint methodsFor: 'accessing'!
+
+patternSource
+	^ surface canvasTag
+!
+
+surface: aSurface
+	surface := aSurface.
+! !
+
+!AthensHTMLPatternSurfacePaint class methodsFor: 'instance creation'!
+
+forSurface: aSurface
+	^ self new
+		surface: aSurface;
 		yourself
 ! !
 
 AthensPaint subclass: #AthensHTMLSolidPaint
-	instanceVariableNames: 'color context2D'
+	instanceVariableNames: 'color'
 	package: 'Athens-HTML-Paints'!
 
 !AthensHTMLSolidPaint methodsFor: 'accessing'!
 
 color: aColor
 	color := aColor
-!
-
-context: aContext
-	context2D := aContext.
 ! !
 
 !AthensHTMLSolidPaint methodsFor: 'drawing'!
 
 fillPath: aPath on: anAthensCanvas
+	|context2D|
+	context2D := anAthensCanvas context2D.
 	anAthensCanvas pathTransform set.
 	context2D fillStyle: self rgbaString.
 	aPath draw.
@@ -163,6 +192,8 @@ fillPath: aPath on: anAthensCanvas
 !
 
 fillRectangle: aRect on: anAthensCanvas
+	|context2D|
+	context2D := anAthensCanvas context2D.
 	anAthensCanvas pathTransform set.
 	context2D fillStyle: self rgbaString.
 	context2D fillRect: aRect left a: aRect top a: aRect width a: aRect height.
@@ -173,12 +204,14 @@ rgbaString
 ! !
 
 AthensStrokePaint subclass: #AthensHTMLStrokePaint
-	instanceVariableNames: 'dashLenghts dashOffset context2D'
+	instanceVariableNames: 'dashLenghts dashOffset'
 	package: 'Athens-HTML-Paints'!
 
 !AthensHTMLStrokePaint methodsFor: 'drawing'!
 
 fillPath: aPath on: anAthensCanvas
+	|context2D|
+	context2D := anAthensCanvas context2D.
 	anAthensCanvas pathTransform set.
 	context2D strokeStyle: fillPaint rgbaString.
 	context2D lineWidth: width.

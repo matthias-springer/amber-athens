@@ -2,6 +2,24 @@ smalltalk.addPackage('Athens-HTML');
 smalltalk.addClass('AthensHTMLCanvas', smalltalk.AthensCanvas, ['pathTransform', 'paintTransform', 'currentClipRect'], 'Athens-HTML');
 smalltalk.addMethod(
 smalltalk.method({
+selector: "context2D",
+category: 'accessing',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(self["@surface"])._context2D();
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"context2D",{},smalltalk.AthensHTMLCanvas)})},
+args: [],
+source: "context2D\x0a\x09^ surface context2D",
+messageSends: ["context2D"],
+referencedClasses: []
+}),
+smalltalk.AthensHTMLCanvas);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "newPath",
 category: 'private',
 fn: function (){
@@ -131,6 +149,25 @@ smalltalk.AthensHTMLSurface);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "asAthensPaintOn:",
+category: 'converting',
+fn: function (aCanvas){
+var self=this;
+function $AthensHTMLPatternSurfacePaint(){return smalltalk.AthensHTMLPatternSurfacePaint||(typeof AthensHTMLPatternSurfacePaint=="undefined"?nil:AthensHTMLPatternSurfacePaint)}
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st($AthensHTMLPatternSurfacePaint())._forSurface_(self);
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"asAthensPaintOn:",{aCanvas:aCanvas},smalltalk.AthensHTMLSurface)})},
+args: ["aCanvas"],
+source: "asAthensPaintOn: aCanvas\x0a\x09^ AthensHTMLPatternSurfacePaint forSurface: self",
+messageSends: ["forSurface:"],
+referencedClasses: ["AthensHTMLPatternSurfacePaint"]
+}),
+smalltalk.AthensHTMLSurface);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "canvasTag",
 category: 'accessing',
 fn: function (){
@@ -236,12 +273,12 @@ var self=this;
 function $AthensHTMLBitmapPaint(){return smalltalk.AthensHTMLBitmapPaint||(typeof AthensHTMLBitmapPaint=="undefined"?nil:AthensHTMLBitmapPaint)}
 return smalltalk.withContext(function($ctx1) { 
 var $1;
-$1=_st($AthensHTMLBitmapPaint())._forBitmap_context_(aBitmap,self["@context2D"]);
+$1=_st($AthensHTMLBitmapPaint())._forBitmap_(aBitmap);
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"createBitmapPaint:",{aBitmap:aBitmap},smalltalk.AthensHTMLSurface)})},
 args: ["aBitmap"],
-source: "createBitmapPaint: aBitmap\x0a\x09^ AthensHTMLBitmapPaint forBitmap: aBitmap context: context2D",
-messageSends: ["forBitmap:context:"],
+source: "createBitmapPaint: aBitmap\x0a\x09^ AthensHTMLBitmapPaint forBitmap: aBitmap",
+messageSends: ["forBitmap:"],
 referencedClasses: ["AthensHTMLBitmapPaint"]
 }),
 smalltalk.AthensHTMLSurface);
@@ -255,12 +292,12 @@ var self=this;
 function $AthensHTMLGradientPaint(){return smalltalk.AthensHTMLGradientPaint||(typeof AthensHTMLGradientPaint=="undefined"?nil:AthensHTMLGradientPaint)}
 return smalltalk.withContext(function($ctx1) { 
 var $1;
-$1=_st($AthensHTMLGradientPaint())._createLinearGradient_start_stop_context_(aColorRamp,aStartPoint,aStopPoint,self["@context2D"]);
+$1=_st($AthensHTMLGradientPaint())._createLinearGradient_start_stop_(aColorRamp,aStartPoint,aStopPoint);
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"createLinearGradient:start:stop:",{aColorRamp:aColorRamp,aStartPoint:aStartPoint,aStopPoint:aStopPoint},smalltalk.AthensHTMLSurface)})},
 args: ["aColorRamp", "aStartPoint", "aStopPoint"],
-source: "createLinearGradient: aColorRamp start: aStartPoint stop: aStopPoint\x0a\x09^ AthensHTMLGradientPaint \x0a\x09\x09createLinearGradient: aColorRamp \x0a\x09\x09start: aStartPoint \x0a\x09\x09stop: aStopPoint\x0a\x09\x09context: context2D",
-messageSends: ["createLinearGradient:start:stop:context:"],
+source: "createLinearGradient: aColorRamp start: aStartPoint stop: aStopPoint\x0a\x09^ AthensHTMLGradientPaint \x0a\x09\x09createLinearGradient: aColorRamp \x0a\x09\x09start: aStartPoint \x0a\x09\x09stop: aStopPoint",
+messageSends: ["createLinearGradient:start:stop:"],
 referencedClasses: ["AthensHTMLGradientPaint"]
 }),
 smalltalk.AthensHTMLSurface);
@@ -293,12 +330,12 @@ var self=this;
 function $AthensHTMLGradientPaint(){return smalltalk.AthensHTMLGradientPaint||(typeof AthensHTMLGradientPaint=="undefined"?nil:AthensHTMLGradientPaint)}
 return smalltalk.withContext(function($ctx1) { 
 var $1;
-$1=_st($AthensHTMLGradientPaint())._radialBetween_extending_and_extending_withColorRamp_context_(fp,(0),aCenter,aRadius,colorRamp,self["@context2D"]);
+$1=_st($AthensHTMLGradientPaint())._radialBetween_extending_and_extending_withColorRamp_(fp,(0),aCenter,aRadius,colorRamp);
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"createRadialGradient:center:radius:focalPoint:",{colorRamp:colorRamp,aCenter:aCenter,aRadius:aRadius,fp:fp},smalltalk.AthensHTMLSurface)})},
 args: ["colorRamp", "aCenter", "aRadius", "fp"],
-source: "createRadialGradient: colorRamp center: aCenter radius: aRadius focalPoint: fp\x0a\x09^AthensHTMLGradientPaint\x09\x0a\x09\x09radialBetween: fp\x0a\x09\x09extending: 0\x0a\x09\x09and: aCenter\x0a\x09\x09extending: aRadius\x0a\x09\x09withColorRamp: colorRamp\x0a\x09\x09context: context2D",
-messageSends: ["radialBetween:extending:and:extending:withColorRamp:context:"],
+source: "createRadialGradient: colorRamp center: aCenter radius: aRadius focalPoint: fp\x0a\x09^AthensHTMLGradientPaint\x09\x0a\x09\x09radialBetween: fp\x0a\x09\x09extending: 0\x0a\x09\x09and: aCenter\x0a\x09\x09extending: aRadius\x0a\x09\x09withColorRamp: colorRamp",
+messageSends: ["radialBetween:extending:and:extending:withColorRamp:"],
 referencedClasses: ["AthensHTMLGradientPaint"]
 }),
 smalltalk.AthensHTMLSurface);
@@ -314,14 +351,13 @@ return smalltalk.withContext(function($ctx1) {
 var $2,$3,$1;
 $2=_st($AthensHTMLSolidPaint())._new();
 _st($2)._color_(aColor);
-_st($2)._context_(self["@context2D"]);
 $3=_st($2)._yourself();
 $1=$3;
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"createSolidColorPaint:",{aColor:aColor},smalltalk.AthensHTMLSurface)})},
 args: ["aColor"],
-source: "createSolidColorPaint: aColor \x0a\x09^ AthensHTMLSolidPaint new \x0a\x09\x09color: aColor;\x0a\x09\x09context: context2D;\x0a\x09\x09yourself",
-messageSends: ["color:", "new", "context:", "yourself"],
+source: "createSolidColorPaint: aColor \x0a\x09^ AthensHTMLSolidPaint new \x0a\x09\x09color: aColor;\x0a\x09\x09yourself",
+messageSends: ["color:", "new", "yourself"],
 referencedClasses: ["AthensHTMLSolidPaint"]
 }),
 smalltalk.AthensHTMLSurface);
@@ -337,14 +373,13 @@ return smalltalk.withContext(function($ctx1) {
 var $2,$3,$1;
 $2=_st($AthensHTMLStrokePaint())._new();
 _st($2)._fillPaint_(aPaint);
-_st($2)._context_(self["@context2D"]);
 $3=_st($2)._yourself();
 $1=$3;
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"createStrokePaintFor:",{aPaint:aPaint},smalltalk.AthensHTMLSurface)})},
 args: ["aPaint"],
-source: "createStrokePaintFor: aPaint\x0a\x09^ AthensHTMLStrokePaint new \x0a\x09\x09fillPaint: aPaint;\x0a\x09\x09context: context2D;\x0a\x09\x09yourself",
-messageSends: ["fillPaint:", "new", "context:", "yourself"],
+source: "createStrokePaintFor: aPaint\x0a\x09^ AthensHTMLStrokePaint new \x0a\x09\x09fillPaint: aPaint;\x0a\x09\x09yourself",
+messageSends: ["fillPaint:", "new", "yourself"],
 referencedClasses: ["AthensHTMLStrokePaint"]
 }),
 smalltalk.AthensHTMLSurface);
@@ -429,6 +464,43 @@ smalltalk.AthensHTMLSurface);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "initialize",
+category: 'rendering',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+smalltalk.AthensSurface.fn.prototype._initialize.apply(_st(self), []);
+self._initializeCanvas();
+_st(self["@canvasTag"])._height_(self._height());
+_st(self["@canvasTag"])._width_(self._width());
+self["@context2D"]=_st(self["@canvasTag"])._getContext_("2d");
+self["@athensCanvas"]=self._newCanvas();
+return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensHTMLSurface)})},
+args: [],
+source: "initialize\x0a\x09super initialize.\x0a\x09self initializeCanvas.\x0a\x09canvasTag height: self height.\x0a\x09canvasTag width: self width.\x0a\x09context2D := canvasTag getContext: '2d'.\x0a\x09athensCanvas := self newCanvas.",
+messageSends: ["initialize", "initializeCanvas", "height:", "height", "width:", "width", "getContext:", "newCanvas"],
+referencedClasses: []
+}),
+smalltalk.AthensHTMLSurface);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "initializeCanvas",
+category: 'rendering',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ self['@canvasTag'] = document.createElement('canvas'); ;
+return self}, function($ctx1) {$ctx1.fill(self,"initializeCanvas",{},smalltalk.AthensHTMLSurface)})},
+args: [],
+source: "initializeCanvas\x0a\x09< self['@canvasTag'] = document.createElement('canvas'); >",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.AthensHTMLSurface);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "newCanvas",
 category: 'private',
 fn: function (){
@@ -452,17 +524,14 @@ selector: "renderOn:",
 category: 'rendering',
 fn: function (html){
 var self=this;
+function $TagBrush(){return smalltalk.TagBrush||(typeof TagBrush=="undefined"?nil:TagBrush)}
 return smalltalk.withContext(function($ctx1) { 
-self["@canvasTag"]=_st(html)._canvas();
-_st(self["@canvasTag"])._height_(self._height());
-_st(self["@canvasTag"])._width_(self._width());
-self["@context2D"]=_st(_st(self["@canvasTag"])._element())._getContext_("2d");
-self["@athensCanvas"]=self._newCanvas();
+_st(html)._with_(_st($TagBrush())._fromJQuery_canvas_(_st(self["@canvasTag"])._asJQuery(),html));
 return self}, function($ctx1) {$ctx1.fill(self,"renderOn:",{html:html},smalltalk.AthensHTMLSurface)})},
 args: ["html"],
-source: "renderOn: html\x0a\x09canvasTag := html canvas.\x0a\x09canvasTag height: self height.\x0a\x09canvasTag width: self width.\x0a\x09context2D := canvasTag element getContext: '2d'.\x0a\x09athensCanvas := self newCanvas.",
-messageSends: ["canvas", "height:", "height", "width:", "width", "getContext:", "element", "newCanvas"],
-referencedClasses: []
+source: "renderOn: html\x0a\x09html with: (TagBrush fromJQuery: canvasTag asJQuery canvas: html).",
+messageSends: ["with:", "fromJQuery:canvas:", "asJQuery"],
+referencedClasses: ["TagBrush"]
 }),
 smalltalk.AthensHTMLSurface);
 

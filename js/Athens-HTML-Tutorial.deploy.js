@@ -494,11 +494,11 @@ selector: "step22",
 fn: function (){
 var self=this;
 var surface2;
-function $AthensCairoSurface(){return smalltalk.AthensCairoSurface||(typeof AthensCairoSurface=="undefined"?nil:AthensCairoSurface)}
+function $AthensHTMLSurface(){return smalltalk.AthensHTMLSurface||(typeof AthensHTMLSurface=="undefined"?nil:AthensHTMLSurface)}
 function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
 return smalltalk.withContext(function($ctx1) { 
 var $1,$2;
-surface2=_st($AthensCairoSurface())._extent_((10).__at((10)));
+surface2=_st($AthensHTMLSurface())._extent_((10).__at((10)));
 _st(surface2)._drawDuring_((function(canvas){
 return smalltalk.withContext(function($ctx2) {
 _st(surface2)._clear();
