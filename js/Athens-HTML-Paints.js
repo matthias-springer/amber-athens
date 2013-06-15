@@ -541,6 +541,54 @@ smalltalk.AthensHTMLSolidPaint);
 smalltalk.addClass('AthensHTMLStrokePaint', smalltalk.AthensStrokePaint, ['dashLenghts', 'dashOffset'], 'Athens-HTML-Paints');
 smalltalk.addMethod(
 smalltalk.method({
+selector: "capButt",
+category: 'setting cap styles',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self._capStyle_("butt");
+return self}, function($ctx1) {$ctx1.fill(self,"capButt",{},smalltalk.AthensHTMLStrokePaint)})},
+args: [],
+source: "capButt\x0a\x09self capStyle: 'butt'.",
+messageSends: ["capStyle:"],
+referencedClasses: []
+}),
+smalltalk.AthensHTMLStrokePaint);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "capRound",
+category: 'setting cap styles',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self._capStyle_("round");
+return self}, function($ctx1) {$ctx1.fill(self,"capRound",{},smalltalk.AthensHTMLStrokePaint)})},
+args: [],
+source: "capRound\x0a\x09self capStyle: 'round'.",
+messageSends: ["capStyle:"],
+referencedClasses: []
+}),
+smalltalk.AthensHTMLStrokePaint);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "capSquare",
+category: 'setting cap styles',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self._capStyle_("square");
+return self}, function($ctx1) {$ctx1.fill(self,"capSquare",{},smalltalk.AthensHTMLStrokePaint)})},
+args: [],
+source: "capSquare\x0a\x09self capStyle: 'square'.",
+messageSends: ["capStyle:"],
+referencedClasses: []
+}),
+smalltalk.AthensHTMLStrokePaint);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "context:",
 category: 'initialize-release',
 fn: function (aContext){
@@ -550,6 +598,23 @@ self["@context2D"]=aContext;
 return self}, function($ctx1) {$ctx1.fill(self,"context:",{aContext:aContext},smalltalk.AthensHTMLStrokePaint)})},
 args: ["aContext"],
 source: "context: aContext\x0a\x09context2D := aContext.",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.AthensHTMLStrokePaint);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "dashes:offset:",
+category: 'accessing',
+fn: function (anAlternateCollectionOfLenghts,anOffset){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self["@dashLenghts"]=anAlternateCollectionOfLenghts;
+self["@dashOffset"]=anOffset;
+return self}, function($ctx1) {$ctx1.fill(self,"dashes:offset:",{anAlternateCollectionOfLenghts:anAlternateCollectionOfLenghts,anOffset:anOffset},smalltalk.AthensHTMLStrokePaint)})},
+args: ["anAlternateCollectionOfLenghts", "anOffset"],
+source: "dashes: anAlternateCollectionOfLenghts offset: anOffset\x0a\x09dashLenghts := anAlternateCollectionOfLenghts.\x0a\x09dashOffset := anOffset.",
 messageSends: [],
 referencedClasses: []
 }),
@@ -567,12 +632,16 @@ context2D=_st(anAthensCanvas)._context2D();
 _st(_st(anAthensCanvas)._pathTransform())._set();
 _st(context2D)._strokeStyle_(_st(self["@fillPaint"])._rgbaString());
 _st(context2D)._lineWidth_(self["@width"]);
+_st(context2D)._lineJoin_(self["@joinStyle"]);
+_st(context2D)._lineCap_(self["@capStyle"]);
+_st(context2D)._setLineDash_(self["@dashLenghts"]);
+_st(context2D)._lineDashOffset_(self["@dashOffset"]);
 _st(aPath)._draw();
 _st(context2D)._stroke();
 return self}, function($ctx1) {$ctx1.fill(self,"fillPath:on:",{aPath:aPath,anAthensCanvas:anAthensCanvas,context2D:context2D},smalltalk.AthensHTMLStrokePaint)})},
 args: ["aPath", "anAthensCanvas"],
-source: "fillPath: aPath on: anAthensCanvas\x0a\x09|context2D|\x0a\x09context2D := anAthensCanvas context2D.\x0a\x09anAthensCanvas pathTransform set.\x0a\x09context2D strokeStyle: fillPaint rgbaString.\x0a\x09context2D lineWidth: width.\x0a\x09aPath draw.\x0a\x09context2D stroke.",
-messageSends: ["context2D", "set", "pathTransform", "strokeStyle:", "rgbaString", "lineWidth:", "draw", "stroke"],
+source: "fillPath: aPath on: anAthensCanvas\x0a\x09|context2D|\x0a\x09context2D := anAthensCanvas context2D.\x0a\x09anAthensCanvas pathTransform set.\x0a\x09context2D strokeStyle: fillPaint rgbaString.\x0a\x09context2D lineWidth: width.\x0a\x09context2D lineJoin: joinStyle.\x0a\x09context2D lineCap: capStyle.\x0a\x09\x22TODO: this only works in Chrome, see http://www.rgraph.net/blog/2013/january/html5-canvas-dashed-lines.html\x22\x0a\x09context2D setLineDash: dashLenghts.\x0a\x09context2D lineDashOffset: dashOffset.\x0a\x09aPath draw.\x0a\x09context2D stroke.",
+messageSends: ["context2D", "set", "pathTransform", "strokeStyle:", "rgbaString", "lineWidth:", "lineJoin:", "lineCap:", "setLineDash:", "lineDashOffset:", "draw", "stroke"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLStrokePaint);
@@ -592,6 +661,54 @@ return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensH
 args: [],
 source: "initialize\x0a\x09super initialize.\x0a\x0a\x09width := 1.\x0a\x09capStyle := joinStyle := nil.",
 messageSends: ["initialize"],
+referencedClasses: []
+}),
+smalltalk.AthensHTMLStrokePaint);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "joinBevel",
+category: 'setting join styles',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self._joinStyle_("bevel");
+return self}, function($ctx1) {$ctx1.fill(self,"joinBevel",{},smalltalk.AthensHTMLStrokePaint)})},
+args: [],
+source: "joinBevel\x0a\x09self joinStyle: 'bevel'.",
+messageSends: ["joinStyle:"],
+referencedClasses: []
+}),
+smalltalk.AthensHTMLStrokePaint);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "joinMiter",
+category: 'setting join styles',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self._joinStyle_("miter");
+return self}, function($ctx1) {$ctx1.fill(self,"joinMiter",{},smalltalk.AthensHTMLStrokePaint)})},
+args: [],
+source: "joinMiter\x0a\x09self joinStyle: 'miter'.",
+messageSends: ["joinStyle:"],
+referencedClasses: []
+}),
+smalltalk.AthensHTMLStrokePaint);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "joinRound",
+category: 'setting join styles',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self._joinStyle_("round");
+return self}, function($ctx1) {$ctx1.fill(self,"joinRound",{},smalltalk.AthensHTMLStrokePaint)})},
+args: [],
+source: "joinRound\x0a\x09self joinStyle: 'round'.",
+messageSends: ["joinStyle:"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLStrokePaint);

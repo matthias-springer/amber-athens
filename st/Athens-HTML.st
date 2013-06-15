@@ -21,6 +21,7 @@ surface: anHTMLSurface
 	surface := anHTMLSurface.
 	pathTransform := AthensHTMLMatrix on: surface.
 	paintTransform := AthensHTMLMatrix on: surface.
+	paintMode := AthensHTMLPaintMode on: surface.
 ! !
 
 !AthensHTMLCanvas methodsFor: 'private'!
@@ -35,6 +36,78 @@ on: anHTMLSurface
 	^ self basicNew
 		surface: anHTMLSurface;
 		initialize;
+		yourself
+! !
+
+AthensPaintMode subclass: #AthensHTMLPaintMode
+	instanceVariableNames: 'surface'
+	package: 'Athens-HTML'!
+
+!AthensHTMLPaintMode methodsFor: 'accessing'!
+
+surface: aSurface
+	surface := aSurface.
+! !
+
+!AthensHTMLPaintMode methodsFor: 'convenience'!
+
+restoreAfter: aBlock
+	|op|
+	op := surface context2D globalCompositeOperation.
+	aBlock ensure: [surface context2D globalCompositeOperation: op].
+! !
+
+!AthensHTMLPaintMode methodsFor: 'modes'!
+
+atop
+	surface context2D globalCompositeOperation: 'source-atop'.
+!
+
+darken
+	surface context2D globalCompositeOperation: 'darker'.
+!
+
+destAtop
+	surface context2D globalCompositeOperation: 'destination-atop'.
+!
+
+destIn
+	surface context2D globalCompositeOperation: 'destination-in'.
+!
+
+destOut
+	surface context2D globalCompositeOperation: 'destination-out'.
+!
+
+destOver
+	surface context2D globalCompositeOperation: 'destination-over'.
+!
+
+in
+	surface context2D globalCompositeOperation: 'source-in'.
+!
+
+lighten
+	surface context2D globalCompositeOperation: 'lighter'.
+!
+
+out
+	surface context2D globalCompositeOperation: 'source-out'.
+!
+
+over
+	surface context2D globalCompositeOperation: 'source-over'.
+!
+
+xor
+	surface context2D globalCompositeOperation: 'xor'.
+! !
+
+!AthensHTMLPaintMode class methodsFor: 'instance creation'!
+
+on: aSurface
+	^ self new
+		surface: aSurface;
 		yourself
 ! !
 
@@ -53,17 +126,20 @@ canvasTag: aTagBrush
 !
 
 clear
-	self clear: nil.
+	self clear: Color transparent.
 !
 
 clear: clearPaint
-	context2D clearRect: 0 a: 0 a: self width a: self height.
-	clearPaint ifNotNil: [
-		self drawDuring: [:canvas |
-			canvas 
+	currentCanvas pathTransform restoreAfter: [
+		currentCanvas pathTransform loadIdentity.
+		currentCanvas paintMode restoreAfter: [
+			currentCanvas paintMode over.
+			currentCanvas context2D clearRect: 0 a: 0 a: self width a: self height.
+			currentCanvas 
 				setPaint: clearPaint;
-				setShape: (0@0 corner: (self width) @ (self height));
-				draw]].
+				drawShape: (0@0 corner: (self width) @ (self height)).
+				
+        ]].
 !
 
 context2D

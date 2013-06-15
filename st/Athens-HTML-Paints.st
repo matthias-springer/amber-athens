@@ -207,6 +207,13 @@ AthensStrokePaint subclass: #AthensHTMLStrokePaint
 	instanceVariableNames: 'dashLenghts dashOffset'
 	package: 'Athens-HTML-Paints'!
 
+!AthensHTMLStrokePaint methodsFor: 'accessing'!
+
+dashes: anAlternateCollectionOfLenghts offset: anOffset
+	dashLenghts := anAlternateCollectionOfLenghts.
+	dashOffset := anOffset.
+! !
+
 !AthensHTMLStrokePaint methodsFor: 'drawing'!
 
 fillPath: aPath on: anAthensCanvas
@@ -215,6 +222,11 @@ fillPath: aPath on: anAthensCanvas
 	anAthensCanvas pathTransform set.
 	context2D strokeStyle: fillPaint rgbaString.
 	context2D lineWidth: width.
+	context2D lineJoin: joinStyle.
+	context2D lineCap: capStyle.
+	"TODO: this only works in Chrome, see http://www.rgraph.net/blog/2013/january/html5-canvas-dashed-lines.html"
+	context2D setLineDash: dashLenghts.
+	context2D lineDashOffset: dashOffset.
 	aPath draw.
 	context2D stroke.
 ! !
@@ -230,5 +242,33 @@ initialize
 
 	width := 1.
 	capStyle := joinStyle := nil.
+! !
+
+!AthensHTMLStrokePaint methodsFor: 'setting cap styles'!
+
+capButt
+	self capStyle: 'butt'.
+!
+
+capRound
+	self capStyle: 'round'.
+!
+
+capSquare
+	self capStyle: 'square'.
+! !
+
+!AthensHTMLStrokePaint methodsFor: 'setting join styles'!
+
+joinBevel
+	self joinStyle: 'bevel'.
+!
+
+joinMiter
+	self joinStyle: 'miter'.
+!
+
+joinRound
+	self joinStyle: 'round'.
 ! !
 
