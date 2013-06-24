@@ -368,13 +368,17 @@ category: 'drawing',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st(self["@bitmap"])._image();
-return $1;
+var $1,$2;
+$1=_st(_st(self["@bitmap"])._image())._complete();
+if(! smalltalk.assert($1)){
+self._error_("image not preloaded.");
+};
+$2=_st(self["@bitmap"])._image();
+return $2;
 }, function($ctx1) {$ctx1.fill(self,"patternSource",{},smalltalk.AthensHTMLBitmapPaint)})},
 args: [],
-source: "patternSource\x0a\x09^ bitmap image",
-messageSends: ["image"],
+source: "patternSource\x0a\x09bitmap image complete\x0a\x09\x09ifFalse: [self error: 'image not preloaded.'].\x0a\x09^ bitmap image",
+messageSends: ["ifFalse:", "error:", "complete", "image"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLBitmapPaint);
@@ -634,14 +638,13 @@ _st(context2D)._strokeStyle_(_st(self["@fillPaint"])._rgbaString());
 _st(context2D)._lineWidth_(self["@width"]);
 _st(context2D)._lineJoin_(self["@joinStyle"]);
 _st(context2D)._lineCap_(self["@capStyle"]);
-_st(context2D)._setLineDash_(self["@dashLenghts"]);
-_st(context2D)._lineDashOffset_(self["@dashOffset"]);
+self._setDashStyleOn_(context2D);
 _st(aPath)._draw();
 _st(context2D)._stroke();
 return self}, function($ctx1) {$ctx1.fill(self,"fillPath:on:",{aPath:aPath,anAthensCanvas:anAthensCanvas,context2D:context2D},smalltalk.AthensHTMLStrokePaint)})},
 args: ["aPath", "anAthensCanvas"],
-source: "fillPath: aPath on: anAthensCanvas\x0a\x09|context2D|\x0a\x09context2D := anAthensCanvas context2D.\x0a\x09anAthensCanvas pathTransform set.\x0a\x09context2D strokeStyle: fillPaint rgbaString.\x0a\x09context2D lineWidth: width.\x0a\x09context2D lineJoin: joinStyle.\x0a\x09context2D lineCap: capStyle.\x0a\x09\x22TODO: this only works in Chrome, see http://www.rgraph.net/blog/2013/january/html5-canvas-dashed-lines.html\x22\x0a\x09context2D setLineDash: dashLenghts.\x0a\x09context2D lineDashOffset: dashOffset.\x0a\x09aPath draw.\x0a\x09context2D stroke.",
-messageSends: ["context2D", "set", "pathTransform", "strokeStyle:", "rgbaString", "lineWidth:", "lineJoin:", "lineCap:", "setLineDash:", "lineDashOffset:", "draw", "stroke"],
+source: "fillPath: aPath on: anAthensCanvas\x0a\x09|context2D|\x0a\x09context2D := anAthensCanvas context2D.\x0a\x09anAthensCanvas pathTransform set.\x0a\x09context2D strokeStyle: fillPaint rgbaString.\x0a\x09context2D lineWidth: width.\x0a\x09context2D lineJoin: joinStyle.\x0a\x09context2D lineCap: capStyle.\x0a\x09self setDashStyleOn: context2D.\x0a\x09aPath draw.\x0a\x09context2D stroke.",
+messageSends: ["context2D", "set", "pathTransform", "strokeStyle:", "rgbaString", "lineWidth:", "lineJoin:", "lineCap:", "setDashStyleOn:", "draw", "stroke"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLStrokePaint);
@@ -709,6 +712,23 @@ return self}, function($ctx1) {$ctx1.fill(self,"joinRound",{},smalltalk.AthensHT
 args: [],
 source: "joinRound\x0a\x09self joinStyle: 'round'.",
 messageSends: ["joinStyle:"],
+referencedClasses: []
+}),
+smalltalk.AthensHTMLStrokePaint);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "setDashStyleOn:",
+category: 'drawing',
+fn: function (context2D){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+_st(context2D)._setLineDash_(self["@dashLenghts"]);
+_st(context2D)._lineDashOffset_(self["@dashOffset"]);
+return self}, function($ctx1) {$ctx1.fill(self,"setDashStyleOn:",{context2D:context2D},smalltalk.AthensHTMLStrokePaint)})},
+args: ["context2D"],
+source: "setDashStyleOn: context2D\x0a\x09\x22TODO: this only works in Chrome, see http://www.rgraph.net/blog/2013/january/html5-canvas-dashed-lines.html\x22\x0a\x09context2D setLineDash: dashLenghts.\x0a\x09context2D lineDashOffset: dashOffset.",
+messageSends: ["setLineDash:", "lineDashOffset:"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLStrokePaint);

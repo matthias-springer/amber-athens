@@ -45,6 +45,10 @@ AthensPaintMode subclass: #AthensHTMLPaintMode
 
 !AthensHTMLPaintMode methodsFor: 'accessing'!
 
+availableModes
+	^ #(atop darken destAtop destIn destOut destOver in lighten out over xor)
+!
+
 surface: aSurface
 	surface := aSurface.
 ! !
@@ -138,7 +142,6 @@ clear: clearPaint
 			currentCanvas 
 				setPaint: clearPaint;
 				drawShape: (0@0 corner: (self width) @ (self height)).
-				
         ]].
 !
 

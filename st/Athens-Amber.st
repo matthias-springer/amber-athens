@@ -129,8 +129,12 @@ Object subclass: #Image
 
 !Image methodsFor: 'accessing'!
 
+complete
+	<return self.complete;>
+!
+
 source: anUrl
-	<return self.src = anUrl>
+	<self.src = anUrl;>
 !
 
 yourself

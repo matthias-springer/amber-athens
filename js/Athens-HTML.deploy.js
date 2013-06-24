@@ -99,6 +99,19 @@ smalltalk.AthensHTMLPaintMode);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "availableModes",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=["atop", "darken", "destAtop", "destIn", "destOut", "destOver", "in", "lighten", "out", "over", "xor"];
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"availableModes",{},smalltalk.AthensHTMLPaintMode)})},
+messageSends: []}),
+smalltalk.AthensHTMLPaintMode);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "darken",
 fn: function (){
 var self=this;

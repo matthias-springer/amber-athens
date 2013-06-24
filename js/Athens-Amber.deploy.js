@@ -312,11 +312,22 @@ smalltalk.Color.klass);
 smalltalk.addClass('Image', smalltalk.Object, [], 'Athens-Amber');
 smalltalk.addMethod(
 smalltalk.method({
+selector: "complete",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+return self.complete;;
+return self}, function($ctx1) {$ctx1.fill(self,"complete",{},smalltalk.Image)})},
+messageSends: []}),
+smalltalk.Image);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "source:",
 fn: function (anUrl){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-return self.src = anUrl;
+self.src = anUrl;;
 return self}, function($ctx1) {$ctx1.fill(self,"source:",{anUrl:anUrl},smalltalk.Image)})},
 messageSends: []}),
 smalltalk.Image);

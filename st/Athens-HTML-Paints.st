@@ -137,6 +137,8 @@ bitmap: aBitmap
 !AthensHTMLBitmapPaint methodsFor: 'drawing'!
 
 patternSource
+	bitmap image complete
+		ifFalse: [self error: 'image not preloaded.'].
 	^ bitmap image
 ! !
 
@@ -224,11 +226,15 @@ fillPath: aPath on: anAthensCanvas
 	context2D lineWidth: width.
 	context2D lineJoin: joinStyle.
 	context2D lineCap: capStyle.
+	self setDashStyleOn: context2D.
+	aPath draw.
+	context2D stroke.
+!
+
+setDashStyleOn: context2D
 	"TODO: this only works in Chrome, see http://www.rgraph.net/blog/2013/january/html5-canvas-dashed-lines.html"
 	context2D setLineDash: dashLenghts.
 	context2D lineDashOffset: dashOffset.
-	aPath draw.
-	context2D stroke.
 ! !
 
 !AthensHTMLStrokePaint methodsFor: 'initialize-release'!

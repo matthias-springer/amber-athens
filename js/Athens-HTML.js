@@ -134,6 +134,24 @@ smalltalk.AthensHTMLPaintMode);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "availableModes",
+category: 'accessing',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=["atop", "darken", "destAtop", "destIn", "destOut", "destOver", "in", "lighten", "out", "over", "xor"];
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"availableModes",{},smalltalk.AthensHTMLPaintMode)})},
+args: [],
+source: "availableModes\x0a\x09^ #(atop darken destAtop destIn destOut destOver in lighten out over xor)",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.AthensHTMLPaintMode);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "darken",
 category: 'modes',
 fn: function (){
@@ -479,7 +497,7 @@ return $2;
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"clear:",{clearPaint:clearPaint},smalltalk.AthensHTMLSurface)})},
 args: ["clearPaint"],
-source: "clear: clearPaint\x0a\x09currentCanvas pathTransform restoreAfter: [\x0a\x09\x09currentCanvas pathTransform loadIdentity.\x0a\x09\x09currentCanvas paintMode restoreAfter: [\x0a\x09\x09\x09currentCanvas paintMode over.\x0a\x09\x09\x09currentCanvas context2D clearRect: 0 a: 0 a: self width a: self height.\x0a\x09\x09\x09currentCanvas \x0a\x09\x09\x09\x09setPaint: clearPaint;\x0a\x09\x09\x09\x09drawShape: (0@0 corner: (self width) @ (self height)).\x0a\x09\x09\x09\x09\x0a        ]].",
+source: "clear: clearPaint\x0a\x09currentCanvas pathTransform restoreAfter: [\x0a\x09\x09currentCanvas pathTransform loadIdentity.\x0a\x09\x09currentCanvas paintMode restoreAfter: [\x0a\x09\x09\x09currentCanvas paintMode over.\x0a\x09\x09\x09currentCanvas context2D clearRect: 0 a: 0 a: self width a: self height.\x0a\x09\x09\x09currentCanvas \x0a\x09\x09\x09\x09setPaint: clearPaint;\x0a\x09\x09\x09\x09drawShape: (0@0 corner: (self width) @ (self height)).\x0a        ]].",
 messageSends: ["restoreAfter:", "loadIdentity", "pathTransform", "over", "paintMode", "clearRect:a:a:a:", "width", "height", "context2D", "setPaint:", "drawShape:", "corner:", "@"],
 referencedClasses: []
 }),

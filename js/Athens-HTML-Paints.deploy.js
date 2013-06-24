@@ -272,11 +272,15 @@ selector: "patternSource",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st(self["@bitmap"])._image();
-return $1;
+var $1,$2;
+$1=_st(_st(self["@bitmap"])._image())._complete();
+if(! smalltalk.assert($1)){
+self._error_("image not preloaded.");
+};
+$2=_st(self["@bitmap"])._image();
+return $2;
 }, function($ctx1) {$ctx1.fill(self,"patternSource",{},smalltalk.AthensHTMLBitmapPaint)})},
-messageSends: ["image"]}),
+messageSends: ["ifFalse:", "error:", "complete", "image"]}),
 smalltalk.AthensHTMLBitmapPaint);
 
 
@@ -468,12 +472,11 @@ _st(context2D)._strokeStyle_(_st(self["@fillPaint"])._rgbaString());
 _st(context2D)._lineWidth_(self["@width"]);
 _st(context2D)._lineJoin_(self["@joinStyle"]);
 _st(context2D)._lineCap_(self["@capStyle"]);
-_st(context2D)._setLineDash_(self["@dashLenghts"]);
-_st(context2D)._lineDashOffset_(self["@dashOffset"]);
+self._setDashStyleOn_(context2D);
 _st(aPath)._draw();
 _st(context2D)._stroke();
 return self}, function($ctx1) {$ctx1.fill(self,"fillPath:on:",{aPath:aPath,anAthensCanvas:anAthensCanvas,context2D:context2D},smalltalk.AthensHTMLStrokePaint)})},
-messageSends: ["context2D", "set", "pathTransform", "strokeStyle:", "rgbaString", "lineWidth:", "lineJoin:", "lineCap:", "setLineDash:", "lineDashOffset:", "draw", "stroke"]}),
+messageSends: ["context2D", "set", "pathTransform", "strokeStyle:", "rgbaString", "lineWidth:", "lineJoin:", "lineCap:", "setDashStyleOn:", "draw", "stroke"]}),
 smalltalk.AthensHTMLStrokePaint);
 
 smalltalk.addMethod(
@@ -521,6 +524,18 @@ return smalltalk.withContext(function($ctx1) {
 self._joinStyle_("round");
 return self}, function($ctx1) {$ctx1.fill(self,"joinRound",{},smalltalk.AthensHTMLStrokePaint)})},
 messageSends: ["joinStyle:"]}),
+smalltalk.AthensHTMLStrokePaint);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "setDashStyleOn:",
+fn: function (context2D){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+_st(context2D)._setLineDash_(self["@dashLenghts"]);
+_st(context2D)._lineDashOffset_(self["@dashOffset"]);
+return self}, function($ctx1) {$ctx1.fill(self,"setDashStyleOn:",{context2D:context2D},smalltalk.AthensHTMLStrokePaint)})},
+messageSends: ["setLineDash:", "lineDashOffset:"]}),
 smalltalk.AthensHTMLStrokePaint);
 
 
