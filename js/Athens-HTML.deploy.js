@@ -1,5 +1,5 @@
 smalltalk.addPackage('Athens-HTML');
-smalltalk.addClass('AthensHTMLCanvas', smalltalk.AthensCanvas, ['pathTransform', 'paintTransform', 'currentClipRect'], 'Athens-HTML');
+smalltalk.addClass('AthensHTMLCanvas', smalltalk.AthensCanvas, ['pathTransform', 'paintTransform', 'currentClipRect', 'font'], 'Athens-HTML');
 smalltalk.addMethod(
 smalltalk.method({
 selector: "context2D",
@@ -11,6 +11,19 @@ $1=_st(self["@surface"])._context2D();
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"context2D",{},smalltalk.AthensHTMLCanvas)})},
 messageSends: ["context2D"]}),
+smalltalk.AthensHTMLCanvas);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "drawString:",
+fn: function (aString){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+_st(_st(self["@surface"])._context2D())._font_(_st(self["@font"])._asHTMLString());
+_st(_st(self["@surface"])._context2D())._fillStyle_("#ff0000");
+_st(_st(self["@surface"])._context2D())._fillText_a_a_(aString,(100),(100));
+return self}, function($ctx1) {$ctx1.fill(self,"drawString:",{aString:aString},smalltalk.AthensHTMLCanvas)})},
+messageSends: ["font:", "asHTMLString", "context2D", "fillStyle:", "fillText:a:a:"]}),
 smalltalk.AthensHTMLCanvas);
 
 smalltalk.addMethod(
@@ -47,6 +60,17 @@ var $1;
 $1=self["@pathTransform"];
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"pathTransform",{},smalltalk.AthensHTMLCanvas)})},
+messageSends: []}),
+smalltalk.AthensHTMLCanvas);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "setFont:",
+fn: function (aFont){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self["@font"]=aFont;
+return self}, function($ctx1) {$ctx1.fill(self,"setFont:",{aFont:aFont},smalltalk.AthensHTMLCanvas)})},
 messageSends: []}),
 smalltalk.AthensHTMLCanvas);
 

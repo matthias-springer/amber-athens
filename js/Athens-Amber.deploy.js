@@ -362,6 +362,61 @@ messageSends: ["source:", "new", "yourself"]}),
 smalltalk.Image.klass);
 
 
+smalltalk.addClass('LogicalFont', smalltalk.Object, ['familyName', 'pointSize'], 'Athens-Amber');
+smalltalk.addMethod(
+smalltalk.method({
+selector: "asHTMLString",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(_st(_st(self["@pointSize"])._asString()).__comma("px ")).__comma(self["@familyName"]);
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"asHTMLString",{},smalltalk.LogicalFont)})},
+messageSends: [",", "asString"]}),
+smalltalk.LogicalFont);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "familyName:",
+fn: function (aString){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self["@familyName"]=aString;
+return self}, function($ctx1) {$ctx1.fill(self,"familyName:",{aString:aString},smalltalk.LogicalFont)})},
+messageSends: []}),
+smalltalk.LogicalFont);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "pointSize:",
+fn: function (anInteger){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self["@pointSize"]=anInteger;
+return self}, function($ctx1) {$ctx1.fill(self,"pointSize:",{anInteger:anInteger},smalltalk.LogicalFont)})},
+messageSends: []}),
+smalltalk.LogicalFont);
+
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "familyName:pointSize:",
+fn: function (aString,anInteger){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $2,$3,$1;
+$2=self._new();
+_st($2)._familyName_(aString);
+_st($2)._pointSize_(anInteger);
+$3=_st($2)._yourself();
+$1=$3;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"familyName:pointSize:",{aString:aString,anInteger:anInteger},smalltalk.LogicalFont.klass)})},
+messageSends: ["familyName:", "new", "pointSize:", "yourself"]}),
+smalltalk.LogicalFont.klass);
+
+
 smalltalk.addClass('Rectangle', smalltalk.Object, ['origin', 'corner'], 'Athens-Amber');
 smalltalk.addMethod(
 smalltalk.method({

@@ -492,6 +492,81 @@ referencedClasses: ["Image"]
 smalltalk.Image.klass);
 
 
+smalltalk.addClass('LogicalFont', smalltalk.Object, ['familyName', 'pointSize'], 'Athens-Amber');
+smalltalk.addMethod(
+smalltalk.method({
+selector: "asHTMLString",
+category: 'converting',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(_st(_st(self["@pointSize"])._asString()).__comma("px ")).__comma(self["@familyName"]);
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"asHTMLString",{},smalltalk.LogicalFont)})},
+args: [],
+source: "asHTMLString\x0a\x09^ pointSize asString, 'px ', familyName",
+messageSends: [",", "asString"],
+referencedClasses: []
+}),
+smalltalk.LogicalFont);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "familyName:",
+category: 'accessing',
+fn: function (aString){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self["@familyName"]=aString;
+return self}, function($ctx1) {$ctx1.fill(self,"familyName:",{aString:aString},smalltalk.LogicalFont)})},
+args: ["aString"],
+source: "familyName: aString\x0a\x09familyName := aString.",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.LogicalFont);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "pointSize:",
+category: 'accessing',
+fn: function (anInteger){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self["@pointSize"]=anInteger;
+return self}, function($ctx1) {$ctx1.fill(self,"pointSize:",{anInteger:anInteger},smalltalk.LogicalFont)})},
+args: ["anInteger"],
+source: "pointSize: anInteger\x0a\x09pointSize := anInteger.",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.LogicalFont);
+
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "familyName:pointSize:",
+category: 'instance creation',
+fn: function (aString,anInteger){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $2,$3,$1;
+$2=self._new();
+_st($2)._familyName_(aString);
+_st($2)._pointSize_(anInteger);
+$3=_st($2)._yourself();
+$1=$3;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"familyName:pointSize:",{aString:aString,anInteger:anInteger},smalltalk.LogicalFont.klass)})},
+args: ["aString", "anInteger"],
+source: "familyName: aString pointSize: anInteger\x0a\x09^ self new\x0a\x09\x09familyName: aString;\x0a\x09\x09pointSize: anInteger;\x0a\x09\x09yourself",
+messageSends: ["familyName:", "new", "pointSize:", "yourself"],
+referencedClasses: []
+}),
+smalltalk.LogicalFont.klass);
+
+
 smalltalk.addClass('Rectangle', smalltalk.Object, ['origin', 'corner'], 'Athens-Amber');
 smalltalk.addMethod(
 smalltalk.method({

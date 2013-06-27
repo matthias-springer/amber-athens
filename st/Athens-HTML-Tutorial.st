@@ -1063,7 +1063,7 @@ And then look for Appearance -> Use freetype in settings browser.
 		we will see only things below baseline"
 		
 		canvas pathTransform scaleBy: 4.
-		canvas pathTransform translateX: 0 Y: (font getPreciseAscent).
+		canvas pathTransform translateX: 0 Y: 0.
 		canvas drawString: 'Hello Athens!!'.
 	].
 !

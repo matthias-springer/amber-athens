@@ -1,6 +1,6 @@
 Smalltalk current createPackage: 'Athens-HTML'!
 AthensCanvas subclass: #AthensHTMLCanvas
-	instanceVariableNames: 'pathTransform paintTransform currentClipRect'
+	instanceVariableNames: 'pathTransform paintTransform currentClipRect font'
 	package: 'Athens-HTML'!
 
 !AthensHTMLCanvas methodsFor: 'accessing'!
@@ -17,11 +17,23 @@ pathTransform
 	^ pathTransform
 !
 
+setFont: aFont
+	font := aFont.
+!
+
 surface: anHTMLSurface
 	surface := anHTMLSurface.
 	pathTransform := AthensHTMLMatrix on: surface.
 	paintTransform := AthensHTMLMatrix on: surface.
 	paintMode := AthensHTMLPaintMode on: surface.
+! !
+
+!AthensHTMLCanvas methodsFor: 'drawing'!
+
+drawString: aString
+	surface context2D font: font asHTMLString.
+	surface context2D fillStyle: '#ff0000'.
+	surface context2D fillText: aString a: 100 a: 100.
 ! !
 
 !AthensHTMLCanvas methodsFor: 'private'!

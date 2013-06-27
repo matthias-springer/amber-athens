@@ -1,5 +1,5 @@
 smalltalk.addPackage('Athens-HTML');
-smalltalk.addClass('AthensHTMLCanvas', smalltalk.AthensCanvas, ['pathTransform', 'paintTransform', 'currentClipRect'], 'Athens-HTML');
+smalltalk.addClass('AthensHTMLCanvas', smalltalk.AthensCanvas, ['pathTransform', 'paintTransform', 'currentClipRect', 'font'], 'Athens-HTML');
 smalltalk.addMethod(
 smalltalk.method({
 selector: "context2D",
@@ -14,6 +14,24 @@ return $1;
 args: [],
 source: "context2D\x0a\x09^ surface context2D",
 messageSends: ["context2D"],
+referencedClasses: []
+}),
+smalltalk.AthensHTMLCanvas);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "drawString:",
+category: 'drawing',
+fn: function (aString){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+_st(_st(self["@surface"])._context2D())._font_(_st(self["@font"])._asHTMLString());
+_st(_st(self["@surface"])._context2D())._fillStyle_("#ff0000");
+_st(_st(self["@surface"])._context2D())._fillText_a_a_(aString,(100),(100));
+return self}, function($ctx1) {$ctx1.fill(self,"drawString:",{aString:aString},smalltalk.AthensHTMLCanvas)})},
+args: ["aString"],
+source: "drawString: aString\x0a\x09surface context2D font: font asHTMLString.\x0a\x09surface context2D fillStyle: '#ff0000'.\x0a\x09surface context2D fillText: aString a: 100 a: 100.",
+messageSends: ["font:", "asHTMLString", "context2D", "fillStyle:", "fillText:a:a:"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLCanvas);
@@ -65,6 +83,22 @@ return $1;
 }, function($ctx1) {$ctx1.fill(self,"pathTransform",{},smalltalk.AthensHTMLCanvas)})},
 args: [],
 source: "pathTransform\x0a\x09^ pathTransform",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.AthensHTMLCanvas);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "setFont:",
+category: 'accessing',
+fn: function (aFont){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self["@font"]=aFont;
+return self}, function($ctx1) {$ctx1.fill(self,"setFont:",{aFont:aFont},smalltalk.AthensHTMLCanvas)})},
+args: ["aFont"],
+source: "setFont: aFont\x0a\x09font := aFont.",
 messageSends: [],
 referencedClasses: []
 }),

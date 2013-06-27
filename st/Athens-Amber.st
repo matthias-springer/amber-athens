@@ -149,6 +149,35 @@ fromUrl: anUrl
 		yourself
 ! !
 
+Object subclass: #LogicalFont
+	instanceVariableNames: 'familyName pointSize'
+	package: 'Athens-Amber'!
+
+!LogicalFont methodsFor: 'accessing'!
+
+familyName: aString
+	familyName := aString.
+!
+
+pointSize: anInteger
+	pointSize := anInteger.
+! !
+
+!LogicalFont methodsFor: 'converting'!
+
+asHTMLString
+	^ pointSize asString, 'px ', familyName
+! !
+
+!LogicalFont class methodsFor: 'instance creation'!
+
+familyName: aString pointSize: anInteger
+	^ self new
+		familyName: aString;
+		pointSize: anInteger;
+		yourself
+! !
+
 Object subclass: #Rectangle
 	instanceVariableNames: 'origin corner'
 	package: 'Athens-Amber'!
