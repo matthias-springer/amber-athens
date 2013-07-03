@@ -833,12 +833,16 @@ category: 'private',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
+_st(_st(self["@currentCanvas"])._paintMode())._over();
 _st(_st(self["@currentCanvas"])._pathTransform())._loadIdentity();
 _st(_st(self["@currentCanvas"])._paintTransform())._loadIdentity();
+_st(_st(self["@currentCanvas"])._context2D())._lineJoin_("miter");
+_st(_st(self["@currentCanvas"])._context2D())._miterLimit_((10));
+_st(_st(self["@currentCanvas"])._context2D())._lineCap_("butt");
 return self}, function($ctx1) {$ctx1.fill(self,"setDefaults",{},smalltalk.AthensHTMLSurface)})},
 args: [],
-source: "setDefaults\x0a\x09currentCanvas pathTransform loadIdentity.\x0a\x09currentCanvas paintTransform loadIdentity.",
-messageSends: ["loadIdentity", "pathTransform", "paintTransform"],
+source: "setDefaults\x0a\x09currentCanvas paintMode over.\x0a\x09currentCanvas pathTransform loadIdentity.\x0a\x09currentCanvas paintTransform loadIdentity.\x0a\x09\x0a\x09currentCanvas context2D lineJoin: 'miter'.\x0a\x09\x22changing meter limit not supported by Athens\x22\x0a\x09currentCanvas context2D miterLimit: 10.\x0a\x09currentCanvas context2D lineCap: 'butt'.",
+messageSends: ["over", "paintMode", "loadIdentity", "pathTransform", "paintTransform", "lineJoin:", "context2D", "miterLimit:", "lineCap:"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLSurface);

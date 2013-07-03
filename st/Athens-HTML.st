@@ -253,8 +253,14 @@ newCanvas
 !
 
 setDefaults
+	currentCanvas paintMode over.
 	currentCanvas pathTransform loadIdentity.
 	currentCanvas paintTransform loadIdentity.
+	
+	currentCanvas context2D lineJoin: 'miter'.
+	"changing meter limit not supported by Athens"
+	currentCanvas context2D miterLimit: 10.
+	currentCanvas context2D lineCap: 'butt'.
 ! !
 
 !AthensHTMLSurface methodsFor: 'rendering'!

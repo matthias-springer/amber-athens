@@ -607,10 +607,14 @@ selector: "setDefaults",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
+_st(_st(self["@currentCanvas"])._paintMode())._over();
 _st(_st(self["@currentCanvas"])._pathTransform())._loadIdentity();
 _st(_st(self["@currentCanvas"])._paintTransform())._loadIdentity();
+_st(_st(self["@currentCanvas"])._context2D())._lineJoin_("miter");
+_st(_st(self["@currentCanvas"])._context2D())._miterLimit_((10));
+_st(_st(self["@currentCanvas"])._context2D())._lineCap_("butt");
 return self}, function($ctx1) {$ctx1.fill(self,"setDefaults",{},smalltalk.AthensHTMLSurface)})},
-messageSends: ["loadIdentity", "pathTransform", "paintTransform"]}),
+messageSends: ["over", "paintMode", "loadIdentity", "pathTransform", "paintTransform", "lineJoin:", "context2D", "miterLimit:", "lineCap:"]}),
 smalltalk.AthensHTMLSurface);
 
 smalltalk.addMethod(
