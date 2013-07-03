@@ -344,7 +344,7 @@ smalltalk.AthensHTMLPatternPaint);
 
 
 
-smalltalk.addClass('AthensHTMLBitmapPaint', smalltalk.AthensHTMLPatternPaint, ['bitmap'], 'Athens-HTML-Paints');
+smalltalk.addClass('AthensHTMLBitmapPaint', smalltalk.AthensHTMLPatternPaint, ['bitmap', 'loadingCallback'], 'Athens-HTML-Paints');
 smalltalk.addMethod(
 smalltalk.method({
 selector: "bitmap:",
@@ -357,6 +357,32 @@ return self}, function($ctx1) {$ctx1.fill(self,"bitmap:",{aBitmap:aBitmap},small
 args: ["aBitmap"],
 source: "bitmap: aBitmap\x0a\x09bitmap := aBitmap.",
 messageSends: [],
+referencedClasses: []
+}),
+smalltalk.AthensHTMLBitmapPaint);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "loadingCallback:",
+category: 'accessing',
+fn: function (aBlock){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+self["@loadingCallback"]=aBlock;
+$1=_st(_st(self["@bitmap"])._image())._complete();
+if(smalltalk.assert($1)){
+_st(aBlock)._value_(self);
+} else {
+_st(_st(self["@bitmap"])._image())._onLoad_((function(){
+return smalltalk.withContext(function($ctx2) {
+return _st(aBlock)._value_(self);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
+};
+return self}, function($ctx1) {$ctx1.fill(self,"loadingCallback:",{aBlock:aBlock},smalltalk.AthensHTMLBitmapPaint)})},
+args: ["aBlock"],
+source: "loadingCallback: aBlock\x0a\x09loadingCallback := aBlock.\x0a\x09bitmap image complete\x0a\x09\x09ifTrue: [aBlock value: self]\x0a\x09\x09ifFalse: [bitmap image onLoad: [aBlock value: self]].",
+messageSends: ["ifTrue:ifFalse:", "value:", "onLoad:", "image", "complete"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLBitmapPaint);
@@ -401,6 +427,28 @@ return $1;
 args: ["aBitmap"],
 source: "forBitmap: aBitmap\x0a\x09^ self new\x0a\x09\x09bitmap: aBitmap;\x0a\x09\x09yourself",
 messageSends: ["bitmap:", "new", "yourself"],
+referencedClasses: []
+}),
+smalltalk.AthensHTMLBitmapPaint.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "forBitmap:afterLoading:",
+category: 'instance creation',
+fn: function (aBitmap,aBlock){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $2,$3,$1;
+$2=self._new();
+_st($2)._bitmap_(aBitmap);
+_st($2)._loadingCallback_(aBlock);
+$3=_st($2)._yourself();
+$1=$3;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"forBitmap:afterLoading:",{aBitmap:aBitmap,aBlock:aBlock},smalltalk.AthensHTMLBitmapPaint.klass)})},
+args: ["aBitmap", "aBlock"],
+source: "forBitmap: aBitmap afterLoading: aBlock\x0a\x09^ self new\x0a\x09\x09bitmap: aBitmap;\x0a\x09\x09loadingCallback: aBlock;\x0a\x09\x09yourself",
+messageSends: ["bitmap:", "new", "loadingCallback:", "yourself"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLBitmapPaint.klass);

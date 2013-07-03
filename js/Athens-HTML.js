@@ -576,6 +576,25 @@ smalltalk.AthensHTMLSurface);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "createBitmapPaint:afterLoading:",
+category: 'paints',
+fn: function (aBitmap,aBlock){
+var self=this;
+function $AthensHTMLBitmapPaint(){return smalltalk.AthensHTMLBitmapPaint||(typeof AthensHTMLBitmapPaint=="undefined"?nil:AthensHTMLBitmapPaint)}
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st($AthensHTMLBitmapPaint())._forBitmap_afterLoading_(aBitmap,aBlock);
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"createBitmapPaint:afterLoading:",{aBitmap:aBitmap,aBlock:aBlock},smalltalk.AthensHTMLSurface)})},
+args: ["aBitmap", "aBlock"],
+source: "createBitmapPaint: aBitmap afterLoading: aBlock\x0a\x09^ AthensHTMLBitmapPaint forBitmap: aBitmap afterLoading: aBlock",
+messageSends: ["forBitmap:afterLoading:"],
+referencedClasses: ["AthensHTMLBitmapPaint"]
+}),
+smalltalk.AthensHTMLSurface);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "createLinearGradient:start:stop:",
 category: 'paints',
 fn: function (aColorRamp,aStartPoint,aStopPoint){

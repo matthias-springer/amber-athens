@@ -552,6 +552,34 @@ selector: "step21",
 category: 'steps',
 fn: function (){
 var self=this;
+function $Bitmap(){return smalltalk.Bitmap||(typeof Bitmap=="undefined"?nil:Bitmap)}
+function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
+return smalltalk.withContext(function($ctx1) { 
+_st(self["@surface"])._createBitmapPaint_afterLoading_(_st($Bitmap())._fromUrl_("http://amber-lang.net/images/amber.png"),(function(bitmapPaint){
+return smalltalk.withContext(function($ctx2) {
+_st(bitmapPaint)._repeat();
+return _st(self["@surface"])._drawDuring_((function(canvas){
+return smalltalk.withContext(function($ctx3) {
+_st(self["@surface"])._clear_(_st($Color())._gray());
+_st(canvas)._setPaint_(bitmapPaint);
+_st(_st(canvas)._paintTransform())._scaleBy_((0.5));
+return _st(canvas)._drawShape_(_st((0).__at((0)))._corner_(_st(self["@surface"])._extent()));
+}, function($ctx3) {$ctx3.fillBlock({canvas:canvas},$ctx2)})}));
+}, function($ctx2) {$ctx2.fillBlock({bitmapPaint:bitmapPaint},$ctx1)})}));
+return self}, function($ctx1) {$ctx1.fill(self,"step21",{},smalltalk.AthensTutorial)})},
+args: [],
+source: "step21\x0a\x22Step 21: Pattern paints (bitmap paints).\x0a\x0a\x22\x0a\x09\x0a\x09\x22The afterLoading block is executed when the image is loaded by the browser.\x0a\x09If you know for sure that the image is already loaded, you can use\x0a\x09createBitmapPaint: that creates the paint and returns it directly.\x22\x0a\x09\x0a\x09surface \x0a\x09\x09createBitmapPaint: (Bitmap fromUrl: 'http://amber-lang.net/images/amber.png')\x0a\x09\x09afterLoading: [:bitmapPaint |\x0a\x09\x09\x09bitmapPaint repeat. \x22use #repeat to repeat the fill ad infinitum using tiling effect \x22\x0a\x09\x0a\x09\x09\x09surface drawDuring: [:canvas |\x0a\x09\x09\x09\x09surface clear: Color gray.\x0a\x09\x09\x09\x0a\x09\x09\x09\x09canvas setPaint: bitmapPaint.\x0a\x09\x09\x0a\x09\x09\x09\x09\x22And of course, using the paint transform we can affect the result\x22\x0a\x09\x09\x0a\x09\x09\x09\x09canvas paintTransform scaleBy: 0.5.\x0a\x09\x09\x09\x09canvas drawShape: (0@0 corner: surface extent).\x0a\x0a\x09\x09\x09]].",
+messageSends: ["createBitmapPaint:afterLoading:", "fromUrl:", "repeat", "drawDuring:", "clear:", "gray", "setPaint:", "scaleBy:", "paintTransform", "drawShape:", "corner:", "extent", "@"],
+referencedClasses: ["Bitmap", "Color"]
+}),
+smalltalk.AthensTutorial);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "step21a",
+category: 'steps',
+fn: function (){
+var self=this;
 var bitmapPaint;
 function $Bitmap(){return smalltalk.Bitmap||(typeof Bitmap=="undefined"?nil:Bitmap)}
 function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
@@ -565,9 +593,9 @@ _st(canvas)._setPaint_(bitmapPaint);
 _st(_st(canvas)._paintTransform())._scaleBy_((0.5));
 return _st(canvas)._drawShape_(_st((0).__at((0)))._corner_(_st(self["@surface"])._extent()));
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
-return self}, function($ctx1) {$ctx1.fill(self,"step21",{bitmapPaint:bitmapPaint},smalltalk.AthensTutorial)})},
+return self}, function($ctx1) {$ctx1.fill(self,"step21a",{bitmapPaint:bitmapPaint},smalltalk.AthensTutorial)})},
 args: [],
-source: "step21\x0a\x22Step 21: Pattern paints (bitmap paints).\x0a\x0a\x22\x0a\x09| bitmapPaint  |\x0a\x0a\x09bitmapPaint := surface createBitmapPaint: (Bitmap fromUrl: 'http://amber-lang.net/images/amber.png'). \x0a\x09bitmapPaint repeat. \x22use #repeat to repeat the fill ad infinitum using tiling effect \x22\x0a\x09\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x09\x0a\x09\x09canvas setPaint: bitmapPaint.\x0a\x09\x09\x0a\x09\x09\x22And of course, using the paint transform we can affect the result\x22\x0a\x09\x09\x0a\x09\x09canvas paintTransform scaleBy: 0.5.\x0a\x09\x09canvas drawShape: (0@0 corner: surface extent).\x0a\x0a\x09].",
+source: "step21a\x0a\x22Step 21: Pattern paints (bitmap paints).\x0a\x0a\x22\x0a\x09| bitmapPaint  |\x0a\x0a\x09bitmapPaint := surface createBitmapPaint: (Bitmap fromUrl: 'http://amber-lang.net/images/amber.png'). \x0a\x09bitmapPaint repeat. \x22use #repeat to repeat the fill ad infinitum using tiling effect \x22\x0a\x09\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x09\x0a\x09\x09canvas setPaint: bitmapPaint.\x0a\x09\x09\x0a\x09\x09\x22And of course, using the paint transform we can affect the result\x22\x0a\x09\x09\x0a\x09\x09canvas paintTransform scaleBy: 0.5.\x0a\x09\x09canvas drawShape: (0@0 corner: surface extent).\x0a\x0a\x09].",
 messageSends: ["createBitmapPaint:", "fromUrl:", "repeat", "drawDuring:", "clear:", "gray", "setPaint:", "scaleBy:", "paintTransform", "drawShape:", "corner:", "extent", "@"],
 referencedClasses: ["Bitmap", "Color"]
 }),
@@ -822,7 +850,7 @@ _st(canvas)._setPaint_(_st($Color())._blue());
 _st(canvas)._drawShape_(_st((0).__at((0)))._corner_((300).__at((300))));
 _st(_st(canvas)._paintMode())._restoreAfter_((function(){
 return smalltalk.withContext(function($ctx3) {
-_st(_st(canvas)._paintMode())._source();
+_st(_st(canvas)._paintMode())._xor();
 _st(canvas)._setPaint_(_st(_st($Color())._yellow())._alpha_((0.5)));
 return _st(canvas)._drawShape_(_st((150).__at((150)))._corner_((450).__at((450))));
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2)})}));
@@ -831,8 +859,8 @@ return _st(canvas)._drawShape_(_st((200).__at((200)))._corner_((500).__at((500))
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas,stroke:stroke},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step28",{},smalltalk.AthensTutorial)})},
 args: [],
-source: "step28\x0a\x0a\x22Step 28: Paint modes. Preserving the modes.\x0a\x0a\x22\x0a\x09\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09| stroke |\x0a\x09\x09surface clear: Color gray.\x0a\x0a\x09\x09\x09\x0a\x09\x09\x22Draw a blue rectangle to use it as background \x22\x0a\x09\x09canvas setPaint: Color blue.\x09\x0a\x09\x09canvas drawShape: (0@0 corner: 300@300).\x0a\x0a\x09\x22Try to comment #restoreAfter: to see the difference \x22\x0a\x09\x09canvas paintMode restoreAfter: [\x09\x09\x0a\x0a\x09\x09\x09canvas paintMode source.\x0a\x09\x09\x09canvas setPaint: (Color yellow alpha: 0.5).\x09\x0a\x09\x09\x09canvas drawShape: (150@150 corner: 450@450).\x0a\x09\x09].\x0a\x09\x0a\x09\x0a\x09\x09canvas setPaint: (Color red).\x09\x0a\x09\x09canvas drawShape: (200@200 corner: 500@500).\x0a\x09].",
-messageSends: ["drawDuring:", "clear:", "gray", "setPaint:", "blue", "drawShape:", "corner:", "@", "restoreAfter:", "source", "paintMode", "alpha:", "yellow", "red"],
+source: "step28\x0a\x0a\x22Step 28: Paint modes. Preserving the modes.\x0a\x0a\x22\x0a\x09\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09| stroke |\x0a\x09\x09surface clear: Color gray.\x0a\x0a\x09\x09\x09\x0a\x09\x09\x22Draw a blue rectangle to use it as background \x22\x0a\x09\x09canvas setPaint: Color blue.\x09\x0a\x09\x09canvas drawShape: (0@0 corner: 300@300).\x0a\x0a\x09\x22Try to comment #restoreAfter: to see the difference \x22\x0a\x09\x09canvas paintMode restoreAfter: [\x09\x09\x0a\x0a\x09\x09\x09canvas paintMode xor.\x0a\x09\x09\x09canvas setPaint: (Color yellow alpha: 0.5).\x09\x0a\x09\x09\x09canvas drawShape: (150@150 corner: 450@450).\x0a\x09\x09].\x0a\x09\x0a\x09\x0a\x09\x09canvas setPaint: (Color red).\x09\x0a\x09\x09canvas drawShape: (200@200 corner: 500@500).\x0a\x09].",
+messageSends: ["drawDuring:", "clear:", "gray", "setPaint:", "blue", "drawShape:", "corner:", "@", "restoreAfter:", "xor", "paintMode", "alpha:", "yellow", "red"],
 referencedClasses: ["Color"]
 }),
 smalltalk.AthensTutorial);

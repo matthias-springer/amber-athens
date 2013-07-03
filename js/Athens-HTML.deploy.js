@@ -416,6 +416,20 @@ smalltalk.AthensHTMLSurface);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "createBitmapPaint:afterLoading:",
+fn: function (aBitmap,aBlock){
+var self=this;
+function $AthensHTMLBitmapPaint(){return smalltalk.AthensHTMLBitmapPaint||(typeof AthensHTMLBitmapPaint=="undefined"?nil:AthensHTMLBitmapPaint)}
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st($AthensHTMLBitmapPaint())._forBitmap_afterLoading_(aBitmap,aBlock);
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"createBitmapPaint:afterLoading:",{aBitmap:aBitmap,aBlock:aBlock},smalltalk.AthensHTMLSurface)})},
+messageSends: ["forBitmap:afterLoading:"]}),
+smalltalk.AthensHTMLSurface);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "createLinearGradient:start:stop:",
 fn: function (aColorRamp,aStartPoint,aStopPoint){
 var self=this;

@@ -218,6 +218,10 @@ createBitmapPaint: aBitmap
 	^ AthensHTMLBitmapPaint forBitmap: aBitmap
 !
 
+createBitmapPaint: aBitmap afterLoading: aBlock
+	^ AthensHTMLBitmapPaint forBitmap: aBitmap afterLoading: aBlock
+!
+
 createLinearGradient: aColorRamp start: aStartPoint stop: aStopPoint
 	^ AthensHTMLGradientPaint 
 		createLinearGradient: aColorRamp 

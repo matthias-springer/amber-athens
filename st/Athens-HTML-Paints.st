@@ -125,13 +125,20 @@ initialize
 ! !
 
 AthensHTMLPatternPaint subclass: #AthensHTMLBitmapPaint
-	instanceVariableNames: 'bitmap'
+	instanceVariableNames: 'bitmap loadingCallback'
 	package: 'Athens-HTML-Paints'!
 
 !AthensHTMLBitmapPaint methodsFor: 'accessing'!
 
 bitmap: aBitmap
 	bitmap := aBitmap.
+!
+
+loadingCallback: aBlock
+	loadingCallback := aBlock.
+	bitmap image complete
+		ifTrue: [aBlock value: self]
+		ifFalse: [bitmap image onLoad: [aBlock value: self]].
 ! !
 
 !AthensHTMLBitmapPaint methodsFor: 'drawing'!
@@ -147,6 +154,13 @@ patternSource
 forBitmap: aBitmap
 	^ self new
 		bitmap: aBitmap;
+		yourself
+!
+
+forBitmap: aBitmap afterLoading: aBlock
+	^ self new
+		bitmap: aBitmap;
+		loadingCallback: aBlock;
 		yourself
 ! !
 

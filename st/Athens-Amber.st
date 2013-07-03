@@ -133,6 +133,10 @@ complete
 	<return self.complete;>
 !
 
+onLoad: aBlock
+ 	<self.onload = aBlock;>
+!
+
 source: anUrl
 	<self.src = anUrl;>
 !

@@ -668,6 +668,33 @@ step21
 "Step 21: Pattern paints (bitmap paints).
 
 "
+	
+	"The afterLoading block is executed when the image is loaded by the browser.
+	If you know for sure that the image is already loaded, you can use
+	createBitmapPaint: that creates the paint and returns it directly."
+	
+	surface 
+		createBitmapPaint: (Bitmap fromUrl: 'http://amber-lang.net/images/amber.png')
+		afterLoading: [:bitmapPaint |
+			bitmapPaint repeat. "use #repeat to repeat the fill ad infinitum using tiling effect "
+	
+			surface drawDuring: [:canvas |
+				surface clear: Color gray.
+			
+				canvas setPaint: bitmapPaint.
+		
+				"And of course, using the paint transform we can affect the result"
+		
+				canvas paintTransform scaleBy: 0.5.
+				canvas drawShape: (0@0 corner: surface extent).
+
+			]].
+!
+
+step21a
+"Step 21: Pattern paints (bitmap paints).
+
+"
 	| bitmapPaint  |
 
 	bitmapPaint := surface createBitmapPaint: (Bitmap fromUrl: 'http://amber-lang.net/images/amber.png'). 
@@ -973,7 +1000,7 @@ step28
 	"Try to comment #restoreAfter: to see the difference "
 		canvas paintMode restoreAfter: [		
 
-			canvas paintMode source.
+			canvas paintMode xor.
 			canvas setPaint: (Color yellow alpha: 0.5).	
 			canvas drawShape: (150@150 corner: 450@450).
 		].

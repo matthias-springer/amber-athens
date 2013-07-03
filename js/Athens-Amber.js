@@ -438,6 +438,22 @@ smalltalk.Image);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "onLoad:",
+category: 'accessing',
+fn: function (aBlock){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self.onload = aBlock;;
+return self}, function($ctx1) {$ctx1.fill(self,"onLoad:",{aBlock:aBlock},smalltalk.Image)})},
+args: ["aBlock"],
+source: "onLoad: aBlock\x0a \x09<self.onload = aBlock;>",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.Image);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "source:",
 category: 'accessing',
 fn: function (anUrl){
