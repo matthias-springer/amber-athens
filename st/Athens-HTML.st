@@ -28,6 +28,18 @@ surface: anHTMLSurface
 	paintMode := AthensHTMLPaintMode on: surface.
 ! !
 
+!AthensHTMLCanvas methodsFor: 'clipping'!
+
+clipBy: aRectangle during: aBlock
+	self context2D save.
+	self context2D beginPath.
+	pathTransform set.
+	self context2D rect: aRectangle left a: aRectangle top a: aRectangle width a: aRectangle height.
+	self context2D clip.
+	[aBlock value] ensure: [
+		self context2D restore.].
+! !
+
 !AthensHTMLCanvas methodsFor: 'drawing'!
 
 drawString: aString

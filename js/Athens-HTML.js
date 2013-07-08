@@ -2,6 +2,33 @@ smalltalk.addPackage('Athens-HTML');
 smalltalk.addClass('AthensHTMLCanvas', smalltalk.AthensCanvas, ['pathTransform', 'paintTransform', 'currentClipRect', 'font'], 'Athens-HTML');
 smalltalk.addMethod(
 smalltalk.method({
+selector: "clipBy:during:",
+category: 'clipping',
+fn: function (aRectangle,aBlock){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+_st(self._context2D())._save();
+_st(self._context2D())._beginPath();
+_st(self["@pathTransform"])._set();
+_st(self._context2D())._rect_a_a_a_(_st(aRectangle)._left(),_st(aRectangle)._top(),_st(aRectangle)._width(),_st(aRectangle)._height());
+_st(self._context2D())._clip();
+_st((function(){
+return smalltalk.withContext(function($ctx2) {
+return _st(aBlock)._value();
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}))._ensure_((function(){
+return smalltalk.withContext(function($ctx2) {
+return _st(self._context2D())._restore();
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
+return self}, function($ctx1) {$ctx1.fill(self,"clipBy:during:",{aRectangle:aRectangle,aBlock:aBlock},smalltalk.AthensHTMLCanvas)})},
+args: ["aRectangle", "aBlock"],
+source: "clipBy: aRectangle during: aBlock\x0a\x09self context2D save.\x0a\x09self context2D beginPath.\x0a\x09pathTransform set.\x0a\x09self context2D rect: aRectangle left a: aRectangle top a: aRectangle width a: aRectangle height.\x0a\x09self context2D clip.\x0a\x09[aBlock value] ensure: [\x0a\x09\x09self context2D restore.].",
+messageSends: ["save", "context2D", "beginPath", "set", "rect:a:a:a:", "left", "top", "width", "height", "clip", "ensure:", "restore", "value"],
+referencedClasses: []
+}),
+smalltalk.AthensHTMLCanvas);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "context2D",
 category: 'accessing',
 fn: function (){
