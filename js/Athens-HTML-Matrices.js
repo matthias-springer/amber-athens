@@ -7,17 +7,14 @@ category: 'applying transformations',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=self["@surface"];
-if(($receiver = $1) == nil || $receiver == undefined){
-$1;
-} else {
-_st(_st(self["@surface"])._context2D())._transform_a_a_a_a_a_(self["@sx"],self["@shy"],self["@shx"],self["@sy"],self["@x"],self["@y"]);
-};
+ // Applies this matrix to the current transformation (multiplication)
+	if (self['@surface'] !== undefined) {
+		self['@surface']['@context2D'].transform(self['@sx'], self['@shy'], self['@shx'], self['@sy'], self['@x'], self['@y']);
+	} ;
 return self}, function($ctx1) {$ctx1.fill(self,"apply",{},smalltalk.AthensHTMLMatrix)})},
 args: [],
-source: "apply\x0a\x09\x22Applies this matrix to the current transformation (multiplication).\x22\x0a\x09surface ifNotNil: [\x0a\x09\x09surface context2D transform: sx a: shy a: shx a: sy a: x a: y].",
-messageSends: ["ifNotNil:", "transform:a:a:a:a:a:", "context2D"],
+source: "apply\x0a\x09< // Applies this matrix to the current transformation (multiplication)\x0a\x09if (self['@surface'] !== undefined) {\x0a\x09\x09self['@surface']['@context2D'].transform(self['@sx'], self['@shy'], self['@shx'], self['@sy'], self['@x'], self['@y']);\x0a\x09} >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLMatrix);
@@ -84,17 +81,14 @@ category: 'applying transformations',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=self["@surface"];
-if(($receiver = $1) == nil || $receiver == undefined){
-$1;
-} else {
-_st(_st(self["@surface"])._context2D())._setTransform_a_a_a_a_a_(self["@sx"],self["@shy"],self["@shx"],self["@sy"],self["@x"],self["@y"]);
-};
+ // Overwrites the current transformation
+	if (self['@surface'] !== undefined) {
+		self['@surface']['@context2D'].setTransform(self['@sx'], self['@shy'], self['@shx'], self['@sy'], self['@x'], self['@y']);
+	} ;
 return self}, function($ctx1) {$ctx1.fill(self,"set",{},smalltalk.AthensHTMLMatrix)})},
 args: [],
-source: "set\x0a\x09\x22Overwrites the current transformation.\x22\x0a\x09surface ifNotNil: [\x0a\x09\x09surface context2D setTransform: sx a: shy a: shx a: sy a: x a: y].",
-messageSends: ["ifNotNil:", "setTransform:a:a:a:a:a:", "context2D"],
+source: "set\x0a\x09< // Overwrites the current transformation\x0a\x09if (self['@surface'] !== undefined) {\x0a\x09\x09self['@surface']['@context2D'].setTransform(self['@sx'], self['@shy'], self['@shx'], self['@sy'], self['@x'], self['@y']);\x0a\x09} >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLMatrix);

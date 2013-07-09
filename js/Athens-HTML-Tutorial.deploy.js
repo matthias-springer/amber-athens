@@ -182,6 +182,29 @@ smalltalk.AthensTigerShape);
 smalltalk.addClass('AthensTutorial', smalltalk.Object, ['surface'], 'Athens-HTML-Tutorial');
 smalltalk.addMethod(
 smalltalk.method({
+selector: "doItstep31",
+fn: function (){
+var self=this;
+var font;
+function $LogicalFont(){return smalltalk.LogicalFont||(typeof LogicalFont=="undefined"?nil:LogicalFont)}
+function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
+return smalltalk.withContext(function($ctx1) { 
+font=_st($LogicalFont())._familyName_pointSize_("Arial",(20));
+_st(self["@surface"])._drawDuring_((function(canvas){
+return smalltalk.withContext(function($ctx2) {
+_st(self["@surface"])._clear_(_st($Color())._black());
+_st(canvas)._setFont_(font);
+_st(canvas)._setPaint_(_st($Color())._red());
+_st(_st(canvas)._pathTransform())._scaleBy_((4));
+_st(_st(canvas)._pathTransform())._translateX_Y_((0),_st(font)._getPreciseAscent());
+return _st(canvas)._drawString_("The End!");
+}, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
+return self}, function($ctx1) {$ctx1.fill(self,"doItstep31",{font:font},smalltalk.AthensTutorial)})},
+messageSends: ["familyName:pointSize:", "drawDuring:", "clear:", "black", "setFont:", "setPaint:", "red", "scaleBy:", "pathTransform", "translateX:Y:", "getPreciseAscent", "drawString:"]}),
+smalltalk.AthensTutorial);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "initialize",
 fn: function (){
 var self=this;

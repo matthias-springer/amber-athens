@@ -81,6 +81,26 @@ Object subclass: #AthensTutorial
 	instanceVariableNames: 'surface'
 	package: 'Athens-HTML-Tutorial'!
 
+!AthensTutorial methodsFor: ''!
+
+doItstep31
+"The End!!"
+
+	| font |	
+	font := LogicalFont familyName: 'Arial' pointSize: 20.
+
+	surface drawDuring: [:canvas |
+		surface clear: Color black.
+
+		canvas setFont: font.
+		canvas setPaint: Color red.
+		
+		canvas pathTransform scaleBy: 4.
+		canvas pathTransform translateX: 0 Y: (font getPreciseAscent).
+		canvas drawString: 'The End!!'.
+	].
+! !
+
 !AthensTutorial methodsFor: 'initialize-release'!
 
 initialize

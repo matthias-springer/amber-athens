@@ -594,13 +594,11 @@ category: 'drawing',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st(self["@color"])._rgbaString();
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"rgbaString",{},smalltalk.AthensHTMLSolidPaint)})},
+ return self['@color']._rgbaString(); ;
+return self}, function($ctx1) {$ctx1.fill(self,"rgbaString",{},smalltalk.AthensHTMLSolidPaint)})},
 args: [],
-source: "rgbaString\x0a\x09^ color rgbaString",
-messageSends: ["rgbaString"],
+source: "rgbaString\x0a\x09< return self['@color']._rgbaString(); >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLSolidPaint);
@@ -615,11 +613,11 @@ category: 'setting cap styles',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self._capStyle_("butt");
+ self['@capStyle'] = 'butt'; ;
 return self}, function($ctx1) {$ctx1.fill(self,"capButt",{},smalltalk.AthensHTMLStrokePaint)})},
 args: [],
-source: "capButt\x0a\x09self capStyle: 'butt'.",
-messageSends: ["capStyle:"],
+source: "capButt\x0a\x09< self['@capStyle'] = 'butt'; >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLStrokePaint);
@@ -631,11 +629,11 @@ category: 'setting cap styles',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self._capStyle_("round");
+ self['@capStyle'] = 'round'; ;
 return self}, function($ctx1) {$ctx1.fill(self,"capRound",{},smalltalk.AthensHTMLStrokePaint)})},
 args: [],
-source: "capRound\x0a\x09self capStyle: 'round'.",
-messageSends: ["capStyle:"],
+source: "capRound\x0a\x09< self['@capStyle'] = 'round'; >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLStrokePaint);
@@ -647,11 +645,11 @@ category: 'setting cap styles',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self._capStyle_("square");
+ self['@capStyle'] = 'square'; ;
 return self}, function($ctx1) {$ctx1.fill(self,"capSquare",{},smalltalk.AthensHTMLStrokePaint)})},
 args: [],
-source: "capSquare\x0a\x09self capStyle: 'square'.",
-messageSends: ["capStyle:"],
+source: "capSquare\x0a\x09< self['@capStyle'] = 'square'; >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLStrokePaint);
@@ -695,21 +693,22 @@ selector: "fillPath:on:",
 category: 'drawing',
 fn: function (aPath,anAthensCanvas){
 var self=this;
-var context2D;
 return smalltalk.withContext(function($ctx1) { 
-context2D=_st(anAthensCanvas)._context2D();
-_st(_st(anAthensCanvas)._pathTransform())._set();
-_st(context2D)._strokeStyle_(_st(self["@fillPaint"])._rgbaString());
-_st(context2D)._lineWidth_(self["@width"]);
-_st(context2D)._lineJoin_(self["@joinStyle"]);
-_st(context2D)._lineCap_(self["@capStyle"]);
-self._setDashStyleOn_(context2D);
-_st(aPath)._drawOn_(anAthensCanvas);
-_st(context2D)._stroke();
-return self}, function($ctx1) {$ctx1.fill(self,"fillPath:on:",{aPath:aPath,anAthensCanvas:anAthensCanvas,context2D:context2D},smalltalk.AthensHTMLStrokePaint)})},
+ var context2D = anAthensCanvas['@surface']['@context2D'];
+	anAthensCanvas['@pathTransform']._set();
+	context2D.strokeStyle = self['@fillPaint']._rgbaString();
+	context2D.lineWidth = self['@width'];
+	context2D.lineJoin = self['@joinStyle'];
+	context2D.lineCap = self['@capStyle'];
+	// TODO: this only works in Chrome, see http://www.rgraph.net/blog/2013/january/html5-canvas-dashed-lines.html
+	context2D.setLineDash(self['@dashLenghts']);
+	context2D.lineDashOffset = self['@dashOffset'];
+	aPath._drawOn_(anAthensCanvas);
+	context2D.stroke(); ;
+return self}, function($ctx1) {$ctx1.fill(self,"fillPath:on:",{aPath:aPath,anAthensCanvas:anAthensCanvas},smalltalk.AthensHTMLStrokePaint)})},
 args: ["aPath", "anAthensCanvas"],
-source: "fillPath: aPath on: anAthensCanvas\x0a\x09|context2D|\x0a\x09context2D := anAthensCanvas context2D.\x0a\x09anAthensCanvas pathTransform set.\x0a\x09context2D strokeStyle: fillPaint rgbaString.\x0a\x09context2D lineWidth: width.\x0a\x09context2D lineJoin: joinStyle.\x0a\x09context2D lineCap: capStyle.\x0a\x09self setDashStyleOn: context2D.\x0a\x09aPath drawOn: anAthensCanvas.\x0a\x09context2D stroke.",
-messageSends: ["context2D", "set", "pathTransform", "strokeStyle:", "rgbaString", "lineWidth:", "lineJoin:", "lineCap:", "setDashStyleOn:", "drawOn:", "stroke"],
+source: "fillPath: aPath on: anAthensCanvas\x0a\x09< var context2D = anAthensCanvas['@surface']['@context2D'];\x0a\x09anAthensCanvas['@pathTransform']._set();\x0a\x09context2D.strokeStyle = self['@fillPaint']._rgbaString();\x0a\x09context2D.lineWidth = self['@width'];\x0a\x09context2D.lineJoin = self['@joinStyle'];\x0a\x09context2D.lineCap = self['@capStyle'];\x0a\x09// TODO: this only works in Chrome, see http://www.rgraph.net/blog/2013/january/html5-canvas-dashed-lines.html\x0a\x09context2D.setLineDash(self['@dashLenghts']);\x0a\x09context2D.lineDashOffset = self['@dashOffset'];\x0a\x09aPath._drawOn_(anAthensCanvas);\x0a\x09context2D.stroke(); >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLStrokePaint);
@@ -740,11 +739,11 @@ category: 'setting join styles',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self._joinStyle_("bevel");
+ self['@joinStyle'] = 'bevel'; ;
 return self}, function($ctx1) {$ctx1.fill(self,"joinBevel",{},smalltalk.AthensHTMLStrokePaint)})},
 args: [],
-source: "joinBevel\x0a\x09self joinStyle: 'bevel'.",
-messageSends: ["joinStyle:"],
+source: "joinBevel\x0a\x09< self['@joinStyle'] = 'bevel'; >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLStrokePaint);
@@ -756,11 +755,11 @@ category: 'setting join styles',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self._joinStyle_("miter");
+ self['@joinStyle'] = 'miter'; ;
 return self}, function($ctx1) {$ctx1.fill(self,"joinMiter",{},smalltalk.AthensHTMLStrokePaint)})},
 args: [],
-source: "joinMiter\x0a\x09self joinStyle: 'miter'.",
-messageSends: ["joinStyle:"],
+source: "joinMiter\x0a\x09< self['@joinStyle'] = 'miter'; >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLStrokePaint);
@@ -772,28 +771,11 @@ category: 'setting join styles',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self._joinStyle_("round");
+ self['@joinStyle'] = 'round'; ;
 return self}, function($ctx1) {$ctx1.fill(self,"joinRound",{},smalltalk.AthensHTMLStrokePaint)})},
 args: [],
-source: "joinRound\x0a\x09self joinStyle: 'round'.",
-messageSends: ["joinStyle:"],
-referencedClasses: []
-}),
-smalltalk.AthensHTMLStrokePaint);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "setDashStyleOn:",
-category: 'drawing',
-fn: function (context2D){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-_st(context2D)._setLineDash_(self["@dashLenghts"]);
-_st(context2D)._lineDashOffset_(self["@dashOffset"]);
-return self}, function($ctx1) {$ctx1.fill(self,"setDashStyleOn:",{context2D:context2D},smalltalk.AthensHTMLStrokePaint)})},
-args: ["context2D"],
-source: "setDashStyleOn: context2D\x0a\x09\x22TODO: this only works in Chrome, see http://www.rgraph.net/blog/2013/january/html5-canvas-dashed-lines.html\x22\x0a\x09context2D setLineDash: dashLenghts.\x0a\x09context2D lineDashOffset: dashOffset.",
-messageSends: ["setLineDash:", "lineDashOffset:"],
+source: "joinRound\x0a\x09< self['@joinStyle'] = 'round'; >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLStrokePaint);

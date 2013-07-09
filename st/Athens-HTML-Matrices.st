@@ -16,15 +16,17 @@ surface: aSurface
 !AthensHTMLMatrix methodsFor: 'applying transformations'!
 
 apply
-	"Applies this matrix to the current transformation (multiplication)."
-	surface ifNotNil: [
-		surface context2D transform: sx a: shy a: shx a: sy a: x a: y].
+	< // Applies this matrix to the current transformation (multiplication)
+	if (self['@surface'] !!== undefined) {
+		self['@surface']['@context2D'].transform(self['@sx'], self['@shy'], self['@shx'], self['@sy'], self['@x'], self['@y']);
+	} >
 !
 
 set
-	"Overwrites the current transformation."
-	surface ifNotNil: [
-		surface context2D setTransform: sx a: shy a: shx a: sy a: x a: y].
+	< // Overwrites the current transformation
+	if (self['@surface'] !!== undefined) {
+		self['@surface']['@context2D'].setTransform(self['@sx'], self['@shy'], self['@shx'], self['@sy'], self['@x'], self['@y']);
+	} >
 ! !
 
 !AthensHTMLMatrix methodsFor: 'transformations'!

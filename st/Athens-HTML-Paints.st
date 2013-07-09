@@ -221,7 +221,7 @@ fillRectangle: aRect on: anAthensCanvas
 !
 
 rgbaString
-	^ color rgbaString
+	< return self['@color']._rgbaString(); >
 ! !
 
 AthensStrokePaint subclass: #AthensHTMLStrokePaint
@@ -238,22 +238,17 @@ dashes: anAlternateCollectionOfLenghts offset: anOffset
 !AthensHTMLStrokePaint methodsFor: 'drawing'!
 
 fillPath: aPath on: anAthensCanvas
-	|context2D|
-	context2D := anAthensCanvas context2D.
-	anAthensCanvas pathTransform set.
-	context2D strokeStyle: fillPaint rgbaString.
-	context2D lineWidth: width.
-	context2D lineJoin: joinStyle.
-	context2D lineCap: capStyle.
-	self setDashStyleOn: context2D.
-	aPath drawOn: anAthensCanvas.
-	context2D stroke.
-!
-
-setDashStyleOn: context2D
-	"TODO: this only works in Chrome, see http://www.rgraph.net/blog/2013/january/html5-canvas-dashed-lines.html"
-	context2D setLineDash: dashLenghts.
-	context2D lineDashOffset: dashOffset.
+	< var context2D = anAthensCanvas['@surface']['@context2D'];
+	anAthensCanvas['@pathTransform']._set();
+	context2D.strokeStyle = self['@fillPaint']._rgbaString();
+	context2D.lineWidth = self['@width'];
+	context2D.lineJoin = self['@joinStyle'];
+	context2D.lineCap = self['@capStyle'];
+	// TODO: this only works in Chrome, see http://www.rgraph.net/blog/2013/january/html5-canvas-dashed-lines.html
+	context2D.setLineDash(self['@dashLenghts']);
+	context2D.lineDashOffset = self['@dashOffset'];
+	aPath._drawOn_(anAthensCanvas);
+	context2D.stroke(); >
 ! !
 
 !AthensHTMLStrokePaint methodsFor: 'initialize-release'!
@@ -272,28 +267,28 @@ initialize
 !AthensHTMLStrokePaint methodsFor: 'setting cap styles'!
 
 capButt
-	self capStyle: 'butt'.
+	< self['@capStyle'] = 'butt'; >
 !
 
 capRound
-	self capStyle: 'round'.
+	< self['@capStyle'] = 'round'; >
 !
 
 capSquare
-	self capStyle: 'square'.
+	< self['@capStyle'] = 'square'; >
 ! !
 
 !AthensHTMLStrokePaint methodsFor: 'setting join styles'!
 
 joinBevel
-	self joinStyle: 'bevel'.
+	< self['@joinStyle'] = 'bevel'; >
 !
 
 joinMiter
-	self joinStyle: 'miter'.
+	< self['@joinStyle'] = 'miter'; >
 !
 
 joinRound
-	self joinStyle: 'round'.
+	< self['@joinStyle'] = 'round'; >
 ! !
 

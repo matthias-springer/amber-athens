@@ -6,15 +6,12 @@ selector: "apply",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=self["@surface"];
-if(($receiver = $1) == nil || $receiver == undefined){
-$1;
-} else {
-_st(_st(self["@surface"])._context2D())._transform_a_a_a_a_a_(self["@sx"],self["@shy"],self["@shx"],self["@sy"],self["@x"],self["@y"]);
-};
+ // Applies this matrix to the current transformation (multiplication)
+	if (self['@surface'] !== undefined) {
+		self['@surface']['@context2D'].transform(self['@sx'], self['@shy'], self['@shx'], self['@sy'], self['@x'], self['@y']);
+	} ;
 return self}, function($ctx1) {$ctx1.fill(self,"apply",{},smalltalk.AthensHTMLMatrix)})},
-messageSends: ["ifNotNil:", "transform:a:a:a:a:a:", "context2D"]}),
+messageSends: []}),
 smalltalk.AthensHTMLMatrix);
 
 smalltalk.addMethod(
@@ -63,15 +60,12 @@ selector: "set",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=self["@surface"];
-if(($receiver = $1) == nil || $receiver == undefined){
-$1;
-} else {
-_st(_st(self["@surface"])._context2D())._setTransform_a_a_a_a_a_(self["@sx"],self["@shy"],self["@shx"],self["@sy"],self["@x"],self["@y"]);
-};
+ // Overwrites the current transformation
+	if (self['@surface'] !== undefined) {
+		self['@surface']['@context2D'].setTransform(self['@sx'], self['@shy'], self['@shx'], self['@sy'], self['@x'], self['@y']);
+	} ;
 return self}, function($ctx1) {$ctx1.fill(self,"set",{},smalltalk.AthensHTMLMatrix)})},
-messageSends: ["ifNotNil:", "setTransform:a:a:a:a:a:", "context2D"]}),
+messageSends: []}),
 smalltalk.AthensHTMLMatrix);
 
 smalltalk.addMethod(

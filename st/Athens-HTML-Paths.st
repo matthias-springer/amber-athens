@@ -27,50 +27,35 @@ drawOn: anAthensCanvas
 !
 
 paintFillsUsing: aPaint on: anAthensCanvas 
-	"This method is a part of rendering dispatch  Canvas->receiver->paint"
-	^ aPaint fillPath: self on: anAthensCanvas
+	< aPaint._fillPath_on_(self, anAthensCanvas); >
 ! !
 
 !AthensHTMLPath methodsFor: 'path commands'!
 
-angleOfVector: v
-	|acos|
-	acos := v normalized x arcCos.
-	^ v y < 0 ifTrue: [Number pi * 2 - acos] ifFalse: [acos]
-!
-
-arcCenterX: xc centerY: yc radius: radius startAngle: angle1 endAngle: angle2 ccw: aBool
-	< self['@context2D'].arc(xc, yc, radius, angle1, angle2, aBool); >
-!
-
 arcTo: newEndPoint angle: angle cw: aBool
-
-	" Add a clockwise arc segment, starting from current path endpoint and
-	ending at andPt. Angle should be specified in radians 
-	"
-
-	| start end center v radius startAngle endAngle cwAngle |	
-	start := endPoint.
-	endPoint := end :=  newEndPoint.
-
-	"we have to transform the input. because Cario expects 
-	the center , radius, starting and ending angle,
-	and we have the starting point, the ending point , and the angle.
-	"
-	aBool ifTrue: [cwAngle := angle] ifFalse: [cwAngle := angle negated].
-	center := self calcCenter: start end: end  angle: cwAngle.
-	v := (start - center).
-	radius := v r.
-	startAngle := self angleOfVector: v.
-	endAngle := self angleOfVector: (end-center).
+	< var start = self['@endPoint'];
+	var end = self['@endPoint'] = newEndPoint;
+	var cwAngle = aBool ? angle : -angle;
+	var center = self._calcCenter_end_angle_(start, end, cwAngle);
+	var vX = start._x() - center._x();
+	var vY = start._y() - center._y();
+	var radius = Math.sqrt(vX * vX + vY * vY);
 	
-	self arcCenterX: center x centerY: center y  radius: radius  startAngle: startAngle endAngle: endAngle ccw: aBool not.
+	var vXAcos = Math.acos(vX / Math.sqrt(vX * vX + vY * vY));
+	var startAngle = vY < 0 ? Math.PI * 2 - vXAcos : vXAcos;
+	
+	var eX = end._x() - center._x();
+	var eY = end._y() - center._y();
+	var eXAcos = Math.acos(eX / Math.sqrt(eX * eX + eY * eY));
+	var endAngle = eY < 0 ? Math.PI * 2 - eXAcos : eXAcos;
+	
+	self['@context2D'].arc(center._x(), center._y(), radius, startAngle, endAngle, !!aBool); >
 !
 
 calcCenter: start end: end angle: angle
 
 	| v  rot  center radius len sina cosa m |	
-
+	
 	v := end - start.
 	
 	m := AthensAffineTransform new rotateByRadians: (Number pi - angle   /2).
@@ -92,26 +77,26 @@ ccwArcTo: newEndPoint angle: angle
 !
 
 close
-	context2D closePath.
-	endPoint := startPoint.
+	< self['@endPoint'] = self['@startPoint'];
+	self['@context2D'].closePath(); >
 !
 
 curveVia: pt1 and: pt2 to: aPoint
-	endPoint := aPoint.
-	self curveViaX: pt1 x Y: pt1 y viaX: pt2 x Y: pt2 y toX: aPoint x Y: aPoint y.
+	< self['@endPoint'] = aPoint;
+	self['@context2D'].bezierCurveTo(pt1._x(), pt1._y(), pt2._x(), pt2._y(), aPoint._x(), aPoint._y()); >
 !
 
 curveVia: pt1 to: aPoint
-	endPoint := aPoint.
-	self curveViaX: pt1 x Y: pt1 y toX: endPoint x Y: aPoint y.
+	< self['@endPoint'] = aPoint;
+	self['@context2D'].quadraticCurveTo(pt1._x(), pt1._y(), aPoint._x(), aPoint._y()); >
 !
 
 curveViaX: x1 Y: y1 toX: x2 Y: y2
-	context2D quadraticCurveTo: x1 a: y1 a: x2 a: y2.
+	< self['@context2D'].quadraticCurveTo(x1, y1, x2, y2); >
 !
 
 curveViaX: x1 Y: y1 viaX: x2 Y: y2 toX: x3 Y: y3
-	context2D bezierCurveTo: x1 a: y1 a: x2 a: y2 a: x3 a: y3.
+	< self['@context2D'].bezierCurveTo(x1, y1, x2, y2, x3, y3); >
 !
 
 cwArcTo: newEndPoint angle: angle
@@ -122,28 +107,36 @@ cwArcTo: newEndPoint angle: angle
 !
 
 lineTo: aPoint
-	endPoint := aPoint.
-	^ self lineToX: endPoint x Y: endPoint y
+	< self['@endPoint'] = aPoint;
+	self['@context2D'].lineTo(aPoint._x(), aPoint._y()); >
 !
 
 lineToX: x Y: y
-	context2D lineTo: x a: y.
+	< self['@context2D'].lineTo(x, y); >
 !
 
 moveTo: aPoint
-	endPoint := aPoint.
-	^ self moveToX: aPoint x Y: aPoint y
+	< self['@endPoint'] = aPoint;
+	self['@context2D'].moveTo(aPoint._x(), aPoint._y()); >
 !
 
 moveToX: x Y: y
-	context2D moveTo: x a: y.
+	< self['@context2D'].moveTo(x, y); >
 !
 
 newPath
-	endPoint := 0@0.
-	startPoint := 0@0.
-	context2D beginPath.
-	self moveToX: 0 Y: 0.
+	< self['@endPoint'] = self._class()['@zeroPoint'];
+	self['@startPoint'] = self._class()['@zeroPoint'];
+	self['@context2D'].beginPath();
+	self._moveToX_Y_(0, 0); >
+! !
+
+AthensHTMLPath class instanceVariableNames: 'zeroPoint'!
+
+!AthensHTMLPath class methodsFor: 'initialization'!
+
+initialize
+	zeroPoint := 0@0.
 ! !
 
 !AthensHTMLPath class methodsFor: 'instance creation'!
@@ -151,202 +144,6 @@ newPath
 segment: startSegment
 	^ self new
 		segment: startSegment;
-		yourself
-! !
-
-AthensPathBuilder subclass: #AthensHTMLPathBuilder
-	instanceVariableNames: 'surface absolute endPoint startPoint pathCreatingBlock'
-	package: 'Athens-HTML-Paths'!
-
-!AthensHTMLPathBuilder methodsFor: 'accessing'!
-
-surface
-	^ surface
-!
-
-surface: anObject
-	surface := anObject.
-! !
-
-!AthensHTMLPathBuilder methodsFor: 'drawing'!
-
-createPath: aPathCreatingBlock
-	pathCreatingBlock := aPathCreatingBlock.
-	absolute := false.
-	endPoint := self class zeroPoint.
-! !
-
-!AthensHTMLPathBuilder methodsFor: 'path commands'!
-
-absolute
-	absolute := true.
-!
-
-ccwArcTo: newEndPoint angle: angle
-	" Add a counter-clockwise arc segment, starting from current path endpoint and
-	ending at andPt. Angle should be specified in radians 
-	"
-	^ self arcTo: newEndPoint angle: angle cw: false
-!
-
-close
-	self closePath.
-	"endPoint := startPoint."
-!
-
-curveVia: p1 and: p2 to: aPoint
-	|pt1 pt2|
-	pt1 := self toAbsolute: p1.
-	pt2 := self toAbsolute: p2.
-	endPoint := self toAbsolute: aPoint.
-	self curveViaX: pt1 x Y: pt1 y viaX: pt2 x Y: pt2 y toX: endPoint x Y: endPoint y.
-!
-
-curveVia: p1 to: aPoint
-	|pt1|
-	pt1 := self toAbsolute: p1.
-	endPoint := self toAbsolute: aPoint.
-	self curveViaX: pt1 x Y: pt1 y toX: endPoint x Y: endPoint y.
-!
-
-cwArcTo: newEndPoint angle: angle
-	" Add a clockwise arc segment, starting from current path endpoint and
-	ending at andPt. Angle should be specified in radians 
-	"
-	^ self arcTo: newEndPoint angle: angle cw: true
-!
-
-draw
-	self newPath.
-	self moveToX: 0 Y: 0.
-	
-	pathCreatingBlock value: self.
-!
-
-lineTo: aPoint
-	endPoint := self toAbsolute: aPoint.
-	^ self lineToX: endPoint x Y: endPoint y
-!
-
-moveTo: aPoint
-	endPoint := self toAbsolute: aPoint.
-	"startPoint := endPoint."
-	^ self moveToX: endPoint x Y: endPoint y
-!
-
-newPath
-	absolute := false.
-	endPoint := self class zeroPoint.
-	surface context2D beginPath.
-	startPoint := endPoint.
-	self moveToX: 0 Y: 0.
-!
-
-paintFillsUsing: aPaint on: anAthensCanvas 
-	^ aPaint fillPath: self on: anAthensCanvas
-!
-
-relative
-	absolute := false.
-!
-
-toAbsolute: aPoint
-	^ true 
-			ifTrue: [aPoint] 
-			ifFalse: [endPoint + aPoint]
-! !
-
-!AthensHTMLPathBuilder methodsFor: 'private'!
-
-angleOfVector: v
-
-	| n acos |
-	
-	n := v normalized.
-	acos := n x arcCos.
-	
-	^ v y < 0 ifTrue: [ Number pi * 2 - acos ] ifFalse: [ acos ]
-!
-
-arcCenterX: xc centerY: yc radius: radius startAngle: angle1 endAngle: angle2 ccw: aBool
-	surface context2D arc: xc a: yc a: radius a: angle1 a: angle2 a: aBool.
-!
-
-arcTo: newEndPoint angle: angle cw: aBool
-
-	" Add a clockwise arc segment, starting from current path endpoint and
-	ending at andPt. Angle should be specified in radians 
-	"
-
-	| start end center v radius startAngle endAngle cwAngle |	
-	start := endPoint.
-	endPoint := end := self toAbsolute: newEndPoint.
-
-	"we have to transform the input. because Cario expects 
-	the center , radius, starting and ending angle,
-	and we have the starting point, the ending point , and the angle.
-	"
-	aBool ifTrue: [cwAngle := angle] ifFalse: [cwAngle := angle negated].
-	center := self calcCenter: start end: end  angle: cwAngle.
-	v := (start - center).
-	radius := v r.
-	startAngle := self angleOfVector: v.
-	endAngle := self angleOfVector: (end-center).
-	
-	self arcCenterX: center x centerY: center y  radius: radius  startAngle: startAngle endAngle: endAngle ccw: aBool not.
-!
-
-calcCenter: start end: end angle: angle
-
-	| v  rot  center radius len sina cosa m |	
-
-	v := end - start.
-	
-	m := AthensAffineTransform new rotateByRadians: (Number pi - angle   /2).
-
-	v := m transform: v.		
-	len := v r.
-	radius := len / 2 / (angle /2) sin.
-	
-	center := v * (radius/len) + start.
-
-	^ center
-!
-
-closePath
-	surface context2D closePath.
-!
-
-curveViaX: x1 Y: y1 toX: x2 Y: y2
-	surface context2D quadraticCurveTo: x1 a: y1 a: x2 a: y2.
-!
-
-curveViaX: x1 Y: y1 viaX: x2 Y: y2 toX: x3 Y: y3
-	surface context2D bezierCurveTo: x1 a: y1 a: x2 a: y2 a: x3 a: y3.
-!
-
-lineToX: x Y: y
-	surface context2D lineTo: x a: y.
-!
-
-moveToX: x Y: y
-	surface context2D moveTo: x a: y.
-! !
-
-!AthensHTMLPathBuilder class methodsFor: 'instance creation'!
-
-on: anHTMLSurface
-	^ self basicNew
-		surface: anHTMLSurface;
-		initialize;
-		yourself
-!
-
-on: anHTMLSurface with: aPathCreatingBlock
-	^ self basicNew
-		surface: anHTMLSurface;
-		initialize;
-		createPath: aPathCreatingBlock;
 		yourself
 ! !
 

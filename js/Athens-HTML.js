@@ -1,5 +1,5 @@
 smalltalk.addPackage('Athens-HTML');
-smalltalk.addClass('AthensHTMLCanvas', smalltalk.AthensCanvas, ['pathTransform', 'paintTransform', 'pathBuilder', 'currentClipRect', 'font'], 'Athens-HTML');
+smalltalk.addClass('AthensHTMLCanvas', smalltalk.AthensCanvas, ['pathTransform', 'paintTransform', 'currentClipRect', 'font'], 'Athens-HTML');
 smalltalk.addMethod(
 smalltalk.method({
 selector: "clipBy:during:",
@@ -137,19 +137,17 @@ category: 'accessing',
 fn: function (anHTMLSurface){
 var self=this;
 function $AthensHTMLMatrix(){return smalltalk.AthensHTMLMatrix||(typeof AthensHTMLMatrix=="undefined"?nil:AthensHTMLMatrix)}
-function $AthensHTMLPathBuilder(){return smalltalk.AthensHTMLPathBuilder||(typeof AthensHTMLPathBuilder=="undefined"?nil:AthensHTMLPathBuilder)}
 function $AthensHTMLPaintMode(){return smalltalk.AthensHTMLPaintMode||(typeof AthensHTMLPaintMode=="undefined"?nil:AthensHTMLPaintMode)}
 return smalltalk.withContext(function($ctx1) { 
 self["@surface"]=anHTMLSurface;
 self["@pathTransform"]=_st($AthensHTMLMatrix())._on_(self["@surface"]);
 self["@paintTransform"]=_st($AthensHTMLMatrix())._on_(self["@surface"]);
-self["@pathBuilder"]=_st($AthensHTMLPathBuilder())._on_(self["@surface"]);
 self["@paintMode"]=_st($AthensHTMLPaintMode())._on_(self["@surface"]);
 return self}, function($ctx1) {$ctx1.fill(self,"surface:",{anHTMLSurface:anHTMLSurface},smalltalk.AthensHTMLCanvas)})},
 args: ["anHTMLSurface"],
-source: "surface: anHTMLSurface\x0a\x09surface := anHTMLSurface.\x0a\x09pathTransform := AthensHTMLMatrix on: surface.\x0a\x09paintTransform := AthensHTMLMatrix on: surface.\x0a\x09pathBuilder := AthensHTMLPathBuilder on: surface.\x0a\x09paintMode := AthensHTMLPaintMode on: surface.",
+source: "surface: anHTMLSurface\x0a\x09surface := anHTMLSurface.\x0a\x09pathTransform := AthensHTMLMatrix on: surface.\x0a\x09paintTransform := AthensHTMLMatrix on: surface.\x0a\x09paintMode := AthensHTMLPaintMode on: surface.",
 messageSends: ["on:"],
-referencedClasses: ["AthensHTMLMatrix", "AthensHTMLPathBuilder", "AthensHTMLPaintMode"]
+referencedClasses: ["AthensHTMLMatrix", "AthensHTMLPaintMode"]
 }),
 smalltalk.AthensHTMLCanvas);
 
