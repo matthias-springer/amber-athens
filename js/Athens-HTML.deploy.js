@@ -28,11 +28,9 @@ selector: "context2D",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st(self["@surface"])._context2D();
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"context2D",{},smalltalk.AthensHTMLCanvas)})},
-messageSends: ["context2D"]}),
+ return self['@surface']['@context2D']; ;
+return self}, function($ctx1) {$ctx1.fill(self,"context2D",{},smalltalk.AthensHTMLCanvas)})},
+messageSends: []}),
 smalltalk.AthensHTMLCanvas);
 
 smalltalk.addMethod(

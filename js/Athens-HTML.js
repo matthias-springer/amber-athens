@@ -34,13 +34,11 @@ category: 'accessing',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st(self["@surface"])._context2D();
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"context2D",{},smalltalk.AthensHTMLCanvas)})},
+ return self['@surface']['@context2D']; ;
+return self}, function($ctx1) {$ctx1.fill(self,"context2D",{},smalltalk.AthensHTMLCanvas)})},
 args: [],
-source: "context2D\x0a\x09^ surface context2D",
-messageSends: ["context2D"],
+source: "context2D\x0a\x09< return self['@surface']['@context2D']; >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLCanvas);

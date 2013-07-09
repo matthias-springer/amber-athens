@@ -1656,13 +1656,11 @@ category: '*Athens-Core',
 fn: function (anAthensCanvas){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st(_st(anAthensCanvas)._surface())._createSolidColorPaint_(self);
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"asAthensPaintOn:",{anAthensCanvas:anAthensCanvas},smalltalk.Color)})},
+ return anAthensCanvas['@surface']._createSolidColorPaint_(self); ;
+return self}, function($ctx1) {$ctx1.fill(self,"asAthensPaintOn:",{anAthensCanvas:anAthensCanvas},smalltalk.Color)})},
 args: ["anAthensCanvas"],
-source: "asAthensPaintOn: anAthensCanvas\x0a\x09^ anAthensCanvas surface createSolidColorPaint: self",
-messageSends: ["createSolidColorPaint:", "surface"],
+source: "asAthensPaintOn: anAthensCanvas\x0a\x09< return anAthensCanvas['@surface']._createSolidColorPaint_(self); >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.Color);

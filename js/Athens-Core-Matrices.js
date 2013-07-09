@@ -50,7 +50,7 @@ $1=_st(x0).__at(y0);
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"inverseTransform:",{aPoint:aPoint,px:px,py:py,y0:y0,x0:x0},smalltalk.AthensAffineTransform)})},
 args: ["aPoint"],
-source: "inverseTransform: aPoint \x0a\x09| px py y0 x0 |\x0a\x09\x0a\x09px := aPoint x.\x0a\x09py := aPoint y.\x0a\x0a\x22  (we assume matrix is never degenerate)\x0a\x09Given straight transformation formulae:\x0a\x09\x09\x0a\x09px := x0*sx + y0*shx + x.\x0a\x09py := x0*shy + y0*sy + y.\x0a\x09\x0a\x09we doing inverse one, trying to find x0,y0 for rest of given variables (px,py,x,y,sx,sy,shx,shy).\x0a\x09\x0a\x09x0 := px - x - (shx*y0) / sx.\x0a\x09y0 := py - y - (shy*x0) / sy.\x0a\x09\x0a\x09y0 := py - y - (shy*(px - x - (shx*y0) / sx)) / sy.\x0a\x0a\x09sy * y0  == py - y - (shy*(px - x - (shx*y0) / sx)).\x0a\x0a\x09sx * sy * y0  == (sx*(py - y)) - (shy*(px - x - (shx*y0))).\x0a\x0a\x09sx * sy * y0  == sx*py - (sx*y) - (shy*px) + (shy*x) + (shy*shx*y0).\x0a\x0a\x09(sx * sy * y0) - (shy*shx*y0)  == sx*py - (sx*y) - (shy*px) + (shy*x) .\x0a\x09\x0a\x09y0* ((sx * sy) - (shy*shx))  == sx*py - (sx*y) - (shy*px) + (shy*x) .\x0a\x0a\x22\x0a\x09y0  := sx*py - (sx*y) - (shy*px) + (shy*x) / ((sx * sy) - (shy*shx)).\x0a\x09x0 := px - x - (shx*y0) / sx.\x0a\x0a\x09^ x0@y0\x0a\x09",
+source: "inverseTransform: aPoint \x0a\x09| px py y0 x0 |\x0a\x0a\x09px := aPoint x.\x0a\x09py := aPoint y.\x0a\x0a\x22  (we assume matrix is never degenerate)\x0a\x09Given straight transformation formulae:\x0a\x09\x09\x0a\x09px := x0*sx + y0*shx + x.\x0a\x09py := x0*shy + y0*sy + y.\x0a\x09\x0a\x09we doing inverse one, trying to find x0,y0 for rest of given variables (px,py,x,y,sx,sy,shx,shy).\x0a\x09\x0a\x09x0 := px - x - (shx*y0) / sx.\x0a\x09y0 := py - y - (shy*x0) / sy.\x0a\x09\x0a\x09y0 := py - y - (shy*(px - x - (shx*y0) / sx)) / sy.\x0a\x0a\x09sy * y0  == py - y - (shy*(px - x - (shx*y0) / sx)).\x0a\x0a\x09sx * sy * y0  == (sx*(py - y)) - (shy*(px - x - (shx*y0))).\x0a\x0a\x09sx * sy * y0  == sx*py - (sx*y) - (shy*px) + (shy*x) + (shy*shx*y0).\x0a\x0a\x09(sx * sy * y0) - (shy*shx*y0)  == sx*py - (sx*y) - (shy*px) + (shy*x) .\x0a\x09\x0a\x09y0* ((sx * sy) - (shy*shx))  == sx*py - (sx*y) - (shy*px) + (shy*x) .\x0a\x0a\x22\x0a\x09y0  := sx*py - (sx*y) - (shy*px) + (shy*x) / ((sx * sy) - (shy*shx)).\x0a\x09x0 := px - x - (shx*y0) / sx.\x0a\x0a\x09^ x0@y0\x0a\x09",
 messageSends: ["x", "y", "/", "-", "*", "+", "@"],
 referencedClasses: []
 }),
@@ -87,7 +87,7 @@ self["@shx"]=_st(m)._shx();
 self["@shy"]=_st(m)._shy();
 return self}, function($ctx1) {$ctx1.fill(self,"loadAffineTransform:",{m:m},smalltalk.AthensAffineTransform)})},
 args: ["m"],
-source: "loadAffineTransform: m\x0a\x0a\x09x := m x.\x0a\x09y := m y.\x0a\x09sx := m sx.\x0a\x09sy := m sy.\x0a\x09shx := m shx.\x0a\x09shy := m shy.",
+source: "loadAffineTransform: m\x0a\x09x := m x.\x0a\x09y := m y.\x0a\x09sx := m sx.\x0a\x09sy := m sy.\x0a\x09shx := m shx.\x0a\x09shy := m shy.",
 messageSends: ["x", "y", "sx", "sy", "shx", "shy"],
 referencedClasses: []
 }),
@@ -100,15 +100,11 @@ category: 'transformations',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self["@sy"]=(1);
-self["@sx"]=self["@sy"];
-self["@y"]=(0);
-self["@x"]=self["@y"];
-self["@shy"]=self["@x"];
-self["@shx"]=self["@shy"];
+ self['@sx'] = self['@sy'] = 1.0;
+	self['@shx'] = self['@shy'] = self['@x'] = self['@y'] = 0.0; ;
 return self}, function($ctx1) {$ctx1.fill(self,"loadIdentity",{},smalltalk.AthensAffineTransform)})},
 args: [],
-source: "loadIdentity\x0a\x09\x22initialize with identity transform\x22\x0a\x09sx := sy := 1.0.\x0a\x09shx := shy := x := y := 0.0.\x0a\x09\x0a\x09",
+source: "loadIdentity\x0a\x09< self['@sx'] = self['@sy'] = 1.0;\x0a\x09self['@shx'] = self['@shy'] = self['@x'] = self['@y'] = 0.0; >",
 messageSends: [],
 referencedClasses: []
 }),
@@ -136,7 +132,7 @@ self["@x"]=nx;
 self["@y"]=ny;
 return self}, function($ctx1) {$ctx1.fill(self,"multiplyBy:",{m:m,nsx:nsx,nshx:nshx,nx:nx,nshy:nshy,nsy:nsy,ny:ny},smalltalk.AthensAffineTransform)})},
 args: ["m"],
-source: "multiplyBy: m\x0a\x0a\x09\x22multiply receiver by given affine matrix\x22\x0a\x22\x0a| sx   shx   x   |        | sx'   shx'   x'   | \x0a| shy sy     y    |   *    | shy' sy'     y'   |\x0a|  0     0     1   |        | 0  \x090   \x09\x091\x09|       \x0a\x0a\x22\x09\x0a\x09\x0a\x09| nsx nshx nx nshy nsy ny |\x0a\x09\x0a\x09nsx := sx * m sx + (shx  * m shy).\x0a\x09nshx := sx * m shx + (shx * m sy).\x0a\x09nx := sx * m x + (shx * m y) + x.\x0a\x09\x0a\x09nshy := shy * m sx + (sy * m shy).\x0a\x09nsy := shy * m shx  + (sy * m sy).\x0a\x09ny := shy* m x + (sy * m y) + y.\x0a\x09\x0a\x09sx := nsx.\x0a\x09sy := nsy.\x0a\x09shx := nshx.\x0a\x09shy := nshy.\x0a\x09x := nx.\x0a\x09y := ny.\x09\x09",
+source: "multiplyBy: m\x0a\x0a\x09\x22multiply receiver by given affine matrix\x22\x0a\x22\x0a| sx   shx   x   |        | sx'   shx'   x'   | \x0a| shy sy     y    |   *    | shy' sy'     y'   |\x0a|  0     0     1   |        | 0  \x090   \x09\x091\x09|       \x0a\x0a\x22\x09\x0a\x09\x0a\x09| nsx nshx nx nshy nsy ny |\x0a\x09nsx := sx * m sx + (shx  * m shy).\x0a\x09nshx := sx * m shx + (shx * m sy).\x0a\x09nx := sx * m x + (shx * m y) + x.\x0a\x09\x0a\x09nshy := shy * m sx + (sy * m shy).\x0a\x09nsy := shy * m shx  + (sy * m sy).\x0a\x09ny := shy* m x + (sy * m y) + y.\x0a\x09\x0a\x09sx := nsx.\x0a\x09sy := nsy.\x0a\x09shx := nshx.\x0a\x09shy := nshy.\x0a\x09x := nx.\x0a\x09y := ny.\x09\x09",
 messageSends: ["+", "*", "shy", "sx", "sy", "shx", "y", "x"],
 referencedClasses: []
 }),
@@ -170,13 +166,21 @@ category: 'transformations',
 fn: function (angle){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=self._rotateByRadians_(_st(angle)._degreesToRadians());
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"rotateByDegrees:",{angle:angle},smalltalk.AthensAffineTransform)})},
+ var cos = Math.cos(angle / 180.0 * Math.PI);
+	var sin = Math.sin(angle / 180.0 * Math.PI);
+	
+	var newSx = self['@sx']*cos + self['@shx']*sin;
+	var newSy = self['@sy']*cos - self['@shy']*sin;
+	
+	self['@shx'] = self['@shx']*cos - self['@sx']*sin;
+	self['@shy'] = self['@shy']*cos + self['@sy']*sin;
+	
+	self['@sx'] = newSx;
+	self['@sy'] = newSy; ;
+return self}, function($ctx1) {$ctx1.fill(self,"rotateByDegrees:",{angle:angle},smalltalk.AthensAffineTransform)})},
 args: ["angle"],
-source: "rotateByDegrees: angle\x0a\x0a\x0a\x09^ self rotateByRadians: angle degreesToRadians",
-messageSends: ["rotateByRadians:", "degreesToRadians"],
+source: "rotateByDegrees: angle\x0a\x09< var cos = Math.cos(angle / 180.0 * Math.PI);\x0a\x09var sin = Math.sin(angle / 180.0 * Math.PI);\x0a\x09\x0a\x09var newSx = self['@sx']*cos + self['@shx']*sin;\x0a\x09var newSy = self['@sy']*cos - self['@shy']*sin;\x0a\x09\x0a\x09self['@shx'] = self['@shx']*cos - self['@sx']*sin;\x0a\x09self['@shy'] = self['@shy']*cos + self['@sy']*sin;\x0a\x09\x0a\x09self['@sx'] = newSx;\x0a\x09self['@sy'] = newSy; >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensAffineTransform);
@@ -187,20 +191,22 @@ selector: "rotateByRadians:",
 category: 'transformations',
 fn: function (angle){
 var self=this;
-var cos,sin,newSx,newSy;
 return smalltalk.withContext(function($ctx1) { 
-cos=_st(angle)._cos();
-sin=_st(angle)._sin();
-newSx=_st(_st(self["@sx"]).__star(cos)).__plus(_st(self["@shx"]).__star(sin));
-newSy=_st(_st(self["@sy"]).__star(cos)).__minus(_st(self["@shy"]).__star(sin));
-self["@shx"]=_st(_st(self["@shx"]).__star(cos)).__minus(_st(self["@sx"]).__star(sin));
-self["@shy"]=_st(_st(self["@shy"]).__star(cos)).__plus(_st(self["@sy"]).__star(sin));
-self["@sx"]=newSx;
-self["@sy"]=newSy;
-return self}, function($ctx1) {$ctx1.fill(self,"rotateByRadians:",{angle:angle,cos:cos,sin:sin,newSx:newSx,newSy:newSy},smalltalk.AthensAffineTransform)})},
+ var cos = Math.cos(angle);
+	var sin = Math.sin(angle);
+	
+	var newSx = self['@sx']*cos + self['@shx']*sin;
+	var newSy = self['@sy']*cos - self['@shy']*sin;
+	
+	self['@shx'] = self['@shx']*cos - self['@sx']*sin;
+	self['@shy'] = self['@shy']*cos + self['@sy']*sin;
+	
+	self['@sx'] = newSx;
+	self['@sy'] = newSy; ;
+return self}, function($ctx1) {$ctx1.fill(self,"rotateByRadians:",{angle:angle},smalltalk.AthensAffineTransform)})},
 args: ["angle"],
-source: "rotateByRadians: angle\x0a\x0a\x09\x22multiply receiver by rotation matrix\x0a\x0a| sx   shx   x   |        | cos -sin 0  |             | (sx*cos)+(shx*sin)   (-sx*sin+shx*cos)  x |\x0a| shy sy     y   |   *   | sin   cos 0 |   ===> | (shy*cos)+(sy*sin)   (-shy*sin)+sy*cos) y |\x0a|  0     0     1   |       | 0     0   1   |             |        0                                 0                1  |\x0a\x0a\x22\x0a\x09| cos sin newSx newSy |\x0a\x09\x0a\x09cos := angle cos.\x0a\x09sin := angle sin.\x0a\x09\x0a\x09\x0a\x09newSx := sx*cos + (shx*sin).\x0a\x09newSy := sy*cos - (shy*sin).\x0a\x09\x0a\x09shx := shx*cos - (sx*sin).\x0a\x09shy := shy*cos + (sy*sin).\x0a\x0a\x09sx := newSx.\x0a\x09sy := newSy.",
-messageSends: ["cos", "sin", "+", "*", "-"],
+source: "rotateByRadians: angle\x0a\x09< var cos = Math.cos(angle);\x0a\x09var sin = Math.sin(angle);\x0a\x09\x0a\x09var newSx = self['@sx']*cos + self['@shx']*sin;\x0a\x09var newSy = self['@sy']*cos - self['@shy']*sin;\x0a\x09\x0a\x09self['@shx'] = self['@shx']*cos - self['@sx']*sin;\x0a\x09self['@shy'] = self['@shy']*cos + self['@sy']*sin;\x0a\x09\x0a\x09self['@sx'] = newSx;\x0a\x09self['@sy'] = newSy; >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensAffineTransform);
@@ -230,31 +236,22 @@ category: 'transformations',
 fn: function (factor){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st(factor)._isPoint();
-if(smalltalk.assert($1)){
-self["@sx"]=_st(self["@sx"]).__star(_st(factor)._x());
-self["@sx"];
-self["@shx"]=_st(self["@shx"]).__star(_st(factor)._y());
-self["@shx"];
-self["@sy"]=_st(self["@sy"]).__star(_st(factor)._y());
-self["@sy"];
-self["@shy"]=_st(self["@shy"]).__star(_st(factor)._x());
-self["@shy"];
-} else {
-self["@sx"]=_st(self["@sx"]).__star(factor);
-self["@sx"];
-self["@shx"]=_st(self["@shx"]).__star(factor);
-self["@shx"];
-self["@sy"]=_st(self["@sy"]).__star(factor);
-self["@sy"];
-self["@shy"]=_st(self["@shy"]).__star(factor);
-self["@shy"];
-};
+ if (factor.constructor === Number) {
+		self['@sx'] *= factor;
+		self['@shx'] *= factor;
+		self['@sy'] *= factor;
+		self['@shy'] *= factor;
+	}
+	else {
+		self['@sx'] *= factor._x();;
+		self['@shx'] *= factor._y();
+		self['@sy'] *= factor._y();
+		self['@shy'] *= factor._x();
+	} ;
 return self}, function($ctx1) {$ctx1.fill(self,"scaleBy:",{factor:factor},smalltalk.AthensAffineTransform)})},
 args: ["factor"],
-source: "scaleBy: factor\x0a\x0a\x09\x22multiply receiver by uniform scale matrix\x0a\x0a| sx   shx   x   |       | (f x) 0 0  |             | sx*(f x)    shx*(f y)  x |\x0a| shy sy     y   |   *   | 0 (f y) 0  |    ===> | shy*(f x)     sy*(f y)    y |\x0a|  0     0     1  |        | 0 0     1  |                |  0      0              1  |\x0a\x0a\x22\x09\x0a\x09factor isPoint ifTrue: [\x0a\x09\x09sx := sx*factor x.\x0a\x09\x09shx := shx*factor y.\x0a\x09\x09sy := sy*factor y.\x0a\x09\x09shy := shy*factor x. \x09\x09\x0a\x09] ifFalse: [\x0a\x09\x09sx := sx*factor.\x0a\x09\x09shx := shx*factor.\x0a\x09\x09sy := sy*factor.\x0a\x09\x09shy := shy*factor. ]",
-messageSends: ["ifTrue:ifFalse:", "*", "x", "y", "isPoint"],
+source: "scaleBy: factor\x0a\x09< if (factor.constructor === Number) {\x0a\x09\x09self['@sx'] *= factor;\x0a\x09\x09self['@shx'] *= factor;\x0a\x09\x09self['@sy'] *= factor;\x0a\x09\x09self['@shy'] *= factor;\x0a\x09}\x0a\x09else {\x0a\x09\x09self['@sx'] *= factor._x();;\x0a\x09\x09self['@shx'] *= factor._y();\x0a\x09\x09self['@sy'] *= factor._y();\x0a\x09\x09self['@shy'] *= factor._x();\x0a\x09} >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensAffineTransform);
@@ -266,14 +263,14 @@ category: 'transformations',
 fn: function (fx,fy){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self["@sx"]=_st(self["@sx"]).__star(fx);
-self["@shx"]=_st(self["@shx"]).__star(fx);
-self["@sy"]=_st(self["@sy"]).__star(fy);
-self["@shy"]=_st(self["@shy"]).__star(fy);
+ self['@sx'] *= fx;
+	self['@shx'] *= fx;
+	self['@sy'] *= fy;
+	self['@shy'] *= fy; ;
 return self}, function($ctx1) {$ctx1.fill(self,"scaleX:Y:",{fx:fx,fy:fy},smalltalk.AthensAffineTransform)})},
 args: ["fx", "fy"],
-source: "scaleX: fx Y: fy\x0a\x0a\x09\x22multiply receiver by scale matrix\x0a\x0a| sx   shx   x   |        | fx 0 0  |              | sx*fx    shx*fx  x |\x0a| shy sy     y   |   *   | 0 fy 0  |    ===> | shy*fy  sy*fy   y |\x0a|  0     0     1   |       | 0 0  1  |              |  0          0        1  |\x0a\x0a\x22\x0a\x09sx := sx*fx.\x0a\x09shx := shx*fx.\x0a\x09sy := sy*fy.\x0a\x09shy := shy*fy.",
-messageSends: ["*"],
+source: "scaleX: fx Y: fy\x0a\x09< self['@sx'] *= fx;\x0a\x09self['@shx'] *= fx;\x0a\x09self['@sy'] *= fy;\x0a\x09self['@shy'] *= fy; >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensAffineTransform);
@@ -430,7 +427,7 @@ $1=_st($Point())._x_y_(_st(_st(_st(self["@sx"]).__star(px)).__plus(_st(self["@sh
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"transform:",{aPoint:aPoint,px:px,py:py},smalltalk.AthensAffineTransform)})},
 args: ["aPoint"],
-source: "transform: aPoint \x0a\x09| px py |\x0a\x09\x0a\x09px := aPoint x.\x0a\x09py := aPoint y.\x0a\x09^ Point \x0a\x09\x09x: (sx*px +(shx*py) + x)\x0a\x09\x09y: (shy*px + (sy*py) + y) ",
+source: "transform: aPoint \x0a\x09| px py |\x0a\x0a\x09px := aPoint x.\x0a\x09py := aPoint y.\x0a\x09^ Point \x0a\x09\x09x: (sx*px +(shx*py) + x)\x0a\x09\x09y: (shy*px + (sy*py) + y) ",
 messageSends: ["x", "y", "x:y:", "+", "*"],
 referencedClasses: ["Point"]
 }),
@@ -462,13 +459,14 @@ category: 'transformations',
 fn: function (aPoint){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=self._translateX_Y_(_st(aPoint)._x(),_st(aPoint)._y());
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"translateBy:",{aPoint:aPoint},smalltalk.AthensAffineTransform)})},
+ var px = aPoint._x();
+	var py = aPoint._y();
+	self['@x'] += self['@sx']*px + self['@shx']*py;
+	self['@y'] += self['@shy']*px + self['@sy']*py; ;
+return self}, function($ctx1) {$ctx1.fill(self,"translateBy:",{aPoint:aPoint},smalltalk.AthensAffineTransform)})},
 args: ["aPoint"],
-source: "translateBy: aPoint\x0a\x0a\x09^ self translateX: aPoint x Y: aPoint y",
-messageSends: ["translateX:Y:", "x", "y"],
+source: "translateBy: aPoint\x0a\x09< var px = aPoint._x();\x0a\x09var py = aPoint._y();\x0a\x09self['@x'] += self['@sx']*px + self['@shx']*py;\x0a\x09self['@y'] += self['@shy']*px + self['@sy']*py; >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensAffineTransform);
@@ -480,29 +478,12 @@ category: 'transformations',
 fn: function (px,py){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self["@x"]=_st(_st(_st(self["@sx"]).__star(px)).__plus(_st(self["@shx"]).__star(py))).__plus(self["@x"]);
-self["@y"]=_st(_st(_st(self["@shy"]).__star(px)).__plus(_st(self["@sy"]).__star(py))).__plus(self["@y"]);
+ self['@x'] += self['@sx']*px + self['@shx']*py;
+	self['@y'] += self['@shy']*px + self['@sy']*py; ;
 return self}, function($ctx1) {$ctx1.fill(self,"translateX:Y:",{px:px,py:py},smalltalk.AthensAffineTransform)})},
 args: ["px", "py"],
-source: "translateX: px Y: py\x0a\x0a\x0a\x22 multiply receiver by translation matrix :\x0a\x0a| sx   shx   x   |        | 1  0  px |             |\x09sx  shx  (sx*px + shx*py + x) |\x0a| shy sy     y   |   *   | 0  1  py |   ===> | shy  sy  (shy*px + sy*py + y)  |\x0a|  0     0     1   |       | 0  0   1  |             |  0     0    1  |\x0a\x0a\x22\x0a\x09x := (sx*px) + (shx*py) + x.\x0a\x09y := (shy*px) + (sy*py) + y.",
-messageSends: ["+", "*"],
-referencedClasses: []
-}),
-smalltalk.AthensAffineTransform);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "translateX:y:",
-category: 'transformations',
-fn: function (px,py){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-self["@x"]=_st(_st(_st(self["@sx"]).__star(px)).__plus(_st(self["@shx"]).__star(py))).__plus(self["@x"]);
-self["@y"]=_st(_st(_st(self["@shy"]).__star(px)).__plus(_st(self["@sy"]).__star(py))).__plus(self["@y"]);
-return self}, function($ctx1) {$ctx1.fill(self,"translateX:y:",{px:px,py:py},smalltalk.AthensAffineTransform)})},
-args: ["px", "py"],
-source: "translateX: px y: py\x0a\x0a\x22 multiply receiver by translation matrix :\x0a\x0a| sx   shx   x   |        | 1  0  px |             |\x09sx  shx  (sx*px + shx*py + x) |\x0a| shy sy     y   |   *   | 0  1  py |   ===> | shy  sy  (shy*px + sy*py + y)  |\x0a|  0     0     1   |       | 0  0   1  |             |  0     0    1  |\x0a\x0a\x22\x0a\x09x := (sx*px) + (shx*py) + x.\x0a\x09y := (shy*px) + (sy*py) + y.",
-messageSends: ["+", "*"],
+source: "translateX: px Y: py\x0a\x09< self['@x'] += self['@sx']*px + self['@shx']*py;\x0a\x09self['@y'] += self['@shy']*px + self['@sy']*py; >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensAffineTransform);
@@ -548,14 +529,13 @@ selector: "transposed",
 category: 'transformations',
 fn: function (){
 var self=this;
-var s;
 return smalltalk.withContext(function($ctx1) { 
-s=self["@shx"];
-self["@shx"]=self["@shy"];
-self["@shy"]=s;
-return self}, function($ctx1) {$ctx1.fill(self,"transposed",{s:s},smalltalk.AthensAffineTransform)})},
+ var s = self['@shx'];
+	self['@shx'] = self['@shy'];
+	self['@shy'] = s; ;
+return self}, function($ctx1) {$ctx1.fill(self,"transposed",{},smalltalk.AthensAffineTransform)})},
 args: [],
-source: "transposed\x0a\x09\x0a\x09| s |\x0a\x09s := shx.\x0a\x09shx := shy.\x0a\x09shy := s.",
+source: "transposed\x0a\x09< var s = self['@shx'];\x0a\x09self['@shx'] = self['@shy'];\x0a\x09self['@shy'] = s; >",
 messageSends: [],
 referencedClasses: []
 }),

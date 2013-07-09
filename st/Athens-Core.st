@@ -627,7 +627,7 @@ isPoint
 !Color methodsFor: '*Athens-Core'!
 
 asAthensPaintOn: anAthensCanvas
-	^ anAthensCanvas surface createSolidColorPaint: self
+	< return anAthensCanvas['@surface']._createSolidColorPaint_(self); >
 ! !
 
 !Number methodsFor: '*Athens-Core'!

@@ -86,7 +86,6 @@ clearTranslation
 !
 
 loadAffineTransform: m
-
 	x := m x.
 	y := m y.
 	sx := m sx.
@@ -96,9 +95,8 @@ loadAffineTransform: m
 !
 
 loadIdentity
-	"initialize with identity transform"
-	sx := sy := 1.0.
-	shx := shy := x := y := 0.0.
+	< self['@sx'] = self['@sy'] = 1.0;
+	self['@shx'] = self['@shy'] = self['@x'] = self['@y'] = 0.0; >
 !
 
 multiplyBy: m
@@ -112,7 +110,6 @@ multiplyBy: m
 "	
 	
 	| nsx nshx nx nshy nsy ny |
-	
 	nsx := sx * m sx + (shx  * m shy).
 	nshx := sx * m shx + (shx * m sy).
 	nx := sx * m x + (shx * m y) + x.
@@ -136,117 +133,78 @@ restoreAfter: aBlock
 !
 
 rotateByDegrees: angle
-
-
-	^ self rotateByRadians: angle degreesToRadians
+	< var cos = Math.cos(angle / 180.0 * Math.PI);
+	var sin = Math.sin(angle / 180.0 * Math.PI);
+	
+	var newSx = self['@sx']*cos + self['@shx']*sin;
+	var newSy = self['@sy']*cos - self['@shy']*sin;
+	
+	self['@shx'] = self['@shx']*cos - self['@sx']*sin;
+	self['@shy'] = self['@shy']*cos + self['@sy']*sin;
+	
+	self['@sx'] = newSx;
+	self['@sy'] = newSy; >
 !
 
 rotateByRadians: angle
-
-	"multiply receiver by rotation matrix
-
-| sx   shx   x   |        | cos -sin 0  |             | (sx*cos)+(shx*sin)   (-sx*sin+shx*cos)  x |
-| shy sy     y   |   *   | sin   cos 0 |   ===> | (shy*cos)+(sy*sin)   (-shy*sin)+sy*cos) y |
-|  0     0     1   |       | 0     0   1   |             |        0                                 0                1  |
-
-"
-	| cos sin newSx newSy |
+	< var cos = Math.cos(angle);
+	var sin = Math.sin(angle);
 	
-	cos := angle cos.
-	sin := angle sin.
+	var newSx = self['@sx']*cos + self['@shx']*sin;
+	var newSy = self['@sy']*cos - self['@shy']*sin;
 	
+	self['@shx'] = self['@shx']*cos - self['@sx']*sin;
+	self['@shy'] = self['@shy']*cos + self['@sy']*sin;
 	
-	newSx := sx*cos + (shx*sin).
-	newSy := sy*cos - (shy*sin).
-	
-	shx := shx*cos - (sx*sin).
-	shy := shy*cos + (sy*sin).
-
-	sx := newSx.
-	sy := newSy.
+	self['@sx'] = newSx;
+	self['@sy'] = newSy; >
 !
 
 scaleBy: factor
-
-	"multiply receiver by uniform scale matrix
-
-| sx   shx   x   |       | (f x) 0 0  |             | sx*(f x)    shx*(f y)  x |
-| shy sy     y   |   *   | 0 (f y) 0  |    ===> | shy*(f x)     sy*(f y)    y |
-|  0     0     1  |        | 0 0     1  |                |  0      0              1  |
-
-"	
-	factor isPoint ifTrue: [
-		sx := sx*factor x.
-		shx := shx*factor y.
-		sy := sy*factor y.
-		shy := shy*factor x. 		
-	] ifFalse: [
-		sx := sx*factor.
-		shx := shx*factor.
-		sy := sy*factor.
-		shy := shy*factor. ]
+	< if (factor.constructor === Number) {
+		self['@sx'] *= factor;
+		self['@shx'] *= factor;
+		self['@sy'] *= factor;
+		self['@shy'] *= factor;
+	}
+	else {
+		self['@sx'] *= factor._x();;
+		self['@shx'] *= factor._y();
+		self['@sy'] *= factor._y();
+		self['@shy'] *= factor._x();
+	} >
 !
 
 scaleX: fx Y: fy
-
-	"multiply receiver by scale matrix
-
-| sx   shx   x   |        | fx 0 0  |              | sx*fx    shx*fx  x |
-| shy sy     y   |   *   | 0 fy 0  |    ===> | shy*fy  sy*fy   y |
-|  0     0     1   |       | 0 0  1  |              |  0          0        1  |
-
-"
-	sx := sx*fx.
-	shx := shx*fx.
-	sy := sy*fy.
-	shy := shy*fy.
+	< self['@sx'] *= fx;
+	self['@shx'] *= fx;
+	self['@sy'] *= fy;
+	self['@shy'] *= fy; >
 !
 
 translateBy: aPoint
-
-	^ self translateX: aPoint x Y: aPoint y
+	< var px = aPoint._x();
+	var py = aPoint._y();
+	self['@x'] += self['@sx']*px + self['@shx']*py;
+	self['@y'] += self['@shy']*px + self['@sy']*py; >
 !
 
 translateX: px Y: py
-
-
-" multiply receiver by translation matrix :
-
-| sx   shx   x   |        | 1  0  px |             |	sx  shx  (sx*px + shx*py + x) |
-| shy sy     y   |   *   | 0  1  py |   ===> | shy  sy  (shy*px + sy*py + y)  |
-|  0     0     1   |       | 0  0   1  |             |  0     0    1  |
-
-"
-	x := (sx*px) + (shx*py) + x.
-	y := (shy*px) + (sy*py) + y.
-!
-
-translateX: px y: py
-
-" multiply receiver by translation matrix :
-
-| sx   shx   x   |        | 1  0  px |             |	sx  shx  (sx*px + shx*py + x) |
-| shy sy     y   |   *   | 0  1  py |   ===> | shy  sy  (shy*px + sy*py + y)  |
-|  0     0     1   |       | 0  0   1  |             |  0     0    1  |
-
-"
-	x := (sx*px) + (shx*py) + x.
-	y := (shy*px) + (sy*py) + y.
+	< self['@x'] += self['@sx']*px + self['@shx']*py;
+	self['@y'] += self['@shy']*px + self['@sy']*py; >
 !
 
 transposed
-	
-	| s |
-	s := shx.
-	shx := shy.
-	shy := s.
+	< var s = self['@shx'];
+	self['@shx'] = self['@shy'];
+	self['@shy'] = s; >
 ! !
 
 !AthensAffineTransform methodsFor: 'vector-transform'!
 
 inverseTransform: aPoint 
 	| px py y0 x0 |
-	
+
 	px := aPoint x.
 	py := aPoint y.
 
@@ -282,7 +240,7 @@ inverseTransform: aPoint
 
 transform: aPoint 
 	| px py |
-	
+
 	px := aPoint x.
 	py := aPoint y.
 	^ Point 

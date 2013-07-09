@@ -6,7 +6,7 @@ AthensCanvas subclass: #AthensHTMLCanvas
 !AthensHTMLCanvas methodsFor: 'accessing'!
 
 context2D
-	^ surface context2D
+	< return self['@surface']['@context2D']; >
 !
 
 paintTransform

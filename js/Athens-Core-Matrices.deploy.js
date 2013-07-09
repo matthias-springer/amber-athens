@@ -74,12 +74,8 @@ selector: "loadIdentity",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self["@sy"]=(1);
-self["@sx"]=self["@sy"];
-self["@y"]=(0);
-self["@x"]=self["@y"];
-self["@shy"]=self["@x"];
-self["@shx"]=self["@shy"];
+ self['@sx'] = self['@sy'] = 1.0;
+	self['@shx'] = self['@shy'] = self['@x'] = self['@y'] = 0.0; ;
 return self}, function($ctx1) {$ctx1.fill(self,"loadIdentity",{},smalltalk.AthensAffineTransform)})},
 messageSends: []}),
 smalltalk.AthensAffineTransform);
@@ -129,11 +125,19 @@ selector: "rotateByDegrees:",
 fn: function (angle){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=self._rotateByRadians_(_st(angle)._degreesToRadians());
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"rotateByDegrees:",{angle:angle},smalltalk.AthensAffineTransform)})},
-messageSends: ["rotateByRadians:", "degreesToRadians"]}),
+ var cos = Math.cos(angle / 180.0 * Math.PI);
+	var sin = Math.sin(angle / 180.0 * Math.PI);
+	
+	var newSx = self['@sx']*cos + self['@shx']*sin;
+	var newSy = self['@sy']*cos - self['@shy']*sin;
+	
+	self['@shx'] = self['@shx']*cos - self['@sx']*sin;
+	self['@shy'] = self['@shy']*cos + self['@sy']*sin;
+	
+	self['@sx'] = newSx;
+	self['@sy'] = newSy; ;
+return self}, function($ctx1) {$ctx1.fill(self,"rotateByDegrees:",{angle:angle},smalltalk.AthensAffineTransform)})},
+messageSends: []}),
 smalltalk.AthensAffineTransform);
 
 smalltalk.addMethod(
@@ -141,18 +145,20 @@ smalltalk.method({
 selector: "rotateByRadians:",
 fn: function (angle){
 var self=this;
-var cos,sin,newSx,newSy;
 return smalltalk.withContext(function($ctx1) { 
-cos=_st(angle)._cos();
-sin=_st(angle)._sin();
-newSx=_st(_st(self["@sx"]).__star(cos)).__plus(_st(self["@shx"]).__star(sin));
-newSy=_st(_st(self["@sy"]).__star(cos)).__minus(_st(self["@shy"]).__star(sin));
-self["@shx"]=_st(_st(self["@shx"]).__star(cos)).__minus(_st(self["@sx"]).__star(sin));
-self["@shy"]=_st(_st(self["@shy"]).__star(cos)).__plus(_st(self["@sy"]).__star(sin));
-self["@sx"]=newSx;
-self["@sy"]=newSy;
-return self}, function($ctx1) {$ctx1.fill(self,"rotateByRadians:",{angle:angle,cos:cos,sin:sin,newSx:newSx,newSy:newSy},smalltalk.AthensAffineTransform)})},
-messageSends: ["cos", "sin", "+", "*", "-"]}),
+ var cos = Math.cos(angle);
+	var sin = Math.sin(angle);
+	
+	var newSx = self['@sx']*cos + self['@shx']*sin;
+	var newSy = self['@sy']*cos - self['@shy']*sin;
+	
+	self['@shx'] = self['@shx']*cos - self['@sx']*sin;
+	self['@shy'] = self['@shy']*cos + self['@sy']*sin;
+	
+	self['@sx'] = newSx;
+	self['@sy'] = newSy; ;
+return self}, function($ctx1) {$ctx1.fill(self,"rotateByRadians:",{angle:angle},smalltalk.AthensAffineTransform)})},
+messageSends: []}),
 smalltalk.AthensAffineTransform);
 
 smalltalk.addMethod(
@@ -174,29 +180,20 @@ selector: "scaleBy:",
 fn: function (factor){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st(factor)._isPoint();
-if(smalltalk.assert($1)){
-self["@sx"]=_st(self["@sx"]).__star(_st(factor)._x());
-self["@sx"];
-self["@shx"]=_st(self["@shx"]).__star(_st(factor)._y());
-self["@shx"];
-self["@sy"]=_st(self["@sy"]).__star(_st(factor)._y());
-self["@sy"];
-self["@shy"]=_st(self["@shy"]).__star(_st(factor)._x());
-self["@shy"];
-} else {
-self["@sx"]=_st(self["@sx"]).__star(factor);
-self["@sx"];
-self["@shx"]=_st(self["@shx"]).__star(factor);
-self["@shx"];
-self["@sy"]=_st(self["@sy"]).__star(factor);
-self["@sy"];
-self["@shy"]=_st(self["@shy"]).__star(factor);
-self["@shy"];
-};
+ if (factor.constructor === Number) {
+		self['@sx'] *= factor;
+		self['@shx'] *= factor;
+		self['@sy'] *= factor;
+		self['@shy'] *= factor;
+	}
+	else {
+		self['@sx'] *= factor._x();;
+		self['@shx'] *= factor._y();
+		self['@sy'] *= factor._y();
+		self['@shy'] *= factor._x();
+	} ;
 return self}, function($ctx1) {$ctx1.fill(self,"scaleBy:",{factor:factor},smalltalk.AthensAffineTransform)})},
-messageSends: ["ifTrue:ifFalse:", "*", "x", "y", "isPoint"]}),
+messageSends: []}),
 smalltalk.AthensAffineTransform);
 
 smalltalk.addMethod(
@@ -205,12 +202,12 @@ selector: "scaleX:Y:",
 fn: function (fx,fy){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self["@sx"]=_st(self["@sx"]).__star(fx);
-self["@shx"]=_st(self["@shx"]).__star(fx);
-self["@sy"]=_st(self["@sy"]).__star(fy);
-self["@shy"]=_st(self["@shy"]).__star(fy);
+ self['@sx'] *= fx;
+	self['@shx'] *= fx;
+	self['@sy'] *= fy;
+	self['@shy'] *= fy; ;
 return self}, function($ctx1) {$ctx1.fill(self,"scaleX:Y:",{fx:fx,fy:fy},smalltalk.AthensAffineTransform)})},
-messageSends: ["*"]}),
+messageSends: []}),
 smalltalk.AthensAffineTransform);
 
 smalltalk.addMethod(
@@ -346,11 +343,12 @@ selector: "translateBy:",
 fn: function (aPoint){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=self._translateX_Y_(_st(aPoint)._x(),_st(aPoint)._y());
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"translateBy:",{aPoint:aPoint},smalltalk.AthensAffineTransform)})},
-messageSends: ["translateX:Y:", "x", "y"]}),
+ var px = aPoint._x();
+	var py = aPoint._y();
+	self['@x'] += self['@sx']*px + self['@shx']*py;
+	self['@y'] += self['@shy']*px + self['@sy']*py; ;
+return self}, function($ctx1) {$ctx1.fill(self,"translateBy:",{aPoint:aPoint},smalltalk.AthensAffineTransform)})},
+messageSends: []}),
 smalltalk.AthensAffineTransform);
 
 smalltalk.addMethod(
@@ -359,22 +357,10 @@ selector: "translateX:Y:",
 fn: function (px,py){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self["@x"]=_st(_st(_st(self["@sx"]).__star(px)).__plus(_st(self["@shx"]).__star(py))).__plus(self["@x"]);
-self["@y"]=_st(_st(_st(self["@shy"]).__star(px)).__plus(_st(self["@sy"]).__star(py))).__plus(self["@y"]);
+ self['@x'] += self['@sx']*px + self['@shx']*py;
+	self['@y'] += self['@shy']*px + self['@sy']*py; ;
 return self}, function($ctx1) {$ctx1.fill(self,"translateX:Y:",{px:px,py:py},smalltalk.AthensAffineTransform)})},
-messageSends: ["+", "*"]}),
-smalltalk.AthensAffineTransform);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "translateX:y:",
-fn: function (px,py){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-self["@x"]=_st(_st(_st(self["@sx"]).__star(px)).__plus(_st(self["@shx"]).__star(py))).__plus(self["@x"]);
-self["@y"]=_st(_st(_st(self["@shy"]).__star(px)).__plus(_st(self["@sy"]).__star(py))).__plus(self["@y"]);
-return self}, function($ctx1) {$ctx1.fill(self,"translateX:y:",{px:px,py:py},smalltalk.AthensAffineTransform)})},
-messageSends: ["+", "*"]}),
+messageSends: []}),
 smalltalk.AthensAffineTransform);
 
 smalltalk.addMethod(
@@ -407,12 +393,11 @@ smalltalk.method({
 selector: "transposed",
 fn: function (){
 var self=this;
-var s;
 return smalltalk.withContext(function($ctx1) { 
-s=self["@shx"];
-self["@shx"]=self["@shy"];
-self["@shy"]=s;
-return self}, function($ctx1) {$ctx1.fill(self,"transposed",{s:s},smalltalk.AthensAffineTransform)})},
+ var s = self['@shx'];
+	self['@shx'] = self['@shy'];
+	self['@shy'] = s; ;
+return self}, function($ctx1) {$ctx1.fill(self,"transposed",{},smalltalk.AthensAffineTransform)})},
 messageSends: []}),
 smalltalk.AthensAffineTransform);
 

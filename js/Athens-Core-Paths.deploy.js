@@ -360,37 +360,25 @@ smalltalk.method({
 selector: "toAbsolute:",
 fn: function (aPoint){
 var self=this;
-var pt;
 return smalltalk.withContext(function($ctx1) { 
-var $1,$2,$3;
-$1=self["@absolute"];
-if(smalltalk.assert($1)){
-pt=aPoint;
-} else {
-pt=_st(_st(self["@lastSegment"])._endPoint()).__plus(aPoint);
-};
-$2=self["@xMin"];
-if(($receiver = $2) == nil || $receiver == undefined){
-self["@xMax"]=_st(pt)._x();
-self["@xMin"]=self["@xMax"];
-self["@xMin"];
-self["@yMax"]=_st(pt)._y();
-self["@yMin"]=self["@yMax"];
-self["@yMin"];
-} else {
-self["@xMin"]=_st(_st(pt)._x())._min_(self["@xMin"]);
-self["@xMin"];
-self["@yMin"]=_st(_st(pt)._y())._min_(self["@yMin"]);
-self["@yMin"];
-self["@xMax"]=_st(_st(pt)._x())._max_(self["@xMax"]);
-self["@xMax"];
-self["@yMax"]=_st(_st(pt)._y())._max_(self["@yMax"]);
-self["@yMax"];
-};
-$3=pt;
-return $3;
-}, function($ctx1) {$ctx1.fill(self,"toAbsolute:",{aPoint:aPoint,pt:pt},smalltalk.AthensSimplePathBuilder)})},
-messageSends: ["ifTrue:ifFalse:", "+", "endPoint", "ifNil:ifNotNil:", "x", "y", "min:", "max:"]}),
+ var pt = self['@absolute'] ? aPoint : self['@lastSegment']._endPoint().__plus(aPoint);
+	var ptX = pt._x();
+	var ptY = pt._y();
+	
+	if (self['@xMin'] === undefined) {
+		self['@xMin'] = self['@xMax'] = ptX;
+		self['@yMin'] = self['@yMax'] = ptY;
+	}
+	else {
+		self['@xMin'] = Math.min(self['@xMin'], ptX);
+		self['@xMax'] = Math.min(self['@xMax'], ptX);
+		self['@yMin'] = Math.min(self['@yMin'], ptY);
+		self['@yMax'] = Math.min(self['@yMax'], ptY);
+	}
+	
+	return pt; ;
+return self}, function($ctx1) {$ctx1.fill(self,"toAbsolute:",{aPoint:aPoint},smalltalk.AthensSimplePathBuilder)})},
+messageSends: []}),
 smalltalk.AthensSimplePathBuilder);
 
 
@@ -793,12 +781,13 @@ selector: "sendCommandsTo:",
 fn: function (aBuilder){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self._do_((function(segment){
-return smalltalk.withContext(function($ctx2) {
-return _st(segment)._sendCommandTo_(aBuilder);
-}, function($ctx2) {$ctx2.fillBlock({segment:segment},$ctx1)})}));
+ var segment = self;
+	while (segment !== undefined) {
+		segment._sendCommandTo_(aBuilder);
+		segment = segment['@next'];
+	} ;
 return self}, function($ctx1) {$ctx1.fill(self,"sendCommandsTo:",{aBuilder:aBuilder},smalltalk.AthensPathSegment)})},
-messageSends: ["do:", "sendCommandTo:"]}),
+messageSends: []}),
 smalltalk.AthensPathSegment);
 
 smalltalk.addMethod(
@@ -890,11 +879,9 @@ selector: "sendCommandTo:",
 fn: function (aBuilder){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st(aBuilder)._ccwArcTo_angle_(self["@endPoint"],self["@angle"]);
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"sendCommandTo:",{aBuilder:aBuilder},smalltalk.AthensCCWArcSegment)})},
-messageSends: ["ccwArcTo:angle:"]}),
+ aBuilder._ccwArcTo_angle_(self['@endPoint'], self['@angle']); ;
+return self}, function($ctx1) {$ctx1.fill(self,"sendCommandTo:",{aBuilder:aBuilder},smalltalk.AthensCCWArcSegment)})},
+messageSends: []}),
 smalltalk.AthensCCWArcSegment);
 
 
@@ -919,11 +906,9 @@ selector: "sendCommandTo:",
 fn: function (aBuilder){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st(aBuilder)._cwArcTo_angle_(self["@endPoint"],self["@angle"]);
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"sendCommandTo:",{aBuilder:aBuilder},smalltalk.AthensCWArcSegment)})},
-messageSends: ["cwArcTo:angle:"]}),
+ aBuilder._cwArcTo_angle_(self['@endPoint'], self['@angle']); ;
+return self}, function($ctx1) {$ctx1.fill(self,"sendCommandTo:",{aBuilder:aBuilder},smalltalk.AthensCWArcSegment)})},
+messageSends: []}),
 smalltalk.AthensCWArcSegment);
 
 
@@ -974,11 +959,9 @@ selector: "sendCommandTo:",
 fn: function (aBuilder){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st(aBuilder)._curveVia_and_to_(self["@via1"],self["@via2"],self["@to"]);
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"sendCommandTo:",{aBuilder:aBuilder},smalltalk.AthensCubicSegment)})},
-messageSends: ["curveVia:and:to:"]}),
+ aBuilder._curveVia_and_to_(self['@via1'], self['@via2'], self['@to']); ;
+return self}, function($ctx1) {$ctx1.fill(self,"sendCommandTo:",{aBuilder:aBuilder},smalltalk.AthensCubicSegment)})},
+messageSends: []}),
 smalltalk.AthensCubicSegment);
 
 smalltalk.addMethod(
@@ -1095,11 +1078,9 @@ selector: "sendCommandTo:",
 fn: function (aBuilder){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st(aBuilder)._lineTo_(self["@point"]);
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"sendCommandTo:",{aBuilder:aBuilder},smalltalk.AthensLineSegment)})},
-messageSends: ["lineTo:"]}),
+ aBuilder._lineTo_(self['@point']); ;
+return self}, function($ctx1) {$ctx1.fill(self,"sendCommandTo:",{aBuilder:aBuilder},smalltalk.AthensLineSegment)})},
+messageSends: []}),
 smalltalk.AthensLineSegment);
 
 
@@ -1124,11 +1105,9 @@ selector: "sendCommandTo:",
 fn: function (aBuilder){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st(aBuilder)._close();
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"sendCommandTo:",{aBuilder:aBuilder},smalltalk.AthensCloseSegment)})},
-messageSends: ["close"]}),
+ aBuilder._close(); ;
+return self}, function($ctx1) {$ctx1.fill(self,"sendCommandTo:",{aBuilder:aBuilder},smalltalk.AthensCloseSegment)})},
+messageSends: []}),
 smalltalk.AthensCloseSegment);
 
 
@@ -1199,11 +1178,9 @@ selector: "sendCommandTo:",
 fn: function (aBuilder){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st(aBuilder)._moveTo_(self["@point"]);
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"sendCommandTo:",{aBuilder:aBuilder},smalltalk.AthensMoveSegment)})},
-messageSends: ["moveTo:"]}),
+ aBuilder._moveTo_(self['@point']); ;
+return self}, function($ctx1) {$ctx1.fill(self,"sendCommandTo:",{aBuilder:aBuilder},smalltalk.AthensMoveSegment)})},
+messageSends: []}),
 smalltalk.AthensMoveSegment);
 
 
@@ -1253,11 +1230,9 @@ selector: "sendCommandTo:",
 fn: function (aBuilder){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st(aBuilder)._curveVia_to_(self["@via"],self["@to"]);
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"sendCommandTo:",{aBuilder:aBuilder},smalltalk.AthensQuadSegment)})},
-messageSends: ["curveVia:to:"]}),
+ aBuilder._curveVia_to_(self['@via'], self['@to']); ;
+return self}, function($ctx1) {$ctx1.fill(self,"sendCommandTo:",{aBuilder:aBuilder},smalltalk.AthensQuadSegment)})},
+messageSends: []}),
 smalltalk.AthensQuadSegment);
 
 smalltalk.addMethod(

@@ -1170,11 +1170,9 @@ selector: "asAthensPaintOn:",
 fn: function (anAthensCanvas){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st(_st(anAthensCanvas)._surface())._createSolidColorPaint_(self);
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"asAthensPaintOn:",{anAthensCanvas:anAthensCanvas},smalltalk.Color)})},
-messageSends: ["createSolidColorPaint:", "surface"]}),
+ return anAthensCanvas['@surface']._createSolidColorPaint_(self); ;
+return self}, function($ctx1) {$ctx1.fill(self,"asAthensPaintOn:",{anAthensCanvas:anAthensCanvas},smalltalk.Color)})},
+messageSends: []}),
 smalltalk.Color);
 
 smalltalk.addMethod(

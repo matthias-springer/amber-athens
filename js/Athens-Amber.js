@@ -209,13 +209,16 @@ category: 'accessing',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st(_st(_st(_st(_st(_st(_st("rgba(".__comma(_st(_st(_st(self["@r"]).__star((255)))._rounded())._asString())).__comma(", ")).__comma(_st(_st(_st(self["@g"]).__star((255)))._rounded())._asString())).__comma(", ")).__comma(_st(_st(_st(self["@b"]).__star((255)))._rounded())._asString())).__comma(", ")).__comma(_st(self._alpha())._asString())).__comma(")");
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"rgbaString",{},smalltalk.Color)})},
+ if (self['@alpha'] === undefined) { 
+		return 'rgba(' + Math.round(self['@r']*255) + ',' + Math.round(self['@g']*255) + ',' + Math.round(self['@b']*255) + ',1)';
+	}
+	else {
+		return 'rgba(' + Math.round(self['@r']*255) + ',' + Math.round(self['@g']*255) + ',' + Math.round(self['@b']*255) + ',' + self['@alpha'] + ')';
+	} ;
+return self}, function($ctx1) {$ctx1.fill(self,"rgbaString",{},smalltalk.Color)})},
 args: [],
-source: "rgbaString\x0a\x09^ 'rgba(', (r*255) rounded asString, ', ', (g*255) rounded asString, ', ', (b*255) rounded asString, ', ', self alpha asString, ')'",
-messageSends: [",", "asString", "alpha", "rounded", "*"],
+source: "rgbaString\x0a\x09< if (self['@alpha'] === undefined) { \x0a\x09\x09return 'rgba(' + Math.round(self['@r']*255) + ',' + Math.round(self['@g']*255) + ',' + Math.round(self['@b']*255) + ',1)';\x0a\x09}\x0a\x09else {\x0a\x09\x09return 'rgba(' + Math.round(self['@r']*255) + ',' + Math.round(self['@g']*255) + ',' + Math.round(self['@b']*255) + ',' + self['@alpha'] + ')';\x0a\x09} >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.Color);
@@ -228,18 +231,13 @@ category: 'instance creation',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $2,$3,$1;
-$2=self._new();
-_st($2)._r_((0));
-_st($2)._g_((0));
-_st($2)._b_((0));
-$3=_st($2)._yourself();
-$1=$3;
+var $1;
+$1=self._r_g_b_((0),(0),(0));
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"black",{},smalltalk.Color.klass)})},
 args: [],
-source: "black\x0a\x09^ self new\x0a\x09\x09r: 0; g: 0; b: 0;\x0a\x09\x09yourself",
-messageSends: ["r:", "new", "g:", "b:", "yourself"],
+source: "black\x0a\x09^ self r: 0 g: 0 b: 0",
+messageSends: ["r:g:b:"],
 referencedClasses: []
 }),
 smalltalk.Color.klass);
@@ -251,18 +249,13 @@ category: 'instance creation',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $2,$3,$1;
-$2=self._new();
-_st($2)._r_((0));
-_st($2)._g_((0));
-_st($2)._b_((1));
-$3=_st($2)._yourself();
-$1=$3;
+var $1;
+$1=self._r_g_b_((0),(0),(1));
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"blue",{},smalltalk.Color.klass)})},
 args: [],
-source: "blue\x0a\x09^ self new\x0a\x09\x09r: 0; g: 0; b: 1;\x0a\x09\x09yourself",
-messageSends: ["r:", "new", "g:", "b:", "yourself"],
+source: "blue\x0a\x09^ self r: 0 g: 0 b: 1",
+messageSends: ["r:g:b:"],
 referencedClasses: []
 }),
 smalltalk.Color.klass);
@@ -274,18 +267,13 @@ category: 'instance creation',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $2,$3,$1;
-$2=self._new();
-_st($2)._r_((0.5));
-_st($2)._g_((0.5));
-_st($2)._b_((0.5));
-$3=_st($2)._yourself();
-$1=$3;
+var $1;
+$1=self._r_g_b_((0.5),(0.5),(0.5));
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"gray",{},smalltalk.Color.klass)})},
 args: [],
-source: "gray\x0a\x09^ self new\x0a\x09\x09r: 0.5; g: 0.5; b: 0.5;\x0a\x09\x09yourself",
-messageSends: ["r:", "new", "g:", "b:", "yourself"],
+source: "gray\x0a\x09^ self r: 0.5 g: 0.5 b: 0.5",
+messageSends: ["r:g:b:"],
 referencedClasses: []
 }),
 smalltalk.Color.klass);
@@ -297,18 +285,13 @@ category: 'instance creation',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $2,$3,$1;
-$2=self._new();
-_st($2)._r_((0));
-_st($2)._g_((1));
-_st($2)._b_((0));
-$3=_st($2)._yourself();
-$1=$3;
+var $1;
+$1=self._r_g_b_((0),(1),(0));
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"green",{},smalltalk.Color.klass)})},
 args: [],
-source: "green\x0a\x09^ self new\x0a\x09\x09r: 0; g: 1; b: 0;\x0a\x09\x09yourself",
-messageSends: ["r:", "new", "g:", "b:", "yourself"],
+source: "green\x0a\x09^ self r: 0 g: 1 b: 0",
+messageSends: ["r:g:b:"],
 referencedClasses: []
 }),
 smalltalk.Color.klass);
@@ -320,18 +303,15 @@ category: 'instance creation',
 fn: function (red,green,blue){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $2,$3,$1;
-$2=self._new();
-_st($2)._r_(red);
-_st($2)._g_(green);
-_st($2)._b_(blue);
-$3=_st($2)._yourself();
-$1=$3;
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"r:g:b:",{red:red,green:green,blue:blue},smalltalk.Color.klass)})},
+ var instance = self._new();
+	instance['@r'] = red;
+	instance['@g'] = green;
+	instance['@b'] = blue;
+	return instance; ;
+return self}, function($ctx1) {$ctx1.fill(self,"r:g:b:",{red:red,green:green,blue:blue},smalltalk.Color.klass)})},
 args: ["red", "green", "blue"],
-source: "r: red g: green b: blue\x0a\x09^ self new\x0a\x09\x09r: red; g: green; b: blue;\x0a\x09\x09yourself",
-messageSends: ["r:", "new", "g:", "b:", "yourself"],
+source: "r: red g: green b: blue\x0a\x09< var instance = self._new();\x0a\x09instance['@r'] = red;\x0a\x09instance['@g'] = green;\x0a\x09instance['@b'] = blue;\x0a\x09return instance; >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.Color.klass);
@@ -343,18 +323,13 @@ category: 'instance creation',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $2,$3,$1;
-$2=self._new();
-_st($2)._r_((1));
-_st($2)._g_((0));
-_st($2)._b_((0));
-$3=_st($2)._yourself();
-$1=$3;
+var $1;
+$1=self._r_g_b_((1),(0),(0));
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"red",{},smalltalk.Color.klass)})},
 args: [],
-source: "red\x0a\x09^ self new\x0a\x09\x09r: 1; g: 0; b: 0;\x0a\x09\x09yourself",
-messageSends: ["r:", "new", "g:", "b:", "yourself"],
+source: "red\x0a\x09^ self r: 1 g: 0 b: 0",
+messageSends: ["r:g:b:"],
 referencedClasses: []
 }),
 smalltalk.Color.klass);
@@ -390,18 +365,13 @@ category: 'instance creation',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $2,$3,$1;
-$2=self._new();
-_st($2)._r_((1));
-_st($2)._g_((1));
-_st($2)._b_((1));
-$3=_st($2)._yourself();
-$1=$3;
+var $1;
+$1=self._r_g_b_((1),(1),(1));
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"white",{},smalltalk.Color.klass)})},
 args: [],
-source: "white\x0a\x09^ self new\x0a\x09\x09r: 1; g: 1; b: 1;\x0a\x09\x09yourself",
-messageSends: ["r:", "new", "g:", "b:", "yourself"],
+source: "white\x0a\x09^ self r: 1 g: 1 b: 1",
+messageSends: ["r:g:b:"],
 referencedClasses: []
 }),
 smalltalk.Color.klass);
@@ -413,18 +383,13 @@ category: 'instance creation',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $2,$3,$1;
-$2=self._new();
-_st($2)._r_((1));
-_st($2)._g_((1));
-_st($2)._b_((0));
-$3=_st($2)._yourself();
-$1=$3;
+var $1;
+$1=self._r_g_b_((1),(1),(0));
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"yellow",{},smalltalk.Color.klass)})},
 args: [],
-source: "yellow\x0a\x09^ self new\x0a\x09\x09r: 1; g: 1; b: 0;\x0a\x09\x09yourself",
-messageSends: ["r:", "new", "g:", "b:", "yourself"],
+source: "yellow\x0a\x09^ self r: 1 g: 1 b: 0",
+messageSends: ["r:g:b:"],
 referencedClasses: []
 }),
 smalltalk.Color.klass);

@@ -61,45 +61,42 @@ red
 !
 
 rgbaString
-	^ 'rgba(', (r*255) rounded asString, ', ', (g*255) rounded asString, ', ', (b*255) rounded asString, ', ', self alpha asString, ')'
+	< if (self['@alpha'] === undefined) { 
+		return 'rgba(' + Math.round(self['@r']*255) + ',' + Math.round(self['@g']*255) + ',' + Math.round(self['@b']*255) + ',1)';
+	}
+	else {
+		return 'rgba(' + Math.round(self['@r']*255) + ',' + Math.round(self['@g']*255) + ',' + Math.round(self['@b']*255) + ',' + self['@alpha'] + ')';
+	} >
 ! !
 
 !Color class methodsFor: 'instance creation'!
 
 black
-	^ self new
-		r: 0; g: 0; b: 0;
-		yourself
+	^ self r: 0 g: 0 b: 0
 !
 
 blue
-	^ self new
-		r: 0; g: 0; b: 1;
-		yourself
+	^ self r: 0 g: 0 b: 1
 !
 
 gray
-	^ self new
-		r: 0.5; g: 0.5; b: 0.5;
-		yourself
+	^ self r: 0.5 g: 0.5 b: 0.5
 !
 
 green
-	^ self new
-		r: 0; g: 1; b: 0;
-		yourself
+	^ self r: 0 g: 1 b: 0
 !
 
 r: red g: green b: blue
-	^ self new
-		r: red; g: green; b: blue;
-		yourself
+	< var instance = self._new();
+	instance['@r'] = red;
+	instance['@g'] = green;
+	instance['@b'] = blue;
+	return instance; >
 !
 
 red
-	^ self new
-		r: 1; g: 0; b: 0;
-		yourself
+	^ self r: 1 g: 0 b: 0
 !
 
 transparent
@@ -110,15 +107,11 @@ transparent
 !
 
 white
-	^ self new
-		r: 1; g: 1; b: 1;
-		yourself
+	^ self r: 1 g: 1 b: 1
 !
 
 yellow
-	^ self new
-		r: 1; g: 1; b: 0;
-		yourself
+	^ self r: 1 g: 1 b: 0
 ! !
 
 Object subclass: #Image

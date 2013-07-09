@@ -111,11 +111,7 @@ pathStart
 !AthensSimplePathBuilder methodsFor: 'creating path'!
 
 createPath:	aBlock
-
-		"aBlock value: self ...."	
-
 	aBlock value: self.
-	
 	^ pathStart
 ! !
 
@@ -217,23 +213,22 @@ addSegment: aSegment
 !
 
 toAbsolute: aPoint
-	| pt |
-	pt := absolute 
-		ifTrue: [ aPoint ]
-		ifFalse: [ lastSegment endPoint + aPoint ].
-
-	"note the coordinate to calculate the path's bounding box"
-	xMin ifNil: [
-		xMin := xMax := pt x.
-		yMin := yMax := pt y.	
-		] 
-	ifNotNil: [
-		xMin := pt x min: xMin.
-		yMin := pt y min: yMin.
-		xMax := pt x max: xMax.
-		yMax := pt y max: yMax.	
-	].
-	^ pt
+	< var pt = self['@absolute'] ? aPoint : self['@lastSegment']._endPoint().__plus(aPoint);
+	var ptX = pt._x();
+	var ptY = pt._y();
+	
+	if (self['@xMin'] === undefined) {
+		self['@xMin'] = self['@xMax'] = ptX;
+		self['@yMin'] = self['@yMax'] = ptY;
+	}
+	else {
+		self['@xMin'] = Math.min(self['@xMin'], ptX);
+		self['@xMax'] = Math.min(self['@xMax'], ptX);
+		self['@yMin'] = Math.min(self['@yMin'], ptY);
+		self['@yMax'] = Math.min(self['@yMax'], ptY);
+	}
+	
+	return pt; >
 ! !
 
 Object subclass: #AthensPathConverter
@@ -464,13 +459,11 @@ Object subclass: #AthensPathSegment
 !AthensPathSegment methodsFor: 'accessing'!
 
 next
-
 	^ next
 !
 
 next: anObject
-
-	next := anObject
+	next := anObject.
 !
 
 size
@@ -487,18 +480,17 @@ size
 !AthensPathSegment methodsFor: 'iterating'!
 
 do: aBlock
-	| segment |
-	
+	|segment|
 	segment := self.
-	
-	[  aBlock value: segment. segment := segment next. segment notNil ] whileTrue.
+	[aBlock value: segment. segment := segment next. segment notNil] whileTrue.
 !
 
 sendCommandsTo: aBuilder
-
-	self do: [ :segment |
-		segment sendCommandTo: aBuilder
-	]
+	< var segment = self;
+	while (segment !!== undefined) {
+		segment._sendCommandTo_(aBuilder);
+		segment = segment['@next'];
+	} >
 ! !
 
 !AthensPathSegment methodsFor: 'testing'!
@@ -548,7 +540,7 @@ accept: aVisitor
 !
 
 sendCommandTo: aBuilder
-	^ aBuilder ccwArcTo: endPoint angle: angle
+	< aBuilder._ccwArcTo_angle_(self['@endPoint'], self['@angle']); >
 ! !
 
 AthensArcSegment subclass: #AthensCWArcSegment
@@ -562,7 +554,7 @@ accept: aVisitor
 !
 
 sendCommandTo: aBuilder
-	^ aBuilder cwArcTo: endPoint angle: angle
+	< aBuilder._cwArcTo_angle_(self['@endPoint'], self['@angle']); >
 ! !
 
 AthensPathSegment subclass: #AthensCubicSegment
@@ -606,7 +598,7 @@ accept: aVisitor
 !
 
 sendCommandTo: aBuilder
-	^ aBuilder curveVia: via1 and: via2  to: to
+	< aBuilder._curveVia_and_to_(self['@via1'], self['@via2'], self['@to']); >
 ! !
 
 AthensPathSegment subclass: #AthensEllipticalArcSegment
@@ -646,7 +638,7 @@ accept: aVisitor
 !
 
 sendCommandTo: aBuilder
-	^ aBuilder lineTo: point
+	< aBuilder._lineTo_(self['@point']); >
 ! !
 
 AthensLineSegment subclass: #AthensCloseSegment
@@ -660,7 +652,7 @@ accept: aVisitor
 !
 
 sendCommandTo: aBuilder
-	^ aBuilder close
+	< aBuilder._close(); >
 ! !
 
 AthensLineSegment subclass: #AthensMoveSegment
@@ -694,7 +686,7 @@ accept: aVisitor
 !
 
 sendCommandTo: aBuilder
-	^ aBuilder moveTo: point
+	< aBuilder._moveTo_(self['@point']); >
 ! !
 
 AthensPathSegment subclass: #AthensQuadSegment
@@ -732,7 +724,7 @@ accept: aVisitor
 !
 
 sendCommandTo: aBuilder
-	^ aBuilder curveVia: via to: to
+	< aBuilder._curveVia_to_(self['@via'], self['@to']); >
 ! !
 
 Object subclass: #AthensPathSegmentConverter
