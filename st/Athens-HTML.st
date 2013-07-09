@@ -31,13 +31,13 @@ surface: anHTMLSurface
 !AthensHTMLCanvas methodsFor: 'clipping'!
 
 clipBy: aRectangle during: aBlock
-	self context2D save.
-	self context2D beginPath.
-	pathTransform set.
-	self context2D rect: aRectangle left a: aRectangle top a: aRectangle width a: aRectangle height.
-	self context2D clip.
-	[aBlock value] ensure: [
-		self context2D restore.].
+	< var context2D = self['@surface']['@context2D'];
+	context2D.save();
+	context2D.beginPath();
+	self['@pathTransform']._set();
+	context2D.rect(aRectangle._left(), aRectangle._top(), aRectangle._width(0), aRectangle._height());
+	context2D.clip();
+	(function() {aBlock._value();})._ensure_(function() {context2D.restore();}); >
 ! !
 
 !AthensHTMLCanvas methodsFor: 'drawing'!
@@ -50,7 +50,7 @@ drawString: aString
 !AthensHTMLCanvas methodsFor: 'private'!
 
 newPath
-	surface context2D beginPath.
+	< self['@surface']['@context2D'].beginPath(); >
 ! !
 
 !AthensHTMLCanvas class methodsFor: 'instance creation'!
@@ -213,14 +213,11 @@ createPath: aPathCreatingBlock
 !AthensHTMLSurface methodsFor: 'drawing'!
 
 drawDuring: aBlock
-
-	"You may draw on receiver only when inside a block and only using provided canvas object.
-	This ensures releasing system resources used after finishing drawing"
-
-	[currentCanvas := athensCanvas.
-		self setDefaults.
-		aBlock value: currentCanvas.
-	] ensure: [currentCanvas := nil].
+	< (function() {
+		self['@currentCanvas'] = self['@athensCanvas'];
+		self._setDefaults();
+		aBlock._value_(self['@currentCanvas']);
+	})._ensure_(function() {self['@currentCanvas'] = undefined;}); >
 ! !
 
 !AthensHTMLSurface methodsFor: 'paints'!
@@ -268,14 +265,16 @@ newCanvas
 !
 
 setDefaults
-	currentCanvas paintMode over.
-	currentCanvas pathTransform loadIdentity.
-	currentCanvas paintTransform loadIdentity.
+	< var canvas = self['@currentCanvas'];
+	var context2D = canvas['@surface']['@context2D'];
 	
-	currentCanvas context2D lineJoin: 'miter'.
-	"changing meter limit not supported by Athens"
-	currentCanvas context2D miterLimit: 10.
-	currentCanvas context2D lineCap: 'butt'.
+	canvas['@paintMode']._over();
+	canvas['@pathTransform']._loadIdentity();
+	canvas['@paintTransform']._loadIdentity();
+	
+	context2D.lineJoin = 'miter';
+	context2D.miterLimit = 10;
+	context2D.lineCap = 'butt'; >
 ! !
 
 !AthensHTMLSurface methodsFor: 'rendering'!

@@ -7,22 +7,17 @@ category: 'clipping',
 fn: function (aRectangle,aBlock){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-_st(self._context2D())._save();
-_st(self._context2D())._beginPath();
-_st(self["@pathTransform"])._set();
-_st(self._context2D())._rect_a_a_a_(_st(aRectangle)._left(),_st(aRectangle)._top(),_st(aRectangle)._width(),_st(aRectangle)._height());
-_st(self._context2D())._clip();
-_st((function(){
-return smalltalk.withContext(function($ctx2) {
-return _st(aBlock)._value();
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}))._ensure_((function(){
-return smalltalk.withContext(function($ctx2) {
-return _st(self._context2D())._restore();
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
+ var context2D = self['@surface']['@context2D'];
+	context2D.save();
+	context2D.beginPath();
+	self['@pathTransform']._set();
+	context2D.rect(aRectangle._left(), aRectangle._top(), aRectangle._width(0), aRectangle._height());
+	context2D.clip();
+	(function() {aBlock._value();})._ensure_(function() {context2D.restore();}); ;
 return self}, function($ctx1) {$ctx1.fill(self,"clipBy:during:",{aRectangle:aRectangle,aBlock:aBlock},smalltalk.AthensHTMLCanvas)})},
 args: ["aRectangle", "aBlock"],
-source: "clipBy: aRectangle during: aBlock\x0a\x09self context2D save.\x0a\x09self context2D beginPath.\x0a\x09pathTransform set.\x0a\x09self context2D rect: aRectangle left a: aRectangle top a: aRectangle width a: aRectangle height.\x0a\x09self context2D clip.\x0a\x09[aBlock value] ensure: [\x0a\x09\x09self context2D restore.].",
-messageSends: ["save", "context2D", "beginPath", "set", "rect:a:a:a:", "left", "top", "width", "height", "clip", "ensure:", "restore", "value"],
+source: "clipBy: aRectangle during: aBlock\x0a\x09< var context2D = self['@surface']['@context2D'];\x0a\x09context2D.save();\x0a\x09context2D.beginPath();\x0a\x09self['@pathTransform']._set();\x0a\x09context2D.rect(aRectangle._left(), aRectangle._top(), aRectangle._width(0), aRectangle._height());\x0a\x09context2D.clip();\x0a\x09(function() {aBlock._value();})._ensure_(function() {context2D.restore();}); >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLCanvas);
@@ -67,11 +62,11 @@ category: 'private',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-_st(_st(self["@surface"])._context2D())._beginPath();
+ self['@surface']['@context2D'].beginPath(); ;
 return self}, function($ctx1) {$ctx1.fill(self,"newPath",{},smalltalk.AthensHTMLCanvas)})},
 args: [],
-source: "newPath\x0a\x09surface context2D beginPath.",
-messageSends: ["beginPath", "context2D"],
+source: "newPath\x0a\x09< self['@surface']['@context2D'].beginPath(); >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLCanvas);
@@ -726,21 +721,15 @@ category: 'drawing',
 fn: function (aBlock){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-_st((function(){
-return smalltalk.withContext(function($ctx2) {
-self["@currentCanvas"]=self["@athensCanvas"];
-self["@currentCanvas"];
-self._setDefaults();
-return _st(aBlock)._value_(self["@currentCanvas"]);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}))._ensure_((function(){
-return smalltalk.withContext(function($ctx2) {
-self["@currentCanvas"]=nil;
-return self["@currentCanvas"];
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
+ (function() {
+		self['@currentCanvas'] = self['@athensCanvas'];
+		self._setDefaults();
+		aBlock._value_(self['@currentCanvas']);
+	})._ensure_(function() {self['@currentCanvas'] = undefined;}); ;
 return self}, function($ctx1) {$ctx1.fill(self,"drawDuring:",{aBlock:aBlock},smalltalk.AthensHTMLSurface)})},
 args: ["aBlock"],
-source: "drawDuring: aBlock\x0a\x0a\x09\x22You may draw on receiver only when inside a block and only using provided canvas object.\x0a\x09This ensures releasing system resources used after finishing drawing\x22\x0a\x0a\x09[currentCanvas := athensCanvas.\x0a\x09\x09self setDefaults.\x0a\x09\x09aBlock value: currentCanvas.\x0a\x09] ensure: [currentCanvas := nil].",
-messageSends: ["ensure:", "setDefaults", "value:"],
+source: "drawDuring: aBlock\x0a\x09< (function() {\x0a\x09\x09self['@currentCanvas'] = self['@athensCanvas'];\x0a\x09\x09self._setDefaults();\x0a\x09\x09aBlock._value_(self['@currentCanvas']);\x0a\x09})._ensure_(function() {self['@currentCanvas'] = undefined;}); >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLSurface);
@@ -877,16 +866,20 @@ category: 'private',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-_st(_st(self["@currentCanvas"])._paintMode())._over();
-_st(_st(self["@currentCanvas"])._pathTransform())._loadIdentity();
-_st(_st(self["@currentCanvas"])._paintTransform())._loadIdentity();
-_st(_st(self["@currentCanvas"])._context2D())._lineJoin_("miter");
-_st(_st(self["@currentCanvas"])._context2D())._miterLimit_((10));
-_st(_st(self["@currentCanvas"])._context2D())._lineCap_("butt");
+ var canvas = self['@currentCanvas'];
+	var context2D = canvas['@surface']['@context2D'];
+	
+	canvas['@paintMode']._over();
+	canvas['@pathTransform']._loadIdentity();
+	canvas['@paintTransform']._loadIdentity();
+	
+	context2D.lineJoin = 'miter';
+	context2D.miterLimit = 10;
+	context2D.lineCap = 'butt'; ;
 return self}, function($ctx1) {$ctx1.fill(self,"setDefaults",{},smalltalk.AthensHTMLSurface)})},
 args: [],
-source: "setDefaults\x0a\x09currentCanvas paintMode over.\x0a\x09currentCanvas pathTransform loadIdentity.\x0a\x09currentCanvas paintTransform loadIdentity.\x0a\x09\x0a\x09currentCanvas context2D lineJoin: 'miter'.\x0a\x09\x22changing meter limit not supported by Athens\x22\x0a\x09currentCanvas context2D miterLimit: 10.\x0a\x09currentCanvas context2D lineCap: 'butt'.",
-messageSends: ["over", "paintMode", "loadIdentity", "pathTransform", "paintTransform", "lineJoin:", "context2D", "miterLimit:", "lineCap:"],
+source: "setDefaults\x0a\x09< var canvas = self['@currentCanvas'];\x0a\x09var context2D = canvas['@surface']['@context2D'];\x0a\x09\x0a\x09canvas['@paintMode']._over();\x0a\x09canvas['@pathTransform']._loadIdentity();\x0a\x09canvas['@paintTransform']._loadIdentity();\x0a\x09\x0a\x09context2D.lineJoin = 'miter';\x0a\x09context2D.miterLimit = 10;\x0a\x09context2D.lineCap = 'butt'; >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLSurface);
