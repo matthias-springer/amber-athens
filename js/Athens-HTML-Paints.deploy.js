@@ -396,18 +396,31 @@ smalltalk.AthensHTMLSolidPaint);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "drawString:on:",
+fn: function (aString,anAthensCanvas){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ var context2D = anAthensCanvas._context2D();
+	context2D.fillStyle = self._rgbaString();
+	anAthensCanvas._pathTransform()._set();
+	context2D.fillText(aString, 0, 0); ;
+return self}, function($ctx1) {$ctx1.fill(self,"drawString:on:",{aString:aString,anAthensCanvas:anAthensCanvas},smalltalk.AthensHTMLSolidPaint)})},
+messageSends: []}),
+smalltalk.AthensHTMLSolidPaint);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "fillPath:on:",
 fn: function (aPath,anAthensCanvas){
 var self=this;
-var context2D;
 return smalltalk.withContext(function($ctx1) { 
-context2D=_st(anAthensCanvas)._context2D();
-_st(_st(anAthensCanvas)._pathTransform())._set();
-_st(context2D)._fillStyle_(self._rgbaString());
-_st(aPath)._draw();
-_st(context2D)._fill();
-return self}, function($ctx1) {$ctx1.fill(self,"fillPath:on:",{aPath:aPath,anAthensCanvas:anAthensCanvas,context2D:context2D},smalltalk.AthensHTMLSolidPaint)})},
-messageSends: ["context2D", "set", "pathTransform", "fillStyle:", "rgbaString", "draw", "fill"]}),
+ var context2D = anAthensCanvas._context2D();
+	anAthensCanvas._pathTransform()._set();
+	context2D.fillStyle = self._rgbaString();
+	aPath._drawOn_(anAthensCanvas);
+	context2D.fill(); ;
+return self}, function($ctx1) {$ctx1.fill(self,"fillPath:on:",{aPath:aPath,anAthensCanvas:anAthensCanvas},smalltalk.AthensHTMLSolidPaint)})},
+messageSends: []}),
 smalltalk.AthensHTMLSolidPaint);
 
 smalltalk.addMethod(
@@ -415,14 +428,13 @@ smalltalk.method({
 selector: "fillRectangle:on:",
 fn: function (aRect,anAthensCanvas){
 var self=this;
-var context2D;
 return smalltalk.withContext(function($ctx1) { 
-context2D=_st(anAthensCanvas)._context2D();
-_st(_st(anAthensCanvas)._pathTransform())._set();
-_st(context2D)._fillStyle_(self._rgbaString());
-_st(context2D)._fillRect_a_a_a_(_st(aRect)._left(),_st(aRect)._top(),_st(aRect)._width(),_st(aRect)._height());
-return self}, function($ctx1) {$ctx1.fill(self,"fillRectangle:on:",{aRect:aRect,anAthensCanvas:anAthensCanvas,context2D:context2D},smalltalk.AthensHTMLSolidPaint)})},
-messageSends: ["context2D", "set", "pathTransform", "fillStyle:", "rgbaString", "fillRect:a:a:a:", "left", "top", "width", "height"]}),
+ var context2D = anAthensCanvas._context2D();
+	anAthensCanvas._pathTransform()._set();
+	context2D.fillStyle = self._rgbaString();
+	context2D.fillRect(aRect._left(), aRect._top(), aRect._width(), aRect._height()); ;
+return self}, function($ctx1) {$ctx1.fill(self,"fillRectangle:on:",{aRect:aRect,anAthensCanvas:anAthensCanvas},smalltalk.AthensHTMLSolidPaint)})},
+messageSends: []}),
 smalltalk.AthensHTMLSolidPaint);
 
 smalltalk.addMethod(
@@ -511,10 +523,10 @@ _st(context2D)._lineWidth_(self["@width"]);
 _st(context2D)._lineJoin_(self["@joinStyle"]);
 _st(context2D)._lineCap_(self["@capStyle"]);
 self._setDashStyleOn_(context2D);
-_st(aPath)._draw();
+_st(aPath)._drawOn_(anAthensCanvas);
 _st(context2D)._stroke();
 return self}, function($ctx1) {$ctx1.fill(self,"fillPath:on:",{aPath:aPath,anAthensCanvas:anAthensCanvas,context2D:context2D},smalltalk.AthensHTMLStrokePaint)})},
-messageSends: ["context2D", "set", "pathTransform", "strokeStyle:", "rgbaString", "lineWidth:", "lineJoin:", "lineCap:", "setDashStyleOn:", "draw", "stroke"]}),
+messageSends: ["context2D", "set", "pathTransform", "strokeStyle:", "rgbaString", "lineWidth:", "lineJoin:", "lineCap:", "setDashStyleOn:", "drawOn:", "stroke"]}),
 smalltalk.AthensHTMLStrokePaint);
 
 smalltalk.addMethod(

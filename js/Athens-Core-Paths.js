@@ -234,6 +234,23 @@ smalltalk.AthensSimplePathBuilder);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "addSegment:",
+category: 'private',
+fn: function (aSegment){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+_st(self["@lastSegment"])._next_(aSegment);
+self["@lastSegment"]=aSegment;
+return self}, function($ctx1) {$ctx1.fill(self,"addSegment:",{aSegment:aSegment},smalltalk.AthensSimplePathBuilder)})},
+args: ["aSegment"],
+source: "addSegment: aSegment\x0a\x09lastSegment next: aSegment.\x0a\x09lastSegment := aSegment.\x0a ",
+messageSends: ["next:"],
+referencedClasses: []
+}),
+smalltalk.AthensSimplePathBuilder);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "ccwArcTo:angle:",
 category: 'path commands',
 fn: function (endPt,rot){
@@ -359,18 +376,17 @@ selector: "initialize",
 category: 'initialize-release',
 fn: function (){
 var self=this;
-function $ZeroPoint(){return smalltalk.ZeroPoint||(typeof ZeroPoint=="undefined"?nil:ZeroPoint)}
 function $AthensMoveSegment(){return smalltalk.AthensMoveSegment||(typeof AthensMoveSegment=="undefined"?nil:AthensMoveSegment)}
 return smalltalk.withContext(function($ctx1) { 
 self["@absolute"]=false;
-self["@contourStartPt"]=$ZeroPoint();
-self["@lastSegment"]=_st(_st($AthensMoveSegment())._new())._point_($ZeroPoint());
+self["@contourStartPt"]=_st(self._class())._zeroPoint();
+self["@lastSegment"]=_st(_st($AthensMoveSegment())._new())._point_(_st(self._class())._zeroPoint());
 self["@pathStart"]=self["@lastSegment"];
 return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensSimplePathBuilder)})},
 args: [],
-source: "initialize\x0a\x09\x22A new path always starts from implicit (moveTo:0@0) segment.\x0a\x09If next segment is moveTo: , the point of already existing move segment will be changed,\x0a\x09avoiding creating extra move segments.\x0a\x09\x0a\x09\x22\x0a\x09absolute := false.\x0a\x09contourStartPt := ZeroPoint.\x0a\x09pathStart := lastSegment := (AthensMoveSegment new  point: ZeroPoint).",
-messageSends: ["point:", "new"],
-referencedClasses: ["ZeroPoint", "AthensMoveSegment"]
+source: "initialize\x0a\x09\x22A new path always starts from implicit (moveTo:0@0) segment.\x0a\x09If next segment is moveTo: , the point of already existing move segment will be changed,\x0a\x09avoiding creating extra move segments.\x0a\x09\x0a\x09\x22\x0a\x09absolute := false.\x0a\x09contourStartPt := self class zeroPoint.\x0a\x09pathStart := lastSegment := (AthensMoveSegment new  point: self class zeroPoint).",
+messageSends: ["zeroPoint", "class", "point:", "new"],
+referencedClasses: ["AthensMoveSegment"]
 }),
 smalltalk.AthensSimplePathBuilder);
 
@@ -470,6 +486,49 @@ return self}, function($ctx1) {$ctx1.fill(self,"relative",{},smalltalk.AthensSim
 args: [],
 source: "relative\x0a\x09absolute := false.",
 messageSends: [],
+referencedClasses: []
+}),
+smalltalk.AthensSimplePathBuilder);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "toAbsolute:",
+category: 'private',
+fn: function (aPoint){
+var self=this;
+var pt;
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2,$3;
+$1=self["@absolute"];
+if(smalltalk.assert($1)){
+pt=aPoint;
+} else {
+pt=_st(_st(self["@lastSegment"])._endPoint()).__plus(aPoint);
+};
+$2=self["@xMin"];
+if(($receiver = $2) == nil || $receiver == undefined){
+self["@xMax"]=_st(pt)._x();
+self["@xMin"]=self["@xMax"];
+self["@xMin"];
+self["@yMax"]=_st(pt)._y();
+self["@yMin"]=self["@yMax"];
+self["@yMin"];
+} else {
+self["@xMin"]=_st(_st(pt)._x())._min_(self["@xMin"]);
+self["@xMin"];
+self["@yMin"]=_st(_st(pt)._y())._min_(self["@yMin"]);
+self["@yMin"];
+self["@xMax"]=_st(_st(pt)._x())._max_(self["@xMax"]);
+self["@xMax"];
+self["@yMax"]=_st(_st(pt)._y())._max_(self["@yMax"]);
+self["@yMax"];
+};
+$3=pt;
+return $3;
+}, function($ctx1) {$ctx1.fill(self,"toAbsolute:",{aPoint:aPoint,pt:pt},smalltalk.AthensSimplePathBuilder)})},
+args: ["aPoint"],
+source: "toAbsolute: aPoint\x0a\x09| pt |\x0a\x09pt := absolute \x0a\x09\x09ifTrue: [ aPoint ]\x0a\x09\x09ifFalse: [ lastSegment endPoint + aPoint ].\x0a\x0a\x09\x22note the coordinate to calculate the path's bounding box\x22\x0a\x09xMin ifNil: [\x0a\x09\x09xMin := xMax := pt x.\x0a\x09\x09yMin := yMax := pt y.\x09\x0a\x09\x09] \x0a\x09ifNotNil: [\x0a\x09\x09xMin := pt x min: xMin.\x0a\x09\x09yMin := pt y min: yMin.\x0a\x09\x09xMax := pt x max: xMax.\x0a\x09\x09yMax := pt y max: yMax.\x09\x0a\x09].\x0a\x09^ pt",
+messageSends: ["ifTrue:ifFalse:", "+", "endPoint", "ifNil:ifNotNil:", "x", "y", "min:", "max:"],
 referencedClasses: []
 }),
 smalltalk.AthensSimplePathBuilder);

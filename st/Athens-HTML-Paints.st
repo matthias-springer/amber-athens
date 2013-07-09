@@ -198,21 +198,26 @@ color: aColor
 
 !AthensHTMLSolidPaint methodsFor: 'drawing'!
 
+drawString: aString on: anAthensCanvas
+	< var context2D = anAthensCanvas._context2D();
+	context2D.fillStyle = self._rgbaString();
+	anAthensCanvas._pathTransform()._set();
+	context2D.fillText(aString, 0, 0); >
+!
+
 fillPath: aPath on: anAthensCanvas
-	|context2D|
-	context2D := anAthensCanvas context2D.
-	anAthensCanvas pathTransform set.
-	context2D fillStyle: self rgbaString.
-	aPath draw.
-	context2D fill.
+	< var context2D = anAthensCanvas._context2D();
+	anAthensCanvas._pathTransform()._set();
+	context2D.fillStyle = self._rgbaString();
+	aPath._drawOn_(anAthensCanvas);
+	context2D.fill(); >
 !
 
 fillRectangle: aRect on: anAthensCanvas
-	|context2D|
-	context2D := anAthensCanvas context2D.
-	anAthensCanvas pathTransform set.
-	context2D fillStyle: self rgbaString.
-	context2D fillRect: aRect left a: aRect top a: aRect width a: aRect height.
+	< var context2D = anAthensCanvas._context2D();
+	anAthensCanvas._pathTransform()._set();
+	context2D.fillStyle = self._rgbaString();
+	context2D.fillRect(aRect._left(), aRect._top(), aRect._width(), aRect._height()); >
 !
 
 rgbaString
@@ -241,7 +246,7 @@ fillPath: aPath on: anAthensCanvas
 	context2D lineJoin: joinStyle.
 	context2D lineCap: capStyle.
 	self setDashStyleOn: context2D.
-	aPath draw.
+	aPath drawOn: anAthensCanvas.
 	context2D stroke.
 !
 

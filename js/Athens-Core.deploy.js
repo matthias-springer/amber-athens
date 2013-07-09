@@ -1212,6 +1212,17 @@ smalltalk.Number);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "asHexString",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self.toString(16); ;
+return self}, function($ctx1) {$ctx1.fill(self,"asHexString",{},smalltalk.Number)})},
+messageSends: []}),
+smalltalk.Number);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "cos",
 fn: function (){
 var self=this;

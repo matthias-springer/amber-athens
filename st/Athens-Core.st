@@ -644,6 +644,10 @@ arcTan
 	< return Math.atan(self); >
 !
 
+asHexString
+	< return self.toString(16); >
+!
+
 cos
 	< return Math.cos(self); >
 !

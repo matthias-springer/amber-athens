@@ -1717,6 +1717,22 @@ smalltalk.Number);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "asHexString",
+category: '*Athens-Core',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self.toString(16); ;
+return self}, function($ctx1) {$ctx1.fill(self,"asHexString",{},smalltalk.Number)})},
+args: [],
+source: "asHexString\x0a\x09< return self.toString(16); >",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.Number);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "cos",
 category: '*Athens-Core',
 fn: function (){

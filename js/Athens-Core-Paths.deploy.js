@@ -164,6 +164,18 @@ smalltalk.AthensSimplePathBuilder);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "addSegment:",
+fn: function (aSegment){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+_st(self["@lastSegment"])._next_(aSegment);
+self["@lastSegment"]=aSegment;
+return self}, function($ctx1) {$ctx1.fill(self,"addSegment:",{aSegment:aSegment},smalltalk.AthensSimplePathBuilder)})},
+messageSends: ["next:"]}),
+smalltalk.AthensSimplePathBuilder);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "ccwArcTo:angle:",
 fn: function (endPt,rot){
 var self=this;
@@ -258,15 +270,14 @@ smalltalk.method({
 selector: "initialize",
 fn: function (){
 var self=this;
-function $ZeroPoint(){return smalltalk.ZeroPoint||(typeof ZeroPoint=="undefined"?nil:ZeroPoint)}
 function $AthensMoveSegment(){return smalltalk.AthensMoveSegment||(typeof AthensMoveSegment=="undefined"?nil:AthensMoveSegment)}
 return smalltalk.withContext(function($ctx1) { 
 self["@absolute"]=false;
-self["@contourStartPt"]=$ZeroPoint();
-self["@lastSegment"]=_st(_st($AthensMoveSegment())._new())._point_($ZeroPoint());
+self["@contourStartPt"]=_st(self._class())._zeroPoint();
+self["@lastSegment"]=_st(_st($AthensMoveSegment())._new())._point_(_st(self._class())._zeroPoint());
 self["@pathStart"]=self["@lastSegment"];
 return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensSimplePathBuilder)})},
-messageSends: ["point:", "new"]}),
+messageSends: ["zeroPoint", "class", "point:", "new"]}),
 smalltalk.AthensSimplePathBuilder);
 
 smalltalk.addMethod(
@@ -342,6 +353,44 @@ return smalltalk.withContext(function($ctx1) {
 self["@absolute"]=false;
 return self}, function($ctx1) {$ctx1.fill(self,"relative",{},smalltalk.AthensSimplePathBuilder)})},
 messageSends: []}),
+smalltalk.AthensSimplePathBuilder);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "toAbsolute:",
+fn: function (aPoint){
+var self=this;
+var pt;
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2,$3;
+$1=self["@absolute"];
+if(smalltalk.assert($1)){
+pt=aPoint;
+} else {
+pt=_st(_st(self["@lastSegment"])._endPoint()).__plus(aPoint);
+};
+$2=self["@xMin"];
+if(($receiver = $2) == nil || $receiver == undefined){
+self["@xMax"]=_st(pt)._x();
+self["@xMin"]=self["@xMax"];
+self["@xMin"];
+self["@yMax"]=_st(pt)._y();
+self["@yMin"]=self["@yMax"];
+self["@yMin"];
+} else {
+self["@xMin"]=_st(_st(pt)._x())._min_(self["@xMin"]);
+self["@xMin"];
+self["@yMin"]=_st(_st(pt)._y())._min_(self["@yMin"]);
+self["@yMin"];
+self["@xMax"]=_st(_st(pt)._x())._max_(self["@xMax"]);
+self["@xMax"];
+self["@yMax"]=_st(_st(pt)._y())._max_(self["@yMax"]);
+self["@yMax"];
+};
+$3=pt;
+return $3;
+}, function($ctx1) {$ctx1.fill(self,"toAbsolute:",{aPoint:aPoint,pt:pt},smalltalk.AthensSimplePathBuilder)})},
+messageSends: ["ifTrue:ifFalse:", "+", "endPoint", "ifNil:ifNotNil:", "x", "y", "min:", "max:"]}),
 smalltalk.AthensSimplePathBuilder);
 
 

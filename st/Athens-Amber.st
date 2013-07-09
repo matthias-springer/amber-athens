@@ -22,7 +22,7 @@ fromUrl: aString
 ! !
 
 Object subclass: #Color
-	instanceVariableNames: 'hexString alpha'
+	instanceVariableNames: 'hexString alpha r g b'
 	package: 'Athens-Amber'!
 
 !Color methodsFor: 'accessing'!
@@ -36,90 +36,88 @@ alpha: aNumber
 	alpha := aNumber
 !
 
-blue
-	< return parseInt(self['@hexString'].substr(4, 2), 16) / 255.0; >
+b: blue
+	b := blue.
 !
 
-blueByte
-	< return parseInt(self['@hexString'].substr(4, 2), 16); >
+blue
+	^ b
+!
+
+g: green
+	g := green.
 !
 
 green
-	< return parseInt(self['@hexString'].substr(2, 2), 16) / 255.0; >
+	^ g
 !
 
-greenByte
-	< return parseInt(self['@hexString'].substr(2, 2), 16); >
-!
-
-hexString
-	^ hexString
-!
-
-hexString: aString
-	hexString := aString.
+r: red
+	r := red.
 !
 
 red
-	< return parseInt(self['@hexString'].substr(0, 2), 16) / 255.0; >
-!
-
-redByte
-	< return parseInt(self['@hexString'].substr(0, 2), 16); >
+	^ r
 !
 
 rgbaString
-	^ 'rgba(', self redByte asString, ', ', self greenByte asString, ', ', self blueByte asString, ', ', self alpha asString, ')'
+	^ 'rgba(', (r*255) rounded asString, ', ', (g*255) rounded asString, ', ', (b*255) rounded asString, ', ', self alpha asString, ')'
 ! !
 
 !Color class methodsFor: 'instance creation'!
 
 black
 	^ self new
-		hexString: '000000';
+		r: 0; g: 0; b: 0;
 		yourself
 !
 
 blue
 	^ self new
-		hexString: '0000ff';
+		r: 0; g: 0; b: 1;
 		yourself
 !
 
 gray
 	^ self new
-		hexString: '808080';
+		r: 0.5; g: 0.5; b: 0.5;
 		yourself
 !
 
 green
 	^ self new
-		hexString: '00ff00';
+		r: 0; g: 1; b: 0;
+		yourself
+!
+
+r: red g: green b: blue
+	^ self new
+		r: red; g: green; b: blue;
 		yourself
 !
 
 red
 	^ self new
-		hexString: 'ff0000';
+		r: 1; g: 0; b: 0;
 		yourself
 !
 
 transparent
 	^ self new
-		hexString: '000000';
+		r: 0; g: 0; b: 0;
 		alpha: 0;
 		yourself
 !
 
 white
 	^ self new
-		hexString: 'ffffff';
+		r: 1; g: 1; b: 1;
 		yourself
 !
 
 yellow
 	^ self new
-		hexString: 'ffff00';
+		r: 1; g: 1; b: 0;
 		yourself
 ! !
 
@@ -236,5 +234,11 @@ origin: originPoint corner: cornerPoint
 		corner: cornerPoint;
 		initialize;
 		yourself
+! !
+
+!Date class methodsFor: '*Athens-Amber'!
+
+millisecondClockValue
+	< return new Date().getMilliseconds(); >
 ! !
 

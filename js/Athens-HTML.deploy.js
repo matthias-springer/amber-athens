@@ -1,5 +1,5 @@
 smalltalk.addPackage('Athens-HTML');
-smalltalk.addClass('AthensHTMLCanvas', smalltalk.AthensCanvas, ['pathTransform', 'paintTransform', 'currentClipRect', 'font'], 'Athens-HTML');
+smalltalk.addClass('AthensHTMLCanvas', smalltalk.AthensCanvas, ['pathTransform', 'paintTransform', 'pathBuilder', 'currentClipRect', 'font'], 'Athens-HTML');
 smalltalk.addMethod(
 smalltalk.method({
 selector: "clipBy:during:",
@@ -42,10 +42,9 @@ fn: function (aString){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 _st(_st(self["@surface"])._context2D())._font_(_st(self["@font"])._asHTMLString());
-_st(_st(self["@surface"])._context2D())._fillStyle_("#ff0000");
-_st(_st(self["@surface"])._context2D())._fillText_a_a_(aString,(100),(100));
+_st(self["@paint"])._drawString_on_(aString,self);
 return self}, function($ctx1) {$ctx1.fill(self,"drawString:",{aString:aString},smalltalk.AthensHTMLCanvas)})},
-messageSends: ["font:", "asHTMLString", "context2D", "fillStyle:", "fillText:a:a:"]}),
+messageSends: ["font:", "asHTMLString", "context2D", "drawString:on:"]}),
 smalltalk.AthensHTMLCanvas);
 
 smalltalk.addMethod(
@@ -102,11 +101,13 @@ selector: "surface:",
 fn: function (anHTMLSurface){
 var self=this;
 function $AthensHTMLMatrix(){return smalltalk.AthensHTMLMatrix||(typeof AthensHTMLMatrix=="undefined"?nil:AthensHTMLMatrix)}
+function $AthensHTMLPathBuilder(){return smalltalk.AthensHTMLPathBuilder||(typeof AthensHTMLPathBuilder=="undefined"?nil:AthensHTMLPathBuilder)}
 function $AthensHTMLPaintMode(){return smalltalk.AthensHTMLPaintMode||(typeof AthensHTMLPaintMode=="undefined"?nil:AthensHTMLPaintMode)}
 return smalltalk.withContext(function($ctx1) { 
 self["@surface"]=anHTMLSurface;
 self["@pathTransform"]=_st($AthensHTMLMatrix())._on_(self["@surface"]);
 self["@paintTransform"]=_st($AthensHTMLMatrix())._on_(self["@surface"]);
+self["@pathBuilder"]=_st($AthensHTMLPathBuilder())._on_(self["@surface"]);
 self["@paintMode"]=_st($AthensHTMLPaintMode())._on_(self["@surface"]);
 return self}, function($ctx1) {$ctx1.fill(self,"surface:",{anHTMLSurface:anHTMLSurface},smalltalk.AthensHTMLCanvas)})},
 messageSends: ["on:"]}),
@@ -469,13 +470,14 @@ smalltalk.method({
 selector: "createPath:",
 fn: function (aPathCreatingBlock){
 var self=this;
-function $AthensHTMLPathBuilder(){return smalltalk.AthensHTMLPathBuilder||(typeof AthensHTMLPathBuilder=="undefined"?nil:AthensHTMLPathBuilder)}
+function $AthensSimplePathBuilder(){return smalltalk.AthensSimplePathBuilder||(typeof AthensSimplePathBuilder=="undefined"?nil:AthensSimplePathBuilder)}
+function $AthensHTMLPath(){return smalltalk.AthensHTMLPath||(typeof AthensHTMLPath=="undefined"?nil:AthensHTMLPath)}
 return smalltalk.withContext(function($ctx1) { 
 var $1;
-$1=_st($AthensHTMLPathBuilder())._on_with_(self,aPathCreatingBlock);
+$1=_st($AthensHTMLPath())._segment_(_st($AthensSimplePathBuilder())._createPath_(aPathCreatingBlock));
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"createPath:",{aPathCreatingBlock:aPathCreatingBlock},smalltalk.AthensHTMLSurface)})},
-messageSends: ["on:with:"]}),
+messageSends: ["segment:", "createPath:"]}),
 smalltalk.AthensHTMLSurface);
 
 smalltalk.addMethod(
