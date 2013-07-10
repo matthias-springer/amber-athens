@@ -567,8 +567,10 @@ return smalltalk.withContext(function($ctx1) {
 	context2D.lineJoin = self['@joinStyle'];
 	context2D.lineCap = self['@capStyle'];
 	// TODO: this only works in Chrome, see http://www.rgraph.net/blog/2013/january/html5-canvas-dashed-lines.html
-	context2D.setLineDash(self['@dashLenghts']);
-	context2D.lineDashOffset = self['@dashOffset'];
+	if (context2D.setLineDash !== undefined) {
+		context2D.setLineDash(self['@dashLenghts']);
+		context2D.lineDashOffset = self['@dashOffset'];
+	}
 	aPath._drawOn_(anAthensCanvas);
 	context2D.stroke(); ;
 return self}, function($ctx1) {$ctx1.fill(self,"fillPath:on:",{aPath:aPath,anAthensCanvas:anAthensCanvas},smalltalk.AthensHTMLStrokePaint)})},

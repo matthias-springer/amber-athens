@@ -763,13 +763,15 @@ return smalltalk.withContext(function($ctx1) {
 	context2D.lineJoin = self['@joinStyle'];
 	context2D.lineCap = self['@capStyle'];
 	// TODO: this only works in Chrome, see http://www.rgraph.net/blog/2013/january/html5-canvas-dashed-lines.html
-	context2D.setLineDash(self['@dashLenghts']);
-	context2D.lineDashOffset = self['@dashOffset'];
+	if (context2D.setLineDash !== undefined) {
+		context2D.setLineDash(self['@dashLenghts']);
+		context2D.lineDashOffset = self['@dashOffset'];
+	}
 	aPath._drawOn_(anAthensCanvas);
 	context2D.stroke(); ;
 return self}, function($ctx1) {$ctx1.fill(self,"fillPath:on:",{aPath:aPath,anAthensCanvas:anAthensCanvas},smalltalk.AthensHTMLStrokePaint)})},
 args: ["aPath", "anAthensCanvas"],
-source: "fillPath: aPath on: anAthensCanvas\x0a\x09< var context2D = anAthensCanvas['@surface']['@context2D'];\x0a\x09anAthensCanvas['@pathTransform']._set();\x0a\x09context2D.strokeStyle = self['@fillPaint']['@fillStyle'];\x0a\x09context2D.lineWidth = self['@width'];\x0a\x09context2D.lineJoin = self['@joinStyle'];\x0a\x09context2D.lineCap = self['@capStyle'];\x0a\x09// TODO: this only works in Chrome, see http://www.rgraph.net/blog/2013/january/html5-canvas-dashed-lines.html\x0a\x09context2D.setLineDash(self['@dashLenghts']);\x0a\x09context2D.lineDashOffset = self['@dashOffset'];\x0a\x09aPath._drawOn_(anAthensCanvas);\x0a\x09context2D.stroke(); >",
+source: "fillPath: aPath on: anAthensCanvas\x0a\x09< var context2D = anAthensCanvas['@surface']['@context2D'];\x0a\x09anAthensCanvas['@pathTransform']._set();\x0a\x09context2D.strokeStyle = self['@fillPaint']['@fillStyle'];\x0a\x09context2D.lineWidth = self['@width'];\x0a\x09context2D.lineJoin = self['@joinStyle'];\x0a\x09context2D.lineCap = self['@capStyle'];\x0a\x09// TODO: this only works in Chrome, see http://www.rgraph.net/blog/2013/january/html5-canvas-dashed-lines.html\x0a\x09if (context2D.setLineDash !== undefined) {\x0a\x09\x09context2D.setLineDash(self['@dashLenghts']);\x0a\x09\x09context2D.lineDashOffset = self['@dashOffset'];\x0a\x09}\x0a\x09aPath._drawOn_(anAthensCanvas);\x0a\x09context2D.stroke(); >",
 messageSends: [],
 referencedClasses: []
 }),
