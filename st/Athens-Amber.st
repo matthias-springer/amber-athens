@@ -65,7 +65,7 @@ red
 !
 
 rgbaString
-	< if (self['@rgbaString'] !!== undefined) {
+	< if (self['@rgbaString'] !!== undefined && !!self['@rgbaString']._isNil()) {
 		return self['@rgbaString'];
 	}
 	else {

@@ -213,7 +213,7 @@ category: 'accessing',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- if (self['@rgbaString'] !== undefined) {
+ if (self['@rgbaString'] !== undefined && !self['@rgbaString']._isNil()) {
 		return self['@rgbaString'];
 	}
 	else {
@@ -226,7 +226,7 @@ return smalltalk.withContext(function($ctx1) {
 	} ;
 return self}, function($ctx1) {$ctx1.fill(self,"rgbaString",{},smalltalk.Color)})},
 args: [],
-source: "rgbaString\x0a\x09< if (self['@rgbaString'] !== undefined) {\x0a\x09\x09return self['@rgbaString'];\x0a\x09}\x0a\x09else {\x0a\x09\x09if (self['@alpha'] === undefined) { \x0a\x09\x09\x09return self['@rgbaString'] = 'rgba(' + Math.round(self['@r']*255) + ',' + Math.round(self['@g']*255) + ',' + Math.round(self['@b']*255) + ',1)';\x0a\x09\x09}\x0a\x09\x09else {\x0a\x09\x09\x09return self['@rgbaString'] = 'rgba(' + Math.round(self['@r']*255) + ',' + Math.round(self['@g']*255) + ',' + Math.round(self['@b']*255) + ',' + self['@alpha'] + ')';\x0a\x09\x09}\x0a\x09} >",
+source: "rgbaString\x0a\x09< if (self['@rgbaString'] !== undefined && !self['@rgbaString']._isNil()) {\x0a\x09\x09return self['@rgbaString'];\x0a\x09}\x0a\x09else {\x0a\x09\x09if (self['@alpha'] === undefined) { \x0a\x09\x09\x09return self['@rgbaString'] = 'rgba(' + Math.round(self['@r']*255) + ',' + Math.round(self['@g']*255) + ',' + Math.round(self['@b']*255) + ',1)';\x0a\x09\x09}\x0a\x09\x09else {\x0a\x09\x09\x09return self['@rgbaString'] = 'rgba(' + Math.round(self['@r']*255) + ',' + Math.round(self['@g']*255) + ',' + Math.round(self['@b']*255) + ',' + self['@alpha'] + ')';\x0a\x09\x09}\x0a\x09} >",
 messageSends: [],
 referencedClasses: []
 }),

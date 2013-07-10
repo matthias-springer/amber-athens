@@ -157,7 +157,7 @@ selector: "rgbaString",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- if (self['@rgbaString'] !== undefined) {
+ if (self['@rgbaString'] !== undefined && !self['@rgbaString']._isNil()) {
 		return self['@rgbaString'];
 	}
 	else {
