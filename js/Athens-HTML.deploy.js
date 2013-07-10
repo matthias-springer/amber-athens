@@ -34,10 +34,10 @@ selector: "drawString:",
 fn: function (aString){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-_st(_st(self["@surface"])._context2D())._font_(_st(self["@font"])._asHTMLString());
-_st(self["@paint"])._drawString_on_(aString,self);
+ self['@surface']['@context2D'].font = self['@font']._asHTMLString(); 
+	self['@paint']._drawString_on_(aString, self); ;
 return self}, function($ctx1) {$ctx1.fill(self,"drawString:",{aString:aString},smalltalk.AthensHTMLCanvas)})},
-messageSends: ["font:", "asHTMLString", "context2D", "drawString:on:"]}),
+messageSends: []}),
 smalltalk.AthensHTMLCanvas);
 
 smalltalk.addMethod(
@@ -130,9 +130,9 @@ selector: "atop",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-_st(_st(self["@surface"])._context2D())._globalCompositeOperation_("source-atop");
+ self['@surface']['@context2D'].globalCompositeOperation = 'source-atop'; ;
 return self}, function($ctx1) {$ctx1.fill(self,"atop",{},smalltalk.AthensHTMLPaintMode)})},
-messageSends: ["globalCompositeOperation:", "context2D"]}),
+messageSends: []}),
 smalltalk.AthensHTMLPaintMode);
 
 smalltalk.addMethod(
@@ -154,9 +154,9 @@ selector: "darken",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-_st(_st(self["@surface"])._context2D())._globalCompositeOperation_("darker");
+ self['@surface']['@context2D'].globalCompositeOperation = 'darker'; ;
 return self}, function($ctx1) {$ctx1.fill(self,"darken",{},smalltalk.AthensHTMLPaintMode)})},
-messageSends: ["globalCompositeOperation:", "context2D"]}),
+messageSends: []}),
 smalltalk.AthensHTMLPaintMode);
 
 smalltalk.addMethod(
@@ -165,9 +165,9 @@ selector: "destAtop",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-_st(_st(self["@surface"])._context2D())._globalCompositeOperation_("destination-atop");
+ self['@surface']['@context2D'].globalCompositeOperation = 'destination-atop'; ;
 return self}, function($ctx1) {$ctx1.fill(self,"destAtop",{},smalltalk.AthensHTMLPaintMode)})},
-messageSends: ["globalCompositeOperation:", "context2D"]}),
+messageSends: []}),
 smalltalk.AthensHTMLPaintMode);
 
 smalltalk.addMethod(
@@ -176,9 +176,9 @@ selector: "destIn",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-_st(_st(self["@surface"])._context2D())._globalCompositeOperation_("destination-in");
+ self['@surface']['@context2D'].globalCompositeOperation = 'destination-in'; ;
 return self}, function($ctx1) {$ctx1.fill(self,"destIn",{},smalltalk.AthensHTMLPaintMode)})},
-messageSends: ["globalCompositeOperation:", "context2D"]}),
+messageSends: []}),
 smalltalk.AthensHTMLPaintMode);
 
 smalltalk.addMethod(
@@ -187,9 +187,9 @@ selector: "destOut",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-_st(_st(self["@surface"])._context2D())._globalCompositeOperation_("destination-out");
+ self['@surface']['@context2D'].globalCompositeOperation = 'destination-out'; ;
 return self}, function($ctx1) {$ctx1.fill(self,"destOut",{},smalltalk.AthensHTMLPaintMode)})},
-messageSends: ["globalCompositeOperation:", "context2D"]}),
+messageSends: []}),
 smalltalk.AthensHTMLPaintMode);
 
 smalltalk.addMethod(
@@ -198,9 +198,9 @@ selector: "destOver",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-_st(_st(self["@surface"])._context2D())._globalCompositeOperation_("destination-over");
+ self['@surface']['@context2D'].globalCompositeOperation = 'destination-over'; ;
 return self}, function($ctx1) {$ctx1.fill(self,"destOver",{},smalltalk.AthensHTMLPaintMode)})},
-messageSends: ["globalCompositeOperation:", "context2D"]}),
+messageSends: []}),
 smalltalk.AthensHTMLPaintMode);
 
 smalltalk.addMethod(
@@ -209,9 +209,9 @@ selector: "in",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-_st(_st(self["@surface"])._context2D())._globalCompositeOperation_("source-in");
+ self['@surface']['@context2D'].globalCompositeOperation = 'source-in'; ;
 return self}, function($ctx1) {$ctx1.fill(self,"in",{},smalltalk.AthensHTMLPaintMode)})},
-messageSends: ["globalCompositeOperation:", "context2D"]}),
+messageSends: []}),
 smalltalk.AthensHTMLPaintMode);
 
 smalltalk.addMethod(
@@ -220,9 +220,9 @@ selector: "lighten",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-_st(_st(self["@surface"])._context2D())._globalCompositeOperation_("lighter");
+ self['@surface']['@context2D'].globalCompositeOperation = 'lighter'; ;
 return self}, function($ctx1) {$ctx1.fill(self,"lighten",{},smalltalk.AthensHTMLPaintMode)})},
-messageSends: ["globalCompositeOperation:", "context2D"]}),
+messageSends: []}),
 smalltalk.AthensHTMLPaintMode);
 
 smalltalk.addMethod(
@@ -231,9 +231,9 @@ selector: "out",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-_st(_st(self["@surface"])._context2D())._globalCompositeOperation_("source-out");
+ self['@surface']['@context2D'].globalCompositeOperation = 'source-out'; ;
 return self}, function($ctx1) {$ctx1.fill(self,"out",{},smalltalk.AthensHTMLPaintMode)})},
-messageSends: ["globalCompositeOperation:", "context2D"]}),
+messageSends: []}),
 smalltalk.AthensHTMLPaintMode);
 
 smalltalk.addMethod(
@@ -242,9 +242,9 @@ selector: "over",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-_st(_st(self["@surface"])._context2D())._globalCompositeOperation_("source-over");
+ self['@surface']['@context2D'].globalCompositeOperation = 'source-over'; ;
 return self}, function($ctx1) {$ctx1.fill(self,"over",{},smalltalk.AthensHTMLPaintMode)})},
-messageSends: ["globalCompositeOperation:", "context2D"]}),
+messageSends: []}),
 smalltalk.AthensHTMLPaintMode);
 
 smalltalk.addMethod(
@@ -252,15 +252,13 @@ smalltalk.method({
 selector: "restoreAfter:",
 fn: function (aBlock){
 var self=this;
-var op;
 return smalltalk.withContext(function($ctx1) { 
-op=_st(_st(self["@surface"])._context2D())._globalCompositeOperation();
-_st(aBlock)._ensure_((function(){
-return smalltalk.withContext(function($ctx2) {
-return _st(_st(self["@surface"])._context2D())._globalCompositeOperation_(op);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
-return self}, function($ctx1) {$ctx1.fill(self,"restoreAfter:",{aBlock:aBlock,op:op},smalltalk.AthensHTMLPaintMode)})},
-messageSends: ["globalCompositeOperation", "context2D", "ensure:", "globalCompositeOperation:"]}),
+ var op = self['@surface']['@context2D'].globalCompositeOperation;
+	aBlock._ensure_(function() {
+		self['@surface']['@context2D'].globalCompositeOperation = op;
+	}); ;
+return self}, function($ctx1) {$ctx1.fill(self,"restoreAfter:",{aBlock:aBlock},smalltalk.AthensHTMLPaintMode)})},
+messageSends: []}),
 smalltalk.AthensHTMLPaintMode);
 
 smalltalk.addMethod(
@@ -280,9 +278,9 @@ selector: "xor",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-_st(_st(self["@surface"])._context2D())._globalCompositeOperation_("xor");
+ self['@surface']['@context2D'].globalCompositeOperation = 'xor'; ;
 return self}, function($ctx1) {$ctx1.fill(self,"xor",{},smalltalk.AthensHTMLPaintMode)})},
-messageSends: ["globalCompositeOperation:", "context2D"]}),
+messageSends: []}),
 smalltalk.AthensHTMLPaintMode);
 
 
@@ -303,7 +301,7 @@ messageSends: ["surface:", "new", "yourself"]}),
 smalltalk.AthensHTMLPaintMode.klass);
 
 
-smalltalk.addClass('AthensHTMLSurface', smalltalk.AthensSurface, ['extent', 'canvasTag', 'context2D', 'athensCanvas'], 'Athens-HTML');
+smalltalk.addClass('AthensHTMLSurface', smalltalk.AthensSurface, ['extent', 'canvasTag', 'context2D', 'athensCanvas', 'boundsRect', 'transparentColor'], 'Athens-HTML');
 smalltalk.addMethod(
 smalltalk.method({
 selector: "appendToBrush:",
@@ -370,11 +368,10 @@ smalltalk.method({
 selector: "clear",
 fn: function (){
 var self=this;
-function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
 return smalltalk.withContext(function($ctx1) { 
-self._clear_(_st($Color())._transparent());
+ self._clear_(self['@transparentColor']); ;
 return self}, function($ctx1) {$ctx1.fill(self,"clear",{},smalltalk.AthensHTMLSurface)})},
-messageSends: ["clear:", "transparent"]}),
+messageSends: []}),
 smalltalk.AthensHTMLSurface);
 
 smalltalk.addMethod(
@@ -383,22 +380,17 @@ selector: "clear:",
 fn: function (clearPaint){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1,$2;
-_st(_st(self["@currentCanvas"])._pathTransform())._restoreAfter_((function(){
-return smalltalk.withContext(function($ctx2) {
-_st(_st(self["@currentCanvas"])._pathTransform())._loadIdentity();
-return _st(_st(self["@currentCanvas"])._paintMode())._restoreAfter_((function(){
-return smalltalk.withContext(function($ctx3) {
-_st(_st(self["@currentCanvas"])._paintMode())._over();
-_st(_st(self["@currentCanvas"])._context2D())._clearRect_a_a_a_((0),(0),self._width(),self._height());
-$1=self["@currentCanvas"];
-_st($1)._setPaint_(clearPaint);
-$2=_st($1)._drawShape_(_st((0).__at((0)))._corner_(_st(self._width()).__at(self._height())));
-return $2;
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2)})}));
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
+ var canvas = self['@currentCanvas'];
+	canvas['@pathTransform']._restoreAfter_(function() {
+		canvas['@pathTransform']._loadIdentity();
+		canvas['@paintMode']._restoreAfter_(function() {
+			canvas['@surface']['@context2D'].globalCompositeOperation = 'source-over'
+			canvas['@surface']['@context2D'].clearRect(0, 0, self['@extent']['@x'], self['@extent']['@y']);
+			clearPaint._asAthensPaintOn_(canvas)._fillRectangle_on_(self['@boundsRect'], canvas);
+		});
+	}); ;
 return self}, function($ctx1) {$ctx1.fill(self,"clear:",{clearPaint:clearPaint},smalltalk.AthensHTMLSurface)})},
-messageSends: ["restoreAfter:", "loadIdentity", "pathTransform", "over", "paintMode", "clearRect:a:a:a:", "width", "height", "context2D", "setPaint:", "drawShape:", "corner:", "@"]}),
+messageSends: []}),
 smalltalk.AthensHTMLSurface);
 
 smalltalk.addMethod(
@@ -554,8 +546,9 @@ fn: function (anExtent){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 self["@extent"]=anExtent;
+self["@boundsRect"]=_st((0).__at((0)))._corner_(anExtent);
 return self}, function($ctx1) {$ctx1.fill(self,"extent:",{anExtent:anExtent},smalltalk.AthensHTMLSurface)})},
-messageSends: []}),
+messageSends: ["corner:", "@"]}),
 smalltalk.AthensHTMLSurface);
 
 smalltalk.addMethod(
@@ -576,7 +569,9 @@ smalltalk.method({
 selector: "initialize",
 fn: function (){
 var self=this;
+function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
 return smalltalk.withContext(function($ctx1) { 
+self["@transparentColor"]=_st($Color())._transparent();
 smalltalk.AthensSurface.fn.prototype._initialize.apply(_st(self), []);
 self._initializeCanvas();
 _st(self["@canvasTag"])._height_(self._height());
@@ -584,7 +579,7 @@ _st(self["@canvasTag"])._width_(self._width());
 self["@context2D"]=_st(self["@canvasTag"])._getContext_("2d");
 self["@athensCanvas"]=self._newCanvas();
 return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensHTMLSurface)})},
-messageSends: ["initialize", "initializeCanvas", "height:", "height", "width:", "width", "getContext:", "newCanvas"]}),
+messageSends: ["transparent", "initialize", "initializeCanvas", "height:", "height", "width:", "width", "getContext:", "newCanvas"]}),
 smalltalk.AthensHTMLSurface);
 
 smalltalk.addMethod(

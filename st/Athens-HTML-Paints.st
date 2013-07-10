@@ -12,14 +12,18 @@ asAthensPaintOn: anAthensCanvas
 !AthensHTMLPaint methodsFor: 'drawing'!
 
 drawString: aString on: anAthensCanvas
-	< var context2D = anAthensCanvas._context2D();
+	< var context2D = anAthensCanvas['@surface']['@context2D'];
+	self._preparePaintFor_(context2D);
+	context2D.beginPath();
+	anAthensCanvas['@pathTransform']._set();
+	//anAthensCanvas['@paintTransform']._apply();
 	context2D.fillStyle = self['@fillStyle'];
-	anAthensCanvas._pathTransform()._set();
 	context2D.fillText(aString, 0, 0); >
 !
 
 fillPath: aPath on: anAthensCanvas
 	< var context2D = anAthensCanvas['@surface']['@context2D'];
+	self._preparePaintFor_(context2D);
 	context2D.beginPath();
 	anAthensCanvas['@pathTransform']._set();
 	aPath._drawOn_(anAthensCanvas);
@@ -30,12 +34,17 @@ fillPath: aPath on: anAthensCanvas
 
 fillRectangle: aRect on: anAthensCanvas
 	< var context2D = anAthensCanvas['@surface']['@context2D'];
+	self._preparePaintFor_(context2D);
 	context2D.beginPath();
 	anAthensCanvas['@pathTransform']._set();
 	context2D.rect(aRect._left(), aRect._top(), aRect._width(), aRect._height());
 	anAthensCanvas['@paintTransform']._apply();
 	context2D.fillStyle = self['@fillStyle'];
 	context2D.fill(); >
+!
+
+preparePaintFor: context2D
+	self subclassResponsibility.
 ! !
 
 AthensHTMLPaint subclass: #AthensHTMLGradientPaint
@@ -66,33 +75,16 @@ stop: aPoint
 
 !AthensHTMLGradientPaint methodsFor: 'drawing'!
 
-fillPath: aPath on: anAthensCanvas
-	|context2D|
-	context2D := anAthensCanvas context2D.
-	self createGradient: context2D.
-	self populateRamp: colorRamp.
-	super fillPath: aPath on: anAthensCanvas.
-!
-
-fillRectangle: aRect on: anAthensCanvas
-	|context2D|
-	context2D := anAthensCanvas context2D.
-	self createGradient: context2D.
-	self populateRamp: colorRamp.
-	super fillRectangle: aRect on: anAthensCanvas.
-! !
-
-!AthensHTMLGradientPaint methodsFor: 'initialization'!
-
-createGradient: context2D
-	innerRadius 
-		ifNil: [fillStyle := context2D createLinearGradient: start x a: start y a: stop x a: stop y]
-		ifNotNil: [fillStyle := context2D createRadialGradient: start x a: start y a: innerRadius a: stop x a: stop y a: outerRadius].
-!
-
-populateRamp: aRamp
-	aRamp do: [:assoc |
-		fillStyle addColorStop: assoc key a: assoc value rgbaString].
+preparePaintFor: context2D
+	< if (self['@innerRadius'] === undefined) {
+		self['@fillStyle'] = context2D.createLinearGradient(self['@start']._x(), self['@start']._y(), self['@stop']._x(), self['@stop']._y());
+	}
+	else {
+		self['@fillStyle'] = context2D.createRadialGradient(self['@start']._x(), self['@start']._y(), self['@innerRadius'], self['@stop']._x(), self['@stop']._y(), self['@outerRadius']);
+	}
+	self['@colorRamp']._do_(function(assoc) {
+		self['@fillStyle'].addColorStop(assoc['@key'], assoc['@value']._rgbaString());
+	}); >
 ! !
 
 !AthensHTMLGradientPaint class methodsFor: 'instance creation'!
@@ -118,37 +110,17 @@ radialBetween: origin extending: innerRadius and: outerOrigin  extending: outerR
 ! !
 
 AthensHTMLPaint subclass: #AthensHTMLPatternPaint
-	instanceVariableNames: 'repeatMode'
+	instanceVariableNames: 'repeatMode anAthensCanvas patternSource'
 	package: 'Athens-HTML-Paints'!
 
-!AthensHTMLPatternPaint methodsFor: 'converting'!
-
-asAthensPaintOn: anAthensCanvas	
-	^ self
-! !
-
 !AthensHTMLPatternPaint methodsFor: 'drawing'!
-
-fillPath: aPath on: anAthensCanvas
-	|context2D|
-	context2D := anAthensCanvas context2D.
-	fillStyle := context2D createPattern: self patternSource a: repeatMode.
-	super fillPath: aPath on: anAthensCanvas.
-!
-
-fillRectangle: aRect on: anAthensCanvas
-	|context2D|
-	context2D := anAthensCanvas context2D.
-	fillStyle := context2D createPattern: self patternSource a: repeatMode.
-	super fillRectangle: aRect on: anAthensCanvas.
-!
 
 noRepeat
 	repeatMode := 'no-repeat'.
 !
 
-patternSource
-	self subclassResponsibility.
+preparePaintFor: context2D
+	< self['@fillStyle'] = context2D.createPattern(self['@patternSource'], self['@repeatMode']); >
 !
 
 repeat
@@ -158,32 +130,26 @@ repeat
 !AthensHTMLPatternPaint methodsFor: 'initialize-release'!
 
 initialize
-	self noRepeat.
+	repeatMode := 'no-repeat'.
 ! !
 
 AthensHTMLPatternPaint subclass: #AthensHTMLBitmapPaint
-	instanceVariableNames: 'bitmap loadingCallback'
+	instanceVariableNames: ''
 	package: 'Athens-HTML-Paints'!
 
 !AthensHTMLBitmapPaint methodsFor: 'accessing'!
 
 bitmap: aBitmap
-	bitmap := aBitmap.
+	patternSource := aBitmap image.
 !
 
 loadingCallback: aBlock
-	loadingCallback := aBlock.
-	bitmap image complete
-		ifTrue: [aBlock value: self]
-		ifFalse: [bitmap image onLoad: [aBlock value: self]].
-! !
-
-!AthensHTMLBitmapPaint methodsFor: 'drawing'!
-
-patternSource
-	bitmap image complete
-		ifFalse: [self error: 'image not preloaded.'].
-	^ bitmap image
+	< if (self['@patternSource'].complete) {
+		aBlock._value_(self);
+	}
+	else {
+		self['@patternSource'].onload = function() {aBlock._value_(self);};
+	} >
 ! !
 
 !AthensHTMLBitmapPaint class methodsFor: 'instance creation'!
@@ -207,12 +173,8 @@ AthensHTMLPatternPaint subclass: #AthensHTMLPatternSurfacePaint
 
 !AthensHTMLPatternSurfacePaint methodsFor: 'accessing'!
 
-patternSource
-	^ surface canvasTag
-!
-
 surface: aSurface
-	surface := aSurface.
+	< self['@patternSource'] = aSurface['@canvasTag']; >
 ! !
 
 !AthensHTMLPatternSurfacePaint class methodsFor: 'instance creation'!
@@ -230,7 +192,7 @@ AthensHTMLPaint subclass: #AthensHTMLSolidPaint
 !AthensHTMLSolidPaint methodsFor: 'accessing'!
 
 color: aColor
-	fillStyle := aColor rgbaString.
+	< self['@fillStyle'] = aColor._rgbaString(); >
 ! !
 
 !AthensHTMLSolidPaint methodsFor: 'drawing'!
@@ -255,6 +217,10 @@ fillRectangle: aRect on: anAthensCanvas
 	anAthensCanvas._pathTransform()._set();
 	context2D.fillStyle = self['@fillStyle'];
 	context2D.fillRect(aRect._left(), aRect._top(), aRect._width(), aRect._height()); >
+!
+
+preparePaintFor: context2D
+	"nothing to do"
 ! !
 
 AthensStrokePaint subclass: #AthensHTMLStrokePaint
@@ -288,13 +254,8 @@ fillPath: aPath on: anAthensCanvas
 
 !AthensHTMLStrokePaint methodsFor: 'initialize-release'!
 
-context: aContext
-	context2D := aContext.
-!
-
 initialize
 	super initialize.
-
 	width := 1.
 	capStyle := joinStyle := nil.
 ! !

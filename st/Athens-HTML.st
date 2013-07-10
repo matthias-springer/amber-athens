@@ -43,8 +43,8 @@ clipBy: aRectangle during: aBlock
 !AthensHTMLCanvas methodsFor: 'drawing'!
 
 drawString: aString
-	surface context2D font: font asHTMLString.
-	paint drawString: aString on: self.
+	< self['@surface']['@context2D'].font = self['@font']._asHTMLString(); 
+	self['@paint']._drawString_on_(aString, self); >
 ! !
 
 !AthensHTMLCanvas methodsFor: 'private'!
@@ -79,55 +79,56 @@ surface: aSurface
 !AthensHTMLPaintMode methodsFor: 'convenience'!
 
 restoreAfter: aBlock
-	|op|
-	op := surface context2D globalCompositeOperation.
-	aBlock ensure: [surface context2D globalCompositeOperation: op].
+	< var op = self['@surface']['@context2D'].globalCompositeOperation;
+	aBlock._ensure_(function() {
+		self['@surface']['@context2D'].globalCompositeOperation = op;
+	}); >
 ! !
 
 !AthensHTMLPaintMode methodsFor: 'modes'!
 
 atop
-	surface context2D globalCompositeOperation: 'source-atop'.
+	< self['@surface']['@context2D'].globalCompositeOperation = 'source-atop'; >
 !
 
 darken
-	surface context2D globalCompositeOperation: 'darker'.
+	< self['@surface']['@context2D'].globalCompositeOperation = 'darker'; >
 !
 
 destAtop
-	surface context2D globalCompositeOperation: 'destination-atop'.
+	< self['@surface']['@context2D'].globalCompositeOperation = 'destination-atop'; >
 !
 
 destIn
-	surface context2D globalCompositeOperation: 'destination-in'.
+	< self['@surface']['@context2D'].globalCompositeOperation = 'destination-in'; >
 !
 
 destOut
-	surface context2D globalCompositeOperation: 'destination-out'.
+	< self['@surface']['@context2D'].globalCompositeOperation = 'destination-out'; >
 !
 
 destOver
-	surface context2D globalCompositeOperation: 'destination-over'.
+	< self['@surface']['@context2D'].globalCompositeOperation = 'destination-over'; >
 !
 
 in
-	surface context2D globalCompositeOperation: 'source-in'.
+	< self['@surface']['@context2D'].globalCompositeOperation = 'source-in'; >
 !
 
 lighten
-	surface context2D globalCompositeOperation: 'lighter'.
+	< self['@surface']['@context2D'].globalCompositeOperation = 'lighter'; >
 !
 
 out
-	surface context2D globalCompositeOperation: 'source-out'.
+	< self['@surface']['@context2D'].globalCompositeOperation = 'source-out'; >
 !
 
 over
-	surface context2D globalCompositeOperation: 'source-over'.
+	< self['@surface']['@context2D'].globalCompositeOperation = 'source-over'; >
 !
 
 xor
-	surface context2D globalCompositeOperation: 'xor'.
+	< self['@surface']['@context2D'].globalCompositeOperation = 'xor'; >
 ! !
 
 !AthensHTMLPaintMode class methodsFor: 'instance creation'!
@@ -139,7 +140,7 @@ on: aSurface
 ! !
 
 AthensSurface subclass: #AthensHTMLSurface
-	instanceVariableNames: 'extent canvasTag context2D athensCanvas'
+	instanceVariableNames: 'extent canvasTag context2D athensCanvas boundsRect transparentColor'
 	package: 'Athens-HTML'!
 
 !AthensHTMLSurface methodsFor: 'accessing'!
@@ -152,22 +153,6 @@ canvasTag: aTagBrush
 	canvasTag := aTagBrush
 !
 
-clear
-	self clear: Color transparent.
-!
-
-clear: clearPaint
-	currentCanvas pathTransform restoreAfter: [
-		currentCanvas pathTransform loadIdentity.
-		currentCanvas paintMode restoreAfter: [
-			currentCanvas paintMode over.
-			currentCanvas context2D clearRect: 0 a: 0 a: self width a: self height.
-			currentCanvas 
-				setPaint: clearPaint;
-				drawShape: (0@0 corner: (self width) @ (self height)).
-        ]].
-!
-
 context2D
 	^ context2D
 !
@@ -178,6 +163,7 @@ extent
 
 extent: anExtent
 	extent := anExtent.
+	boundsRect := 0@0 corner: anExtent.
 !
 
 height
@@ -212,12 +198,44 @@ createPath: aPathCreatingBlock
 
 !AthensHTMLSurface methodsFor: 'drawing'!
 
+clear
+	< self._clear_(self['@transparentColor']); >
+!
+
+clear: clearPaint
+	< var canvas = self['@currentCanvas'];
+	canvas['@pathTransform']._restoreAfter_(function() {
+		canvas['@pathTransform']._loadIdentity();
+		canvas['@paintMode']._restoreAfter_(function() {
+			canvas['@surface']['@context2D'].globalCompositeOperation = 'source-over'
+			canvas['@surface']['@context2D'].clearRect(0, 0, self['@extent']['@x'], self['@extent']['@y']);
+			clearPaint._asAthensPaintOn_(canvas)._fillRectangle_on_(self['@boundsRect'], canvas);
+		});
+	}); >
+!
+
 drawDuring: aBlock
 	< (function() {
 		self['@currentCanvas'] = self['@athensCanvas'];
 		self._setDefaults();
 		aBlock._value_(self['@currentCanvas']);
 	})._ensure_(function() {self['@currentCanvas'] = undefined;}); >
+! !
+
+!AthensHTMLSurface methodsFor: 'initialization'!
+
+initialize
+	transparentColor := Color transparent.
+	super initialize.
+	self initializeCanvas.
+	canvasTag height: self height.
+	canvasTag width: self width.
+	context2D := canvasTag getContext: '2d'.
+	athensCanvas := self newCanvas.
+!
+
+initializeCanvas
+	< self['@canvasTag'] = document.createElement('canvas'); >
 ! !
 
 !AthensHTMLSurface methodsFor: 'paints'!
@@ -278,19 +296,6 @@ setDefaults
 ! !
 
 !AthensHTMLSurface methodsFor: 'rendering'!
-
-initialize
-	super initialize.
-	self initializeCanvas.
-	canvasTag height: self height.
-	canvasTag width: self width.
-	context2D := canvasTag getContext: '2d'.
-	athensCanvas := self newCanvas.
-!
-
-initializeCanvas
-	< self['@canvasTag'] = document.createElement('canvas'); >
-!
 
 renderOn: html
 	html with: (TagBrush fromJQuery: canvasTag asJQuery canvas: html).

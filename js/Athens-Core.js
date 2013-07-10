@@ -1873,13 +1873,11 @@ category: '*Athens-Core',
 fn: function (aPaint,anAthensCanvas){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st(aPaint)._fillRectangle_on_(self,anAthensCanvas);
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"paintFillsUsing:on:",{aPaint:aPaint,anAthensCanvas:anAthensCanvas},smalltalk.Rectangle)})},
+ aPaint._fillRectangle_on_(self, anAthensCanvas); ;
+return self}, function($ctx1) {$ctx1.fill(self,"paintFillsUsing:on:",{aPaint:aPaint,anAthensCanvas:anAthensCanvas},smalltalk.Rectangle)})},
 args: ["aPaint", "anAthensCanvas"],
-source: "paintFillsUsing: aPaint on: anAthensCanvas \x0a\x09\x22This method is a part of rendering dispatch  Canvas->receiver->paint\x22\x0a\x09\x0a\x09^ aPaint fillRectangle: self on: anAthensCanvas",
-messageSends: ["fillRectangle:on:"],
+source: "paintFillsUsing: aPaint on: anAthensCanvas \x0a\x09< aPaint._fillRectangle_on_(self, anAthensCanvas); >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.Rectangle);

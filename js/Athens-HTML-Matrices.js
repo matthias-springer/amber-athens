@@ -59,17 +59,27 @@ selector: "restoreAfter:",
 category: 'transformations',
 fn: function (aBlock){
 var self=this;
-var matrixBefore;
 return smalltalk.withContext(function($ctx1) { 
-matrixBefore=self._copy();
-_st(aBlock)._ensure_((function(){
-return smalltalk.withContext(function($ctx2) {
-return self._loadAffineTransform_(matrixBefore);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
-return self}, function($ctx1) {$ctx1.fill(self,"restoreAfter:",{aBlock:aBlock,matrixBefore:matrixBefore},smalltalk.AthensHTMLMatrix)})},
+ var sx = self['@sx'];
+	var shx = self['@shx'];
+	var x = self['@x'];
+	var shy = self['@shy'];
+	var sy = self['@sy'];
+	var y = self['@y'];
+	
+	aBlock._ensure_(function() {
+		self['@sx'] = sx;
+		self['@shx'] = shx;
+		self['@x'] = x;
+		self['@shy'] = shy;
+		self['@sy'] = sy;
+		self['@y'] = y;
+		self._set();
+	}); ;
+return self}, function($ctx1) {$ctx1.fill(self,"restoreAfter:",{aBlock:aBlock},smalltalk.AthensHTMLMatrix)})},
 args: ["aBlock"],
-source: "restoreAfter: aBlock\x0a\x09|matrixBefore|\x0a\x09matrixBefore := self copy.\x0a\x09aBlock ensure: [self loadAffineTransform: matrixBefore].",
-messageSends: ["copy", "ensure:", "loadAffineTransform:"],
+source: "restoreAfter: aBlock\x0a\x09< var sx = self['@sx'];\x0a\x09var shx = self['@shx'];\x0a\x09var x = self['@x'];\x0a\x09var shy = self['@shy'];\x0a\x09var sy = self['@sy'];\x0a\x09var y = self['@y'];\x0a\x09\x0a\x09aBlock._ensure_(function() {\x0a\x09\x09self['@sx'] = sx;\x0a\x09\x09self['@shx'] = shx;\x0a\x09\x09self['@x'] = x;\x0a\x09\x09self['@shy'] = shy;\x0a\x09\x09self['@sy'] = sy;\x0a\x09\x09self['@y'] = y;\x0a\x09\x09self._set();\x0a\x09}); >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLMatrix);
@@ -88,24 +98,6 @@ return smalltalk.withContext(function($ctx1) {
 return self}, function($ctx1) {$ctx1.fill(self,"set",{},smalltalk.AthensHTMLMatrix)})},
 args: [],
 source: "set\x0a\x09< // Overwrites the current transformation\x0a\x09if (self['@surface'] !== undefined) {\x0a\x09\x09self['@surface']['@context2D'].setTransform(self['@sx'], self['@shy'], self['@shx'], self['@sy'], self['@x'], self['@y']);\x0a\x09} >",
-messageSends: [],
-referencedClasses: []
-}),
-smalltalk.AthensHTMLMatrix);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "surface",
-category: 'accessing',
-fn: function (){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=self["@surface"];
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"surface",{},smalltalk.AthensHTMLMatrix)})},
-args: [],
-source: "surface\x0a\x09^ surface",
 messageSends: [],
 referencedClasses: []
 }),

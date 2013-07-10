@@ -5,10 +5,6 @@ AthensAffineTransform subclass: #AthensHTMLMatrix
 
 !AthensHTMLMatrix methodsFor: 'accessing'!
 
-surface
-	^ surface
-!
-
 surface: aSurface
 	surface := aSurface.
 ! !
@@ -42,9 +38,22 @@ loadIdentity
 !
 
 restoreAfter: aBlock
-	|matrixBefore|
-	matrixBefore := self copy.
-	aBlock ensure: [self loadAffineTransform: matrixBefore].
+	< var sx = self['@sx'];
+	var shx = self['@shx'];
+	var x = self['@x'];
+	var shy = self['@shy'];
+	var sy = self['@sy'];
+	var y = self['@y'];
+	
+	aBlock._ensure_(function() {
+		self['@sx'] = sx;
+		self['@shx'] = shx;
+		self['@x'] = x;
+		self['@shy'] = shy;
+		self['@sy'] = sy;
+		self['@y'] = y;
+		self._set();
+	}); >
 ! !
 
 !AthensHTMLMatrix class methodsFor: 'instance creation'!

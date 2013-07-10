@@ -58,7 +58,7 @@ referencedClasses: []
 smalltalk.Bitmap.klass);
 
 
-smalltalk.addClass('Color', smalltalk.Object, ['hexString', 'alpha', 'r', 'g', 'b'], 'Athens-Amber');
+smalltalk.addClass('Color', smalltalk.Object, ['rgbaString', 'alpha', 'r', 'g', 'b'], 'Athens-Amber');
 smalltalk.addMethod(
 smalltalk.method({
 selector: "alpha",
@@ -92,9 +92,10 @@ fn: function (aNumber){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 self["@alpha"]=aNumber;
+self["@rgbaString"]=nil;
 return self}, function($ctx1) {$ctx1.fill(self,"alpha:",{aNumber:aNumber},smalltalk.Color)})},
 args: ["aNumber"],
-source: "alpha: aNumber\x0a\x09alpha := aNumber",
+source: "alpha: aNumber\x0a\x09alpha := aNumber.\x0a\x09rgbaString := nil.",
 messageSends: [],
 referencedClasses: []
 }),
@@ -108,9 +109,10 @@ fn: function (blue){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 self["@b"]=blue;
+self["@rgbaString"]=nil;
 return self}, function($ctx1) {$ctx1.fill(self,"b:",{blue:blue},smalltalk.Color)})},
 args: ["blue"],
-source: "b: blue\x0a\x09b := blue.",
+source: "b: blue\x0a\x09b := blue.\x0a\x09rgbaString := nil.",
 messageSends: [],
 referencedClasses: []
 }),
@@ -142,9 +144,10 @@ fn: function (green){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 self["@g"]=green;
+self["@rgbaString"]=nil;
 return self}, function($ctx1) {$ctx1.fill(self,"g:",{green:green},smalltalk.Color)})},
 args: ["green"],
-source: "g: green\x0a\x09g := green.",
+source: "g: green\x0a\x09g := green.\x0a\x09rgbaString := nil.",
 messageSends: [],
 referencedClasses: []
 }),
@@ -176,9 +179,10 @@ fn: function (red){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 self["@r"]=red;
+self["@rgbaString"]=nil;
 return self}, function($ctx1) {$ctx1.fill(self,"r:",{red:red},smalltalk.Color)})},
 args: ["red"],
-source: "r: red\x0a\x09r := red.",
+source: "r: red\x0a\x09r := red.\x0a\x09rgbaString := nil.",
 messageSends: [],
 referencedClasses: []
 }),
@@ -209,15 +213,20 @@ category: 'accessing',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- if (self['@alpha'] === undefined) { 
-		return 'rgba(' + Math.round(self['@r']*255) + ',' + Math.round(self['@g']*255) + ',' + Math.round(self['@b']*255) + ',1)';
+ if (self['@rgbaString'] !== undefined) {
+		return self['@rgbaString'];
 	}
 	else {
-		return 'rgba(' + Math.round(self['@r']*255) + ',' + Math.round(self['@g']*255) + ',' + Math.round(self['@b']*255) + ',' + self['@alpha'] + ')';
+		if (self['@alpha'] === undefined) { 
+			return self['@rgbaString'] = 'rgba(' + Math.round(self['@r']*255) + ',' + Math.round(self['@g']*255) + ',' + Math.round(self['@b']*255) + ',1)';
+		}
+		else {
+			return self['@rgbaString'] = 'rgba(' + Math.round(self['@r']*255) + ',' + Math.round(self['@g']*255) + ',' + Math.round(self['@b']*255) + ',' + self['@alpha'] + ')';
+		}
 	} ;
 return self}, function($ctx1) {$ctx1.fill(self,"rgbaString",{},smalltalk.Color)})},
 args: [],
-source: "rgbaString\x0a\x09< if (self['@alpha'] === undefined) { \x0a\x09\x09return 'rgba(' + Math.round(self['@r']*255) + ',' + Math.round(self['@g']*255) + ',' + Math.round(self['@b']*255) + ',1)';\x0a\x09}\x0a\x09else {\x0a\x09\x09return 'rgba(' + Math.round(self['@r']*255) + ',' + Math.round(self['@g']*255) + ',' + Math.round(self['@b']*255) + ',' + self['@alpha'] + ')';\x0a\x09} >",
+source: "rgbaString\x0a\x09< if (self['@rgbaString'] !== undefined) {\x0a\x09\x09return self['@rgbaString'];\x0a\x09}\x0a\x09else {\x0a\x09\x09if (self['@alpha'] === undefined) { \x0a\x09\x09\x09return self['@rgbaString'] = 'rgba(' + Math.round(self['@r']*255) + ',' + Math.round(self['@g']*255) + ',' + Math.round(self['@b']*255) + ',1)';\x0a\x09\x09}\x0a\x09\x09else {\x0a\x09\x09\x09return self['@rgbaString'] = 'rgba(' + Math.round(self['@r']*255) + ',' + Math.round(self['@g']*255) + ',' + Math.round(self['@b']*255) + ',' + self['@alpha'] + ')';\x0a\x09\x09}\x0a\x09} >",
 messageSends: [],
 referencedClasses: []
 }),
@@ -231,13 +240,11 @@ category: 'instance creation',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=self._r_g_b_((0),(0),(0));
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"black",{},smalltalk.Color.klass)})},
+ return self._r_g_b_rgba_(0, 0, 0, 'rgba(0,0,0,1)'); ;
+return self}, function($ctx1) {$ctx1.fill(self,"black",{},smalltalk.Color.klass)})},
 args: [],
-source: "black\x0a\x09^ self r: 0 g: 0 b: 0",
-messageSends: ["r:g:b:"],
+source: "black\x0a\x09< return self._r_g_b_rgba_(0, 0, 0, 'rgba(0,0,0,1)'); >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.Color.klass);
@@ -249,13 +256,11 @@ category: 'instance creation',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=self._r_g_b_((0),(0),(1));
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"blue",{},smalltalk.Color.klass)})},
+ return self._r_g_b_rgba_(0, 0, 1, 'rgba(0,0,255,1)'); ;
+return self}, function($ctx1) {$ctx1.fill(self,"blue",{},smalltalk.Color.klass)})},
 args: [],
-source: "blue\x0a\x09^ self r: 0 g: 0 b: 1",
-messageSends: ["r:g:b:"],
+source: "blue\x0a\x09< return self._r_g_b_rgba_(0, 0, 1, 'rgba(0,0,255,1)'); >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.Color.klass);
@@ -267,13 +272,11 @@ category: 'instance creation',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=self._r_g_b_((0.5),(0.5),(0.5));
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"gray",{},smalltalk.Color.klass)})},
+ return self._r_g_b_rgba_(0.5, 0.5, 0.5, 'rgba(128, 128, 128, 1)'); ;
+return self}, function($ctx1) {$ctx1.fill(self,"gray",{},smalltalk.Color.klass)})},
 args: [],
-source: "gray\x0a\x09^ self r: 0.5 g: 0.5 b: 0.5",
-messageSends: ["r:g:b:"],
+source: "gray\x0a\x09< return self._r_g_b_rgba_(0.5, 0.5, 0.5, 'rgba(128, 128, 128, 1)'); >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.Color.klass);
@@ -285,13 +288,11 @@ category: 'instance creation',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=self._r_g_b_((0),(1),(0));
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"green",{},smalltalk.Color.klass)})},
+ return self._r_g_b_rgba_(0, 1, 0, 'rgba(0,255,0,1)'); ;
+return self}, function($ctx1) {$ctx1.fill(self,"green",{},smalltalk.Color.klass)})},
 args: [],
-source: "green\x0a\x09^ self r: 0 g: 1 b: 0",
-messageSends: ["r:g:b:"],
+source: "green\x0a\x09< return self._r_g_b_rgba_(0, 1, 0, 'rgba(0,255,0,1)'); >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.Color.klass);
@@ -318,18 +319,37 @@ smalltalk.Color.klass);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "r:g:b:rgba:",
+category: 'instance creation',
+fn: function (red,green,blue,rgbaString){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ var instance = self._new();
+	instance['@r'] = red;
+	instance['@g'] = green;
+	instance['@b'] = blue;
+	instance['@rgbaString'] = rgbaString;
+	return instance; ;
+return self}, function($ctx1) {$ctx1.fill(self,"r:g:b:rgba:",{red:red,green:green,blue:blue,rgbaString:rgbaString},smalltalk.Color.klass)})},
+args: ["red", "green", "blue", "rgbaString"],
+source: "r: red g: green b: blue rgba: rgbaString\x0a\x09< var instance = self._new();\x0a\x09instance['@r'] = red;\x0a\x09instance['@g'] = green;\x0a\x09instance['@b'] = blue;\x0a\x09instance['@rgbaString'] = rgbaString;\x0a\x09return instance; >",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.Color.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "red",
 category: 'instance creation',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=self._r_g_b_((1),(0),(0));
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"red",{},smalltalk.Color.klass)})},
+ return self._r_g_b_rgba_(1, 0, 0, 'rgba(255,0,0,1)'); ;
+return self}, function($ctx1) {$ctx1.fill(self,"red",{},smalltalk.Color.klass)})},
 args: [],
-source: "red\x0a\x09^ self r: 1 g: 0 b: 0",
-messageSends: ["r:g:b:"],
+source: "red\x0a\x09< return self._r_g_b_rgba_(1, 0, 0, 'rgba(255,0,0,1)'); >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.Color.klass);
@@ -352,7 +372,7 @@ $1=$3;
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"transparent",{},smalltalk.Color.klass)})},
 args: [],
-source: "transparent\x0a\x09^ self new\x0a\x09\x09r: 0; g: 0; b: 0;\x0a\x09\x09alpha: 0;\x0a\x09\x09yourself",
+source: "transparent\x0a\x09^ self new r: 0; g: 0; b: 0; alpha: 0; yourself",
 messageSends: ["r:", "new", "g:", "b:", "alpha:", "yourself"],
 referencedClasses: []
 }),
@@ -365,13 +385,11 @@ category: 'instance creation',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=self._r_g_b_((1),(1),(1));
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"white",{},smalltalk.Color.klass)})},
+ return self._r_g_b_rgba_(1, 1, 1, 'rgba(255,255,255,1)'); ;
+return self}, function($ctx1) {$ctx1.fill(self,"white",{},smalltalk.Color.klass)})},
 args: [],
-source: "white\x0a\x09^ self r: 1 g: 1 b: 1",
-messageSends: ["r:g:b:"],
+source: "white\x0a\x09< return self._r_g_b_rgba_(1, 1, 1, 'rgba(255,255,255,1)'); >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.Color.klass);
@@ -383,13 +401,11 @@ category: 'instance creation',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=self._r_g_b_((1),(1),(0));
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"yellow",{},smalltalk.Color.klass)})},
+ return self._r_g_b_rgba_(1, 1, 0, 'rgba(255,255,0,1)'); ;
+return self}, function($ctx1) {$ctx1.fill(self,"yellow",{},smalltalk.Color.klass)})},
 args: [],
-source: "yellow\x0a\x09^ self r: 1 g: 1 b: 0",
-messageSends: ["r:g:b:"],
+source: "yellow\x0a\x09< return self._r_g_b_rgba_(1, 1, 0, 'rgba(255,255,0,1)'); >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.Color.klass);
@@ -399,14 +415,14 @@ smalltalk.addClass('Image', smalltalk.Object, [], 'Athens-Amber');
 smalltalk.addMethod(
 smalltalk.method({
 selector: "complete",
-category: 'accessing',
+category: 'state',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-return self.complete;;
+ return self.complete; ;
 return self}, function($ctx1) {$ctx1.fill(self,"complete",{},smalltalk.Image)})},
 args: [],
-source: "complete\x0a\x09<return self.complete;>",
+source: "complete\x0a\x09< return self.complete; >",
 messageSends: [],
 referencedClasses: []
 }),
@@ -419,10 +435,10 @@ category: 'accessing',
 fn: function (aBlock){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self.onload = aBlock;;
+ self.onload = aBlock; ;
 return self}, function($ctx1) {$ctx1.fill(self,"onLoad:",{aBlock:aBlock},smalltalk.Image)})},
 args: ["aBlock"],
-source: "onLoad: aBlock\x0a \x09<self.onload = aBlock;>",
+source: "onLoad: aBlock\x0a \x09< self.onload = aBlock; >",
 messageSends: [],
 referencedClasses: []
 }),
@@ -435,10 +451,10 @@ category: 'accessing',
 fn: function (anUrl){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self.src = anUrl;;
+ self.src = anUrl; ;
 return self}, function($ctx1) {$ctx1.fill(self,"source:",{anUrl:anUrl},smalltalk.Image)})},
 args: ["anUrl"],
-source: "source: anUrl\x0a\x09<self.src = anUrl;>",
+source: "source: anUrl\x0a\x09< self.src = anUrl; >",
 messageSends: [],
 referencedClasses: []
 }),
@@ -451,10 +467,10 @@ category: 'accessing',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-return self;
+ return self; ;
 return self}, function($ctx1) {$ctx1.fill(self,"yourself",{},smalltalk.Image)})},
 args: [],
-source: "yourself\x0a\x09<return self>",
+source: "yourself\x0a\x09< return self; >",
 messageSends: [],
 referencedClasses: []
 }),
@@ -492,13 +508,11 @@ category: 'converting',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st(_st(_st(self["@pointSize"])._asString()).__comma("px ")).__comma(self["@familyName"]);
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"asHTMLString",{},smalltalk.LogicalFont)})},
+ return self['@pointSize'].toString() + 'px ' + self['@familyName']; ;
+return self}, function($ctx1) {$ctx1.fill(self,"asHTMLString",{},smalltalk.LogicalFont)})},
 args: [],
-source: "asHTMLString\x0a\x09^ pointSize asString, 'px ', familyName",
-messageSends: [",", "asString"],
+source: "asHTMLString\x0a\x09< return self['@pointSize'].toString() + 'px ' + self['@familyName']; >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.LogicalFont);
@@ -567,13 +581,11 @@ category: 'accessing',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st(self["@corner"])._y();
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"bottom",{},smalltalk.Rectangle)})},
+ return self['@corner']['@y']; ;
+return self}, function($ctx1) {$ctx1.fill(self,"bottom",{},smalltalk.Rectangle)})},
 args: [],
-source: "bottom\x0a\x09^ corner y",
-messageSends: ["y"],
+source: "bottom\x0a\x09< return self['@corner']['@y']; >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.Rectangle);
@@ -619,13 +631,11 @@ category: 'accessing',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st(_st(self["@corner"])._y()).__minus(_st(self["@origin"])._y());
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"height",{},smalltalk.Rectangle)})},
+ return self['@corner']['@y'] -  self['@origin']['@y']; ;
+return self}, function($ctx1) {$ctx1.fill(self,"height",{},smalltalk.Rectangle)})},
 args: [],
-source: "height\x0a\x09^ corner y - origin y",
-messageSends: ["-", "y"],
+source: "height\x0a\x09< return self['@corner']['@y'] -  self['@origin']['@y']; >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.Rectangle);
@@ -637,13 +647,11 @@ category: 'accessing',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st(self["@origin"])._x();
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"left",{},smalltalk.Rectangle)})},
+ return self['@origin']['@x']; ;
+return self}, function($ctx1) {$ctx1.fill(self,"left",{},smalltalk.Rectangle)})},
 args: [],
-source: "left\x0a\x09^ origin x",
-messageSends: ["x"],
+source: "left\x0a\x09< return self['@origin']['@x']; >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.Rectangle);
@@ -689,13 +697,11 @@ category: 'accessing',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st(self["@corner"])._x();
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"right",{},smalltalk.Rectangle)})},
+ return self['@corner']['@x']; ;
+return self}, function($ctx1) {$ctx1.fill(self,"right",{},smalltalk.Rectangle)})},
 args: [],
-source: "right\x0a\x09^ corner x",
-messageSends: ["x"],
+source: "right\x0a\x09< return self['@corner']['@x']; >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.Rectangle);
@@ -707,13 +713,11 @@ category: 'accessing',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st(self["@origin"])._y();
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"top",{},smalltalk.Rectangle)})},
+ return self['@origin']['@y']; ;
+return self}, function($ctx1) {$ctx1.fill(self,"top",{},smalltalk.Rectangle)})},
 args: [],
-source: "top\x0a\x09^ origin y",
-messageSends: ["y"],
+source: "top\x0a\x09< return self['@origin']['@y']; >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.Rectangle);
@@ -725,13 +729,11 @@ category: 'accessing',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st(_st(self["@corner"])._x()).__minus(_st(self["@origin"])._x());
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"width",{},smalltalk.Rectangle)})},
+ return self['@corner']['@x'] - self['@origin']['@x']; ;
+return self}, function($ctx1) {$ctx1.fill(self,"width",{},smalltalk.Rectangle)})},
 args: [],
-source: "width\x0a\x09^ corner x - origin x",
-messageSends: ["-", "x"],
+source: "width\x0a\x09< return self['@corner']['@x'] - self['@origin']['@x']; >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.Rectangle);

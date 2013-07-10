@@ -22,7 +22,7 @@ fromUrl: aString
 ! !
 
 Object subclass: #Color
-	instanceVariableNames: 'hexString alpha r g b'
+	instanceVariableNames: 'rgbaString alpha r g b'
 	package: 'Athens-Amber'!
 
 !Color methodsFor: 'accessing'!
@@ -33,11 +33,13 @@ alpha
 !
 
 alpha: aNumber
-	alpha := aNumber
+	alpha := aNumber.
+	rgbaString := nil.
 !
 
 b: blue
 	b := blue.
+	rgbaString := nil.
 !
 
 blue
@@ -46,6 +48,7 @@ blue
 
 g: green
 	g := green.
+	rgbaString := nil.
 !
 
 green
@@ -54,6 +57,7 @@ green
 
 r: red
 	r := red.
+	rgbaString := nil.
 !
 
 red
@@ -61,30 +65,35 @@ red
 !
 
 rgbaString
-	< if (self['@alpha'] === undefined) { 
-		return 'rgba(' + Math.round(self['@r']*255) + ',' + Math.round(self['@g']*255) + ',' + Math.round(self['@b']*255) + ',1)';
+	< if (self['@rgbaString'] !!== undefined) {
+		return self['@rgbaString'];
 	}
 	else {
-		return 'rgba(' + Math.round(self['@r']*255) + ',' + Math.round(self['@g']*255) + ',' + Math.round(self['@b']*255) + ',' + self['@alpha'] + ')';
+		if (self['@alpha'] === undefined) { 
+			return self['@rgbaString'] = 'rgba(' + Math.round(self['@r']*255) + ',' + Math.round(self['@g']*255) + ',' + Math.round(self['@b']*255) + ',1)';
+		}
+		else {
+			return self['@rgbaString'] = 'rgba(' + Math.round(self['@r']*255) + ',' + Math.round(self['@g']*255) + ',' + Math.round(self['@b']*255) + ',' + self['@alpha'] + ')';
+		}
 	} >
 ! !
 
 !Color class methodsFor: 'instance creation'!
 
 black
-	^ self r: 0 g: 0 b: 0
+	< return self._r_g_b_rgba_(0, 0, 0, 'rgba(0,0,0,1)'); >
 !
 
 blue
-	^ self r: 0 g: 0 b: 1
+	< return self._r_g_b_rgba_(0, 0, 1, 'rgba(0,0,255,1)'); >
 !
 
 gray
-	^ self r: 0.5 g: 0.5 b: 0.5
+	< return self._r_g_b_rgba_(0.5, 0.5, 0.5, 'rgba(128, 128, 128, 1)'); >
 !
 
 green
-	^ self r: 0 g: 1 b: 0
+	< return self._r_g_b_rgba_(0, 1, 0, 'rgba(0,255,0,1)'); >
 !
 
 r: red g: green b: blue
@@ -95,23 +104,29 @@ r: red g: green b: blue
 	return instance; >
 !
 
+r: red g: green b: blue rgba: rgbaString
+	< var instance = self._new();
+	instance['@r'] = red;
+	instance['@g'] = green;
+	instance['@b'] = blue;
+	instance['@rgbaString'] = rgbaString;
+	return instance; >
+!
+
 red
-	^ self r: 1 g: 0 b: 0
+	< return self._r_g_b_rgba_(1, 0, 0, 'rgba(255,0,0,1)'); >
 !
 
 transparent
-	^ self new
-		r: 0; g: 0; b: 0;
-		alpha: 0;
-		yourself
+	^ self new r: 0; g: 0; b: 0; alpha: 0; yourself
 !
 
 white
-	^ self r: 1 g: 1 b: 1
+	< return self._r_g_b_rgba_(1, 1, 1, 'rgba(255,255,255,1)'); >
 !
 
 yellow
-	^ self r: 1 g: 1 b: 0
+	< return self._r_g_b_rgba_(1, 1, 0, 'rgba(255,255,0,1)'); >
 ! !
 
 Object subclass: #Image
@@ -120,20 +135,22 @@ Object subclass: #Image
 
 !Image methodsFor: 'accessing'!
 
-complete
-	<return self.complete;>
-!
-
 onLoad: aBlock
- 	<self.onload = aBlock;>
+ 	< self.onload = aBlock; >
 !
 
 source: anUrl
-	<self.src = anUrl;>
+	< self.src = anUrl; >
 !
 
 yourself
-	<return self>
+	< return self; >
+! !
+
+!Image methodsFor: 'state'!
+
+complete
+	< return self.complete; >
 ! !
 
 !Image class methodsFor: 'instance creation'!
@@ -161,7 +178,7 @@ pointSize: anInteger
 !LogicalFont methodsFor: 'converting'!
 
 asHTMLString
-	^ pointSize asString, 'px ', familyName
+	< return self['@pointSize'].toString() + 'px ' + self['@familyName']; >
 ! !
 
 !LogicalFont class methodsFor: 'instance creation'!
@@ -180,7 +197,7 @@ Object subclass: #Rectangle
 !Rectangle methodsFor: 'accessing'!
 
 bottom
-	^ corner y
+	< return self['@corner']['@y']; >
 !
 
 corner
@@ -192,11 +209,11 @@ corner: aPoint
 !
 
 height
-	^ corner y - origin y
+	< return self['@corner']['@y'] -  self['@origin']['@y']; >
 !
 
 left
-	^ origin x
+	< return self['@origin']['@x']; >
 !
 
 origin
@@ -208,15 +225,15 @@ origin: aPoint
 !
 
 right
-	^ corner x
+	< return self['@corner']['@x']; >
 !
 
 top
-	^ origin y
+	< return self['@origin']['@y']; >
 !
 
 width
-	^ corner x - origin x
+	< return self['@corner']['@x'] - self['@origin']['@x']; >
 ! !
 
 !Rectangle class methodsFor: 'instance creation'!

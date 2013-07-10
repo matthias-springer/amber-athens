@@ -43,15 +43,25 @@ smalltalk.method({
 selector: "restoreAfter:",
 fn: function (aBlock){
 var self=this;
-var matrixBefore;
 return smalltalk.withContext(function($ctx1) { 
-matrixBefore=self._copy();
-_st(aBlock)._ensure_((function(){
-return smalltalk.withContext(function($ctx2) {
-return self._loadAffineTransform_(matrixBefore);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
-return self}, function($ctx1) {$ctx1.fill(self,"restoreAfter:",{aBlock:aBlock,matrixBefore:matrixBefore},smalltalk.AthensHTMLMatrix)})},
-messageSends: ["copy", "ensure:", "loadAffineTransform:"]}),
+ var sx = self['@sx'];
+	var shx = self['@shx'];
+	var x = self['@x'];
+	var shy = self['@shy'];
+	var sy = self['@sy'];
+	var y = self['@y'];
+	
+	aBlock._ensure_(function() {
+		self['@sx'] = sx;
+		self['@shx'] = shx;
+		self['@x'] = x;
+		self['@shy'] = shy;
+		self['@sy'] = sy;
+		self['@y'] = y;
+		self._set();
+	}); ;
+return self}, function($ctx1) {$ctx1.fill(self,"restoreAfter:",{aBlock:aBlock},smalltalk.AthensHTMLMatrix)})},
+messageSends: []}),
 smalltalk.AthensHTMLMatrix);
 
 smalltalk.addMethod(
@@ -65,19 +75,6 @@ return smalltalk.withContext(function($ctx1) {
 		self['@surface']['@context2D'].setTransform(self['@sx'], self['@shy'], self['@shx'], self['@sy'], self['@x'], self['@y']);
 	} ;
 return self}, function($ctx1) {$ctx1.fill(self,"set",{},smalltalk.AthensHTMLMatrix)})},
-messageSends: []}),
-smalltalk.AthensHTMLMatrix);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "surface",
-fn: function (){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=self["@surface"];
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"surface",{},smalltalk.AthensHTMLMatrix)})},
 messageSends: []}),
 smalltalk.AthensHTMLMatrix);
 

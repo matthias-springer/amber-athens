@@ -1322,10 +1322,8 @@ selector: "paintFillsUsing:on:",
 fn: function (aPaint,anAthensCanvas){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st(aPaint)._fillRectangle_on_(self,anAthensCanvas);
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"paintFillsUsing:on:",{aPaint:aPaint,anAthensCanvas:anAthensCanvas},smalltalk.Rectangle)})},
-messageSends: ["fillRectangle:on:"]}),
+ aPaint._fillRectangle_on_(self, anAthensCanvas); ;
+return self}, function($ctx1) {$ctx1.fill(self,"paintFillsUsing:on:",{aPaint:aPaint,anAthensCanvas:anAthensCanvas},smalltalk.Rectangle)})},
+messageSends: []}),
 smalltalk.Rectangle);
 
