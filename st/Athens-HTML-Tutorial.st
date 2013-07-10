@@ -1511,7 +1511,7 @@ renderOn: html
 ! !
 
 Object subclass: #AthensVGTigerDemo
-	instanceVariableNames: 'surface renderInterval looping'
+	instanceVariableNames: 'surface renderInterval looping frames time'
 	package: 'Athens-HTML-Tutorial'!
 
 !AthensVGTigerDemo methodsFor: 'accessing'!
@@ -1626,7 +1626,7 @@ clearLoop
 !
 
 runDemo
-	|paths extent rotation scale translation rotationSpeed time frames zoom|
+	|paths extent rotation scale translation rotationSpeed zoom|
 	paths := self convertPathData2.
 
 	rotationSpeed := 1.
@@ -1634,11 +1634,11 @@ runDemo
 	extent := surface extent.
 	scale := extent x / self class tigerMaxY.
 	translation := 0@0.
-
-	time := Time millisecondClockValue.
 	frames := 0.
 	looping := true.
-		
+	
+	time := Time millisecondClockValue.
+	
 	self startLoop: [
 		rotation := rotation + rotationSpeed.
 		frames := frames + 1.
@@ -1669,11 +1669,6 @@ runDemo
 				
 			].
 	].
-
-	time := Time millisecondClockValue - time.
-	
-	Transcript show: 'Total rendering time: ', time asString,  ' ms, total frames: ' , frames asString ; cr;
-		show: ' FPS: ' , (1000*frames/time) asString
 !
 
 startLoop: aBlock
@@ -1684,6 +1679,9 @@ startLoop: aBlock
 stopDemo
 	self clearLoop.
 	looping := false.
+	
+	time := Time millisecondClockValue - time.
+	Transcript show: 'Total rendering time: ', time asString,  ' ms, total frames: ', frames asString, ', FPS: ' , (1000*frames/time) asString; cr.
 !
 
 toggle

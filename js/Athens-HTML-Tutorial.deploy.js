@@ -1334,7 +1334,7 @@ smalltalk.AthensTutorialWidget);
 
 
 
-smalltalk.addClass('AthensVGTigerDemo', smalltalk.Object, ['surface', 'renderInterval', 'looping'], 'Athens-HTML-Tutorial');
+smalltalk.addClass('AthensVGTigerDemo', smalltalk.Object, ['surface', 'renderInterval', 'looping', 'frames', 'time'], 'Athens-HTML-Tutorial');
 smalltalk.addMethod(
 smalltalk.method({
 selector: "assert:",
@@ -1505,28 +1505,27 @@ smalltalk.method({
 selector: "runDemo",
 fn: function (){
 var self=this;
-var paths,extent,rotation,scale,translation,rotationSpeed,time,frames,zoom;
+var paths,extent,rotation,scale,translation,rotationSpeed,zoom;
 function $Time(){return smalltalk.Time||(typeof Time=="undefined"?nil:Time)}
 function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
-function $Transcript(){return smalltalk.Transcript||(typeof Transcript=="undefined"?nil:Transcript)}
 return smalltalk.withContext(function($ctx1) { 
-var $1,$2,$3,$4,$5,$6;
+var $1,$2,$3,$4;
 paths=self._convertPathData2();
 rotationSpeed=(1);
 rotation=(0);
 extent=_st(self["@surface"])._extent();
 scale=_st(_st(extent)._x()).__slash(_st(self._class())._tigerMaxY());
 translation=(0).__at((0));
-time=_st($Time())._millisecondClockValue();
-frames=(0);
+self["@frames"]=(0);
 self["@looping"]=true;
+self["@time"]=_st($Time())._millisecondClockValue();
 self._startLoop_((function(){
 return smalltalk.withContext(function($ctx2) {
 rotation=_st(rotation).__plus(rotationSpeed);
 rotation;
-frames=_st(frames).__plus((1));
-frames;
-zoom=_st(_st(_st(frames).__slash((100)))._sin())._abs();
+self["@frames"]=_st(self["@frames"]).__plus((1));
+self["@frames"];
+zoom=_st(_st(_st(self["@frames"]).__slash((100)))._sin())._abs();
 zoom;
 return _st(self["@surface"])._drawDuring_((function(can){
 return smalltalk.withContext(function($ctx3) {
@@ -1549,13 +1548,8 @@ return _st(each)._renderOn_(can);
 }, function($ctx4) {$ctx4.fillBlock({each:each},$ctx3)})}));
 }, function($ctx3) {$ctx3.fillBlock({can:can},$ctx2)})}));
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
-time=_st(_st($Time())._millisecondClockValue()).__minus(time);
-$5=$Transcript();
-_st($5)._show_(_st(_st("Total rendering time: ".__comma(_st(time)._asString())).__comma(" ms, total frames: ")).__comma(_st(frames)._asString()));
-_st($5)._cr();
-$6=_st($5)._show_(" FPS: ".__comma(_st(_st((1000).__star(frames)).__slash(time))._asString()));
-return self}, function($ctx1) {$ctx1.fill(self,"runDemo",{paths:paths,extent:extent,rotation:rotation,scale:scale,translation:translation,rotationSpeed:rotationSpeed,time:time,frames:frames,zoom:zoom},smalltalk.AthensVGTigerDemo)})},
-messageSends: ["convertPathData2", "extent", "/", "tigerMaxY", "class", "x", "@", "millisecondClockValue", "startLoop:", "+", "abs", "sin", "drawDuring:", "loadIdentity", "pathTransform", "setPaint:", "white", "drawShape:", "corner:", "translateX:Y:", "*", "-", "tigerMaxX", "y", "scaleBy:", "rotateByDegrees:", "do:", "renderOn:", "show:", ",", "asString", "cr"]}),
+return self}, function($ctx1) {$ctx1.fill(self,"runDemo",{paths:paths,extent:extent,rotation:rotation,scale:scale,translation:translation,rotationSpeed:rotationSpeed,zoom:zoom},smalltalk.AthensVGTigerDemo)})},
+messageSends: ["convertPathData2", "extent", "/", "tigerMaxY", "class", "x", "@", "millisecondClockValue", "startLoop:", "+", "abs", "sin", "drawDuring:", "loadIdentity", "pathTransform", "setPaint:", "white", "drawShape:", "corner:", "translateX:Y:", "*", "-", "tigerMaxX", "y", "scaleBy:", "rotateByDegrees:", "do:", "renderOn:"]}),
 smalltalk.AthensVGTigerDemo);
 
 smalltalk.addMethod(
@@ -1575,11 +1569,18 @@ smalltalk.method({
 selector: "stopDemo",
 fn: function (){
 var self=this;
+function $Time(){return smalltalk.Time||(typeof Time=="undefined"?nil:Time)}
+function $Transcript(){return smalltalk.Transcript||(typeof Transcript=="undefined"?nil:Transcript)}
 return smalltalk.withContext(function($ctx1) { 
+var $1,$2;
 self._clearLoop();
 self["@looping"]=false;
+self["@time"]=_st(_st($Time())._millisecondClockValue()).__minus(self["@time"]);
+$1=$Transcript();
+_st($1)._show_(_st(_st(_st(_st("Total rendering time: ".__comma(_st(self["@time"])._asString())).__comma(" ms, total frames: ")).__comma(_st(self["@frames"])._asString())).__comma(", FPS: ")).__comma(_st(_st((1000).__star(self["@frames"])).__slash(self["@time"]))._asString()));
+$2=_st($1)._cr();
 return self}, function($ctx1) {$ctx1.fill(self,"stopDemo",{},smalltalk.AthensVGTigerDemo)})},
-messageSends: ["clearLoop"]}),
+messageSends: ["clearLoop", "-", "millisecondClockValue", "show:", ",", "asString", "/", "*", "cr"]}),
 smalltalk.AthensVGTigerDemo);
 
 smalltalk.addMethod(

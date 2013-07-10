@@ -562,7 +562,7 @@ selector: "millisecondClockValue",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- return new Date().getMilliseconds(); ;
+ return new Date().getTime(); ;
 return self}, function($ctx1) {$ctx1.fill(self,"millisecondClockValue",{},smalltalk.Date.klass)})},
 messageSends: []}),
 smalltalk.Date.klass);

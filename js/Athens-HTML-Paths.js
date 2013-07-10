@@ -203,21 +203,17 @@ category: 'drawing',
 fn: function (anAthensCanvas){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-_st((function(){
-return smalltalk.withContext(function($ctx2) {
-self["@context2D"]=_st(anAthensCanvas)._context2D();
-self["@context2D"];
-self._newPath();
-return _st(self["@segment"])._sendCommandsTo_(self);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}))._ensure_((function(){
-return smalltalk.withContext(function($ctx2) {
-self["@context2D"]=nil;
-return self["@context2D"];
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
+ // Replay saved pat
+	(function() {
+		self['@context2D'] = anAthensCanvas['@surface']['@context2D'];
+		self._newPath();
+		self['@segment']._sendCommandsTo_(self);
+	})._ensure_(function() {
+		self['@context2D'] = undefined;}); ;
 return self}, function($ctx1) {$ctx1.fill(self,"drawOn:",{anAthensCanvas:anAthensCanvas},smalltalk.AthensHTMLPath)})},
 args: ["anAthensCanvas"],
-source: "drawOn: anAthensCanvas\x0a\x09\x22Replay saved path\x22\x0a\x09[\x0a\x09\x09context2D := anAthensCanvas context2D.\x0a\x09\x09self newPath.\x0a\x09\x09segment sendCommandsTo: self\x0a\x09] ensure: [context2D := nil].",
-messageSends: ["ensure:", "context2D", "newPath", "sendCommandsTo:"],
+source: "drawOn: anAthensCanvas\x0a\x09< // Replay saved pat\x0a\x09(function() {\x0a\x09\x09self['@context2D'] = anAthensCanvas['@surface']['@context2D'];\x0a\x09\x09self._newPath();\x0a\x09\x09self['@segment']._sendCommandsTo_(self);\x0a\x09})._ensure_(function() {\x0a\x09\x09self['@context2D'] = undefined;}); >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLPath);
@@ -295,13 +291,12 @@ category: 'path commands',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- self['@endPoint'] = self._class()['@zeroPoint'];
-	self['@startPoint'] = self._class()['@zeroPoint'];
+ self['@endPoint'] = self['@startPoint'] = self._class()['@zeroPoint'];
 	self['@context2D'].beginPath();
 	self._moveToX_Y_(0, 0); ;
 return self}, function($ctx1) {$ctx1.fill(self,"newPath",{},smalltalk.AthensHTMLPath)})},
 args: [],
-source: "newPath\x0a\x09< self['@endPoint'] = self._class()['@zeroPoint'];\x0a\x09self['@startPoint'] = self._class()['@zeroPoint'];\x0a\x09self['@context2D'].beginPath();\x0a\x09self._moveToX_Y_(0, 0); >",
+source: "newPath\x0a\x09< self['@endPoint'] = self['@startPoint'] = self._class()['@zeroPoint'];\x0a\x09self['@context2D'].beginPath();\x0a\x09self._moveToX_Y_(0, 0); >",
 messageSends: [],
 referencedClasses: []
 }),

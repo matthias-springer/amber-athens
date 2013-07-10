@@ -1624,7 +1624,7 @@ smalltalk.AthensTutorialWidget);
 
 
 
-smalltalk.addClass('AthensVGTigerDemo', smalltalk.Object, ['surface', 'renderInterval', 'looping'], 'Athens-HTML-Tutorial');
+smalltalk.addClass('AthensVGTigerDemo', smalltalk.Object, ['surface', 'renderInterval', 'looping', 'frames', 'time'], 'Athens-HTML-Tutorial');
 smalltalk.addMethod(
 smalltalk.method({
 selector: "assert:",
@@ -1816,28 +1816,27 @@ selector: "runDemo",
 category: 'demo',
 fn: function (){
 var self=this;
-var paths,extent,rotation,scale,translation,rotationSpeed,time,frames,zoom;
+var paths,extent,rotation,scale,translation,rotationSpeed,zoom;
 function $Time(){return smalltalk.Time||(typeof Time=="undefined"?nil:Time)}
 function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
-function $Transcript(){return smalltalk.Transcript||(typeof Transcript=="undefined"?nil:Transcript)}
 return smalltalk.withContext(function($ctx1) { 
-var $1,$2,$3,$4,$5,$6;
+var $1,$2,$3,$4;
 paths=self._convertPathData2();
 rotationSpeed=(1);
 rotation=(0);
 extent=_st(self["@surface"])._extent();
 scale=_st(_st(extent)._x()).__slash(_st(self._class())._tigerMaxY());
 translation=(0).__at((0));
-time=_st($Time())._millisecondClockValue();
-frames=(0);
+self["@frames"]=(0);
 self["@looping"]=true;
+self["@time"]=_st($Time())._millisecondClockValue();
 self._startLoop_((function(){
 return smalltalk.withContext(function($ctx2) {
 rotation=_st(rotation).__plus(rotationSpeed);
 rotation;
-frames=_st(frames).__plus((1));
-frames;
-zoom=_st(_st(_st(frames).__slash((100)))._sin())._abs();
+self["@frames"]=_st(self["@frames"]).__plus((1));
+self["@frames"];
+zoom=_st(_st(_st(self["@frames"]).__slash((100)))._sin())._abs();
 zoom;
 return _st(self["@surface"])._drawDuring_((function(can){
 return smalltalk.withContext(function($ctx3) {
@@ -1860,16 +1859,11 @@ return _st(each)._renderOn_(can);
 }, function($ctx4) {$ctx4.fillBlock({each:each},$ctx3)})}));
 }, function($ctx3) {$ctx3.fillBlock({can:can},$ctx2)})}));
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
-time=_st(_st($Time())._millisecondClockValue()).__minus(time);
-$5=$Transcript();
-_st($5)._show_(_st(_st("Total rendering time: ".__comma(_st(time)._asString())).__comma(" ms, total frames: ")).__comma(_st(frames)._asString()));
-_st($5)._cr();
-$6=_st($5)._show_(" FPS: ".__comma(_st(_st((1000).__star(frames)).__slash(time))._asString()));
-return self}, function($ctx1) {$ctx1.fill(self,"runDemo",{paths:paths,extent:extent,rotation:rotation,scale:scale,translation:translation,rotationSpeed:rotationSpeed,time:time,frames:frames,zoom:zoom},smalltalk.AthensVGTigerDemo)})},
+return self}, function($ctx1) {$ctx1.fill(self,"runDemo",{paths:paths,extent:extent,rotation:rotation,scale:scale,translation:translation,rotationSpeed:rotationSpeed,zoom:zoom},smalltalk.AthensVGTigerDemo)})},
 args: [],
-source: "runDemo\x0a\x09|paths extent rotation scale translation rotationSpeed time frames zoom|\x0a\x09paths := self convertPathData2.\x0a\x0a\x09rotationSpeed := 1.\x0a\x09rotation := 0.\x0a\x09extent := surface extent.\x0a\x09scale := extent x / self class tigerMaxY.\x0a\x09translation := 0@0.\x0a\x0a\x09time := Time millisecondClockValue.\x0a\x09frames := 0.\x0a\x09looping := true.\x0a\x09\x09\x0a\x09self startLoop: [\x0a\x09\x09rotation := rotation + rotationSpeed.\x0a\x09\x09frames := frames + 1.\x0a\x0a\x09\x09zoom := (frames/100) sin abs .\x0a\x09\x09\x0a\x09\x09surface \x0a\x0a\x09\x09\x09drawDuring: [:can |\x0a\x0a\x09\x09\x09\x09can pathTransform \x0a\x09\x09\x09\x09\x09loadIdentity. \x0a\x09\x09\x09\x09\x09\x0a\x09\x09\x09\x09can \x0a\x09\x09\x09\x09\x09setPaint: Color white;\x0a\x09\x09\x09\x09\x09drawShape: (0@0 corner: surface extent).\x0a\x09\x09\x09\x09\x09\x0a\x09\x09\x09\x09can pathTransform \x0a\x09\x09\x09\x09\x09translateX: (0.5 * (extent x - (self class tigerMaxX * scale*zoom))) Y: extent y / -12.0 ;\x0a\x09\x09\x09\x09\x09scaleBy: scale*zoom ;\x0a\x0a\x09\x09\x09\x09\x09translateX: (self class tigerMaxX * 0.5) Y: (self class tigerMaxY * 0.5 );\x0a\x09\x09\x09\x09\x09scaleBy: 0.8;\x0a\x09\x09\x09\x09\x09rotateByDegrees: rotation;\x0a\x09\x09\x09\x09\x09translateX: (self class tigerMaxX * -0.5) Y: (self class tigerMaxY * -0.5 ).\x0a\x0a\x09\x09\x09\x09paths do: [:each | each renderOn: can ].\x0a\x09\x09\x09\x09\x0a\x09\x09\x09].\x0a\x09].\x0a\x0a\x09time := Time millisecondClockValue - time.\x0a\x09\x0a\x09Transcript show: 'Total rendering time: ', time asString,  ' ms, total frames: ' , frames asString ; cr;\x0a\x09\x09show: ' FPS: ' , (1000*frames/time) asString",
-messageSends: ["convertPathData2", "extent", "/", "tigerMaxY", "class", "x", "@", "millisecondClockValue", "startLoop:", "+", "abs", "sin", "drawDuring:", "loadIdentity", "pathTransform", "setPaint:", "white", "drawShape:", "corner:", "translateX:Y:", "*", "-", "tigerMaxX", "y", "scaleBy:", "rotateByDegrees:", "do:", "renderOn:", "show:", ",", "asString", "cr"],
-referencedClasses: ["Time", "Color", "Transcript"]
+source: "runDemo\x0a\x09|paths extent rotation scale translation rotationSpeed zoom|\x0a\x09paths := self convertPathData2.\x0a\x0a\x09rotationSpeed := 1.\x0a\x09rotation := 0.\x0a\x09extent := surface extent.\x0a\x09scale := extent x / self class tigerMaxY.\x0a\x09translation := 0@0.\x0a\x09frames := 0.\x0a\x09looping := true.\x0a\x09\x0a\x09time := Time millisecondClockValue.\x0a\x09\x0a\x09self startLoop: [\x0a\x09\x09rotation := rotation + rotationSpeed.\x0a\x09\x09frames := frames + 1.\x0a\x0a\x09\x09zoom := (frames/100) sin abs .\x0a\x09\x09\x0a\x09\x09surface \x0a\x0a\x09\x09\x09drawDuring: [:can |\x0a\x0a\x09\x09\x09\x09can pathTransform \x0a\x09\x09\x09\x09\x09loadIdentity. \x0a\x09\x09\x09\x09\x09\x0a\x09\x09\x09\x09can \x0a\x09\x09\x09\x09\x09setPaint: Color white;\x0a\x09\x09\x09\x09\x09drawShape: (0@0 corner: surface extent).\x0a\x09\x09\x09\x09\x09\x0a\x09\x09\x09\x09can pathTransform \x0a\x09\x09\x09\x09\x09translateX: (0.5 * (extent x - (self class tigerMaxX * scale*zoom))) Y: extent y / -12.0 ;\x0a\x09\x09\x09\x09\x09scaleBy: scale*zoom ;\x0a\x0a\x09\x09\x09\x09\x09translateX: (self class tigerMaxX * 0.5) Y: (self class tigerMaxY * 0.5 );\x0a\x09\x09\x09\x09\x09scaleBy: 0.8;\x0a\x09\x09\x09\x09\x09rotateByDegrees: rotation;\x0a\x09\x09\x09\x09\x09translateX: (self class tigerMaxX * -0.5) Y: (self class tigerMaxY * -0.5 ).\x0a\x0a\x09\x09\x09\x09paths do: [:each | each renderOn: can ].\x0a\x09\x09\x09\x09\x0a\x09\x09\x09].\x0a\x09].",
+messageSends: ["convertPathData2", "extent", "/", "tigerMaxY", "class", "x", "@", "millisecondClockValue", "startLoop:", "+", "abs", "sin", "drawDuring:", "loadIdentity", "pathTransform", "setPaint:", "white", "drawShape:", "corner:", "translateX:Y:", "*", "-", "tigerMaxX", "y", "scaleBy:", "rotateByDegrees:", "do:", "renderOn:"],
+referencedClasses: ["Time", "Color"]
 }),
 smalltalk.AthensVGTigerDemo);
 
@@ -1896,14 +1890,21 @@ selector: "stopDemo",
 category: 'demo',
 fn: function (){
 var self=this;
+function $Time(){return smalltalk.Time||(typeof Time=="undefined"?nil:Time)}
+function $Transcript(){return smalltalk.Transcript||(typeof Transcript=="undefined"?nil:Transcript)}
 return smalltalk.withContext(function($ctx1) { 
+var $1,$2;
 self._clearLoop();
 self["@looping"]=false;
+self["@time"]=_st(_st($Time())._millisecondClockValue()).__minus(self["@time"]);
+$1=$Transcript();
+_st($1)._show_(_st(_st(_st(_st("Total rendering time: ".__comma(_st(self["@time"])._asString())).__comma(" ms, total frames: ")).__comma(_st(self["@frames"])._asString())).__comma(", FPS: ")).__comma(_st(_st((1000).__star(self["@frames"])).__slash(self["@time"]))._asString()));
+$2=_st($1)._cr();
 return self}, function($ctx1) {$ctx1.fill(self,"stopDemo",{},smalltalk.AthensVGTigerDemo)})},
 args: [],
-source: "stopDemo\x0a\x09self clearLoop.\x0a\x09looping := false.",
-messageSends: ["clearLoop"],
-referencedClasses: []
+source: "stopDemo\x0a\x09self clearLoop.\x0a\x09looping := false.\x0a\x09\x0a\x09time := Time millisecondClockValue - time.\x0a\x09Transcript show: 'Total rendering time: ', time asString,  ' ms, total frames: ', frames asString, ', FPS: ' , (1000*frames/time) asString; cr.",
+messageSends: ["clearLoop", "-", "millisecondClockValue", "show:", ",", "asString", "/", "*", "cr"],
+referencedClasses: ["Time", "Transcript"]
 }),
 smalltalk.AthensVGTigerDemo);
 

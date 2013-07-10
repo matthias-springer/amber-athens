@@ -18,12 +18,13 @@ asAthensShapeOn: anAthensCanvas
 !AthensHTMLPath methodsFor: 'drawing'!
 
 drawOn: anAthensCanvas
-	"Replay saved path"
-	[
-		context2D := anAthensCanvas context2D.
-		self newPath.
-		segment sendCommandsTo: self
-	] ensure: [context2D := nil].
+	< // Replay saved pat
+	(function() {
+		self['@context2D'] = anAthensCanvas['@surface']['@context2D'];
+		self._newPath();
+		self['@segment']._sendCommandsTo_(self);
+	})._ensure_(function() {
+		self['@context2D'] = undefined;}); >
 !
 
 paintFillsUsing: aPaint on: anAthensCanvas 
@@ -125,8 +126,7 @@ moveToX: x Y: y
 !
 
 newPath
-	< self['@endPoint'] = self._class()['@zeroPoint'];
-	self['@startPoint'] = self._class()['@zeroPoint'];
+	< self['@endPoint'] = self['@startPoint'] = self._class()['@zeroPoint'];
 	self['@context2D'].beginPath();
 	self._moveToX_Y_(0, 0); >
 ! !

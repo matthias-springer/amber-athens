@@ -768,10 +768,10 @@ category: '*Athens-Amber',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- return new Date().getMilliseconds(); ;
+ return new Date().getTime(); ;
 return self}, function($ctx1) {$ctx1.fill(self,"millisecondClockValue",{},smalltalk.Date.klass)})},
 args: [],
-source: "millisecondClockValue\x0a\x09< return new Date().getMilliseconds(); >",
+source: "millisecondClockValue\x0a\x09< return new Date().getTime(); >",
 messageSends: [],
 referencedClasses: []
 }),

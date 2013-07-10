@@ -232,6 +232,6 @@ origin: originPoint corner: cornerPoint
 !Date class methodsFor: '*Athens-Amber'!
 
 millisecondClockValue
-	< return new Date().getMilliseconds(); >
+	< return new Date().getTime(); >
 ! !
 

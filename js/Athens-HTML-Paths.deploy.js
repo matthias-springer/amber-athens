@@ -152,19 +152,15 @@ selector: "drawOn:",
 fn: function (anAthensCanvas){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-_st((function(){
-return smalltalk.withContext(function($ctx2) {
-self["@context2D"]=_st(anAthensCanvas)._context2D();
-self["@context2D"];
-self._newPath();
-return _st(self["@segment"])._sendCommandsTo_(self);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}))._ensure_((function(){
-return smalltalk.withContext(function($ctx2) {
-self["@context2D"]=nil;
-return self["@context2D"];
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
+ // Replay saved pat
+	(function() {
+		self['@context2D'] = anAthensCanvas['@surface']['@context2D'];
+		self._newPath();
+		self['@segment']._sendCommandsTo_(self);
+	})._ensure_(function() {
+		self['@context2D'] = undefined;}); ;
 return self}, function($ctx1) {$ctx1.fill(self,"drawOn:",{anAthensCanvas:anAthensCanvas},smalltalk.AthensHTMLPath)})},
-messageSends: ["ensure:", "context2D", "newPath", "sendCommandsTo:"]}),
+messageSends: []}),
 smalltalk.AthensHTMLPath);
 
 smalltalk.addMethod(
@@ -219,8 +215,7 @@ selector: "newPath",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- self['@endPoint'] = self._class()['@zeroPoint'];
-	self['@startPoint'] = self._class()['@zeroPoint'];
+ self['@endPoint'] = self['@startPoint'] = self._class()['@zeroPoint'];
 	self['@context2D'].beginPath();
 	self._moveToX_Y_(0, 0); ;
 return self}, function($ctx1) {$ctx1.fill(self,"newPath",{},smalltalk.AthensHTMLPath)})},
