@@ -13,6 +13,13 @@ segment: startSegment
 
 asAthensShapeOn: anAthensCanvas
 	^ self
+!
+
+asPolygon
+	|polygon|
+	polygon := AthensPolygon new.
+	segment sendCommandsTo: polygon.
+	^ polygon
 ! !
 
 !AthensHTMLPath methodsFor: 'drawing'!

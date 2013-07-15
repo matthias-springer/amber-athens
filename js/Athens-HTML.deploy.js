@@ -35,7 +35,7 @@ fn: function (aString){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
  self['@surface']['@context2D'].font = self['@font']._asHTMLString(); 
-	self['@paint']._drawString_on_(aString, self); ;
+	self._drawShape_(aString); ;
 return self}, function($ctx1) {$ctx1.fill(self,"drawString:",{aString:aString},smalltalk.AthensHTMLCanvas)})},
 messageSends: []}),
 smalltalk.AthensHTMLCanvas);
@@ -670,4 +670,15 @@ return $1;
 messageSends: ["extent:", "basicNew", "initialize", "yourself"]}),
 smalltalk.AthensHTMLSurface.klass);
 
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "paintFillsUsing:on:",
+fn: function (aPaint,anAthensCanvas){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+_st(aPaint)._drawString_on_(self,anAthensCanvas);
+return self}, function($ctx1) {$ctx1.fill(self,"paintFillsUsing:on:",{aPaint:aPaint,anAthensCanvas:anAthensCanvas},smalltalk.String)})},
+messageSends: ["drawString:on:"]}),
+smalltalk.String);
 

@@ -81,26 +81,6 @@ Object subclass: #AthensTutorial
 	instanceVariableNames: 'surface'
 	package: 'Athens-HTML-Tutorial'!
 
-!AthensTutorial methodsFor: ''!
-
-doItstep31
-"The End!!"
-
-	| font |	
-	font := LogicalFont familyName: 'Arial' pointSize: 20.
-
-	surface drawDuring: [:canvas |
-		surface clear: Color black.
-
-		canvas setFont: font.
-		canvas setPaint: Color red.
-		
-		canvas pathTransform scaleBy: 4.
-		canvas pathTransform translateX: 0 Y: (font getPreciseAscent).
-		canvas drawString: 'The End!!'.
-	].
-! !
-
 !AthensTutorial methodsFor: 'initialize-release'!
 
 initialize
@@ -1188,7 +1168,7 @@ And then look for Appearance -> Use freetype in settings browser.
 		we will see only things below baseline"
 		
 		canvas pathTransform scaleBy: 4.
-		canvas pathTransform translateX: 0 Y: 0.
+		canvas pathTransform translateX: 0 Y: 20.
 		canvas drawString: 'Hello Athens!!'.
 	].
 !
@@ -1206,7 +1186,7 @@ step31
 		canvas setPaint: Color red.
 		
 		canvas pathTransform scaleBy: 4.
-		canvas pathTransform translateX: 0 Y: (font getPreciseAscent).
+		canvas pathTransform translateX: 0 Y: 40.
 		canvas drawString: 'The End!!'.
 	].
 !
@@ -1216,6 +1196,104 @@ step32
 
 	AthensVGTigerDemo instance surface: surface.
 	AthensVGTigerDemo instance toggle.
+!
+
+step33
+	"Step 33: Creating a Morphic surface."
+	
+	|container|
+	container := '#canvas-container' asJQuery.
+
+	"Clear previous canvases"
+	container empty.
+
+	surface := AthensHTMLMorphicSurface extent: 500@400.
+	surface appendToJQuery: '#canvas-container' asJQuery.
+
+	"Render border around canvas."
+	surface canvasTag asJQuery 
+		css: 'border' with: '1px #aaa solid'.
+
+	"IMPORTANT NOTE:
+		the surface which we will create at this step will be used in later steps.
+		This means that if you resize the window (changing the view size), you may need to recreate surface.
+		Also, since surface uses external resources, quitting an image and restarting it, will also require to 
+		create a new surface, because the one from previous session will be no longer accessible."
+!
+
+step34
+	|path poly font|
+	"Step 34: Event handling"
+
+	font := LogicalFont familyName: 'Arial' pointSize: 20.
+	
+	surface drawDuring: [:canvas |  
+		
+		surface clear: Color gray.
+	
+		canvas setPaint: Color white.
+		canvas setFont: font.
+		canvas pathTransform translateX: 100 Y: 200.
+		canvas drawString: 'Move the mouse cursor.'.
+	
+		path := canvas createPath: [:builder |
+			
+			builder 
+				absolute;
+				lineTo: 15@ 50;
+				lineTo: 60@ 60;
+				lineTo: 150@50;
+				lineTo: 0@0
+			].
+	
+		poly := path asPolygon.
+	].
+
+	surface onMouseMove: [:e | surface drawDuring: [:canvas |
+		surface clear: Color gray.
+		canvas pathTransform translateX: 0 Y: 0.
+
+		canvas setShape: path.
+		(poly includesPoint: e offsetX @ e offsetY)
+			ifTrue: [canvas setPaint: Color blue]
+			ifFalse: [canvas setPaint: Color green].
+			
+		canvas draw.
+
+		canvas setFont: font.
+		canvas setPaint: Color red.
+		canvas pathTransform translateX: 100 Y: 20.
+		canvas drawString: '(', e offsetX asString, ', ', e offsetY asString, ')']].
+!
+
+step35
+	|morph|
+	"Step 35: [Morphic Demo] Creating/showing morphs.
+	'surface world' returns the world morph. Every surface has
+	a world morph that can contain other morphs. It is the entry
+	point for morph composition."
+
+	morph := AthensMorph new.
+	surface world addMorph: morph.
+!
+
+step36
+	|morph innerMorph|
+	"Step 36: [Morphic Demo] Transforming morphs.
+	All transformations are relative to the owner's top left corner.
+	Transformations are applied in this order: scaling, rotation, translation."
+
+	morph := AthensMorph new.
+	surface world addMorph: morph.
+	morph position: 200@50.
+	morph rotation: 0.785.
+
+	innerMorph := AthensMorph new.
+	innerMorph color: Color red.
+	innerMorph position: 20@0.
+	innerMorph rotation: -0.785.
+	innerMorph scaling: 0.25.
+	morph addMorph: innerMorph.
 !
 
 step4
@@ -1452,8 +1530,8 @@ initialize
 
 nextStep
 	step := step + 1.
-	step > 32
-		ifTrue: [step := 32].
+	step > 36
+		ifTrue: [step := 36].
 	self showStep: step.
 !
 

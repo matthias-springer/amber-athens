@@ -252,34 +252,6 @@ smalltalk.AthensTigerShape);
 smalltalk.addClass('AthensTutorial', smalltalk.Object, ['surface'], 'Athens-HTML-Tutorial');
 smalltalk.addMethod(
 smalltalk.method({
-selector: "doItstep31",
-category: '',
-fn: function (){
-var self=this;
-var font;
-function $LogicalFont(){return smalltalk.LogicalFont||(typeof LogicalFont=="undefined"?nil:LogicalFont)}
-function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
-return smalltalk.withContext(function($ctx1) { 
-font=_st($LogicalFont())._familyName_pointSize_("Arial",(20));
-_st(self["@surface"])._drawDuring_((function(canvas){
-return smalltalk.withContext(function($ctx2) {
-_st(self["@surface"])._clear_(_st($Color())._black());
-_st(canvas)._setFont_(font);
-_st(canvas)._setPaint_(_st($Color())._red());
-_st(_st(canvas)._pathTransform())._scaleBy_((4));
-_st(_st(canvas)._pathTransform())._translateX_Y_((0),_st(font)._getPreciseAscent());
-return _st(canvas)._drawString_("The End!");
-}, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
-return self}, function($ctx1) {$ctx1.fill(self,"doItstep31",{font:font},smalltalk.AthensTutorial)})},
-args: [],
-source: "doItstep31\x0a\x22The End!\x22\x0a\x0a\x09| font |\x09\x0a\x09font := LogicalFont familyName: 'Arial' pointSize: 20.\x0a\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09surface clear: Color black.\x0a\x0a\x09\x09canvas setFont: font.\x0a\x09\x09canvas setPaint: Color red.\x0a\x09\x09\x0a\x09\x09canvas pathTransform scaleBy: 4.\x0a\x09\x09canvas pathTransform translateX: 0 Y: (font getPreciseAscent).\x0a\x09\x09canvas drawString: 'The End!'.\x0a\x09].",
-messageSends: ["familyName:pointSize:", "drawDuring:", "clear:", "black", "setFont:", "setPaint:", "red", "scaleBy:", "pathTransform", "translateX:Y:", "getPreciseAscent", "drawString:"],
-referencedClasses: ["LogicalFont", "Color"]
-}),
-smalltalk.AthensTutorial);
-
-smalltalk.addMethod(
-smalltalk.method({
 selector: "initialize",
 category: 'initialize-release',
 fn: function (){
@@ -1209,12 +1181,12 @@ _st(self["@surface"])._clear_(_st($Color())._black());
 _st(canvas)._setFont_(font);
 _st(canvas)._setPaint_(_st($Color())._red());
 _st(_st(canvas)._pathTransform())._scaleBy_((4));
-_st(_st(canvas)._pathTransform())._translateX_Y_((0),(0));
+_st(_st(canvas)._pathTransform())._translateX_Y_((0),(20));
 return _st(canvas)._drawString_("Hello Athens!");
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step30",{font:font},smalltalk.AthensTutorial)})},
 args: [],
-source: "step30\x0a\x0a\x22Step 30: drawing text.\x0a\x0aPlease note that this step requires Freetype enabled. \x0aCheck if you enabled it in settings.\x0aFrom world menu, go System->Settings\x0aAnd then look for Appearance -> Use freetype in settings browser.\x0a\x0a\x22\x0a\x09| font |\x0a\x09\x0a\x09font := LogicalFont familyName: 'Arial' pointSize: 20.\x0a\x0a\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09surface clear: Color black.\x0a\x0a\x09\x09\x22set font and color\x22\x0a\x09\x09canvas setFont: font.\x0a\x09\x09canvas setPaint: Color red.\x0a\x09\x09\x0a\x09\x09\x22translate an origin by font's ascent, otherwise \x0a\x09\x09we will see only things below baseline\x22\x0a\x09\x09\x0a\x09\x09canvas pathTransform scaleBy: 4.\x0a\x09\x09canvas pathTransform translateX: 0 Y: 0.\x0a\x09\x09canvas drawString: 'Hello Athens!'.\x0a\x09].",
+source: "step30\x0a\x0a\x22Step 30: drawing text.\x0a\x0aPlease note that this step requires Freetype enabled. \x0aCheck if you enabled it in settings.\x0aFrom world menu, go System->Settings\x0aAnd then look for Appearance -> Use freetype in settings browser.\x0a\x0a\x22\x0a\x09| font |\x0a\x09\x0a\x09font := LogicalFont familyName: 'Arial' pointSize: 20.\x0a\x0a\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09surface clear: Color black.\x0a\x0a\x09\x09\x22set font and color\x22\x0a\x09\x09canvas setFont: font.\x0a\x09\x09canvas setPaint: Color red.\x0a\x09\x09\x0a\x09\x09\x22translate an origin by font's ascent, otherwise \x0a\x09\x09we will see only things below baseline\x22\x0a\x09\x09\x0a\x09\x09canvas pathTransform scaleBy: 4.\x0a\x09\x09canvas pathTransform translateX: 0 Y: 20.\x0a\x09\x09canvas drawString: 'Hello Athens!'.\x0a\x09].",
 messageSends: ["familyName:pointSize:", "drawDuring:", "clear:", "black", "setFont:", "setPaint:", "red", "scaleBy:", "pathTransform", "translateX:Y:", "drawString:"],
 referencedClasses: ["LogicalFont", "Color"]
 }),
@@ -1237,13 +1209,13 @@ _st(self["@surface"])._clear_(_st($Color())._black());
 _st(canvas)._setFont_(font);
 _st(canvas)._setPaint_(_st($Color())._red());
 _st(_st(canvas)._pathTransform())._scaleBy_((4));
-_st(_st(canvas)._pathTransform())._translateX_Y_((0),_st(font)._getPreciseAscent());
+_st(_st(canvas)._pathTransform())._translateX_Y_((0),(40));
 return _st(canvas)._drawString_("The End!");
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step31",{font:font},smalltalk.AthensTutorial)})},
 args: [],
-source: "step31\x0a\x22The End!\x22\x0a\x0a\x09| font |\x09\x0a\x09font := LogicalFont familyName: 'Arial' pointSize: 20.\x0a\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09surface clear: Color black.\x0a\x0a\x09\x09canvas setFont: font.\x0a\x09\x09canvas setPaint: Color red.\x0a\x09\x09\x0a\x09\x09canvas pathTransform scaleBy: 4.\x0a\x09\x09canvas pathTransform translateX: 0 Y: (font getPreciseAscent).\x0a\x09\x09canvas drawString: 'The End!'.\x0a\x09].",
-messageSends: ["familyName:pointSize:", "drawDuring:", "clear:", "black", "setFont:", "setPaint:", "red", "scaleBy:", "pathTransform", "translateX:Y:", "getPreciseAscent", "drawString:"],
+source: "step31\x0a\x22The End!\x22\x0a\x0a\x09| font |\x09\x0a\x09font := LogicalFont familyName: 'Arial' pointSize: 20.\x0a\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09surface clear: Color black.\x0a\x0a\x09\x09canvas setFont: font.\x0a\x09\x09canvas setPaint: Color red.\x0a\x09\x09\x0a\x09\x09canvas pathTransform scaleBy: 4.\x0a\x09\x09canvas pathTransform translateX: 0 Y: 40.\x0a\x09\x09canvas drawString: 'The End!'.\x0a\x09].",
+messageSends: ["familyName:pointSize:", "drawDuring:", "clear:", "black", "setFont:", "setPaint:", "red", "scaleBy:", "pathTransform", "translateX:Y:", "drawString:"],
 referencedClasses: ["LogicalFont", "Color"]
 }),
 smalltalk.AthensTutorial);
@@ -1263,6 +1235,136 @@ args: [],
 source: "step32\x0a\x09\x22Tiger Demo\x22\x0a\x0a\x09AthensVGTigerDemo instance surface: surface.\x0a\x09AthensVGTigerDemo instance toggle.",
 messageSends: ["surface:", "instance", "toggle"],
 referencedClasses: ["AthensVGTigerDemo"]
+}),
+smalltalk.AthensTutorial);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "step33",
+category: 'steps',
+fn: function (){
+var self=this;
+var container;
+function $AthensHTMLMorphicSurface(){return smalltalk.AthensHTMLMorphicSurface||(typeof AthensHTMLMorphicSurface=="undefined"?nil:AthensHTMLMorphicSurface)}
+return smalltalk.withContext(function($ctx1) { 
+container="#canvas-container"._asJQuery();
+_st(container)._empty();
+self["@surface"]=_st($AthensHTMLMorphicSurface())._extent_((500).__at((400)));
+_st(self["@surface"])._appendToJQuery_("#canvas-container"._asJQuery());
+_st(_st(_st(self["@surface"])._canvasTag())._asJQuery())._css_with_("border","1px #aaa solid");
+return self}, function($ctx1) {$ctx1.fill(self,"step33",{container:container},smalltalk.AthensTutorial)})},
+args: [],
+source: "step33\x0a\x09\x22Step 33: Creating a Morphic surface.\x22\x0a\x09\x0a\x09|container|\x0a\x09container := '#canvas-container' asJQuery.\x0a\x0a\x09\x22Clear previous canvases\x22\x0a\x09container empty.\x0a\x0a\x09surface := AthensHTMLMorphicSurface extent: 500@400.\x0a\x09surface appendToJQuery: '#canvas-container' asJQuery.\x0a\x0a\x09\x22Render border around canvas.\x22\x0a\x09surface canvasTag asJQuery \x0a\x09\x09css: 'border' with: '1px #aaa solid'.\x0a\x0a\x09\x22IMPORTANT NOTE:\x0a\x09\x09the surface which we will create at this step will be used in later steps.\x0a\x09\x09This means that if you resize the window (changing the view size), you may need to recreate surface.\x0a\x09\x09Also, since surface uses external resources, quitting an image and restarting it, will also require to \x0a\x09\x09create a new surface, because the one from previous session will be no longer accessible.\x22",
+messageSends: ["asJQuery", "empty", "extent:", "@", "appendToJQuery:", "css:with:", "canvasTag"],
+referencedClasses: ["AthensHTMLMorphicSurface"]
+}),
+smalltalk.AthensTutorial);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "step34",
+category: 'steps',
+fn: function (){
+var self=this;
+var path,poly,font;
+function $LogicalFont(){return smalltalk.LogicalFont||(typeof LogicalFont=="undefined"?nil:LogicalFont)}
+function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2,$3;
+font=_st($LogicalFont())._familyName_pointSize_("Arial",(20));
+_st(self["@surface"])._drawDuring_((function(canvas){
+return smalltalk.withContext(function($ctx2) {
+_st(self["@surface"])._clear_(_st($Color())._gray());
+_st(canvas)._setPaint_(_st($Color())._white());
+_st(canvas)._setFont_(font);
+_st(_st(canvas)._pathTransform())._translateX_Y_((100),(200));
+_st(canvas)._drawString_("Move the mouse cursor.");
+path=_st(canvas)._createPath_((function(builder){
+return smalltalk.withContext(function($ctx3) {
+$1=builder;
+_st($1)._absolute();
+_st($1)._lineTo_((15).__at((50)));
+_st($1)._lineTo_((60).__at((60)));
+_st($1)._lineTo_((150).__at((50)));
+$2=_st($1)._lineTo_((0).__at((0)));
+return $2;
+}, function($ctx3) {$ctx3.fillBlock({builder:builder},$ctx2)})}));
+path;
+poly=_st(path)._asPolygon();
+return poly;
+}, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
+_st(self["@surface"])._onMouseMove_((function(e){
+return smalltalk.withContext(function($ctx2) {
+return _st(self["@surface"])._drawDuring_((function(canvas){
+return smalltalk.withContext(function($ctx3) {
+_st(self["@surface"])._clear_(_st($Color())._gray());
+_st(_st(canvas)._pathTransform())._translateX_Y_((0),(0));
+_st(canvas)._setShape_(path);
+$3=_st(poly)._includesPoint_(_st(_st(e)._offsetX()).__at(_st(e)._offsetY()));
+if(smalltalk.assert($3)){
+_st(canvas)._setPaint_(_st($Color())._blue());
+} else {
+_st(canvas)._setPaint_(_st($Color())._green());
+};
+_st(canvas)._draw();
+_st(canvas)._setFont_(font);
+_st(canvas)._setPaint_(_st($Color())._red());
+_st(_st(canvas)._pathTransform())._translateX_Y_((100),(20));
+return _st(canvas)._drawString_(_st(_st(_st("(".__comma(_st(_st(e)._offsetX())._asString())).__comma(", ")).__comma(_st(_st(e)._offsetY())._asString())).__comma(")"));
+}, function($ctx3) {$ctx3.fillBlock({canvas:canvas},$ctx2)})}));
+}, function($ctx2) {$ctx2.fillBlock({e:e},$ctx1)})}));
+return self}, function($ctx1) {$ctx1.fill(self,"step34",{path:path,poly:poly,font:font},smalltalk.AthensTutorial)})},
+args: [],
+source: "step34\x0a\x09|path poly font|\x0a\x09\x22Step 34: Event handling\x22\x0a\x0a\x09font := LogicalFont familyName: 'Arial' pointSize: 20.\x0a\x09\x0a\x09surface drawDuring: [:canvas |  \x0a\x09\x09\x0a\x09\x09surface clear: Color gray.\x0a\x09\x0a\x09\x09canvas setPaint: Color white.\x0a\x09\x09canvas setFont: font.\x0a\x09\x09canvas pathTransform translateX: 100 Y: 200.\x0a\x09\x09canvas drawString: 'Move the mouse cursor.'.\x0a\x09\x0a\x09\x09path := canvas createPath: [:builder |\x0a\x09\x09\x09\x0a\x09\x09\x09builder \x0a\x09\x09\x09\x09absolute;\x0a\x09\x09\x09\x09lineTo: 15@ 50;\x0a\x09\x09\x09\x09lineTo: 60@ 60;\x0a\x09\x09\x09\x09lineTo: 150@50;\x0a\x09\x09\x09\x09lineTo: 0@0\x0a\x09\x09\x09].\x0a\x09\x0a\x09\x09poly := path asPolygon.\x0a\x09].\x0a\x0a\x09surface onMouseMove: [:e | surface drawDuring: [:canvas |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09canvas pathTransform translateX: 0 Y: 0.\x0a\x0a\x09\x09canvas setShape: path.\x0a\x09\x09(poly includesPoint: e offsetX @ e offsetY)\x0a\x09\x09\x09ifTrue: [canvas setPaint: Color blue]\x0a\x09\x09\x09ifFalse: [canvas setPaint: Color green].\x0a\x09\x09\x09\x0a\x09\x09canvas draw.\x0a\x0a\x09\x09canvas setFont: font.\x0a\x09\x09canvas setPaint: Color red.\x0a\x09\x09canvas pathTransform translateX: 100 Y: 20.\x0a\x09\x09canvas drawString: '(', e offsetX asString, ', ', e offsetY asString, ')']].",
+messageSends: ["familyName:pointSize:", "drawDuring:", "clear:", "gray", "setPaint:", "white", "setFont:", "translateX:Y:", "pathTransform", "drawString:", "createPath:", "absolute", "lineTo:", "@", "asPolygon", "onMouseMove:", "setShape:", "ifTrue:ifFalse:", "blue", "green", "includesPoint:", "offsetY", "offsetX", "draw", "red", ",", "asString"],
+referencedClasses: ["LogicalFont", "Color"]
+}),
+smalltalk.AthensTutorial);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "step35",
+category: 'steps',
+fn: function (){
+var self=this;
+var morph;
+function $AthensMorph(){return smalltalk.AthensMorph||(typeof AthensMorph=="undefined"?nil:AthensMorph)}
+return smalltalk.withContext(function($ctx1) { 
+morph=_st($AthensMorph())._new();
+_st(_st(self["@surface"])._world())._addMorph_(morph);
+return self}, function($ctx1) {$ctx1.fill(self,"step35",{morph:morph},smalltalk.AthensTutorial)})},
+args: [],
+source: "step35\x0a\x09|morph|\x0a\x09\x22Step 35: [Morphic Demo] Creating/showing morphs.\x0a\x09'surface world' returns the world morph. Every surface has\x0a\x09a world morph that can contain other morphs. It is the entry\x0a\x09point for morph composition.\x22\x0a\x0a\x09morph := AthensMorph new.\x0a\x09surface world addMorph: morph.",
+messageSends: ["new", "addMorph:", "world"],
+referencedClasses: ["AthensMorph"]
+}),
+smalltalk.AthensTutorial);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "step36",
+category: 'steps',
+fn: function (){
+var self=this;
+var morph,innerMorph;
+function $AthensMorph(){return smalltalk.AthensMorph||(typeof AthensMorph=="undefined"?nil:AthensMorph)}
+function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
+return smalltalk.withContext(function($ctx1) { 
+morph=_st($AthensMorph())._new();
+_st(_st(self["@surface"])._world())._addMorph_(morph);
+_st(morph)._position_((200).__at((50)));
+_st(morph)._rotation_((0.785));
+innerMorph=_st($AthensMorph())._new();
+_st(innerMorph)._color_(_st($Color())._red());
+_st(innerMorph)._position_((20).__at((0)));
+_st(innerMorph)._rotation_((-0.785));
+_st(innerMorph)._scaling_((0.25));
+_st(morph)._addMorph_(innerMorph);
+return self}, function($ctx1) {$ctx1.fill(self,"step36",{morph:morph,innerMorph:innerMorph},smalltalk.AthensTutorial)})},
+args: [],
+source: "step36\x0a\x09|morph innerMorph|\x0a\x09\x22Step 36: [Morphic Demo] Transforming morphs.\x0a\x09All transformations are relative to the owner's top left corner.\x0a\x09Transformations are applied in this order: scaling, rotation, translation.\x22\x0a\x0a\x09morph := AthensMorph new.\x0a\x09surface world addMorph: morph.\x0a\x09morph position: 200@50.\x0a\x09morph rotation: 0.785.\x0a\x0a\x09innerMorph := AthensMorph new.\x0a\x09innerMorph color: Color red.\x0a\x09innerMorph position: 20@0.\x0a\x09innerMorph rotation: -0.785.\x0a\x09innerMorph scaling: 0.25.\x0a\x09morph addMorph: innerMorph.",
+messageSends: ["new", "addMorph:", "world", "position:", "@", "rotation:", "color:", "red", "scaling:"],
+referencedClasses: ["AthensMorph", "Color"]
 }),
 smalltalk.AthensTutorial);
 
@@ -1488,15 +1590,15 @@ var self=this;
 return smalltalk.withContext(function($ctx1) { 
 var $1;
 self["@step"]=_st(self["@step"]).__plus((1));
-$1=_st(self["@step"]).__gt((32));
+$1=_st(self["@step"]).__gt((36));
 if(smalltalk.assert($1)){
-self["@step"]=(32);
+self["@step"]=(36);
 self["@step"];
 };
 self._showStep_(self["@step"]);
 return self}, function($ctx1) {$ctx1.fill(self,"nextStep",{},smalltalk.AthensTutorialWidget)})},
 args: [],
-source: "nextStep\x0a\x09step := step + 1.\x0a\x09step > 32\x0a\x09\x09ifTrue: [step := 32].\x0a\x09self showStep: step.",
+source: "nextStep\x0a\x09step := step + 1.\x0a\x09step > 36\x0a\x09\x09ifTrue: [step := 36].\x0a\x09self showStep: step.",
 messageSends: ["+", "ifTrue:", ">", "showStep:"],
 referencedClasses: []
 }),

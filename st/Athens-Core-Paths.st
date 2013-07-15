@@ -754,10 +754,14 @@ Object subclass: #AthensPolygon
 
 !AthensPolygon methodsFor: 'conversion'!
 
+asPolygon
+	^ self
+!
+
 finish
 	"Finally convert contours to arrays"
 	
-	contours := contours collect: [:ea | ea asArray ]
+	"contours := contours collect: [:ea | ea asArray ]"
 !
 
 lineTo: aPoint 
@@ -772,8 +776,6 @@ moveTo: aPoint
 !
 
 newContour
-	contours ifNil: [ contours := OrderedCollection new ].
-	
 	currentContour := contours add: OrderedCollection new.
 ! !
 
@@ -786,54 +788,67 @@ paintFillsUsing: aPaint on: anAthensCanvas
 	^ aPaint fillPolygon: self on: anAthensCanvas
 ! !
 
-Object subclass: #AthensPolygonTester
-	instanceVariableNames: 'polygon'
-	package: 'Athens-Core-Paths'!
+!AthensPolygon methodsFor: 'initialization'!
 
-!AthensPolygonTester methodsFor: 'accessing'!
-
-polygon: poly
-
-	polygon := poly
+initialize
+	contours := OrderedCollection new.
 ! !
 
-!AthensPolygonTester methodsFor: 'testing'!
+!AthensPolygon methodsFor: 'testing'!
 
 includesPoint: aPoint
-"
-Thanks to Google and Randolph Franklin i don't have to reinvent this very simple algorithm.
-See [ 1 ] for details, copyrights etc.
+	< var pX = aPoint['@x'];
+	var pY = aPoint['@y'];
+	
+	for (var ci = 0; ci < self['@contours'].length; ci++) {
+		var contour = self['@contours'][ci];
+		x= contour;
+		var num = contour.length;
+		var i = 0;
+		var j = num - 1;
+		var c = false;
+		
+		for (i = 0; i < num; i++) {		
+			if (((pY < contour[i]['@y']) !!= (pY < contour[j]['@y'])) && (pX < (contour[j]['@x'] - contour[i]['@x']) * (pY - contour[i]['@y']) / (contour[j]['@y'] - contour[i]['@y']) + contour[i]['@x'])) {
+				c = !!c;
+			}
+			
+			j = i;
+		}
+		
+		if (c) {
+			return c;
+		}
+	}
+	
+	return false; >
+!
 
-[1] http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
-
-"
-	| inside testX testY i j size |
+includesPoint: aPoint withTransformation: matrix
+	< var pX = matrix['@sx']*aPoint['@x'] + matrix['@shx']*aPoint['@y'] + matrix['@x'];
+	var pX = matrix['@sy']*aPoint['@x'] + matrix['@shy']*aPoint['@y'] + matrix['@y'];
 	
-	inside := false.
+	for (var ci = 0; ci < self['@contours'].length; ci++) {
+		var contour = self['@contours'][ci];
+		x= contour;
+		var num = contour.length;
+		var i = 0;
+		var j = num - 1;
+		var c = false;
+		
+		for (i = 0; i < num; i++) {		
+			if (((pY < contour[i]['@y']) !!= (pY < contour[j]['@y'])) && (pX < (contour[j]['@x'] - contour[i]['@x']) * (pY - contour[i]['@y']) / (contour[j]['@y'] - contour[i]['@y']) + contour[i]['@x'])) {
+				c = !!c;
+			}
+			
+			j = i;
+		}
+		
+		if (c) {
+			return c;
+		}
+	}
 	
-	i := 1.
-	size := polygon size.
-	j := size.
-	testX := aPoint x.
-	testY := aPoint y.
-	
-	[ i <= size ] whileTrue: [  | pi pj |
-		pi := polygon at: i.
-		pj := polygon at: j. 
-	
-		(((pi y > testY) ~= (pj y > testY)) and: [ 
-			testX < 
-			(
-				pj x - pi x
-				* (testY - pi y) 
-				/ ( pj y - pi y )
-				+ pi x 
-			)
-			 ]) ifTrue: [ inside := inside not ].
-	
-		j := i.
-		i := i + 1.
-	 ].
-	^ inside
+	return false; >
 ! !
 

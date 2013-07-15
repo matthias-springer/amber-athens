@@ -1733,20 +1733,131 @@ smalltalk.AthensPathSegmentConverter);
 smalltalk.addClass('AthensPolygon', smalltalk.Object, ['contours', 'currentContour'], 'Athens-Core-Paths');
 smalltalk.addMethod(
 smalltalk.method({
+selector: "asPolygon",
+category: 'conversion',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"asPolygon",{},smalltalk.AthensPolygon)})},
+args: [],
+source: "asPolygon\x0a\x09^ self",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.AthensPolygon);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "finish",
 category: 'conversion',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self["@contours"]=_st(self["@contours"])._collect_((function(ea){
-return smalltalk.withContext(function($ctx2) {
-return _st(ea)._asArray();
-}, function($ctx2) {$ctx2.fillBlock({ea:ea},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"finish",{},smalltalk.AthensPolygon)})},
 args: [],
-source: "finish\x0a\x09\x22Finally convert contours to arrays\x22\x0a\x09\x0a\x09contours := contours collect: [:ea | ea asArray ]",
-messageSends: ["collect:", "asArray"],
+source: "finish\x0a\x09\x22Finally convert contours to arrays\x22\x0a\x09\x0a\x09\x22contours := contours collect: [:ea | ea asArray ]\x22",
+messageSends: [],
 referencedClasses: []
+}),
+smalltalk.AthensPolygon);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "includesPoint:",
+category: 'testing',
+fn: function (aPoint){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ var pX = aPoint['@x'];
+	var pY = aPoint['@y'];
+	
+	for (var ci = 0; ci < self['@contours'].length; ci++) {
+		var contour = self['@contours'][ci];
+		x= contour;
+		var num = contour.length;
+		var i = 0;
+		var j = num - 1;
+		var c = false;
+		
+		for (i = 0; i < num; i++) {		
+			if (((pY < contour[i]['@y']) != (pY < contour[j]['@y'])) && (pX < (contour[j]['@x'] - contour[i]['@x']) * (pY - contour[i]['@y']) / (contour[j]['@y'] - contour[i]['@y']) + contour[i]['@x'])) {
+				c = !c;
+			}
+			
+			j = i;
+		}
+		
+		if (c) {
+			return c;
+		}
+	}
+	
+	return false; ;
+return self}, function($ctx1) {$ctx1.fill(self,"includesPoint:",{aPoint:aPoint},smalltalk.AthensPolygon)})},
+args: ["aPoint"],
+source: "includesPoint: aPoint\x0a\x09< var pX = aPoint['@x'];\x0a\x09var pY = aPoint['@y'];\x0a\x09\x0a\x09for (var ci = 0; ci < self['@contours'].length; ci++) {\x0a\x09\x09var contour = self['@contours'][ci];\x0a\x09\x09x= contour;\x0a\x09\x09var num = contour.length;\x0a\x09\x09var i = 0;\x0a\x09\x09var j = num - 1;\x0a\x09\x09var c = false;\x0a\x09\x09\x0a\x09\x09for (i = 0; i < num; i++) {\x09\x09\x0a\x09\x09\x09if (((pY < contour[i]['@y']) != (pY < contour[j]['@y'])) && (pX < (contour[j]['@x'] - contour[i]['@x']) * (pY - contour[i]['@y']) / (contour[j]['@y'] - contour[i]['@y']) + contour[i]['@x'])) {\x0a\x09\x09\x09\x09c = !c;\x0a\x09\x09\x09}\x0a\x09\x09\x09\x0a\x09\x09\x09j = i;\x0a\x09\x09}\x0a\x09\x09\x0a\x09\x09if (c) {\x0a\x09\x09\x09return c;\x0a\x09\x09}\x0a\x09}\x0a\x09\x0a\x09return false; >",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.AthensPolygon);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "includesPoint:withTransformation:",
+category: 'testing',
+fn: function (aPoint,matrix){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ var pX = matrix['@sx']*aPoint['@x'] + matrix['@shx']*aPoint['@y'] + matrix['@x'];
+	var pX = matrix['@sy']*aPoint['@x'] + matrix['@shy']*aPoint['@y'] + matrix['@y'];
+	
+	for (var ci = 0; ci < self['@contours'].length; ci++) {
+		var contour = self['@contours'][ci];
+		x= contour;
+		var num = contour.length;
+		var i = 0;
+		var j = num - 1;
+		var c = false;
+		
+		for (i = 0; i < num; i++) {		
+			if (((pY < contour[i]['@y']) != (pY < contour[j]['@y'])) && (pX < (contour[j]['@x'] - contour[i]['@x']) * (pY - contour[i]['@y']) / (contour[j]['@y'] - contour[i]['@y']) + contour[i]['@x'])) {
+				c = !c;
+			}
+			
+			j = i;
+		}
+		
+		if (c) {
+			return c;
+		}
+	}
+	
+	return false; ;
+return self}, function($ctx1) {$ctx1.fill(self,"includesPoint:withTransformation:",{aPoint:aPoint,matrix:matrix},smalltalk.AthensPolygon)})},
+args: ["aPoint", "matrix"],
+source: "includesPoint: aPoint withTransformation: matrix\x0a\x09< var pX = matrix['@sx']*aPoint['@x'] + matrix['@shx']*aPoint['@y'] + matrix['@x'];\x0a\x09var pX = matrix['@sy']*aPoint['@x'] + matrix['@shy']*aPoint['@y'] + matrix['@y'];\x0a\x09\x0a\x09for (var ci = 0; ci < self['@contours'].length; ci++) {\x0a\x09\x09var contour = self['@contours'][ci];\x0a\x09\x09x= contour;\x0a\x09\x09var num = contour.length;\x0a\x09\x09var i = 0;\x0a\x09\x09var j = num - 1;\x0a\x09\x09var c = false;\x0a\x09\x09\x0a\x09\x09for (i = 0; i < num; i++) {\x09\x09\x0a\x09\x09\x09if (((pY < contour[i]['@y']) != (pY < contour[j]['@y'])) && (pX < (contour[j]['@x'] - contour[i]['@x']) * (pY - contour[i]['@y']) / (contour[j]['@y'] - contour[i]['@y']) + contour[i]['@x'])) {\x0a\x09\x09\x09\x09c = !c;\x0a\x09\x09\x09}\x0a\x09\x09\x09\x0a\x09\x09\x09j = i;\x0a\x09\x09}\x0a\x09\x09\x0a\x09\x09if (c) {\x0a\x09\x09\x09return c;\x0a\x09\x09}\x0a\x09}\x0a\x09\x0a\x09return false; >",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.AthensPolygon);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "initialize",
+category: 'initialization',
+fn: function (){
+var self=this;
+function $OrderedCollection(){return smalltalk.OrderedCollection||(typeof OrderedCollection=="undefined"?nil:OrderedCollection)}
+return smalltalk.withContext(function($ctx1) { 
+self["@contours"]=_st($OrderedCollection())._new();
+return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensPolygon)})},
+args: [],
+source: "initialize\x0a\x09contours := OrderedCollection new.",
+messageSends: ["new"],
+referencedClasses: ["OrderedCollection"]
 }),
 smalltalk.AthensPolygon);
 
@@ -1791,19 +1902,11 @@ fn: function (){
 var self=this;
 function $OrderedCollection(){return smalltalk.OrderedCollection||(typeof OrderedCollection=="undefined"?nil:OrderedCollection)}
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=self["@contours"];
-if(($receiver = $1) == nil || $receiver == undefined){
-self["@contours"]=_st($OrderedCollection())._new();
-self["@contours"];
-} else {
-$1;
-};
 self["@currentContour"]=_st(self["@contours"])._add_(_st($OrderedCollection())._new());
 return self}, function($ctx1) {$ctx1.fill(self,"newContour",{},smalltalk.AthensPolygon)})},
 args: [],
-source: "newContour\x0a\x09contours ifNil: [ contours := OrderedCollection new ].\x0a\x09\x0a\x09currentContour := contours add: OrderedCollection new.",
-messageSends: ["ifNil:", "new", "add:"],
+source: "newContour\x0a\x09currentContour := contours add: OrderedCollection new.",
+messageSends: ["add:", "new"],
 referencedClasses: ["OrderedCollection"]
 }),
 smalltalk.AthensPolygon);
@@ -1825,73 +1928,6 @@ messageSends: ["fillPolygon:on:"],
 referencedClasses: []
 }),
 smalltalk.AthensPolygon);
-
-
-
-smalltalk.addClass('AthensPolygonTester', smalltalk.Object, ['polygon'], 'Athens-Core-Paths');
-smalltalk.addMethod(
-smalltalk.method({
-selector: "includesPoint:",
-category: 'testing',
-fn: function (aPoint){
-var self=this;
-var inside,testX,testY,i,j,size;
-return smalltalk.withContext(function($ctx1) { 
-var $1,$2;
-inside=false;
-i=(1);
-size=_st(self["@polygon"])._size();
-j=size;
-testX=_st(aPoint)._x();
-testY=_st(aPoint)._y();
-_st((function(){
-return smalltalk.withContext(function($ctx2) {
-return _st(i).__lt_eq(size);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}))._whileTrue_((function(){
-var pi,pj;
-return smalltalk.withContext(function($ctx2) {
-pi=_st(self["@polygon"])._at_(i);
-pi;
-pj=_st(self["@polygon"])._at_(j);
-pj;
-$1=_st(_st(_st(_st(pi)._y()).__gt(testY)).__tild_eq(_st(_st(pj)._y()).__gt(testY)))._and_((function(){
-return smalltalk.withContext(function($ctx3) {
-return _st(testX).__lt(_st(_st(_st(_st(_st(pj)._x()).__minus(_st(pi)._x())).__star(_st(testY).__minus(_st(pi)._y()))).__slash(_st(_st(pj)._y()).__minus(_st(pi)._y()))).__plus(_st(pi)._x()));
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2)})}));
-if(smalltalk.assert($1)){
-inside=_st(inside)._not();
-inside;
-};
-j=i;
-j;
-i=_st(i).__plus((1));
-return i;
-}, function($ctx2) {$ctx2.fillBlock({pi:pi,pj:pj},$ctx1)})}));
-$2=inside;
-return $2;
-}, function($ctx1) {$ctx1.fill(self,"includesPoint:",{aPoint:aPoint,inside:inside,testX:testX,testY:testY,i:i,j:j,size:size},smalltalk.AthensPolygonTester)})},
-args: ["aPoint"],
-source: "includesPoint: aPoint\x0a\x22\x0aThanks to Google and Randolph Franklin i don't have to reinvent this very simple algorithm.\x0aSee [ 1 ] for details, copyrights etc.\x0a\x0a[1] http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html\x0a\x0a\x22\x0a\x09| inside testX testY i j size |\x0a\x09\x0a\x09inside := false.\x0a\x09\x0a\x09i := 1.\x0a\x09size := polygon size.\x0a\x09j := size.\x0a\x09testX := aPoint x.\x0a\x09testY := aPoint y.\x0a\x09\x0a\x09[ i <= size ] whileTrue: [  | pi pj |\x0a\x09\x09pi := polygon at: i.\x0a\x09\x09pj := polygon at: j. \x0a\x09\x0a\x09\x09(((pi y > testY) ~= (pj y > testY)) and: [ \x0a\x09\x09\x09testX < \x0a\x09\x09\x09(\x0a\x09\x09\x09\x09pj x - pi x\x0a\x09\x09\x09\x09* (testY - pi y) \x0a\x09\x09\x09\x09/ ( pj y - pi y )\x0a\x09\x09\x09\x09+ pi x \x0a\x09\x09\x09)\x0a\x09\x09\x09 ]) ifTrue: [ inside := inside not ].\x0a\x09\x0a\x09\x09j := i.\x0a\x09\x09i := i + 1.\x0a\x09 ].\x0a\x09^ inside\x0a\x09",
-messageSends: ["size", "x", "y", "whileTrue:", "at:", "ifTrue:", "not", "and:", "<", "+", "/", "-", "*", "~=", ">", "<="],
-referencedClasses: []
-}),
-smalltalk.AthensPolygonTester);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "polygon:",
-category: 'accessing',
-fn: function (poly){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-self["@polygon"]=poly;
-return self}, function($ctx1) {$ctx1.fill(self,"polygon:",{poly:poly},smalltalk.AthensPolygonTester)})},
-args: ["poly"],
-source: "polygon: poly\x0a\x0a\x09polygon := poly",
-messageSends: [],
-referencedClasses: []
-}),
-smalltalk.AthensPolygonTester);
 
 
 

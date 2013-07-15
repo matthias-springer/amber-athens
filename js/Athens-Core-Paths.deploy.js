@@ -1293,16 +1293,107 @@ smalltalk.AthensPathSegmentConverter);
 smalltalk.addClass('AthensPolygon', smalltalk.Object, ['contours', 'currentContour'], 'Athens-Core-Paths');
 smalltalk.addMethod(
 smalltalk.method({
+selector: "asPolygon",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"asPolygon",{},smalltalk.AthensPolygon)})},
+messageSends: []}),
+smalltalk.AthensPolygon);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "finish",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self["@contours"]=_st(self["@contours"])._collect_((function(ea){
-return smalltalk.withContext(function($ctx2) {
-return _st(ea)._asArray();
-}, function($ctx2) {$ctx2.fillBlock({ea:ea},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"finish",{},smalltalk.AthensPolygon)})},
-messageSends: ["collect:", "asArray"]}),
+messageSends: []}),
+smalltalk.AthensPolygon);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "includesPoint:",
+fn: function (aPoint){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ var pX = aPoint['@x'];
+	var pY = aPoint['@y'];
+	
+	for (var ci = 0; ci < self['@contours'].length; ci++) {
+		var contour = self['@contours'][ci];
+		x= contour;
+		var num = contour.length;
+		var i = 0;
+		var j = num - 1;
+		var c = false;
+		
+		for (i = 0; i < num; i++) {		
+			if (((pY < contour[i]['@y']) != (pY < contour[j]['@y'])) && (pX < (contour[j]['@x'] - contour[i]['@x']) * (pY - contour[i]['@y']) / (contour[j]['@y'] - contour[i]['@y']) + contour[i]['@x'])) {
+				c = !c;
+			}
+			
+			j = i;
+		}
+		
+		if (c) {
+			return c;
+		}
+	}
+	
+	return false; ;
+return self}, function($ctx1) {$ctx1.fill(self,"includesPoint:",{aPoint:aPoint},smalltalk.AthensPolygon)})},
+messageSends: []}),
+smalltalk.AthensPolygon);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "includesPoint:withTransformation:",
+fn: function (aPoint,matrix){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ var pX = matrix['@sx']*aPoint['@x'] + matrix['@shx']*aPoint['@y'] + matrix['@x'];
+	var pX = matrix['@sy']*aPoint['@x'] + matrix['@shy']*aPoint['@y'] + matrix['@y'];
+	
+	for (var ci = 0; ci < self['@contours'].length; ci++) {
+		var contour = self['@contours'][ci];
+		x= contour;
+		var num = contour.length;
+		var i = 0;
+		var j = num - 1;
+		var c = false;
+		
+		for (i = 0; i < num; i++) {		
+			if (((pY < contour[i]['@y']) != (pY < contour[j]['@y'])) && (pX < (contour[j]['@x'] - contour[i]['@x']) * (pY - contour[i]['@y']) / (contour[j]['@y'] - contour[i]['@y']) + contour[i]['@x'])) {
+				c = !c;
+			}
+			
+			j = i;
+		}
+		
+		if (c) {
+			return c;
+		}
+	}
+	
+	return false; ;
+return self}, function($ctx1) {$ctx1.fill(self,"includesPoint:withTransformation:",{aPoint:aPoint,matrix:matrix},smalltalk.AthensPolygon)})},
+messageSends: []}),
+smalltalk.AthensPolygon);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "initialize",
+fn: function (){
+var self=this;
+function $OrderedCollection(){return smalltalk.OrderedCollection||(typeof OrderedCollection=="undefined"?nil:OrderedCollection)}
+return smalltalk.withContext(function($ctx1) { 
+self["@contours"]=_st($OrderedCollection())._new();
+return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensPolygon)})},
+messageSends: ["new"]}),
 smalltalk.AthensPolygon);
 
 smalltalk.addMethod(
@@ -1335,17 +1426,9 @@ fn: function (){
 var self=this;
 function $OrderedCollection(){return smalltalk.OrderedCollection||(typeof OrderedCollection=="undefined"?nil:OrderedCollection)}
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=self["@contours"];
-if(($receiver = $1) == nil || $receiver == undefined){
-self["@contours"]=_st($OrderedCollection())._new();
-self["@contours"];
-} else {
-$1;
-};
 self["@currentContour"]=_st(self["@contours"])._add_(_st($OrderedCollection())._new());
 return self}, function($ctx1) {$ctx1.fill(self,"newContour",{},smalltalk.AthensPolygon)})},
-messageSends: ["ifNil:", "new", "add:"]}),
+messageSends: ["add:", "new"]}),
 smalltalk.AthensPolygon);
 
 smalltalk.addMethod(
@@ -1360,63 +1443,6 @@ return $1;
 }, function($ctx1) {$ctx1.fill(self,"paintFillsUsing:on:",{aPaint:aPaint,anAthensCanvas:anAthensCanvas},smalltalk.AthensPolygon)})},
 messageSends: ["fillPolygon:on:"]}),
 smalltalk.AthensPolygon);
-
-
-
-smalltalk.addClass('AthensPolygonTester', smalltalk.Object, ['polygon'], 'Athens-Core-Paths');
-smalltalk.addMethod(
-smalltalk.method({
-selector: "includesPoint:",
-fn: function (aPoint){
-var self=this;
-var inside,testX,testY,i,j,size;
-return smalltalk.withContext(function($ctx1) { 
-var $1,$2;
-inside=false;
-i=(1);
-size=_st(self["@polygon"])._size();
-j=size;
-testX=_st(aPoint)._x();
-testY=_st(aPoint)._y();
-_st((function(){
-return smalltalk.withContext(function($ctx2) {
-return _st(i).__lt_eq(size);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}))._whileTrue_((function(){
-var pi,pj;
-return smalltalk.withContext(function($ctx2) {
-pi=_st(self["@polygon"])._at_(i);
-pi;
-pj=_st(self["@polygon"])._at_(j);
-pj;
-$1=_st(_st(_st(_st(pi)._y()).__gt(testY)).__tild_eq(_st(_st(pj)._y()).__gt(testY)))._and_((function(){
-return smalltalk.withContext(function($ctx3) {
-return _st(testX).__lt(_st(_st(_st(_st(_st(pj)._x()).__minus(_st(pi)._x())).__star(_st(testY).__minus(_st(pi)._y()))).__slash(_st(_st(pj)._y()).__minus(_st(pi)._y()))).__plus(_st(pi)._x()));
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2)})}));
-if(smalltalk.assert($1)){
-inside=_st(inside)._not();
-inside;
-};
-j=i;
-j;
-i=_st(i).__plus((1));
-return i;
-}, function($ctx2) {$ctx2.fillBlock({pi:pi,pj:pj},$ctx1)})}));
-$2=inside;
-return $2;
-}, function($ctx1) {$ctx1.fill(self,"includesPoint:",{aPoint:aPoint,inside:inside,testX:testX,testY:testY,i:i,j:j,size:size},smalltalk.AthensPolygonTester)})},
-messageSends: ["size", "x", "y", "whileTrue:", "at:", "ifTrue:", "not", "and:", "<", "+", "/", "-", "*", "~=", ">", "<="]}),
-smalltalk.AthensPolygonTester);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "polygon:",
-fn: function (poly){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-self["@polygon"]=poly;
-return self}, function($ctx1) {$ctx1.fill(self,"polygon:",{poly:poly},smalltalk.AthensPolygonTester)})},
-messageSends: []}),
-smalltalk.AthensPolygonTester);
 
 
 

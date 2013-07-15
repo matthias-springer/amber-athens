@@ -46,10 +46,10 @@ fn: function (aString){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
  self['@surface']['@context2D'].font = self['@font']._asHTMLString(); 
-	self['@paint']._drawString_on_(aString, self); ;
+	self._drawShape_(aString); ;
 return self}, function($ctx1) {$ctx1.fill(self,"drawString:",{aString:aString},smalltalk.AthensHTMLCanvas)})},
 args: ["aString"],
-source: "drawString: aString\x0a\x09< self['@surface']['@context2D'].font = self['@font']._asHTMLString(); \x0a\x09self['@paint']._drawString_on_(aString, self); >",
+source: "drawString: aString\x0a\x09< self['@surface']['@context2D'].font = self['@font']._asHTMLString(); \x0a\x09self._drawShape_(aString); >",
 messageSends: [],
 referencedClasses: []
 }),
@@ -920,4 +920,20 @@ referencedClasses: []
 }),
 smalltalk.AthensHTMLSurface.klass);
 
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "paintFillsUsing:on:",
+category: '*Athens-HTML',
+fn: function (aPaint,anAthensCanvas){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+_st(aPaint)._drawString_on_(self,anAthensCanvas);
+return self}, function($ctx1) {$ctx1.fill(self,"paintFillsUsing:on:",{aPaint:aPaint,anAthensCanvas:anAthensCanvas},smalltalk.String)})},
+args: ["aPaint", "anAthensCanvas"],
+source: "paintFillsUsing: aPaint on: anAthensCanvas\x0a\x09aPaint drawString: self on: anAthensCanvas.",
+messageSends: ["drawString:on:"],
+referencedClasses: []
+}),
+smalltalk.String);
 

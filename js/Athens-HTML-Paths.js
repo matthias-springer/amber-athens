@@ -52,6 +52,28 @@ smalltalk.AthensHTMLPath);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "asPolygon",
+category: 'converting',
+fn: function (){
+var self=this;
+var polygon;
+function $AthensPolygon(){return smalltalk.AthensPolygon||(typeof AthensPolygon=="undefined"?nil:AthensPolygon)}
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+polygon=_st($AthensPolygon())._new();
+_st(self["@segment"])._sendCommandsTo_(polygon);
+$1=polygon;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"asPolygon",{polygon:polygon},smalltalk.AthensHTMLPath)})},
+args: [],
+source: "asPolygon\x0a\x09|polygon|\x0a\x09polygon := AthensPolygon new.\x0a\x09segment sendCommandsTo: polygon.\x0a\x09^ polygon\x0a\x09\x09",
+messageSends: ["new", "sendCommandsTo:"],
+referencedClasses: ["AthensPolygon"]
+}),
+smalltalk.AthensHTMLPath);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "calcCenter:end:angle:",
 category: 'path commands',
 fn: function (start,end,angle){

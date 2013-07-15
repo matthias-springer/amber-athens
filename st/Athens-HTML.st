@@ -44,7 +44,7 @@ clipBy: aRectangle during: aBlock
 
 drawString: aString
 	< self['@surface']['@context2D'].font = self['@font']._asHTMLString(); 
-	self['@paint']._drawString_on_(aString, self); >
+	self._drawShape_(aString); >
 ! !
 
 !AthensHTMLCanvas methodsFor: 'private'!
@@ -308,5 +308,11 @@ extent: anExtent
 		extent: anExtent;
 		initialize;
 		yourself
+! !
+
+!String methodsFor: '*Athens-HTML'!
+
+paintFillsUsing: aPaint on: anAthensCanvas
+	aPaint drawString: self on: anAthensCanvas.
 ! !
 

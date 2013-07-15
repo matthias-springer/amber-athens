@@ -99,11 +99,13 @@ amber = (function() {
         'Athens-Amber',
         'Athens-Core',
         'Athens-Core-Matrices',
+        'Athens-Core-Morphic',
         'Athens-Core-Paints',
         'Athens-Core-Paths',
         'Athens-Core-PathsGeometry',
         'Athens-HTML',
         'Athens-HTML-Matrices',
+        'Athens-HTML-Morphic',
         'Athens-HTML-Paints',
         'Athens-HTML-Paths',
         'Athens-HTML-Tutorial'
