@@ -45,6 +45,11 @@ clipBy: aRectangle during: aBlock
 drawString: aString
 	< self['@surface']['@context2D'].font = self['@font']._asHTMLString(); 
 	self._drawShape_(aString); >
+!
+
+measureStringWidth: aString
+	< self['@surface']['@context2D'].font = self['@font']._asHTMLString(); 
+	return self['@surface']['@context2D'].measureText(aString).width; >
 ! !
 
 !AthensHTMLCanvas methodsFor: 'private'!

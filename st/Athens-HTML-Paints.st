@@ -250,6 +250,22 @@ fillPath: aPath on: anAthensCanvas
 	}
 	aPath._drawOn_(anAthensCanvas);
 	context2D.stroke(); >
+!
+
+fillRectangle: aRect on: anAthensCanvas
+	< var context2D = anAthensCanvas['@surface']['@context2D'];
+	anAthensCanvas['@pathTransform']._set();
+	context2D.strokeStyle = self['@fillPaint']['@fillStyle'];
+	context2D.lineWidth = self['@width'];
+	context2D.lineJoin = self['@joinStyle'];
+	context2D.lineCap = self['@capStyle'];
+	// TODO: this only works in Chrome, see http://www.rgraph.net/blog/2013/january/html5-canvas-dashed-lines.html
+	if (context2D.setLineDash !!== undefined) {
+		context2D.setLineDash(self['@dashLenghts']);
+		context2D.lineDashOffset = self['@dashOffset'];
+	}
+	context2D.rect(aRect._left(), aRect._top(), aRect._width(), aRect._height());
+	context2D.stroke(); >
 ! !
 
 !AthensHTMLStrokePaint methodsFor: 'initialize-release'!

@@ -535,6 +535,24 @@ smalltalk.LogicalFont);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "pointSize",
+category: 'accessing',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self["@pointSize"];
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"pointSize",{},smalltalk.LogicalFont)})},
+args: [],
+source: "pointSize\x0a\x09^ pointSize",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.LogicalFont);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "pointSize:",
 category: 'accessing',
 fn: function (anInteger){
@@ -574,6 +592,31 @@ smalltalk.LogicalFont.klass);
 
 
 smalltalk.addClass('Rectangle', smalltalk.Object, ['origin', 'corner'], 'Athens-Amber');
+smalltalk.addMethod(
+smalltalk.method({
+selector: "asPolygon",
+category: 'converting',
+fn: function (){
+var self=this;
+function $AthensPolygon(){return smalltalk.AthensPolygon||(typeof AthensPolygon=="undefined"?nil:AthensPolygon)}
+return smalltalk.withContext(function($ctx1) { 
+var $2,$3,$1;
+$2=_st($AthensPolygon())._new();
+_st($2)._moveTo_(self["@origin"]);
+_st($2)._lineTo_(_st(_st(self["@corner"])._x()).__at(_st(self["@origin"])._y()));
+_st($2)._lineTo_(_st(_st(self["@corner"])._x()).__at(_st(self["@corner"])._y()));
+_st($2)._lineTo_(_st(_st(self["@origin"])._x()).__at(_st(self["@corner"])._y()));
+$3=_st($2)._youurself();
+$1=$3;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"asPolygon",{},smalltalk.Rectangle)})},
+args: [],
+source: "asPolygon\x0a\x09^ AthensPolygon new\x0a\x09\x09moveTo: origin;\x0a\x09\x09lineTo: corner x @ origin y;\x0a\x09\x09lineTo: corner x @ corner y;\x0a\x09\x09lineTo: origin x @ corner y;\x0a\x09\x09youurself\x0a\x09\x09",
+messageSends: ["moveTo:", "new", "lineTo:", "@", "y", "x", "youurself"],
+referencedClasses: ["AthensPolygon"]
+}),
+smalltalk.Rectangle);
+
 smalltalk.addMethod(
 smalltalk.method({
 selector: "bottom",

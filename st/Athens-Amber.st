@@ -171,6 +171,10 @@ familyName: aString
 	familyName := aString.
 !
 
+pointSize
+	^ pointSize
+!
+
 pointSize: anInteger
 	pointSize := anInteger.
 ! !
@@ -234,6 +238,17 @@ top
 
 width
 	< return self['@corner']['@x'] - self['@origin']['@x']; >
+! !
+
+!Rectangle methodsFor: 'converting'!
+
+asPolygon
+	^ AthensPolygon new
+		moveTo: origin;
+		lineTo: corner x @ origin y;
+		lineTo: corner x @ corner y;
+		lineTo: origin x @ corner y;
+		youurself
 ! !
 
 !Rectangle class methodsFor: 'instance creation'!

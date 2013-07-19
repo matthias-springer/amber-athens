@@ -639,6 +639,34 @@ smalltalk.AthensHTMLStrokePaint);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "fillRectangle:on:",
+category: 'drawing',
+fn: function (aRect,anAthensCanvas){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ var context2D = anAthensCanvas['@surface']['@context2D'];
+	anAthensCanvas['@pathTransform']._set();
+	context2D.strokeStyle = self['@fillPaint']['@fillStyle'];
+	context2D.lineWidth = self['@width'];
+	context2D.lineJoin = self['@joinStyle'];
+	context2D.lineCap = self['@capStyle'];
+	// TODO: this only works in Chrome, see http://www.rgraph.net/blog/2013/january/html5-canvas-dashed-lines.html
+	if (context2D.setLineDash !== undefined) {
+		context2D.setLineDash(self['@dashLenghts']);
+		context2D.lineDashOffset = self['@dashOffset'];
+	}
+	context2D.rect(aRect._left(), aRect._top(), aRect._width(), aRect._height());
+	context2D.stroke(); ;
+return self}, function($ctx1) {$ctx1.fill(self,"fillRectangle:on:",{aRect:aRect,anAthensCanvas:anAthensCanvas},smalltalk.AthensHTMLStrokePaint)})},
+args: ["aRect", "anAthensCanvas"],
+source: "fillRectangle: aRect on: anAthensCanvas\x0a\x09< var context2D = anAthensCanvas['@surface']['@context2D'];\x0a\x09anAthensCanvas['@pathTransform']._set();\x0a\x09context2D.strokeStyle = self['@fillPaint']['@fillStyle'];\x0a\x09context2D.lineWidth = self['@width'];\x0a\x09context2D.lineJoin = self['@joinStyle'];\x0a\x09context2D.lineCap = self['@capStyle'];\x0a\x09// TODO: this only works in Chrome, see http://www.rgraph.net/blog/2013/january/html5-canvas-dashed-lines.html\x0a\x09if (context2D.setLineDash !== undefined) {\x0a\x09\x09context2D.setLineDash(self['@dashLenghts']);\x0a\x09\x09context2D.lineDashOffset = self['@dashOffset'];\x0a\x09}\x0a\x09context2D.rect(aRect._left(), aRect._top(), aRect._width(), aRect._height());\x0a\x09context2D.stroke(); >",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.AthensHTMLStrokePaint);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "initialize",
 category: 'initialize-release',
 fn: function (){

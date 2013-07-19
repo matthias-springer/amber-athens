@@ -474,6 +474,29 @@ smalltalk.AthensHTMLStrokePaint);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "fillRectangle:on:",
+fn: function (aRect,anAthensCanvas){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ var context2D = anAthensCanvas['@surface']['@context2D'];
+	anAthensCanvas['@pathTransform']._set();
+	context2D.strokeStyle = self['@fillPaint']['@fillStyle'];
+	context2D.lineWidth = self['@width'];
+	context2D.lineJoin = self['@joinStyle'];
+	context2D.lineCap = self['@capStyle'];
+	// TODO: this only works in Chrome, see http://www.rgraph.net/blog/2013/january/html5-canvas-dashed-lines.html
+	if (context2D.setLineDash !== undefined) {
+		context2D.setLineDash(self['@dashLenghts']);
+		context2D.lineDashOffset = self['@dashOffset'];
+	}
+	context2D.rect(aRect._left(), aRect._top(), aRect._width(), aRect._height());
+	context2D.stroke(); ;
+return self}, function($ctx1) {$ctx1.fill(self,"fillRectangle:on:",{aRect:aRect,anAthensCanvas:anAthensCanvas},smalltalk.AthensHTMLStrokePaint)})},
+messageSends: []}),
+smalltalk.AthensHTMLStrokePaint);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "initialize",
 fn: function (){
 var self=this;

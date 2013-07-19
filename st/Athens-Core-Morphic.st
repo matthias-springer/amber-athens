@@ -1,6 +1,6 @@
 Smalltalk current createPackage: 'Athens-Core-Morphic'!
 Object subclass: #AthensMorph
-	instanceVariableNames: 'transformation globalTransformation outerShape owner submorphs position rotation scaling color'
+	instanceVariableNames: 'transformation outerShape owner submorphs color'
 	package: 'Athens-Core-Morphic'!
 
 !AthensMorph methodsFor: 'accessing'!
@@ -27,13 +27,6 @@ submorphs
 
 transformation
 	^ transformation
-!
-
-world
-	|morph|
-	morph := self.
-	[morph isWorldMorph] whileFalse: [morph := morph owner].
-	^ morph
 ! !
 
 !AthensMorph methodsFor: 'drawing'!
@@ -56,39 +49,30 @@ drawOn: canvas
 
 !AthensMorph methodsFor: 'geometry'!
 
-calculateTransformation
-	transformation := AthensAffineTransform new.
-	transformation translateBy: position.
-	transformation rotateByRadians: rotation.
-	transformation scaleBy: scaling.
-	self world drawAll.
+rotateBy: aNumber
+	transformation rotateByRadians: aNumber.
+	self redraw.
 !
 
-position: aPoint
-	position := aPoint.
-	self calculateTransformation.
+scaleByX: x Y: y
+	transformation scaleX: x Y: y.
+	self redraw.
 !
 
-rotation: aNumber
-	rotation := aNumber.
-	self calculateTransformation.
-!
-
-scaling: aPoint
-	scaling := aPoint.
-	self calculateTransformation.
+translateByX: x Y: y
+	transformation translateX: x Y: y.
+	self redraw.
 ! !
 
 !AthensMorph methodsFor: 'initialization'!
 
 initialize
-	position := 0@0.
-	rotation := 0.
-	scaling := 1@1.
 	color := Color blue.
 	owner := AthensDummyWorldMorph instance.
 	transformation := AthensAffineTransform new.
 	submorphs := OrderedCollection new.
+	
+	self createSurfacePaint.
 ! !
 
 !AthensMorph methodsFor: 'morph handling'!
@@ -96,33 +80,26 @@ initialize
 addMorph: aMorph
 	self submorphs add: aMorph.
 	aMorph owner: self.
-	aMorph drawAll.
+	aMorph redraw.
 ! !
 
 !AthensMorph methodsFor: 'private'!
 
-calculateGlobalTransformation
-	globalTransformation := owner globalTransformation copy.
-	globalTransformation multiplyBy: transformation.
-!
+createSurfacePaint
+	"TODO: surface class variable, extent variable"
+	self initializeSurface.
 
-drawAll
-	self world drawDuring: [:canvas |
-			self drawAllOn: canvas].
-!
-
-drawAllOn: canvas
-	"Draws receiver and its submorphs."
-	
-	self calculateGlobalTransformation.
-	canvas implicitTransformation: globalTransformation.
-	self drawOn: canvas.
-	
-	submorphs do: [:morph | morph drawAllOn: canvas].
-!
-
-globalTransformation
-	^ globalTransformation
+	surface drawDuring: [:canvas | 
+		canvas implicitTransformation: transformation.
+		canvas pathTransform loadIdentity.
+		canvas paintTransform loadIdentity.
+		self drawOn: canvas.
+		canvas pathTransform loadIdentity.
+		canvas paintTransform loadIdentity.
+		
+		submorphs do: [:morph | 
+			canvas setPaint: morph surface.
+			canvas drawShape: (0@0 corner: 500@400)]].
 ! !
 
 !AthensMorph methodsFor: 'testing'!
@@ -131,8 +108,39 @@ isWorldMorph
 	^ false
 ! !
 
+AthensMorph subclass: #AthensButtonMorph
+	instanceVariableNames: 'text extent font'
+	package: 'Athens-Core-Morphic'!
+
+!AthensButtonMorph methodsFor: 'drawing'!
+
+drawOn: canvas
+	|textX textY shape|
+	shape := 0@0 corner: extent.
+	outerShape := shape asPolygon.
+	canvas setStrokePaint: Color black.
+	canvas drawShape: shape
+	canvas setPaint: Color white.
+	canvas drawShape: shape.
+	canvas setFont: font.
+	textX := (canvas measureStringWidth: text) / 2.
+	textY := (extent y + (font pointSize*0.6)) / 2.
+	canvas pathTransform translateX: textX Y: textY.
+	canvas setPaint: Color black.
+	canvas drawString: text.
+! !
+
+!AthensButtonMorph methodsFor: 'initialization'!
+
+initialize
+	super initialize.
+	extent := 200@25.
+	text := 'ButtonMorph'.
+	font := LogicalFont familyName: 'Verdana' pointSize: 15.
+! !
+
 AthensMorph subclass: #AthensWorldMorph
-	instanceVariableNames: 'surface backgroundPaint'
+	instanceVariableNames: 'backgroundPaint'
 	package: 'Athens-Core-Morphic'!
 
 !AthensWorldMorph methodsFor: 'accessing'!
@@ -143,12 +151,6 @@ surface
 
 surface: aSurface
 	surface := aSurface.
-! !
-
-!AthensWorldMorph methodsFor: 'drawing'!
-
-drawDuring: aBlock
-	surface drawDuring: aBlock.
 ! !
 
 !AthensWorldMorph methodsFor: 'initialization'!
@@ -175,13 +177,9 @@ initializeBackgroundPaint
 		canvas 
 			drawShape: (0@0 corner: 5@5);
 			drawShape: (5@5 corner: 10@10)].
-! !
+!
 
-!AthensWorldMorph methodsFor: 'private'!
-
-calculateGlobalTransformation
-	"WorldMorph is the overall owner. It has no transformation."
-	globalTransformation := AthensAffineTransform new.
+initializeSurface
 ! !
 
 !AthensWorldMorph methodsFor: 'testing'!
@@ -193,8 +191,9 @@ isWorldMorph
 !AthensWorldMorph class methodsFor: 'instance creation'!
 
 forSurface: aSurface
-	^ self new
+	^ self basicNew
 		surface: aSurface;
+		initialize;
 		yourself
 ! !
 
@@ -219,5 +218,50 @@ AthensDummyWorldMorph class instanceVariableNames: 'instance'!
 instance
 	instance ifNil: [instance := self new].
 	^ instance
+! !
+
+Object subclass: #DamageRecorder
+	instanceVariableNames: 'invalidRects'
+	package: 'Athens-Core-Morphic'!
+
+!DamageRecorder methodsFor: 'recording'!
+
+recordInvalidRect: newRect
+	invalidRects add: newRect.
+! !
+
+!DamageRecorder methodsFor: 'testing'!
+
+initialize
+	invalidRects := OrderedCollection new.
+!
+
+updateIsNeeded
+	^ invalidRects notEmpty
+! !
+
+Object subclass: #WorldState
+	instanceVariableNames: 'damageRecorder'
+	package: 'Athens-Core-Morphic'!
+
+!WorldState methodsFor: 'drawing'!
+
+drawWorld
+	damageRecorder updateIsNeeded
+		ifTrue: [].
+!
+
+startDrawLoop
+	< function drawWorldLoop() {
+		self._drawWorld();
+		requestAnimationFrame(drawWorldLoop);
+	}
+	drawWorldLoop();>
+! !
+
+!WorldState methodsFor: 'initialization'!
+
+initialize
+	damageRecorder := DamageRecorder new.
 ! !
 

@@ -7,8 +7,10 @@ fn: function (){
 var self=this;
 var result,matrixBefore;
 return smalltalk.withContext(function($ctx1) { 
+var $1;
 matrixBefore=_st(self["@pathTransform"])._copy();
-_st(self["@pathTransform"])._multiplyBy_(self["@implicitTransformation"]);
+_st(self["@pathTransform"])._loadAffineTransform_(self["@implicitTransformation"]);
+_st(self["@pathTransform"])._multiplyBy_(matrixBefore);
 _st((function(){
 return smalltalk.withContext(function($ctx2) {
 result=_st(self["@shape"])._paintFillsUsing_on_(self["@paint"],self);
@@ -17,8 +19,10 @@ return result;
 return smalltalk.withContext(function($ctx2) {
 return _st(self["@pathTransform"])._loadAffineTransform_(matrixBefore);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
-return self}, function($ctx1) {$ctx1.fill(self,"draw",{result:result,matrixBefore:matrixBefore},smalltalk.AthensHTMLMorphCanvas)})},
-messageSends: ["copy", "multiplyBy:", "ensure:", "loadAffineTransform:", "paintFillsUsing:on:"]}),
+$1=result;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"draw",{result:result,matrixBefore:matrixBefore},smalltalk.AthensHTMLMorphicCanvas)})},
+messageSends: ["copy", "loadAffineTransform:", "multiplyBy:", "ensure:", "paintFillsUsing:on:"]}),
 smalltalk.AthensHTMLMorphicCanvas);
 
 smalltalk.addMethod(

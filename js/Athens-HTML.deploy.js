@@ -42,6 +42,18 @@ smalltalk.AthensHTMLCanvas);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "measureStringWidth:",
+fn: function (aString){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ self['@surface']['@context2D'].font = self['@font']._asHTMLString(); 
+	return self['@surface']['@context2D'].measureText(aString).width; ;
+return self}, function($ctx1) {$ctx1.fill(self,"measureStringWidth:",{aString:aString},smalltalk.AthensHTMLCanvas)})},
+messageSends: []}),
+smalltalk.AthensHTMLCanvas);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "newPath",
 fn: function (){
 var self=this;

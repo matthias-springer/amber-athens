@@ -16,9 +16,11 @@ draw
 	
 	|result matrixBefore|
 	matrixBefore := pathTransform copy.
-	pathTransform multiplyBy: implicitTransformation.
+	pathTransform loadAffineTransform: implicitTransformation.
+	pathTransform multiplyBy: matrixBefore.
 	[result := shape paintFillsUsing: paint on: self]
 		ensure: [pathTransform loadAffineTransform: matrixBefore].
+	^ result
 ! !
 
 !AthensHTMLMorphicCanvas methodsFor: 'initialization'!

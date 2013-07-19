@@ -8,8 +8,10 @@ fn: function (){
 var self=this;
 var result,matrixBefore;
 return smalltalk.withContext(function($ctx1) { 
+var $1;
 matrixBefore=_st(self["@pathTransform"])._copy();
-_st(self["@pathTransform"])._multiplyBy_(self["@implicitTransformation"]);
+_st(self["@pathTransform"])._loadAffineTransform_(self["@implicitTransformation"]);
+_st(self["@pathTransform"])._multiplyBy_(matrixBefore);
 _st((function(){
 return smalltalk.withContext(function($ctx2) {
 result=_st(self["@shape"])._paintFillsUsing_on_(self["@paint"],self);
@@ -18,10 +20,12 @@ return result;
 return smalltalk.withContext(function($ctx2) {
 return _st(self["@pathTransform"])._loadAffineTransform_(matrixBefore);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
-return self}, function($ctx1) {$ctx1.fill(self,"draw",{result:result,matrixBefore:matrixBefore},smalltalk.AthensHTMLMorphCanvas)})},
+$1=result;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"draw",{result:result,matrixBefore:matrixBefore},smalltalk.AthensHTMLMorphicCanvas)})},
 args: [],
-source: "draw\x0a\x09\x22Apply implicit transformation, draw scene, undo implicit transformation.\x22\x0a\x09\x0a\x09|result matrixBefore|\x0a\x09matrixBefore := pathTransform copy.\x0a\x09pathTransform multiplyBy: implicitTransformation.\x0a\x09[result := shape paintFillsUsing: paint on: self]\x0a\x09\x09ensure: [pathTransform loadAffineTransform: matrixBefore].",
-messageSends: ["copy", "multiplyBy:", "ensure:", "loadAffineTransform:", "paintFillsUsing:on:"],
+source: "draw\x0a\x09\x22Apply implicit transformation, draw scene, undo implicit transformation.\x22\x0a\x09\x0a\x09|result matrixBefore|\x0a\x09matrixBefore := pathTransform copy.\x0a\x09pathTransform loadAffineTransform: implicitTransformation.\x0a\x09pathTransform multiplyBy: matrixBefore.\x0a\x09[result := shape paintFillsUsing: paint on: self]\x0a\x09\x09ensure: [pathTransform loadAffineTransform: matrixBefore].\x0a\x09^ result",
+messageSends: ["copy", "loadAffineTransform:", "multiplyBy:", "ensure:", "paintFillsUsing:on:"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLMorphicCanvas);
