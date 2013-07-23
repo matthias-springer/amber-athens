@@ -182,6 +182,62 @@ smalltalk.AthensTigerShape);
 smalltalk.addClass('AthensTutorial', smalltalk.Object, ['surface'], 'Athens-HTML-Tutorial');
 smalltalk.addMethod(
 smalltalk.method({
+selector: "doItstep34",
+fn: function (){
+var self=this;
+var path,poly,font;
+function $LogicalFont(){return smalltalk.LogicalFont||(typeof LogicalFont=="undefined"?nil:LogicalFont)}
+function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2,$3;
+font=_st($LogicalFont())._familyName_pointSize_("Arial",(20));
+_st(self["@surface"])._drawDuring_((function(canvas){
+return smalltalk.withContext(function($ctx2) {
+_st(self["@surface"])._clear_(_st($Color())._gray());
+_st(canvas)._setPaint_(_st($Color())._white());
+_st(canvas)._setFont_(font);
+_st(_st(canvas)._pathTransform())._translateX_Y_((100),(200));
+_st(canvas)._drawString_("Move the mouse cursor.");
+path=_st(canvas)._createPath_((function(builder){
+return smalltalk.withContext(function($ctx3) {
+$1=builder;
+_st($1)._absolute();
+_st($1)._lineTo_((15).__at((50)));
+_st($1)._lineTo_((60).__at((60)));
+_st($1)._lineTo_((150).__at((50)));
+$2=_st($1)._lineTo_((0).__at((0)));
+return $2;
+}, function($ctx3) {$ctx3.fillBlock({builder:builder},$ctx2)})}));
+path;
+poly=_st(path)._asPolygon();
+return poly;
+}, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
+_st(self["@surface"])._onMouseMove_((function(e){
+return smalltalk.withContext(function($ctx2) {
+return _st(self["@surface"])._drawDuring_((function(canvas){
+return smalltalk.withContext(function($ctx3) {
+_st(self["@surface"])._clear_(_st($Color())._gray());
+_st(_st(canvas)._pathTransform())._translateX_Y_((0),(0));
+_st(canvas)._setShape_(path);
+$3=_st(poly)._includesPoint_(_st(_st(e)._offsetX()).__at(_st(e)._offsetY()));
+if(smalltalk.assert($3)){
+_st(canvas)._setPaint_(_st($Color())._blue());
+} else {
+_st(canvas)._setPaint_(_st($Color())._green());
+};
+_st(canvas)._draw();
+_st(canvas)._setFont_(font);
+_st(canvas)._setPaint_(_st($Color())._red());
+_st(_st(canvas)._pathTransform())._translateX_Y_((100),(20));
+return _st(canvas)._drawString_(_st(_st(_st("(".__comma(_st(_st(e)._offsetX())._asString())).__comma(", ")).__comma(_st(_st(e)._offsetY())._asString())).__comma(")"));
+}, function($ctx3) {$ctx3.fillBlock({canvas:canvas},$ctx2)})}));
+}, function($ctx2) {$ctx2.fillBlock({e:e},$ctx1)})}));
+return self}, function($ctx1) {$ctx1.fill(self,"doItstep34",{path:path,poly:poly,font:font},smalltalk.AthensTutorial)})},
+messageSends: ["familyName:pointSize:", "drawDuring:", "clear:", "gray", "setPaint:", "white", "setFont:", "translateX:Y:", "pathTransform", "drawString:", "createPath:", "absolute", "lineTo:", "@", "asPolygon", "onMouseMove:", "setShape:", "ifTrue:ifFalse:", "blue", "green", "includesPoint:", "offsetY", "offsetX", "draw", "red", ",", "asString"]}),
+smalltalk.AthensTutorial);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "initialize",
 fn: function (){
 var self=this;
@@ -1116,16 +1172,16 @@ function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
 return smalltalk.withContext(function($ctx1) { 
 morph=_st($AthensMorph())._new();
 _st(_st(self["@surface"])._world())._addMorph_(morph);
-_st(morph)._position_((200).__at((50)));
-_st(morph)._rotation_((0.785));
+_st(morph)._translateByX_Y_((200),(50));
+_st(morph)._rotateBy_((0.785));
 innerMorph=_st($AthensMorph())._new();
 _st(innerMorph)._color_(_st($Color())._red());
-_st(innerMorph)._position_((20).__at((0)));
-_st(innerMorph)._rotation_((-0.785));
-_st(innerMorph)._scaling_((0.25));
+_st(innerMorph)._translateByX_Y_((20),(0));
+_st(innerMorph)._rotateBy_((-0.785));
+_st(innerMorph)._scaleByX_Y_((0.25),(0.25));
 _st(morph)._addMorph_(innerMorph);
 return self}, function($ctx1) {$ctx1.fill(self,"step36",{morph:morph,innerMorph:innerMorph},smalltalk.AthensTutorial)})},
-messageSends: ["new", "addMorph:", "world", "position:", "@", "rotation:", "color:", "red", "scaling:"]}),
+messageSends: ["new", "addMorph:", "world", "translateByX:Y:", "rotateBy:", "color:", "red", "scaleByX:Y:"]}),
 smalltalk.AthensTutorial);
 
 smalltalk.addMethod(

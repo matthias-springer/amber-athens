@@ -1,37 +1,38 @@
 Smalltalk current createPackage: 'Athens-HTML-Morphic'!
 AthensHTMLCanvas subclass: #AthensHTMLMorphicCanvas
-	instanceVariableNames: 'implicitTransformation'
+	instanceVariableNames: ''
 	package: 'Athens-HTML-Morphic'!
-
-!AthensHTMLMorphicCanvas methodsFor: 'accessing'!
-
-implicitTransformation: aMatrix
-	implicitTransformation := aMatrix.
-! !
-
-!AthensHTMLMorphicCanvas methodsFor: 'drawing'!
-
-draw
-	"Apply implicit transformation, draw scene, undo implicit transformation."
-	
-	|result matrixBefore|
-	matrixBefore := pathTransform copy.
-	pathTransform loadAffineTransform: implicitTransformation.
-	pathTransform multiplyBy: matrixBefore.
-	[result := shape paintFillsUsing: paint on: self]
-		ensure: [pathTransform loadAffineTransform: matrixBefore].
-	^ result
-! !
 
 !AthensHTMLMorphicCanvas methodsFor: 'initialization'!
 
+surface: anHTMLSurface
+	surface := anHTMLSurface.
+	pathTransform := AthensHTMLMorphicMatrix on: surface.
+	paintTransform := AthensHTMLMorphicMatrix on: surface.
+	paintMode := AthensHTMLPaintMode on: surface.
+! !
+
+AthensHTMLMatrix subclass: #AthensHTMLMorphicMatrix
+	instanceVariableNames: 'relativeIdentity'
+	package: 'Athens-HTML-Morphic'!
+
+!AthensHTMLMorphicMatrix methodsFor: 'initialization'!
+
 initialize
+	relativeIdentity := AthensAffineTransform new.
 	super initialize.
-	implicitTransformation := AthensAffineTransform new.
+!
+
+loadIdentity
+	self loadAffineTransform: relativeIdentity.
+!
+
+setIdentity
+	relativeIdentity loadAffineTransform: self.
 ! !
 
 AthensHTMLSurface subclass: #AthensHTMLMorphicSurface
-	instanceVariableNames: 'world'
+	instanceVariableNames: 'world morphBelowHand'
 	package: 'Athens-HTML-Morphic'!
 
 !AthensHTMLMorphicSurface methodsFor: 'accessing'!
@@ -42,16 +43,20 @@ world
 
 !AthensHTMLMorphicSurface methodsFor: 'events'!
 
-onMouseDown: aBlock
-	canvasTag asJQuery bind: 'mousedown' do: aBlock.
-!
-
-onMouseMove: aBlock
-	canvasTag asJQuery bind: 'mousemove' do: aBlock.
-!
-
-onMouseUp: aBlock
-	canvasTag asJQuery bind: 'mouseup' do: aBlock.
+bindEvents
+	canvasTag asJQuery 
+		bind: 'click' 
+		do: [:evt | morphBelowHand handleMouseClick: evt].
+	canvasTag asJQuery 
+		bind: 'mousedown' 
+		do: [:evt | morphBelowHand handleMouseDown: evt].
+	canvasTag asJQuery 
+		bind: 'mousemove' 
+		do: [:evt | morphBelowHand := world morphAtPosition: evt offsetX @ evt offsetY.
+			morphBelowHand handleMouseMove: evt].
+	canvasTag asJQuery 
+		bind: 'mouseup' 
+		do: [:evt | morphBelowHand handleMouseUp: evt].
 ! !
 
 !AthensHTMLMorphicSurface methodsFor: 'initialization'!
@@ -59,6 +64,7 @@ onMouseUp: aBlock
 initialize
 	super initialize.
 	world := AthensWorldMorph forSurface: self.
+	self bindEvents.
 ! !
 
 !AthensHTMLMorphicSurface methodsFor: 'private'!
@@ -71,6 +77,6 @@ newCanvas
 
 renderOn: html
 	super renderOn: html.
-	world drawAll.
+	world redraw.
 ! !
 

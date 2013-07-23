@@ -252,6 +252,67 @@ smalltalk.AthensTigerShape);
 smalltalk.addClass('AthensTutorial', smalltalk.Object, ['surface'], 'Athens-HTML-Tutorial');
 smalltalk.addMethod(
 smalltalk.method({
+selector: "doItstep34",
+category: '',
+fn: function (){
+var self=this;
+var path,poly,font;
+function $LogicalFont(){return smalltalk.LogicalFont||(typeof LogicalFont=="undefined"?nil:LogicalFont)}
+function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2,$3;
+font=_st($LogicalFont())._familyName_pointSize_("Arial",(20));
+_st(self["@surface"])._drawDuring_((function(canvas){
+return smalltalk.withContext(function($ctx2) {
+_st(self["@surface"])._clear_(_st($Color())._gray());
+_st(canvas)._setPaint_(_st($Color())._white());
+_st(canvas)._setFont_(font);
+_st(_st(canvas)._pathTransform())._translateX_Y_((100),(200));
+_st(canvas)._drawString_("Move the mouse cursor.");
+path=_st(canvas)._createPath_((function(builder){
+return smalltalk.withContext(function($ctx3) {
+$1=builder;
+_st($1)._absolute();
+_st($1)._lineTo_((15).__at((50)));
+_st($1)._lineTo_((60).__at((60)));
+_st($1)._lineTo_((150).__at((50)));
+$2=_st($1)._lineTo_((0).__at((0)));
+return $2;
+}, function($ctx3) {$ctx3.fillBlock({builder:builder},$ctx2)})}));
+path;
+poly=_st(path)._asPolygon();
+return poly;
+}, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
+_st(self["@surface"])._onMouseMove_((function(e){
+return smalltalk.withContext(function($ctx2) {
+return _st(self["@surface"])._drawDuring_((function(canvas){
+return smalltalk.withContext(function($ctx3) {
+_st(self["@surface"])._clear_(_st($Color())._gray());
+_st(_st(canvas)._pathTransform())._translateX_Y_((0),(0));
+_st(canvas)._setShape_(path);
+$3=_st(poly)._includesPoint_(_st(_st(e)._offsetX()).__at(_st(e)._offsetY()));
+if(smalltalk.assert($3)){
+_st(canvas)._setPaint_(_st($Color())._blue());
+} else {
+_st(canvas)._setPaint_(_st($Color())._green());
+};
+_st(canvas)._draw();
+_st(canvas)._setFont_(font);
+_st(canvas)._setPaint_(_st($Color())._red());
+_st(_st(canvas)._pathTransform())._translateX_Y_((100),(20));
+return _st(canvas)._drawString_(_st(_st(_st("(".__comma(_st(_st(e)._offsetX())._asString())).__comma(", ")).__comma(_st(_st(e)._offsetY())._asString())).__comma(")"));
+}, function($ctx3) {$ctx3.fillBlock({canvas:canvas},$ctx2)})}));
+}, function($ctx2) {$ctx2.fillBlock({e:e},$ctx1)})}));
+return self}, function($ctx1) {$ctx1.fill(self,"doItstep34",{path:path,poly:poly,font:font},smalltalk.AthensTutorial)})},
+args: [],
+source: "doItstep34\x0a\x09|path poly font|\x0a\x09\x22Step 34: Event handling\x22\x0a\x0a\x09font := LogicalFont familyName: 'Arial' pointSize: 20.\x0a\x09\x0a\x09surface drawDuring: [:canvas |  \x0a\x09\x09\x0a\x09\x09surface clear: Color gray.\x0a\x09\x0a\x09\x09canvas setPaint: Color white.\x0a\x09\x09canvas setFont: font.\x0a\x09\x09canvas pathTransform translateX: 100 Y: 200.\x0a\x09\x09canvas drawString: 'Move the mouse cursor.'.\x0a\x09\x0a\x09\x09path := canvas createPath: [:builder |\x0a\x09\x09\x09\x0a\x09\x09\x09builder \x0a\x09\x09\x09\x09absolute;\x0a\x09\x09\x09\x09lineTo: 15@ 50;\x0a\x09\x09\x09\x09lineTo: 60@ 60;\x0a\x09\x09\x09\x09lineTo: 150@50;\x0a\x09\x09\x09\x09lineTo: 0@0\x0a\x09\x09\x09].\x0a\x09\x0a\x09\x09poly := path asPolygon.\x0a\x09].\x0a\x0a\x09surface onMouseMove: [:e | surface drawDuring: [:canvas |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09canvas pathTransform translateX: 0 Y: 0.\x0a\x0a\x09\x09canvas setShape: path.\x0a\x09\x09(poly includesPoint: e offsetX @ e offsetY)\x0a\x09\x09\x09ifTrue: [canvas setPaint: Color blue]\x0a\x09\x09\x09ifFalse: [canvas setPaint: Color green].\x0a\x09\x09\x09\x0a\x09\x09canvas draw.\x0a\x0a\x09\x09canvas setFont: font.\x0a\x09\x09canvas setPaint: Color red.\x0a\x09\x09canvas pathTransform translateX: 100 Y: 20.\x0a\x09\x09canvas drawString: '(', e offsetX asString, ', ', e offsetY asString, ')']].",
+messageSends: ["familyName:pointSize:", "drawDuring:", "clear:", "gray", "setPaint:", "white", "setFont:", "translateX:Y:", "pathTransform", "drawString:", "createPath:", "absolute", "lineTo:", "@", "asPolygon", "onMouseMove:", "setShape:", "ifTrue:ifFalse:", "blue", "green", "includesPoint:", "offsetY", "offsetX", "draw", "red", ",", "asString"],
+referencedClasses: ["LogicalFont", "Color"]
+}),
+smalltalk.AthensTutorial);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "initialize",
 category: 'initialize-release',
 fn: function (){
@@ -1352,18 +1413,18 @@ function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
 return smalltalk.withContext(function($ctx1) { 
 morph=_st($AthensMorph())._new();
 _st(_st(self["@surface"])._world())._addMorph_(morph);
-_st(morph)._position_((200).__at((50)));
-_st(morph)._rotation_((0.785));
+_st(morph)._translateByX_Y_((200),(50));
+_st(morph)._rotateBy_((0.785));
 innerMorph=_st($AthensMorph())._new();
 _st(innerMorph)._color_(_st($Color())._red());
-_st(innerMorph)._position_((20).__at((0)));
-_st(innerMorph)._rotation_((-0.785));
-_st(innerMorph)._scaling_((0.25));
+_st(innerMorph)._translateByX_Y_((20),(0));
+_st(innerMorph)._rotateBy_((-0.785));
+_st(innerMorph)._scaleByX_Y_((0.25),(0.25));
 _st(morph)._addMorph_(innerMorph);
 return self}, function($ctx1) {$ctx1.fill(self,"step36",{morph:morph,innerMorph:innerMorph},smalltalk.AthensTutorial)})},
 args: [],
-source: "step36\x0a\x09|morph innerMorph|\x0a\x09\x22Step 36: [Morphic Demo] Transforming morphs.\x0a\x09All transformations are relative to the owner's top left corner.\x0a\x09Transformations are applied in this order: scaling, rotation, translation.\x22\x0a\x0a\x09morph := AthensMorph new.\x0a\x09surface world addMorph: morph.\x0a\x09morph position: 200@50.\x0a\x09morph rotation: 0.785.\x0a\x0a\x09innerMorph := AthensMorph new.\x0a\x09innerMorph color: Color red.\x0a\x09innerMorph position: 20@0.\x0a\x09innerMorph rotation: -0.785.\x0a\x09innerMorph scaling: 0.25.\x0a\x09morph addMorph: innerMorph.",
-messageSends: ["new", "addMorph:", "world", "position:", "@", "rotation:", "color:", "red", "scaling:"],
+source: "step36\x0a\x09|morph innerMorph|\x0a\x09\x22Step 36: [Morphic Demo] Transforming morphs.\x0a\x09All transformations are relative to the owner's top left corner.\x0a\x09Transformations are applied in this order: scaling, rotation, translation.\x22\x0a\x0a\x09morph := AthensMorph new.\x0a\x09surface world addMorph: morph.\x0a\x09morph translateByX: 200 Y: 50.\x0a\x09morph rotateBy: 0.785.\x0a\x0a\x09innerMorph := AthensMorph new.\x0a\x09innerMorph color: Color red.\x0a\x09innerMorph translateByX: 20 Y: 0.\x0a\x09innerMorph rotateBy: -0.785.\x0a\x09innerMorph scaleByX: 0.25 Y: 0.25.\x0a\x09morph addMorph: innerMorph.",
+messageSends: ["new", "addMorph:", "world", "translateByX:Y:", "rotateBy:", "color:", "red", "scaleByX:Y:"],
 referencedClasses: ["AthensMorph", "Color"]
 }),
 smalltalk.AthensTutorial);

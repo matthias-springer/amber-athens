@@ -445,11 +445,11 @@ _st($2)._moveTo_(self["@origin"]);
 _st($2)._lineTo_(_st(_st(self["@corner"])._x()).__at(_st(self["@origin"])._y()));
 _st($2)._lineTo_(_st(_st(self["@corner"])._x()).__at(_st(self["@corner"])._y()));
 _st($2)._lineTo_(_st(_st(self["@origin"])._x()).__at(_st(self["@corner"])._y()));
-$3=_st($2)._youurself();
+$3=_st($2)._yourself();
 $1=$3;
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"asPolygon",{},smalltalk.Rectangle)})},
-messageSends: ["moveTo:", "new", "lineTo:", "@", "y", "x", "youurself"]}),
+messageSends: ["moveTo:", "new", "lineTo:", "@", "y", "x", "yourself"]}),
 smalltalk.Rectangle);
 
 smalltalk.addMethod(
@@ -585,6 +585,17 @@ return $1;
 messageSends: ["origin:", "basicNew", "corner:", "initialize", "yourself"]}),
 smalltalk.Rectangle.klass);
 
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "reverseDo:",
+fn: function (aBlock){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+for(var i=self.length-1;-1<i;i--){aBlock._value_(self[i]);};
+return self}, function($ctx1) {$ctx1.fill(self,"reverseDo:",{aBlock:aBlock},smalltalk.SequenceableCollection)})},
+messageSends: []}),
+smalltalk.SequenceableCollection);
 
 smalltalk.addMethod(
 smalltalk.method({

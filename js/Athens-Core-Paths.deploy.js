@@ -1325,7 +1325,6 @@ return smalltalk.withContext(function($ctx1) {
 	
 	for (var ci = 0; ci < self['@contours'].length; ci++) {
 		var contour = self['@contours'][ci];
-		x= contour;
 		var num = contour.length;
 		var i = 0;
 		var j = num - 1;
@@ -1356,7 +1355,7 @@ fn: function (aPoint,matrix){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
  var pX = matrix['@sx']*aPoint['@x'] + matrix['@shx']*aPoint['@y'] + matrix['@x'];
-	var pX = matrix['@sy']*aPoint['@x'] + matrix['@shy']*aPoint['@y'] + matrix['@y'];
+	var pY = matrix['@shy']*aPoint['@x'] + matrix['@sy']*aPoint['@y'] + matrix['@y'];
 	
 	for (var ci = 0; ci < self['@contours'].length; ci++) {
 		var contour = self['@contours'][ci];
@@ -1417,6 +1416,27 @@ self._newContour();
 _st(self["@currentContour"])._add_(aPoint);
 return self}, function($ctx1) {$ctx1.fill(self,"moveTo:",{aPoint:aPoint},smalltalk.AthensPolygon)})},
 messageSends: ["newContour", "add:"]}),
+smalltalk.AthensPolygon);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "multiplyBy:",
+fn: function (matrix){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ for (var ci = 0; ci < self['@contours'].length; ci++) {
+		var contour = self['@contours'][ci];
+		
+		for (var pi = 0; pi < contour.length; pi++)
+		{
+			var x = contour[pi]['@x'];
+			var y = contour[pi]['@y'];
+			contour[pi]['@x'] = matrix['@sx']*x + matrix['@shx']*y + matrix['@x'];
+			contour[pi]['@y'] = matrix['@shy']*x + matrix['@sy']*y + matrix['@y'];
+		}
+	} ;
+return self}, function($ctx1) {$ctx1.fill(self,"multiplyBy:",{matrix:matrix},smalltalk.AthensPolygon)})},
+messageSends: []}),
 smalltalk.AthensPolygon);
 
 smalltalk.addMethod(

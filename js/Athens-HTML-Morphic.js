@@ -1,51 +1,29 @@
 smalltalk.addPackage('Athens-HTML-Morphic');
-smalltalk.addClass('AthensHTMLMorphicCanvas', smalltalk.AthensHTMLCanvas, ['implicitTransformation'], 'Athens-HTML-Morphic');
+smalltalk.addClass('AthensHTMLMorphicCanvas', smalltalk.AthensHTMLCanvas, [], 'Athens-HTML-Morphic');
 smalltalk.addMethod(
 smalltalk.method({
-selector: "draw",
-category: 'drawing',
-fn: function (){
+selector: "surface:",
+category: 'initialization',
+fn: function (anHTMLSurface){
 var self=this;
-var result,matrixBefore;
+function $AthensHTMLMorphicMatrix(){return smalltalk.AthensHTMLMorphicMatrix||(typeof AthensHTMLMorphicMatrix=="undefined"?nil:AthensHTMLMorphicMatrix)}
+function $AthensHTMLPaintMode(){return smalltalk.AthensHTMLPaintMode||(typeof AthensHTMLPaintMode=="undefined"?nil:AthensHTMLPaintMode)}
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-matrixBefore=_st(self["@pathTransform"])._copy();
-_st(self["@pathTransform"])._loadAffineTransform_(self["@implicitTransformation"]);
-_st(self["@pathTransform"])._multiplyBy_(matrixBefore);
-_st((function(){
-return smalltalk.withContext(function($ctx2) {
-result=_st(self["@shape"])._paintFillsUsing_on_(self["@paint"],self);
-return result;
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}))._ensure_((function(){
-return smalltalk.withContext(function($ctx2) {
-return _st(self["@pathTransform"])._loadAffineTransform_(matrixBefore);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
-$1=result;
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"draw",{result:result,matrixBefore:matrixBefore},smalltalk.AthensHTMLMorphicCanvas)})},
-args: [],
-source: "draw\x0a\x09\x22Apply implicit transformation, draw scene, undo implicit transformation.\x22\x0a\x09\x0a\x09|result matrixBefore|\x0a\x09matrixBefore := pathTransform copy.\x0a\x09pathTransform loadAffineTransform: implicitTransformation.\x0a\x09pathTransform multiplyBy: matrixBefore.\x0a\x09[result := shape paintFillsUsing: paint on: self]\x0a\x09\x09ensure: [pathTransform loadAffineTransform: matrixBefore].\x0a\x09^ result",
-messageSends: ["copy", "loadAffineTransform:", "multiplyBy:", "ensure:", "paintFillsUsing:on:"],
-referencedClasses: []
+self["@surface"]=anHTMLSurface;
+self["@pathTransform"]=_st($AthensHTMLMorphicMatrix())._on_(self["@surface"]);
+self["@paintTransform"]=_st($AthensHTMLMorphicMatrix())._on_(self["@surface"]);
+self["@paintMode"]=_st($AthensHTMLPaintMode())._on_(self["@surface"]);
+return self}, function($ctx1) {$ctx1.fill(self,"surface:",{anHTMLSurface:anHTMLSurface},smalltalk.AthensHTMLMorphicCanvas)})},
+args: ["anHTMLSurface"],
+source: "surface: anHTMLSurface\x0a\x09surface := anHTMLSurface.\x0a\x09pathTransform := AthensHTMLMorphicMatrix on: surface.\x0a\x09paintTransform := AthensHTMLMorphicMatrix on: surface.\x0a\x09paintMode := AthensHTMLPaintMode on: surface.",
+messageSends: ["on:"],
+referencedClasses: ["AthensHTMLMorphicMatrix", "AthensHTMLPaintMode"]
 }),
 smalltalk.AthensHTMLMorphicCanvas);
 
-smalltalk.addMethod(
-smalltalk.method({
-selector: "implicitTransformation:",
-category: 'accessing',
-fn: function (aMatrix){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-self["@implicitTransformation"]=aMatrix;
-return self}, function($ctx1) {$ctx1.fill(self,"implicitTransformation:",{aMatrix:aMatrix},smalltalk.AthensHTMLMorphCanvas)})},
-args: ["aMatrix"],
-source: "implicitTransformation: aMatrix\x0a\x09implicitTransformation := aMatrix.",
-messageSends: [],
-referencedClasses: []
-}),
-smalltalk.AthensHTMLMorphicCanvas);
 
+
+smalltalk.addClass('AthensHTMLMorphicMatrix', smalltalk.AthensHTMLMatrix, ['relativeIdentity'], 'Athens-HTML-Morphic');
 smalltalk.addMethod(
 smalltalk.method({
 selector: "initialize",
@@ -54,19 +32,84 @@ fn: function (){
 var self=this;
 function $AthensAffineTransform(){return smalltalk.AthensAffineTransform||(typeof AthensAffineTransform=="undefined"?nil:AthensAffineTransform)}
 return smalltalk.withContext(function($ctx1) { 
-smalltalk.AthensHTMLCanvas.fn.prototype._initialize.apply(_st(self), []);
-self["@implicitTransformation"]=_st($AthensAffineTransform())._new();
-return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensHTMLMorphicCanvas)})},
+self["@relativeIdentity"]=_st($AthensAffineTransform())._new();
+smalltalk.AthensHTMLMatrix.fn.prototype._initialize.apply(_st(self), []);
+return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensHTMLMorphicMatrix)})},
 args: [],
-source: "initialize\x0a\x09super initialize.\x0a\x09implicitTransformation := AthensAffineTransform new.",
-messageSends: ["initialize", "new"],
+source: "initialize\x0a\x09relativeIdentity := AthensAffineTransform new.\x0a\x09super initialize.",
+messageSends: ["new", "initialize"],
 referencedClasses: ["AthensAffineTransform"]
 }),
-smalltalk.AthensHTMLMorphicCanvas);
+smalltalk.AthensHTMLMorphicMatrix);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "loadIdentity",
+category: 'initialization',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self._loadAffineTransform_(self["@relativeIdentity"]);
+return self}, function($ctx1) {$ctx1.fill(self,"loadIdentity",{},smalltalk.AthensHTMLMorphicMatrix)})},
+args: [],
+source: "loadIdentity\x0a\x09self loadAffineTransform: relativeIdentity.",
+messageSends: ["loadAffineTransform:"],
+referencedClasses: []
+}),
+smalltalk.AthensHTMLMorphicMatrix);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "setIdentity",
+category: 'initialization',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+_st(self["@relativeIdentity"])._loadAffineTransform_(self);
+return self}, function($ctx1) {$ctx1.fill(self,"setIdentity",{},smalltalk.AthensHTMLMorphicMatrix)})},
+args: [],
+source: "setIdentity\x0a\x09relativeIdentity loadAffineTransform: self.",
+messageSends: ["loadAffineTransform:"],
+referencedClasses: []
+}),
+smalltalk.AthensHTMLMorphicMatrix);
 
 
 
-smalltalk.addClass('AthensHTMLMorphicSurface', smalltalk.AthensHTMLSurface, ['world'], 'Athens-HTML-Morphic');
+smalltalk.addClass('AthensHTMLMorphicSurface', smalltalk.AthensHTMLSurface, ['world', 'morphBelowHand'], 'Athens-HTML-Morphic');
+smalltalk.addMethod(
+smalltalk.method({
+selector: "bindEvents",
+category: 'events',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+_st(_st(self["@canvasTag"])._asJQuery())._bind_do_("click",(function(evt){
+return smalltalk.withContext(function($ctx2) {
+return _st(self["@morphBelowHand"])._handleMouseClick_(evt);
+}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
+_st(_st(self["@canvasTag"])._asJQuery())._bind_do_("mousedown",(function(evt){
+return smalltalk.withContext(function($ctx2) {
+return _st(self["@morphBelowHand"])._handleMouseDown_(evt);
+}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
+_st(_st(self["@canvasTag"])._asJQuery())._bind_do_("mousemove",(function(evt){
+return smalltalk.withContext(function($ctx2) {
+self["@morphBelowHand"]=_st(self["@world"])._morphAtPosition_(_st(_st(evt)._offsetX()).__at(_st(evt)._offsetY()));
+self["@morphBelowHand"];
+return _st(self["@morphBelowHand"])._handleMouseMove_(evt);
+}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
+_st(_st(self["@canvasTag"])._asJQuery())._bind_do_("mouseup",(function(evt){
+return smalltalk.withContext(function($ctx2) {
+return _st(self["@morphBelowHand"])._handleMouseUp_(evt);
+}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
+return self}, function($ctx1) {$ctx1.fill(self,"bindEvents",{},smalltalk.AthensHTMLMorphicSurface)})},
+args: [],
+source: "bindEvents\x0a\x09canvasTag asJQuery \x0a\x09\x09bind: 'click' \x0a\x09\x09do: [:evt | morphBelowHand handleMouseClick: evt].\x0a\x09canvasTag asJQuery \x0a\x09\x09bind: 'mousedown' \x0a\x09\x09do: [:evt | morphBelowHand handleMouseDown: evt].\x0a\x09canvasTag asJQuery \x0a\x09\x09bind: 'mousemove' \x0a\x09\x09do: [:evt | morphBelowHand := world morphAtPosition: evt offsetX @ evt offsetY.\x0a\x09\x09\x09morphBelowHand handleMouseMove: evt].\x0a\x09canvasTag asJQuery \x0a\x09\x09bind: 'mouseup' \x0a\x09\x09do: [:evt | morphBelowHand handleMouseUp: evt].",
+messageSends: ["bind:do:", "handleMouseClick:", "asJQuery", "handleMouseDown:", "morphAtPosition:", "@", "offsetY", "offsetX", "handleMouseMove:", "handleMouseUp:"],
+referencedClasses: []
+}),
+smalltalk.AthensHTMLMorphicSurface);
+
 smalltalk.addMethod(
 smalltalk.method({
 selector: "initialize",
@@ -77,10 +120,11 @@ function $AthensWorldMorph(){return smalltalk.AthensWorldMorph||(typeof AthensWo
 return smalltalk.withContext(function($ctx1) { 
 smalltalk.AthensHTMLSurface.fn.prototype._initialize.apply(_st(self), []);
 self["@world"]=_st($AthensWorldMorph())._forSurface_(self);
+self._bindEvents();
 return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensHTMLMorphicSurface)})},
 args: [],
-source: "initialize\x0a\x09super initialize.\x0a\x09world := AthensWorldMorph forSurface: self.",
-messageSends: ["initialize", "forSurface:"],
+source: "initialize\x0a\x09super initialize.\x0a\x09world := AthensWorldMorph forSurface: self.\x0a\x09self bindEvents.",
+messageSends: ["initialize", "forSurface:", "bindEvents"],
 referencedClasses: ["AthensWorldMorph"]
 }),
 smalltalk.AthensHTMLMorphicSurface);
@@ -106,65 +150,17 @@ smalltalk.AthensHTMLMorphicSurface);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "onMouseDown:",
-category: 'events',
-fn: function (aBlock){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-_st(_st(self["@canvasTag"])._asJQuery())._bind_do_("mousedown",aBlock);
-return self}, function($ctx1) {$ctx1.fill(self,"onMouseDown:",{aBlock:aBlock},smalltalk.AthensHTMLMorphSurface)})},
-args: ["aBlock"],
-source: "onMouseDown: aBlock\x0a\x09canvasTag asJQuery bind: 'mousedown' do: aBlock.",
-messageSends: ["bind:do:", "asJQuery"],
-referencedClasses: []
-}),
-smalltalk.AthensHTMLMorphicSurface);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "onMouseMove:",
-category: 'events',
-fn: function (aBlock){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-_st(_st(self["@canvasTag"])._asJQuery())._bind_do_("mousemove",aBlock);
-return self}, function($ctx1) {$ctx1.fill(self,"onMouseMove:",{aBlock:aBlock},smalltalk.AthensHTMLMorphSurface)})},
-args: ["aBlock"],
-source: "onMouseMove: aBlock\x0a\x09canvasTag asJQuery bind: 'mousemove' do: aBlock.",
-messageSends: ["bind:do:", "asJQuery"],
-referencedClasses: []
-}),
-smalltalk.AthensHTMLMorphicSurface);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "onMouseUp:",
-category: 'events',
-fn: function (aBlock){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-_st(_st(self["@canvasTag"])._asJQuery())._bind_do_("mouseup",aBlock);
-return self}, function($ctx1) {$ctx1.fill(self,"onMouseUp:",{aBlock:aBlock},smalltalk.AthensHTMLMorphSurface)})},
-args: ["aBlock"],
-source: "onMouseUp: aBlock\x0a\x09canvasTag asJQuery bind: 'mouseup' do: aBlock.",
-messageSends: ["bind:do:", "asJQuery"],
-referencedClasses: []
-}),
-smalltalk.AthensHTMLMorphicSurface);
-
-smalltalk.addMethod(
-smalltalk.method({
 selector: "renderOn:",
 category: 'rendering',
 fn: function (html){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 smalltalk.AthensHTMLSurface.fn.prototype._renderOn_.apply(_st(self), [html]);
-_st(self["@world"])._drawAll();
+_st(self["@world"])._redraw();
 return self}, function($ctx1) {$ctx1.fill(self,"renderOn:",{html:html},smalltalk.AthensHTMLMorphicSurface)})},
 args: ["html"],
-source: "renderOn: html\x0a\x09super renderOn: html.\x0a\x09world drawAll.",
-messageSends: ["renderOn:", "drawAll"],
+source: "renderOn: html\x0a\x09super renderOn: html.\x0a\x09world redraw.",
+messageSends: ["renderOn:", "redraw"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLMorphicSurface);

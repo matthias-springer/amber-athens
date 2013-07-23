@@ -81,6 +81,53 @@ Object subclass: #AthensTutorial
 	instanceVariableNames: 'surface'
 	package: 'Athens-HTML-Tutorial'!
 
+!AthensTutorial methodsFor: ''!
+
+doItstep34
+	|path poly font|
+	"Step 34: Event handling"
+
+	font := LogicalFont familyName: 'Arial' pointSize: 20.
+	
+	surface drawDuring: [:canvas |  
+		
+		surface clear: Color gray.
+	
+		canvas setPaint: Color white.
+		canvas setFont: font.
+		canvas pathTransform translateX: 100 Y: 200.
+		canvas drawString: 'Move the mouse cursor.'.
+	
+		path := canvas createPath: [:builder |
+			
+			builder 
+				absolute;
+				lineTo: 15@ 50;
+				lineTo: 60@ 60;
+				lineTo: 150@50;
+				lineTo: 0@0
+			].
+	
+		poly := path asPolygon.
+	].
+
+	surface onMouseMove: [:e | surface drawDuring: [:canvas |
+		surface clear: Color gray.
+		canvas pathTransform translateX: 0 Y: 0.
+
+		canvas setShape: path.
+		(poly includesPoint: e offsetX @ e offsetY)
+			ifTrue: [canvas setPaint: Color blue]
+			ifFalse: [canvas setPaint: Color green].
+			
+		canvas draw.
+
+		canvas setFont: font.
+		canvas setPaint: Color red.
+		canvas pathTransform translateX: 100 Y: 20.
+		canvas drawString: '(', e offsetX asString, ', ', e offsetY asString, ')']].
+! !
+
 !AthensTutorial methodsFor: 'initialize-release'!
 
 initialize
@@ -1285,14 +1332,14 @@ step36
 
 	morph := AthensMorph new.
 	surface world addMorph: morph.
-	morph position: 200@50.
-	morph rotation: 0.785.
+	morph translateByX: 200 Y: 50.
+	morph rotateBy: 0.785.
 
 	innerMorph := AthensMorph new.
 	innerMorph color: Color red.
-	innerMorph position: 20@0.
-	innerMorph rotation: -0.785.
-	innerMorph scaling: 0.25.
+	innerMorph translateByX: 20 Y: 0.
+	innerMorph rotateBy: -0.785.
+	innerMorph scaleByX: 0.25 Y: 0.25.
 	morph addMorph: innerMorph.
 !
 

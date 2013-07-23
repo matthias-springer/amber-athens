@@ -248,7 +248,7 @@ asPolygon
 		lineTo: corner x @ origin y;
 		lineTo: corner x @ corner y;
 		lineTo: origin x @ corner y;
-		youurself
+		yourself
 ! !
 
 !Rectangle class methodsFor: 'instance creation'!
@@ -259,6 +259,12 @@ origin: originPoint corner: cornerPoint
 		corner: cornerPoint;
 		initialize;
 		yourself
+! !
+
+!SequenceableCollection methodsFor: '*Athens-Amber'!
+
+reverseDo: aBlock
+	<for(var i=self.length-1;-1<i;i--){aBlock._value_(self[i]);}>
 ! !
 
 !Date class methodsFor: '*Athens-Amber'!

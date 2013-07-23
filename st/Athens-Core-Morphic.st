@@ -1,16 +1,23 @@
 Smalltalk current createPackage: 'Athens-Core-Morphic'!
 Object subclass: #AthensMorph
-	instanceVariableNames: 'transformation outerShape owner submorphs color'
+	instanceVariableNames: 'transformation outerShape owner submorphs color globalPathTransform globalOuterShape'
 	package: 'Athens-Core-Morphic'!
 
 !AthensMorph methodsFor: 'accessing'!
 
 color: aColor
 	color := aColor.
+	self redraw.
+!
+
+globalPathTransform
+	^ globalPathTransform
 !
 
 outerShape: shapeOrPolygon
 	outerShape := shapeOrPolygon asPolygon.
+	globalOuterShape := outerShape deepCopy.
+	globalOuterShape multiplyBy: globalPathTransform.
 !
 
 owner
@@ -27,6 +34,13 @@ submorphs
 
 transformation
 	^ transformation
+!
+
+world
+	|m|
+	m := self.
+	[m isWorldMorph] whileFalse: [m := m owner].
+	^ m
 ! !
 
 !AthensMorph methodsFor: 'drawing'!
@@ -45,6 +59,47 @@ drawOn: canvas
 	canvas setPaint: color.
 	canvas setShape: path.
 	canvas draw.
+!
+
+redraw
+	"Causes Morph to be redrawn."
+	self world redraw.
+!
+
+redrawEverythingOn: canvas
+	globalPathTransform := AthensAffineTransform new.
+	globalPathTransform loadAffineTransform: owner globalPathTransform.
+	globalPathTransform multiplyBy: transformation.
+	canvas pathTransform loadAffineTransform: globalPathTransform.
+	canvas pathTransform setIdentity.
+	canvas pathTransform set.
+	self drawOn: canvas.
+	submorphs do: [:morph | morph redrawEverythingOn: canvas].
+! !
+
+!AthensMorph methodsFor: 'events'!
+
+handleMouseClick: evt
+	self color: Color green.
+!
+
+handleMouseDown: evt
+!
+
+handleMouseMove: evt
+!
+
+handleMouseUp: evt
+!
+
+morphAtPosition: aPoint
+	submorphs reverseDo: [:morph | |ret|
+		ret := morph morphAtPosition: aPoint.
+		ret ifNotNil: [^ ret]].
+		
+	((globalOuterShape includesPoint: aPoint) or: [self isWorldMorph])
+		ifTrue: [^ self]
+		ifFalse: [^ nil].
 ! !
 
 !AthensMorph methodsFor: 'geometry'!
@@ -70,9 +125,8 @@ initialize
 	color := Color blue.
 	owner := AthensDummyWorldMorph instance.
 	transformation := AthensAffineTransform new.
+	globalPathTransform := AthensAffineTransform new.
 	submorphs := OrderedCollection new.
-	
-	self createSurfacePaint.
 ! !
 
 !AthensMorph methodsFor: 'morph handling'!
@@ -81,25 +135,6 @@ addMorph: aMorph
 	self submorphs add: aMorph.
 	aMorph owner: self.
 	aMorph redraw.
-! !
-
-!AthensMorph methodsFor: 'private'!
-
-createSurfacePaint
-	"TODO: surface class variable, extent variable"
-	self initializeSurface.
-
-	surface drawDuring: [:canvas | 
-		canvas implicitTransformation: transformation.
-		canvas pathTransform loadIdentity.
-		canvas paintTransform loadIdentity.
-		self drawOn: canvas.
-		canvas pathTransform loadIdentity.
-		canvas paintTransform loadIdentity.
-		
-		submorphs do: [:morph | 
-			canvas setPaint: morph surface.
-			canvas drawShape: (0@0 corner: 500@400)]].
 ! !
 
 !AthensMorph methodsFor: 'testing'!
@@ -119,7 +154,7 @@ drawOn: canvas
 	shape := 0@0 corner: extent.
 	outerShape := shape asPolygon.
 	canvas setStrokePaint: Color black.
-	canvas drawShape: shape
+	canvas drawShape: shape.
 	canvas setPaint: Color white.
 	canvas drawShape: shape.
 	canvas setFont: font.
@@ -140,7 +175,7 @@ initialize
 ! !
 
 AthensMorph subclass: #AthensWorldMorph
-	instanceVariableNames: 'backgroundPaint'
+	instanceVariableNames: 'backgroundPaint surface morphBelowHand'
 	package: 'Athens-Core-Morphic'!
 
 !AthensWorldMorph methodsFor: 'accessing'!
@@ -151,9 +186,10 @@ surface
 
 surface: aSurface
 	surface := aSurface.
+	self outerShape: (0@0 corner: surface extent) asPolygon.
 ! !
 
-!AthensWorldMorph methodsFor: 'initialization'!
+!AthensWorldMorph methodsFor: 'drawing'!
 
 drawOn: canvas
 	surface clear: Color gray.
@@ -162,9 +198,17 @@ drawOn: canvas
 	canvas drawShape: (0@0 corner: surface extent).
 !
 
+redraw
+	surface drawDuring: [:canvas |
+		self redrawEverythingOn: canvas].
+! !
+
+!AthensWorldMorph methodsFor: 'initialization'!
+
 initialize
 	super initialize.
 	self initializeBackgroundPaint.
+	morphBelowHand := self.
 !
 
 initializeBackgroundPaint
@@ -177,9 +221,6 @@ initializeBackgroundPaint
 		canvas 
 			drawShape: (0@0 corner: 5@5);
 			drawShape: (5@5 corner: 10@10)].
-!
-
-initializeSurface
 ! !
 
 !AthensWorldMorph methodsFor: 'testing'!
@@ -191,9 +232,8 @@ isWorldMorph
 !AthensWorldMorph class methodsFor: 'instance creation'!
 
 forSurface: aSurface
-	^ self basicNew
+	^ self new
 		surface: aSurface;
-		initialize;
 		yourself
 ! !
 
@@ -203,12 +243,13 @@ AthensWorldMorph subclass: #AthensDummyWorldMorph
 
 !AthensDummyWorldMorph methodsFor: 'drawing'!
 
-drawDuring: aBlock
+redraw
 ! !
 
 !AthensDummyWorldMorph methodsFor: 'initialization'!
 
 initialize
+	globalPathTransform := AthensAffineTransform new.
 ! !
 
 AthensDummyWorldMorph class instanceVariableNames: 'instance'!
@@ -218,50 +259,5 @@ AthensDummyWorldMorph class instanceVariableNames: 'instance'!
 instance
 	instance ifNil: [instance := self new].
 	^ instance
-! !
-
-Object subclass: #DamageRecorder
-	instanceVariableNames: 'invalidRects'
-	package: 'Athens-Core-Morphic'!
-
-!DamageRecorder methodsFor: 'recording'!
-
-recordInvalidRect: newRect
-	invalidRects add: newRect.
-! !
-
-!DamageRecorder methodsFor: 'testing'!
-
-initialize
-	invalidRects := OrderedCollection new.
-!
-
-updateIsNeeded
-	^ invalidRects notEmpty
-! !
-
-Object subclass: #WorldState
-	instanceVariableNames: 'damageRecorder'
-	package: 'Athens-Core-Morphic'!
-
-!WorldState methodsFor: 'drawing'!
-
-drawWorld
-	damageRecorder updateIsNeeded
-		ifTrue: [].
-!
-
-startDrawLoop
-	< function drawWorldLoop() {
-		self._drawWorld();
-		requestAnimationFrame(drawWorldLoop);
-	}
-	drawWorldLoop();>
-! !
-
-!WorldState methodsFor: 'initialization'!
-
-initialize
-	damageRecorder := DamageRecorder new.
 ! !
 

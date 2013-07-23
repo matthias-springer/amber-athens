@@ -1776,7 +1776,6 @@ return smalltalk.withContext(function($ctx1) {
 	
 	for (var ci = 0; ci < self['@contours'].length; ci++) {
 		var contour = self['@contours'][ci];
-		x= contour;
 		var num = contour.length;
 		var i = 0;
 		var j = num - 1;
@@ -1798,7 +1797,7 @@ return smalltalk.withContext(function($ctx1) {
 	return false; ;
 return self}, function($ctx1) {$ctx1.fill(self,"includesPoint:",{aPoint:aPoint},smalltalk.AthensPolygon)})},
 args: ["aPoint"],
-source: "includesPoint: aPoint\x0a\x09< var pX = aPoint['@x'];\x0a\x09var pY = aPoint['@y'];\x0a\x09\x0a\x09for (var ci = 0; ci < self['@contours'].length; ci++) {\x0a\x09\x09var contour = self['@contours'][ci];\x0a\x09\x09x= contour;\x0a\x09\x09var num = contour.length;\x0a\x09\x09var i = 0;\x0a\x09\x09var j = num - 1;\x0a\x09\x09var c = false;\x0a\x09\x09\x0a\x09\x09for (i = 0; i < num; i++) {\x09\x09\x0a\x09\x09\x09if (((pY < contour[i]['@y']) != (pY < contour[j]['@y'])) && (pX < (contour[j]['@x'] - contour[i]['@x']) * (pY - contour[i]['@y']) / (contour[j]['@y'] - contour[i]['@y']) + contour[i]['@x'])) {\x0a\x09\x09\x09\x09c = !c;\x0a\x09\x09\x09}\x0a\x09\x09\x09\x0a\x09\x09\x09j = i;\x0a\x09\x09}\x0a\x09\x09\x0a\x09\x09if (c) {\x0a\x09\x09\x09return c;\x0a\x09\x09}\x0a\x09}\x0a\x09\x0a\x09return false; >",
+source: "includesPoint: aPoint\x0a\x09< var pX = aPoint['@x'];\x0a\x09var pY = aPoint['@y'];\x0a\x09\x0a\x09for (var ci = 0; ci < self['@contours'].length; ci++) {\x0a\x09\x09var contour = self['@contours'][ci];\x0a\x09\x09var num = contour.length;\x0a\x09\x09var i = 0;\x0a\x09\x09var j = num - 1;\x0a\x09\x09var c = false;\x0a\x09\x09\x0a\x09\x09for (i = 0; i < num; i++) {\x09\x09\x0a\x09\x09\x09if (((pY < contour[i]['@y']) != (pY < contour[j]['@y'])) && (pX < (contour[j]['@x'] - contour[i]['@x']) * (pY - contour[i]['@y']) / (contour[j]['@y'] - contour[i]['@y']) + contour[i]['@x'])) {\x0a\x09\x09\x09\x09c = !c;\x0a\x09\x09\x09}\x0a\x09\x09\x09\x0a\x09\x09\x09j = i;\x0a\x09\x09}\x0a\x09\x09\x0a\x09\x09if (c) {\x0a\x09\x09\x09return c;\x0a\x09\x09}\x0a\x09}\x0a\x09\x0a\x09return false; >",
 messageSends: [],
 referencedClasses: []
 }),
@@ -1812,7 +1811,7 @@ fn: function (aPoint,matrix){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
  var pX = matrix['@sx']*aPoint['@x'] + matrix['@shx']*aPoint['@y'] + matrix['@x'];
-	var pX = matrix['@sy']*aPoint['@x'] + matrix['@shy']*aPoint['@y'] + matrix['@y'];
+	var pY = matrix['@shy']*aPoint['@x'] + matrix['@sy']*aPoint['@y'] + matrix['@y'];
 	
 	for (var ci = 0; ci < self['@contours'].length; ci++) {
 		var contour = self['@contours'][ci];
@@ -1838,7 +1837,7 @@ return smalltalk.withContext(function($ctx1) {
 	return false; ;
 return self}, function($ctx1) {$ctx1.fill(self,"includesPoint:withTransformation:",{aPoint:aPoint,matrix:matrix},smalltalk.AthensPolygon)})},
 args: ["aPoint", "matrix"],
-source: "includesPoint: aPoint withTransformation: matrix\x0a\x09< var pX = matrix['@sx']*aPoint['@x'] + matrix['@shx']*aPoint['@y'] + matrix['@x'];\x0a\x09var pX = matrix['@sy']*aPoint['@x'] + matrix['@shy']*aPoint['@y'] + matrix['@y'];\x0a\x09\x0a\x09for (var ci = 0; ci < self['@contours'].length; ci++) {\x0a\x09\x09var contour = self['@contours'][ci];\x0a\x09\x09x= contour;\x0a\x09\x09var num = contour.length;\x0a\x09\x09var i = 0;\x0a\x09\x09var j = num - 1;\x0a\x09\x09var c = false;\x0a\x09\x09\x0a\x09\x09for (i = 0; i < num; i++) {\x09\x09\x0a\x09\x09\x09if (((pY < contour[i]['@y']) != (pY < contour[j]['@y'])) && (pX < (contour[j]['@x'] - contour[i]['@x']) * (pY - contour[i]['@y']) / (contour[j]['@y'] - contour[i]['@y']) + contour[i]['@x'])) {\x0a\x09\x09\x09\x09c = !c;\x0a\x09\x09\x09}\x0a\x09\x09\x09\x0a\x09\x09\x09j = i;\x0a\x09\x09}\x0a\x09\x09\x0a\x09\x09if (c) {\x0a\x09\x09\x09return c;\x0a\x09\x09}\x0a\x09}\x0a\x09\x0a\x09return false; >",
+source: "includesPoint: aPoint withTransformation: matrix\x0a\x09< var pX = matrix['@sx']*aPoint['@x'] + matrix['@shx']*aPoint['@y'] + matrix['@x'];\x0a\x09var pY = matrix['@shy']*aPoint['@x'] + matrix['@sy']*aPoint['@y'] + matrix['@y'];\x0a\x09\x0a\x09for (var ci = 0; ci < self['@contours'].length; ci++) {\x0a\x09\x09var contour = self['@contours'][ci];\x0a\x09\x09x= contour;\x0a\x09\x09var num = contour.length;\x0a\x09\x09var i = 0;\x0a\x09\x09var j = num - 1;\x0a\x09\x09var c = false;\x0a\x09\x09\x0a\x09\x09for (i = 0; i < num; i++) {\x09\x09\x0a\x09\x09\x09if (((pY < contour[i]['@y']) != (pY < contour[j]['@y'])) && (pX < (contour[j]['@x'] - contour[i]['@x']) * (pY - contour[i]['@y']) / (contour[j]['@y'] - contour[i]['@y']) + contour[i]['@x'])) {\x0a\x09\x09\x09\x09c = !c;\x0a\x09\x09\x09}\x0a\x09\x09\x09\x0a\x09\x09\x09j = i;\x0a\x09\x09}\x0a\x09\x09\x0a\x09\x09if (c) {\x0a\x09\x09\x09return c;\x0a\x09\x09}\x0a\x09}\x0a\x09\x0a\x09return false; >",
 messageSends: [],
 referencedClasses: []
 }),
@@ -1890,6 +1889,32 @@ return self}, function($ctx1) {$ctx1.fill(self,"moveTo:",{aPoint:aPoint},smallta
 args: ["aPoint"],
 source: "moveTo: aPoint \x0a\x09\x22 create a new contour \x22\x0a\x09\x0a\x09self newContour.\x0a\x09currentContour add: aPoint.",
 messageSends: ["newContour", "add:"],
+referencedClasses: []
+}),
+smalltalk.AthensPolygon);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "multiplyBy:",
+category: 'transformations',
+fn: function (matrix){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ for (var ci = 0; ci < self['@contours'].length; ci++) {
+		var contour = self['@contours'][ci];
+		
+		for (var pi = 0; pi < contour.length; pi++)
+		{
+			var x = contour[pi]['@x'];
+			var y = contour[pi]['@y'];
+			contour[pi]['@x'] = matrix['@sx']*x + matrix['@shx']*y + matrix['@x'];
+			contour[pi]['@y'] = matrix['@shy']*x + matrix['@sy']*y + matrix['@y'];
+		}
+	} ;
+return self}, function($ctx1) {$ctx1.fill(self,"multiplyBy:",{matrix:matrix},smalltalk.AthensPolygon)})},
+args: ["matrix"],
+source: "multiplyBy: matrix\x0a\x09< for (var ci = 0; ci < self['@contours'].length; ci++) {\x0a\x09\x09var contour = self['@contours'][ci];\x0a\x09\x09\x0a\x09\x09for (var pi = 0; pi < contour.length; pi++)\x0a\x09\x09{\x0a\x09\x09\x09var x = contour[pi]['@x'];\x0a\x09\x09\x09var y = contour[pi]['@y'];\x0a\x09\x09\x09contour[pi]['@x'] = matrix['@sx']*x + matrix['@shx']*y + matrix['@x'];\x0a\x09\x09\x09contour[pi]['@y'] = matrix['@shy']*x + matrix['@sy']*y + matrix['@y'];\x0a\x09\x09}\x0a\x09} >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensPolygon);

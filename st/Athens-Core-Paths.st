@@ -802,7 +802,6 @@ includesPoint: aPoint
 	
 	for (var ci = 0; ci < self['@contours'].length; ci++) {
 		var contour = self['@contours'][ci];
-		x= contour;
 		var num = contour.length;
 		var i = 0;
 		var j = num - 1;
@@ -826,7 +825,7 @@ includesPoint: aPoint
 
 includesPoint: aPoint withTransformation: matrix
 	< var pX = matrix['@sx']*aPoint['@x'] + matrix['@shx']*aPoint['@y'] + matrix['@x'];
-	var pX = matrix['@sy']*aPoint['@x'] + matrix['@shy']*aPoint['@y'] + matrix['@y'];
+	var pY = matrix['@shy']*aPoint['@x'] + matrix['@sy']*aPoint['@y'] + matrix['@y'];
 	
 	for (var ci = 0; ci < self['@contours'].length; ci++) {
 		var contour = self['@contours'][ci];
@@ -850,5 +849,21 @@ includesPoint: aPoint withTransformation: matrix
 	}
 	
 	return false; >
+! !
+
+!AthensPolygon methodsFor: 'transformations'!
+
+multiplyBy: matrix
+	< for (var ci = 0; ci < self['@contours'].length; ci++) {
+		var contour = self['@contours'][ci];
+		
+		for (var pi = 0; pi < contour.length; pi++)
+		{
+			var x = contour[pi]['@x'];
+			var y = contour[pi]['@y'];
+			contour[pi]['@x'] = matrix['@sx']*x + matrix['@shx']*y + matrix['@x'];
+			contour[pi]['@y'] = matrix['@shy']*x + matrix['@sy']*y + matrix['@y'];
+		}
+	} >
 ! !
 
