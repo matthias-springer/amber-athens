@@ -48,16 +48,24 @@ bindEvents
 		bind: 'click' 
 		do: [:evt | 
 			world addHalosTo: morphBelowHand.
+			world handleGlobalMouseClick: evt.
 			morphBelowHand handleMouseClick: evt].
 	canvasTag asJQuery 
 		bind: 'mousedown' 
-		do: [:evt | morphBelowHand handleMouseDown: evt].
+		do: [:evt | 
+			world handleGlobalMouseDown: evt.
+			morphBelowHand handleMouseDown: evt].
 	canvasTag asJQuery 
 		bind: 'mousemove' 
-		do: [:evt | self handleMouseMove: evt].
+		do: [:evt | 
+			self handleMouseMove: evt.
+			world handleGlobalMouseMove: evt.
+			morphBelowHand handleMouseMove: evt].
 	canvasTag asJQuery 
 		bind: 'mouseup' 
-		do: [:evt | morphBelowHand handleMouseUp: evt].
+		do: [:evt | 
+			world handleGlobalMouseUp: evt.
+			morphBelowHand handleMouseUp: evt].
 !
 
 handleMouseMove: evt

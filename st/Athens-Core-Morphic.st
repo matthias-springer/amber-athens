@@ -379,8 +379,61 @@ highlightColor
 	^ Color r: 0 g: 0.2 b: 0.04
 ! !
 
+AthensHaloMorph subclass: #AthensMoveHaloMorph
+	instanceVariableNames: 'globalMoveHandler globalUpHandler globalDownHandler lastPosition'
+	package: 'Athens-Core-Morphic'!
+
+!AthensMoveHaloMorph methodsFor: 'events'!
+
+handleMouseDown: evt
+	lastPosition := nil.
+	self world registerGlobalMouseMoveCallback: globalMoveHandler.
+	self world registerGlobalMouseUpCallback: globalUpHandler.
+!
+
+handleMouseUp: evt
+	self world unregisterGlobalMouseMoveCallback: globalMoveHandler.
+	self world unregisterGlobalMouseUpCallback: globalUpHandler.
+!
+
+processMouseMove: evt
+	lastPosition ifNil: [lastPosition := evt offsetX @ evt offsetY].
+	attachedTo translateBy: (evt offsetX @ evt offsetY) - lastPosition.
+	lastPosition := evt offsetX @ evt offsetY.
+!
+
+processMouseUp: evt
+	self handleMouseUp: evt.
+! !
+
+!AthensMoveHaloMorph methodsFor: 'halo'!
+
+basicColor
+	^ Color r: 0.6 g: 0.13 b: 0.47
+!
+
+haloPosition
+	^ -20 @ 40
+!
+
+haloText
+	^ ''
+!
+
+highlightColor
+	^ Color r: 0 g: 0.2 b: 0.04
+! !
+
+!AthensMoveHaloMorph methodsFor: 'initialization'!
+
+initialize
+	super initialize.
+	globalMoveHandler := [:evt | self processMouseMove: evt].
+	globalUpHandler := [:evt | self processMouseUp: evt].
+! !
+
 AthensMorph subclass: #AthensWorldMorph
-	instanceVariableNames: 'backgroundPaint surface morphBelowHand halos'
+	instanceVariableNames: 'backgroundPaint surface morphBelowHand halos globalEventCallbacks'
 	package: 'Athens-Core-Morphic'!
 
 !AthensWorldMorph methodsFor: 'accessing'!
@@ -415,6 +468,26 @@ redrawHalosOn: canvas
 
 !AthensWorldMorph methodsFor: 'events'!
 
+handleGlobalMouseClick: evt
+	(globalEventCallbacks at: #mouseClick ifAbsent: [{}])
+		do: [:handler | handler value].
+!
+
+handleGlobalMouseDown: evt
+	(globalEventCallbacks at: #mouseDown ifAbsent: [{}])
+		do: [:handler | handler value: evt].
+!
+
+handleGlobalMouseMove: evt
+	(globalEventCallbacks at: #mouseMove ifAbsent: [{}])
+		do: [:handler | handler value: evt].
+!
+
+handleGlobalMouseUp: evt
+	(globalEventCallbacks at: #mouseUp ifAbsent: [{}])
+		do: [:handler | handler value].
+!
+
 morphAtPosition: aPoint
 	halos reverseDo: [:morph | |ret|
 		morph isVisible ifTrue: [
@@ -422,6 +495,42 @@ morphAtPosition: aPoint
 			ret ifNotNil: [^ ret]]].
 	
 	^ super morphAtPosition: aPoint
+!
+
+registerGlobalMouseClickCallback: aBlock
+	|handlers|
+	handlers := globalEventCallbacks at: #mouseClick ifAbsent: [globalEventCallbacks at: #mouseClick put: OrderedCollection new].
+	handlers add: aBlock.
+!
+
+registerGlobalMouseMoveCallback: aBlock
+	|handlers|
+	handlers := globalEventCallbacks at: #mouseMove ifAbsent: [globalEventCallbacks at: #mouseMove put: OrderedCollection new].
+	handlers add: aBlock.
+!
+
+registerGlobalMouseUpCallback: aBlock
+	|handlers|
+	handlers := globalEventCallbacks at: #mouseUp ifAbsent: [globalEventCallbacks at: #mouseUp put: OrderedCollection new].
+	handlers add: aBlock.
+!
+
+unregisterGlobalMouseClickCallback: aBlock
+	|handlers|
+	handlers := globalEventCallbacks at: #mouseClick ifAbsent: [globalEventCallbacks at: #mouseClick put: OrderedCollection new].
+	handlers remove: aBlock.
+!
+
+unregisterGlobalMouseMoveCallback: aBlock
+	|handlers|
+	handlers := globalEventCallbacks at: #mouseMove ifAbsent: [globalEventCallbacks at: #mouseMove put: OrderedCollection new].
+	handlers remove: aBlock.
+!
+
+unregisterGlobalMouseUpCallback: aBlock
+	|handlers|
+	handlers := globalEventCallbacks at: #mouseUp ifAbsent: [globalEventCallbacks at: #mouseUp put: OrderedCollection new].
+	handlers remove: aBlock.
 ! !
 
 !AthensWorldMorph methodsFor: 'halos'!
@@ -446,6 +555,7 @@ initialize
 	self initializeBackgroundPaint.
 	self initializeHalos.
 	morphBelowHand := self.
+	globalEventCallbacks := Dictionary new.
 !
 
 initializeBackgroundPaint
@@ -464,6 +574,7 @@ initializeHalos
 	halos := OrderedCollection new.
 	halos add: AthensCloseHaloMorph new.
 	halos add: AthensInspectHaloMorph new.
+	halos add: AthensMoveHaloMorph new.
 	halos do: [:halo | self addMorph: halo].
 ! !
 
