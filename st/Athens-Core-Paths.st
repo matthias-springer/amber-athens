@@ -758,6 +758,18 @@ asPolygon
 	^ self
 !
 
+boundingBox
+	|minX minY maxX maxY|
+	contours do: [:contour |
+		contour do: [:point |
+			minX == nil ifTrue: [minX := maxX := point x. minY := maxY := point y].
+			minX := minX min: point x.
+			minY := minY min: point y.
+			maxX := maxX max: point x.
+			maxY := maxY max: point y]].
+	^ minX@minY corner: maxX@maxY
+!
+
 finish
 	"Finally convert contours to arrays"
 	

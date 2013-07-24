@@ -40,6 +40,12 @@ clipBy: aRectangle during: aBlock
 	(function() {aBlock._value();})._ensure_(function() {context2D.restore();}); >
 ! !
 
+!AthensHTMLCanvas methodsFor: 'creation'!
+
+createPath: aPathCreatingBlock
+	^ AthensHTMLPath segment: (AthensSimplePathBuilder createPath: aPathCreatingBlock)
+! !
+
 !AthensHTMLCanvas methodsFor: 'drawing'!
 
 drawString: aString

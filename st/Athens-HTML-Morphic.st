@@ -46,17 +46,28 @@ world
 bindEvents
 	canvasTag asJQuery 
 		bind: 'click' 
-		do: [:evt | morphBelowHand handleMouseClick: evt].
+		do: [:evt | 
+			world addHalosTo: morphBelowHand.
+			morphBelowHand handleMouseClick: evt].
 	canvasTag asJQuery 
 		bind: 'mousedown' 
 		do: [:evt | morphBelowHand handleMouseDown: evt].
 	canvasTag asJQuery 
 		bind: 'mousemove' 
-		do: [:evt | morphBelowHand := world morphAtPosition: evt offsetX @ evt offsetY.
-			morphBelowHand handleMouseMove: evt].
+		do: [:evt | self handleMouseMove: evt].
 	canvasTag asJQuery 
 		bind: 'mouseup' 
 		do: [:evt | morphBelowHand handleMouseUp: evt].
+!
+
+handleMouseMove: evt
+	|oldMorph|
+	oldMorph := morphBelowHand.
+	morphBelowHand := world morphAtPosition: evt offsetX @ evt offsetY.
+	morphBelowHand handleMouseMove: evt.
+	morphBelowHand ~~ oldMorph ifTrue: [
+		oldMorph ifNotNil: [oldMorph handleMouseLeave].
+		morphBelowHand handleMouseEnter].
 ! !
 
 !AthensHTMLMorphicSurface methodsFor: 'initialization'!

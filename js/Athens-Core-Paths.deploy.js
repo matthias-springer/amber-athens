@@ -1306,6 +1306,43 @@ smalltalk.AthensPolygon);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "boundingBox",
+fn: function (){
+var self=this;
+var minX,minY,maxX,maxY;
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2;
+_st(self["@contours"])._do_((function(contour){
+return smalltalk.withContext(function($ctx2) {
+return _st(contour)._do_((function(point){
+return smalltalk.withContext(function($ctx3) {
+$1=_st(minX).__eq_eq(nil);
+if(smalltalk.assert($1)){
+maxX=_st(point)._x();
+minX=maxX;
+minX;
+maxY=_st(point)._y();
+minY=maxY;
+minY;
+};
+minX=_st(minX)._min_(_st(point)._x());
+minX;
+minY=_st(minY)._min_(_st(point)._y());
+minY;
+maxX=_st(maxX)._max_(_st(point)._x());
+maxX;
+maxY=_st(maxY)._max_(_st(point)._y());
+return maxY;
+}, function($ctx3) {$ctx3.fillBlock({point:point},$ctx2)})}));
+}, function($ctx2) {$ctx2.fillBlock({contour:contour},$ctx1)})}));
+$2=_st(_st(minX).__at(minY))._corner_(_st(maxX).__at(maxY));
+return $2;
+}, function($ctx1) {$ctx1.fill(self,"boundingBox",{minX:minX,minY:minY,maxX:maxX,maxY:maxY},smalltalk.AthensPolygon)})},
+messageSends: ["do:", "ifTrue:", "x", "y", "==", "min:", "max:", "corner:", "@"]}),
+smalltalk.AthensPolygon);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "finish",
 fn: function (){
 var self=this;

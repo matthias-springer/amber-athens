@@ -30,6 +30,21 @@ smalltalk.AthensHTMLCanvas);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "createPath:",
+fn: function (aPathCreatingBlock){
+var self=this;
+function $AthensSimplePathBuilder(){return smalltalk.AthensSimplePathBuilder||(typeof AthensSimplePathBuilder=="undefined"?nil:AthensSimplePathBuilder)}
+function $AthensHTMLPath(){return smalltalk.AthensHTMLPath||(typeof AthensHTMLPath=="undefined"?nil:AthensHTMLPath)}
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st($AthensHTMLPath())._segment_(_st($AthensSimplePathBuilder())._createPath_(aPathCreatingBlock));
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"createPath:",{aPathCreatingBlock:aPathCreatingBlock},smalltalk.AthensHTMLCanvas)})},
+messageSends: ["segment:", "createPath:"]}),
+smalltalk.AthensHTMLCanvas);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "drawString:",
 fn: function (aString){
 var self=this;

@@ -1,6 +1,6 @@
 Smalltalk current createPackage: 'Athens-Core-Morphic'!
 Object subclass: #AthensMorph
-	instanceVariableNames: 'transformation outerShape owner submorphs color globalPathTransform globalOuterShape'
+	instanceVariableNames: 'transformation outerShape owner submorphs color globalPathTransform globalOuterShape visible eventCallbacks'
 	package: 'Athens-Core-Morphic'!
 
 !AthensMorph methodsFor: 'accessing'!
@@ -8,6 +8,10 @@ Object subclass: #AthensMorph
 color: aColor
 	color := aColor.
 	self redraw.
+!
+
+globalOuterShape
+	^ globalOuterShape
 !
 
 globalPathTransform
@@ -70,39 +74,81 @@ redrawEverythingOn: canvas
 	globalPathTransform := AthensAffineTransform new.
 	globalPathTransform loadAffineTransform: owner globalPathTransform.
 	globalPathTransform multiplyBy: transformation.
-	canvas pathTransform loadAffineTransform: globalPathTransform.
-	canvas pathTransform setIdentity.
-	canvas pathTransform set.
-	self drawOn: canvas.
-	submorphs do: [:morph | morph redrawEverythingOn: canvas].
+	visible ifTrue: [
+		canvas pathTransform loadAffineTransform: globalPathTransform.
+		canvas pathTransform setIdentity.
+		canvas pathTransform set.
+		self drawOn: canvas.
+		submorphs do: [:morph | morph redrawEverythingOn: canvas]].
 ! !
 
 !AthensMorph methodsFor: 'events'!
 
 handleMouseClick: evt
-	self color: Color green.
+	(eventCallbacks at: #mouseClick ifAbsent: []) value.
 !
 
 handleMouseDown: evt
+	(eventCallbacks at: #mouseDown ifAbsent: []) value.
+!
+
+handleMouseEnter
+	(eventCallbacks at: #mouseEnter ifAbsent: []) value.
+!
+
+handleMouseLeave
+	(eventCallbacks at: #mouseLeave ifAbsent: []) value.
 !
 
 handleMouseMove: evt
+	(eventCallbacks at: #mouseMove ifAbsent: [[:ev | ]]) value: evt.
 !
 
 handleMouseUp: evt
+	(eventCallbacks at: #mouseUp ifAbsent: []) value.
 !
 
 morphAtPosition: aPoint
 	submorphs reverseDo: [:morph | |ret|
-		ret := morph morphAtPosition: aPoint.
-		ret ifNotNil: [^ ret]].
+		morph isVisible ifTrue: [
+			ret := morph morphAtPosition: aPoint.
+			ret ifNotNil: [^ ret]]].
 		
 	((globalOuterShape includesPoint: aPoint) or: [self isWorldMorph])
 		ifTrue: [^ self]
 		ifFalse: [^ nil].
+!
+
+onMouseClick: aBlock
+	eventCallbacks at: #mouseClick put: aBlock.
+!
+
+onMouseDown: aBlock
+	eventCallbacks at: #mouseDown put: aBlock.
+!
+
+onMouseEnter: aBlock
+	eventCallbacks at: #mouseEnter put: aBlock.
+!
+
+onMouseLeave: aBlock
+	eventCallbacks at: #mouseLeave put: aBlock.
+!
+
+onMouseMove: aBlock
+	eventCallbacks at: #mouseMove put: aBlock.
+!
+
+onMouseUp: aBlock
+	eventCallbacks at: #mouseUp put: aBlock.
 ! !
 
 !AthensMorph methodsFor: 'geometry'!
+
+resetTransformation
+	transformation loadIdentity.
+	self redraw.
+!
 
 rotateBy: aNumber
 	transformation rotateByRadians: aNumber.
@@ -112,6 +158,10 @@ rotateBy: aNumber
 scaleByX: x Y: y
 	transformation scaleX: x Y: y.
 	self redraw.
+!
+
+translateBy: aPoint
+	self translateByX: aPoint x Y: aPoint y.
 !
 
 translateByX: x Y: y
@@ -127,6 +177,8 @@ initialize
 	transformation := AthensAffineTransform new.
 	globalPathTransform := AthensAffineTransform new.
 	submorphs := OrderedCollection new.
+	visible := true.
+	eventCallbacks := Dictionary new.
 ! !
 
 !AthensMorph methodsFor: 'morph handling'!
@@ -134,10 +186,38 @@ initialize
 addMorph: aMorph
 	self submorphs add: aMorph.
 	aMorph owner: self.
-	aMorph redraw.
+	aMorph isVisible ifTrue: [aMorph redraw].
+!
+
+delete
+	owner removeMorph: self.
+	owner := nil.
+!
+
+hide
+	visible := false.
+	self redraw.
+!
+
+removeMorph: aMorph
+	submorphs remove: aMorph.
+	self redraw.
+!
+
+show
+	visible := true.
+	self redraw.
 ! !
 
 !AthensMorph methodsFor: 'testing'!
+
+isHaloMorph
+	^ false
+!
+
+isVisible
+	^ visible
+!
 
 isWorldMorph
 	^ false
@@ -174,8 +254,133 @@ initialize
 	font := LogicalFont familyName: 'Verdana' pointSize: 15.
 ! !
 
+AthensMorph subclass: #AthensHaloMorph
+	instanceVariableNames: 'attachedTo font rectPath'
+	package: 'Athens-Core-Morphic'!
+
+!AthensHaloMorph methodsFor: 'accessing'!
+
+attachedTo: aMorph
+	attachedTo := aMorph.
+! !
+
+!AthensHaloMorph methodsFor: 'drawing'!
+
+drawOn: canvas
+	|shape|
+	shape := 0@0 corner: 15@15.
+	canvas setPaint: color.
+	rectPath ifNil: [rectPath := self generatePathWith: canvas].
+	canvas drawShape: rectPath.
+	canvas setStrokePaint: Color black.
+	canvas drawShape: rectPath.
+	canvas setFont: font.
+	canvas setPaint: Color white.
+	canvas pathTransform translateX: 2 Y: 11.
+	canvas drawString: self haloText.
+	self outerShape: shape asPolygon.
+!
+
+generatePathWith: canvas
+	^ canvas createPath: [:builder |
+		builder
+			absolute;
+			moveTo: 5@0;
+			lineTo: 10@0;
+			curveVia: 15@0 to: 15@5;
+			lineTo: 15@10;
+			curveVia: 15@15 to: 10@15;
+			lineTo: 5@15;
+			curveVia: 0@15 to: 0@10;
+			lineTo: 0@5;
+			curveVia: 0@0 to: 5@0].
+! !
+
+!AthensHaloMorph methodsFor: 'events'!
+
+handleMouseEnter
+	self color: self highlightColor.
+!
+
+handleMouseLeave
+	self color: self basicColor.
+! !
+
+!AthensHaloMorph methodsFor: 'initialization'!
+
+initialize
+	super initialize.
+	visible := false.
+	font := LogicalFont familyName: 'FontAwesome' pointSize: '12'.
+	color := self basicColor.
+! !
+
+!AthensHaloMorph methodsFor: 'testing'!
+
+isHaloMorph
+	^ true
+! !
+
+AthensHaloMorph subclass: #AthensCloseHaloMorph
+	instanceVariableNames: ''
+	package: 'Athens-Core-Morphic'!
+
+!AthensCloseHaloMorph methodsFor: 'events'!
+
+handleMouseClick: evt
+	attachedTo delete.
+	self world hideHalos.
+! !
+
+!AthensCloseHaloMorph methodsFor: 'halo'!
+
+basicColor
+	^ Color r: 0.6 g: 0.13 b: 0.47
+!
+
+haloPosition
+	^ -20 @ 0
+!
+
+haloText
+	^ ''
+!
+
+highlightColor
+	^ Color r: 0.2 g: 0 b: 0.14
+! !
+
+AthensHaloMorph subclass: #AthensInspectHaloMorph
+	instanceVariableNames: ''
+	package: 'Athens-Core-Morphic'!
+
+!AthensInspectHaloMorph methodsFor: 'events'!
+
+handleMouseClick: evt
+	attachedTo inspect.
+	self world hideHalos.
+! !
+
+!AthensInspectHaloMorph methodsFor: 'halo'!
+
+basicColor
+	^ Color r: 0 g: 0.9 b: 0.19
+!
+
+haloPosition
+	^ -20 @ 20
+!
+
+haloText
+	^ ''
+!
+
+highlightColor
+	^ Color r: 0 g: 0.2 b: 0.04
+! !
+
 AthensMorph subclass: #AthensWorldMorph
-	instanceVariableNames: 'backgroundPaint surface morphBelowHand'
+	instanceVariableNames: 'backgroundPaint surface morphBelowHand halos'
 	package: 'Athens-Core-Morphic'!
 
 !AthensWorldMorph methodsFor: 'accessing'!
@@ -200,7 +405,38 @@ drawOn: canvas
 
 redraw
 	surface drawDuring: [:canvas |
-		self redrawEverythingOn: canvas].
+		self redrawEverythingOn: canvas.
+		self redrawHalosOn: canvas].
+!
+
+redrawHalosOn: canvas
+	halos do: [:halo | halo redrawEverythingOn: canvas].
+! !
+
+!AthensWorldMorph methodsFor: 'events'!
+
+morphAtPosition: aPoint
+	halos reverseDo: [:morph | |ret|
+		morph isVisible ifTrue: [
+			ret := morph morphAtPosition: aPoint.
+			ret ifNotNil: [^ ret]]].
+	
+	^ super morphAtPosition: aPoint
+! !
+
+!AthensWorldMorph methodsFor: 'halos'!
+
+addHalosTo: aMorph
+	aMorph isHaloMorph ifFalse: [
+		halos do: [:halo | 
+			halo resetTransformation.
+			halo translateBy: aMorph globalOuterShape boundingBox origin + halo haloPosition.
+			halo attachedTo: aMorph.
+			halo show]].
+!
+
+hideHalos
+	self addHalosTo: self.
 ! !
 
 !AthensWorldMorph methodsFor: 'initialization'!
@@ -208,6 +444,7 @@ redraw
 initialize
 	super initialize.
 	self initializeBackgroundPaint.
+	self initializeHalos.
 	morphBelowHand := self.
 !
 
@@ -221,6 +458,13 @@ initializeBackgroundPaint
 		canvas 
 			drawShape: (0@0 corner: 5@5);
 			drawShape: (5@5 corner: 10@10)].
+!
+
+initializeHalos
+	halos := OrderedCollection new.
+	halos add: AthensCloseHaloMorph new.
+	halos add: AthensInspectHaloMorph new.
+	halos do: [:halo | self addMorph: halo].
 ! !
 
 !AthensWorldMorph methodsFor: 'testing'!
