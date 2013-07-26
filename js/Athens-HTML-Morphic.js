@@ -86,60 +86,24 @@ var self=this;
 return smalltalk.withContext(function($ctx1) { 
 _st(_st(self["@canvasTag"])._asJQuery())._bind_do_("click",(function(evt){
 return smalltalk.withContext(function($ctx2) {
-_st(self["@world"])._addHalosTo_(self["@morphBelowHand"]);
-_st(self["@world"])._handleGlobalMouseClick_(evt);
-return _st(self["@morphBelowHand"])._handleMouseClick_(evt);
+return _st(self["@world"])._handleEvent_with_("mouseClick",evt);
 }, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
 _st(_st(self["@canvasTag"])._asJQuery())._bind_do_("mousedown",(function(evt){
 return smalltalk.withContext(function($ctx2) {
-_st(self["@world"])._handleGlobalMouseDown_(evt);
-return _st(self["@morphBelowHand"])._handleMouseDown_(evt);
+return _st(self["@world"])._handleEvent_with_("mouseDown",evt);
 }, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
 _st(_st(self["@canvasTag"])._asJQuery())._bind_do_("mousemove",(function(evt){
 return smalltalk.withContext(function($ctx2) {
-self._handleMouseMove_(evt);
-_st(self["@world"])._handleGlobalMouseMove_(evt);
-return _st(self["@morphBelowHand"])._handleMouseMove_(evt);
+return _st(self["@world"])._handleEvent_with_("mouseMove",evt);
 }, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
 _st(_st(self["@canvasTag"])._asJQuery())._bind_do_("mouseup",(function(evt){
 return smalltalk.withContext(function($ctx2) {
-_st(self["@world"])._handleGlobalMouseUp_(evt);
-return _st(self["@morphBelowHand"])._handleMouseUp_(evt);
+return _st(self["@world"])._handleEvent_with_("mouseUp",evt);
 }, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"bindEvents",{},smalltalk.AthensHTMLMorphicSurface)})},
 args: [],
-source: "bindEvents\x0a\x09canvasTag asJQuery \x0a\x09\x09bind: 'click' \x0a\x09\x09do: [:evt | \x0a\x09\x09\x09world addHalosTo: morphBelowHand.\x0a\x09\x09\x09world handleGlobalMouseClick: evt.\x0a\x09\x09\x09morphBelowHand handleMouseClick: evt].\x0a\x09canvasTag asJQuery \x0a\x09\x09bind: 'mousedown' \x0a\x09\x09do: [:evt | \x0a\x09\x09\x09world handleGlobalMouseDown: evt.\x0a\x09\x09\x09morphBelowHand handleMouseDown: evt].\x0a\x09canvasTag asJQuery \x0a\x09\x09bind: 'mousemove' \x0a\x09\x09do: [:evt | \x0a\x09\x09\x09self handleMouseMove: evt.\x0a\x09\x09\x09world handleGlobalMouseMove: evt.\x0a\x09\x09\x09morphBelowHand handleMouseMove: evt].\x0a\x09canvasTag asJQuery \x0a\x09\x09bind: 'mouseup' \x0a\x09\x09do: [:evt | \x0a\x09\x09\x09world handleGlobalMouseUp: evt.\x0a\x09\x09\x09morphBelowHand handleMouseUp: evt].",
-messageSends: ["bind:do:", "addHalosTo:", "handleGlobalMouseClick:", "handleMouseClick:", "asJQuery", "handleGlobalMouseDown:", "handleMouseDown:", "handleMouseMove:", "handleGlobalMouseMove:", "handleGlobalMouseUp:", "handleMouseUp:"],
-referencedClasses: []
-}),
-smalltalk.AthensHTMLMorphicSurface);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "handleMouseMove:",
-category: 'events',
-fn: function (evt){
-var self=this;
-var oldMorph;
-return smalltalk.withContext(function($ctx1) { 
-var $1,$2;
-oldMorph=self["@morphBelowHand"];
-self["@morphBelowHand"]=_st(self["@world"])._morphAtPosition_(_st(_st(evt)._offsetX()).__at(_st(evt)._offsetY()));
-_st(self["@morphBelowHand"])._handleMouseMove_(evt);
-$1=_st(self["@morphBelowHand"]).__tild_tild(oldMorph);
-if(smalltalk.assert($1)){
-$2=oldMorph;
-if(($receiver = $2) == nil || $receiver == undefined){
-$2;
-} else {
-_st(oldMorph)._handleMouseLeave();
-};
-_st(self["@morphBelowHand"])._handleMouseEnter();
-};
-return self}, function($ctx1) {$ctx1.fill(self,"handleMouseMove:",{evt:evt,oldMorph:oldMorph},smalltalk.AthensHTMLMorphicSurface)})},
-args: ["evt"],
-source: "handleMouseMove: evt\x0a\x09|oldMorph|\x0a\x09oldMorph := morphBelowHand.\x0a\x09morphBelowHand := world morphAtPosition: evt offsetX @ evt offsetY.\x0a\x09morphBelowHand handleMouseMove: evt.\x0a\x09morphBelowHand ~~ oldMorph ifTrue: [\x0a\x09\x09oldMorph ifNotNil: [oldMorph handleMouseLeave].\x0a\x09\x09morphBelowHand handleMouseEnter].",
-messageSends: ["morphAtPosition:", "@", "offsetY", "offsetX", "handleMouseMove:", "ifTrue:", "ifNotNil:", "handleMouseLeave", "handleMouseEnter", "~~"],
+source: "bindEvents\x0a\x09canvasTag asJQuery \x0a\x09\x09bind: 'click' \x0a\x09\x09do: [:evt | world handleEvent: #mouseClick with: evt].\x0a\x09canvasTag asJQuery \x0a\x09\x09bind: 'mousedown' \x0a\x09\x09do: [:evt | world handleEvent: #mouseDown with: evt].\x0a\x09canvasTag asJQuery \x0a\x09\x09bind: 'mousemove' \x0a\x09\x09do: [:evt | world handleEvent: #mouseMove with: evt].\x0a\x09canvasTag asJQuery \x0a\x09\x09bind: 'mouseup' \x0a\x09\x09do: [:evt | world handleEvent: #mouseUp with: evt].",
+messageSends: ["bind:do:", "handleEvent:with:", "asJQuery"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLMorphicSurface);

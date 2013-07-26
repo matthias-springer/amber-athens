@@ -1290,6 +1290,20 @@ smalltalk.Point);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "multiplyBy:",
+fn: function (matrix){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ var x = self['@x'];
+	var y = self['@y'];
+	self['@x'] = matrix['@sx']*x + matrix['@shx']*y + matrix['@x'];
+	self['@y'] = matrix['@shy']*x + matrix['@sy']*y + matrix['@y'];	;
+return self}, function($ctx1) {$ctx1.fill(self,"multiplyBy:",{matrix:matrix},smalltalk.Point)})},
+messageSends: []}),
+smalltalk.Point);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "normalized",
 fn: function (){
 var self=this;

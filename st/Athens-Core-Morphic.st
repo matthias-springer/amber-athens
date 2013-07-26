@@ -380,26 +380,23 @@ highlightColor
 ! !
 
 AthensHaloMorph subclass: #AthensMoveHaloMorph
-	instanceVariableNames: 'globalMoveHandler globalUpHandler globalDownHandler lastPosition'
+	instanceVariableNames: 'globalMoveHandler globalUpHandler globalDownHandler'
 	package: 'Athens-Core-Morphic'!
 
 !AthensMoveHaloMorph methodsFor: 'events'!
 
 handleMouseDown: evt
-	lastPosition := nil.
-	self world registerGlobalMouseMoveCallback: globalMoveHandler.
-	self world registerGlobalMouseUpCallback: globalUpHandler.
+	self world registerGlobalEvent: #mouseMove withCallback: globalMoveHandler.
+	self world registerGlobalEvent: #mouseUp withCallback: globalUpHandler.
 !
 
 handleMouseUp: evt
-	self world unregisterGlobalMouseMoveCallback: globalMoveHandler.
-	self world unregisterGlobalMouseUpCallback: globalUpHandler.
+	self world unregisterGlobalEvent: #mouseMove withCallback: globalMoveHandler.
+	self world unregisterGlobalEvent: #mouseUp withCallback: globalUpHandler.
 !
 
 processMouseMove: evt
-	lastPosition ifNil: [lastPosition := evt offsetX @ evt offsetY].
-	attachedTo translateBy: (evt offsetX @ evt offsetY) - lastPosition.
-	lastPosition := evt offsetX @ evt offsetY.
+	attachedTo translateBy: (attachedTo globalPathTransform inverseTransform: evt offsetX @ evt offsetY).
 !
 
 processMouseUp: evt
@@ -468,68 +465,20 @@ redrawHalosOn: canvas
 
 !AthensWorldMorph methodsFor: 'events'!
 
-handleGlobalMouseClick: evt
-	(globalEventCallbacks at: #mouseClick ifAbsent: [{}])
-		do: [:handler | handler value].
-!
-
-handleGlobalMouseDown: evt
-	(globalEventCallbacks at: #mouseDown ifAbsent: [{}])
+handleEvent: aSymbol with: evt
+	(globalEventCallbacks at: aSymbol ifAbsent: [{}])
 		do: [:handler | handler value: evt].
 !
 
-handleGlobalMouseMove: evt
-	(globalEventCallbacks at: #mouseMove ifAbsent: [{}])
-		do: [:handler | handler value: evt].
-!
-
-handleGlobalMouseUp: evt
-	(globalEventCallbacks at: #mouseUp ifAbsent: [{}])
-		do: [:handler | handler value].
-!
-
-morphAtPosition: aPoint
-	halos reverseDo: [:morph | |ret|
-		morph isVisible ifTrue: [
-			ret := morph morphAtPosition: aPoint.
-			ret ifNotNil: [^ ret]]].
-	
-	^ super morphAtPosition: aPoint
-!
-
-registerGlobalMouseClickCallback: aBlock
+registerGlobalEvent: aSymbol withCallback: aBlock
 	|handlers|
-	handlers := globalEventCallbacks at: #mouseClick ifAbsent: [globalEventCallbacks at: #mouseClick put: OrderedCollection new].
+	handlers := globalEventCallbacks at: aSymbol ifAbsent: [globalEventCallbacks at: aSymbol put: OrderedCollection new].
 	handlers add: aBlock.
 !
 
-registerGlobalMouseMoveCallback: aBlock
+unregisterGlobalEvent: aSymbol withCallback: aBlock
 	|handlers|
-	handlers := globalEventCallbacks at: #mouseMove ifAbsent: [globalEventCallbacks at: #mouseMove put: OrderedCollection new].
-	handlers add: aBlock.
-!
-
-registerGlobalMouseUpCallback: aBlock
-	|handlers|
-	handlers := globalEventCallbacks at: #mouseUp ifAbsent: [globalEventCallbacks at: #mouseUp put: OrderedCollection new].
-	handlers add: aBlock.
-!
-
-unregisterGlobalMouseClickCallback: aBlock
-	|handlers|
-	handlers := globalEventCallbacks at: #mouseClick ifAbsent: [globalEventCallbacks at: #mouseClick put: OrderedCollection new].
-	handlers remove: aBlock.
-!
-
-unregisterGlobalMouseMoveCallback: aBlock
-	|handlers|
-	handlers := globalEventCallbacks at: #mouseMove ifAbsent: [globalEventCallbacks at: #mouseMove put: OrderedCollection new].
-	handlers remove: aBlock.
-!
-
-unregisterGlobalMouseUpCallback: aBlock
-	|handlers|
-	handlers := globalEventCallbacks at: #mouseUp ifAbsent: [globalEventCallbacks at: #mouseUp put: OrderedCollection new].
+	handlers := globalEventCallbacks at: aSymbol ifAbsent: [globalEventCallbacks at: aSymbol put: OrderedCollection new].
 	handlers remove: aBlock.
 ! !
 
@@ -555,7 +504,7 @@ initialize
 	self initializeBackgroundPaint.
 	self initializeHalos.
 	morphBelowHand := self.
-	globalEventCallbacks := Dictionary new.
+	self initializeCallbacks.
 !
 
 initializeBackgroundPaint
@@ -570,12 +519,42 @@ initializeBackgroundPaint
 			drawShape: (5@5 corner: 10@10)].
 !
 
+initializeCallbacks
+	globalEventCallbacks := Dictionary new.
+	self registerGlobalEvent: #mouseMove withCallback: [:evt | self updateMorphBelowHandAt: evt offsetX @ evt offsetY].
+	self registerGlobalEvent: #mouseMove withCallback: [:evt | morphBelowHand handleMouseMove: evt].
+	self registerGlobalEvent: #mouseDown withCallback: [:evt | morphBelowHand handleMouseDown: evt].
+	self registerGlobalEvent: #mouseUp withCallback: [:evt | morphBelowHand handleMouseUp: evt].
+	self registerGlobalEvent: #mouseClick withCallback: [:evt | morphBelowHand handleMouseClick: evt].
+	self registerGlobalEvent: #mouseClick withCallback: [:evt | self addHalosTo: morphBelowHand].
+!
+
 initializeHalos
 	halos := OrderedCollection new.
 	halos add: AthensCloseHaloMorph new.
 	halos add: AthensInspectHaloMorph new.
 	halos add: AthensMoveHaloMorph new.
 	halos do: [:halo | self addMorph: halo].
+! !
+
+!AthensWorldMorph methodsFor: 'morph handling'!
+
+morphAtPosition: aPoint
+	halos reverseDo: [:morph | |ret|
+		morph isVisible ifTrue: [
+			ret := morph morphAtPosition: aPoint.
+			ret ifNotNil: [^ ret]]].
+	
+	^ super morphAtPosition: aPoint
+!
+
+updateMorphBelowHandAt: aPoint
+	|oldMorph|
+	oldMorph := morphBelowHand.
+	morphBelowHand := self morphAtPosition: aPoint.
+	morphBelowHand ~~ oldMorph ifTrue: [
+		oldMorph ifNotNil: [oldMorph handleMouseLeave].
+		morphBelowHand handleMouseEnter].
 ! !
 
 !AthensWorldMorph methodsFor: 'testing'!

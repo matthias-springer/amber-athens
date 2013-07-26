@@ -674,6 +674,13 @@ isPoint
 	^ true
 !
 
+multiplyBy: matrix
+	< var x = self['@x'];
+	var y = self['@y'];
+	self['@x'] = matrix['@sx']*x + matrix['@shx']*y + matrix['@x'];
+	self['@y'] = matrix['@shy']*x + matrix['@sy']*y + matrix['@y'];	>
+!
+
 normalized
 	| r |
 	r := (x * x + (y * y)) sqrt.

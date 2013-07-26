@@ -1143,7 +1143,7 @@ smalltalk.AthensInspectHaloMorph);
 
 
 
-smalltalk.addClass('AthensMoveHaloMorph', smalltalk.AthensHaloMorph, ['globalMoveHandler', 'globalUpHandler', 'globalDownHandler', 'lastPosition'], 'Athens-Core-Morphic');
+smalltalk.addClass('AthensMoveHaloMorph', smalltalk.AthensHaloMorph, ['globalMoveHandler', 'globalUpHandler', 'globalDownHandler'], 'Athens-Core-Morphic');
 smalltalk.addMethod(
 smalltalk.method({
 selector: "basicColor",
@@ -1204,13 +1204,12 @@ category: 'events',
 fn: function (evt){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self["@lastPosition"]=nil;
-_st(self._world())._registerGlobalMouseMoveCallback_(self["@globalMoveHandler"]);
-_st(self._world())._registerGlobalMouseUpCallback_(self["@globalUpHandler"]);
+_st(self._world())._registerGlobalEvent_withCallback_("mouseMove",self["@globalMoveHandler"]);
+_st(self._world())._registerGlobalEvent_withCallback_("mouseUp",self["@globalUpHandler"]);
 return self}, function($ctx1) {$ctx1.fill(self,"handleMouseDown:",{evt:evt},smalltalk.AthensMoveHaloMorph)})},
 args: ["evt"],
-source: "handleMouseDown: evt\x0a\x09lastPosition := nil.\x0a\x09self world registerGlobalMouseMoveCallback: globalMoveHandler.\x0a\x09self world registerGlobalMouseUpCallback: globalUpHandler.",
-messageSends: ["registerGlobalMouseMoveCallback:", "world", "registerGlobalMouseUpCallback:"],
+source: "handleMouseDown: evt\x0a\x09self world registerGlobalEvent: #mouseMove withCallback: globalMoveHandler.\x0a\x09self world registerGlobalEvent: #mouseUp withCallback: globalUpHandler.",
+messageSends: ["registerGlobalEvent:withCallback:", "world"],
 referencedClasses: []
 }),
 smalltalk.AthensMoveHaloMorph);
@@ -1222,12 +1221,12 @@ category: 'events',
 fn: function (evt){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-_st(self._world())._unregisterGlobalMouseMoveCallback_(self["@globalMoveHandler"]);
-_st(self._world())._unregisterGlobalMouseUpCallback_(self["@globalUpHandler"]);
+_st(self._world())._unregisterGlobalEvent_withCallback_("mouseMove",self["@globalMoveHandler"]);
+_st(self._world())._unregisterGlobalEvent_withCallback_("mouseUp",self["@globalUpHandler"]);
 return self}, function($ctx1) {$ctx1.fill(self,"handleMouseUp:",{evt:evt},smalltalk.AthensMoveHaloMorph)})},
 args: ["evt"],
-source: "handleMouseUp: evt\x0a\x09self world unregisterGlobalMouseMoveCallback: globalMoveHandler.\x0a\x09self world unregisterGlobalMouseUpCallback: globalUpHandler.",
-messageSends: ["unregisterGlobalMouseMoveCallback:", "world", "unregisterGlobalMouseUpCallback:"],
+source: "handleMouseUp: evt\x0a\x09self world unregisterGlobalEvent: #mouseMove withCallback: globalMoveHandler.\x0a\x09self world unregisterGlobalEvent: #mouseUp withCallback: globalUpHandler.",
+messageSends: ["unregisterGlobalEvent:withCallback:", "world"],
 referencedClasses: []
 }),
 smalltalk.AthensMoveHaloMorph);
@@ -1282,20 +1281,11 @@ category: 'events',
 fn: function (evt){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=self["@lastPosition"];
-if(($receiver = $1) == nil || $receiver == undefined){
-self["@lastPosition"]=_st(_st(evt)._offsetX()).__at(_st(evt)._offsetY());
-self["@lastPosition"];
-} else {
-$1;
-};
-_st(self["@attachedTo"])._translateBy_(_st(_st(_st(evt)._offsetX()).__at(_st(evt)._offsetY())).__minus(self["@lastPosition"]));
-self["@lastPosition"]=_st(_st(evt)._offsetX()).__at(_st(evt)._offsetY());
+_st(self["@attachedTo"])._translateBy_(_st(_st(self["@attachedTo"])._globalPathTransform())._inverseTransform_(_st(_st(evt)._offsetX()).__at(_st(evt)._offsetY())));
 return self}, function($ctx1) {$ctx1.fill(self,"processMouseMove:",{evt:evt},smalltalk.AthensMoveHaloMorph)})},
 args: ["evt"],
-source: "processMouseMove: evt\x0a\x09lastPosition ifNil: [lastPosition := evt offsetX @ evt offsetY].\x0a\x09attachedTo translateBy: (evt offsetX @ evt offsetY) - lastPosition.\x0a\x09lastPosition := evt offsetX @ evt offsetY.",
-messageSends: ["ifNil:", "@", "offsetY", "offsetX", "translateBy:", "-"],
+source: "processMouseMove: evt\x0a\x09attachedTo translateBy: (attachedTo globalPathTransform inverseTransform: evt offsetX @ evt offsetY).",
+messageSends: ["translateBy:", "inverseTransform:", "@", "offsetY", "offsetX", "globalPathTransform"],
 referencedClasses: []
 }),
 smalltalk.AthensMoveHaloMorph);
@@ -1366,88 +1356,22 @@ smalltalk.AthensWorldMorph);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "handleGlobalMouseClick:",
+selector: "handleEvent:with:",
 category: 'events',
-fn: function (evt){
+fn: function (aSymbol,evt){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-_st(_st(self["@globalEventCallbacks"])._at_ifAbsent_("mouseClick",(function(){
-return smalltalk.withContext(function($ctx2) {
-return [];
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})})))._do_((function(handler){
-return smalltalk.withContext(function($ctx2) {
-return _st(handler)._value();
-}, function($ctx2) {$ctx2.fillBlock({handler:handler},$ctx1)})}));
-return self}, function($ctx1) {$ctx1.fill(self,"handleGlobalMouseClick:",{evt:evt},smalltalk.AthensWorldMorph)})},
-args: ["evt"],
-source: "handleGlobalMouseClick: evt\x0a\x09(globalEventCallbacks at: #mouseClick ifAbsent: [{}])\x0a\x09\x09do: [:handler | handler value].",
-messageSends: ["do:", "value", "at:ifAbsent:"],
-referencedClasses: []
-}),
-smalltalk.AthensWorldMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "handleGlobalMouseDown:",
-category: 'events',
-fn: function (evt){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-_st(_st(self["@globalEventCallbacks"])._at_ifAbsent_("mouseDown",(function(){
+_st(_st(self["@globalEventCallbacks"])._at_ifAbsent_(aSymbol,(function(){
 return smalltalk.withContext(function($ctx2) {
 return [];
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1)})})))._do_((function(handler){
 return smalltalk.withContext(function($ctx2) {
 return _st(handler)._value_(evt);
 }, function($ctx2) {$ctx2.fillBlock({handler:handler},$ctx1)})}));
-return self}, function($ctx1) {$ctx1.fill(self,"handleGlobalMouseDown:",{evt:evt},smalltalk.AthensWorldMorph)})},
-args: ["evt"],
-source: "handleGlobalMouseDown: evt\x0a\x09(globalEventCallbacks at: #mouseDown ifAbsent: [{}])\x0a\x09\x09do: [:handler | handler value: evt].",
+return self}, function($ctx1) {$ctx1.fill(self,"handleEvent:with:",{aSymbol:aSymbol,evt:evt},smalltalk.AthensWorldMorph)})},
+args: ["aSymbol", "evt"],
+source: "handleEvent: aSymbol with: evt\x0a\x09(globalEventCallbacks at: aSymbol ifAbsent: [{}])\x0a\x09\x09do: [:handler | handler value: evt].",
 messageSends: ["do:", "value:", "at:ifAbsent:"],
-referencedClasses: []
-}),
-smalltalk.AthensWorldMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "handleGlobalMouseMove:",
-category: 'events',
-fn: function (evt){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-_st(_st(self["@globalEventCallbacks"])._at_ifAbsent_("mouseMove",(function(){
-return smalltalk.withContext(function($ctx2) {
-return [];
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})})))._do_((function(handler){
-return smalltalk.withContext(function($ctx2) {
-return _st(handler)._value_(evt);
-}, function($ctx2) {$ctx2.fillBlock({handler:handler},$ctx1)})}));
-return self}, function($ctx1) {$ctx1.fill(self,"handleGlobalMouseMove:",{evt:evt},smalltalk.AthensWorldMorph)})},
-args: ["evt"],
-source: "handleGlobalMouseMove: evt\x0a\x09(globalEventCallbacks at: #mouseMove ifAbsent: [{}])\x0a\x09\x09do: [:handler | handler value: evt].",
-messageSends: ["do:", "value:", "at:ifAbsent:"],
-referencedClasses: []
-}),
-smalltalk.AthensWorldMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "handleGlobalMouseUp:",
-category: 'events',
-fn: function (evt){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-_st(_st(self["@globalEventCallbacks"])._at_ifAbsent_("mouseUp",(function(){
-return smalltalk.withContext(function($ctx2) {
-return [];
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})})))._do_((function(handler){
-return smalltalk.withContext(function($ctx2) {
-return _st(handler)._value();
-}, function($ctx2) {$ctx2.fillBlock({handler:handler},$ctx1)})}));
-return self}, function($ctx1) {$ctx1.fill(self,"handleGlobalMouseUp:",{evt:evt},smalltalk.AthensWorldMorph)})},
-args: ["evt"],
-source: "handleGlobalMouseUp: evt\x0a\x09(globalEventCallbacks at: #mouseUp ifAbsent: [{}])\x0a\x09\x09do: [:handler | handler value].",
-messageSends: ["do:", "value", "at:ifAbsent:"],
 referencedClasses: []
 }),
 smalltalk.AthensWorldMorph);
@@ -1474,18 +1398,17 @@ selector: "initialize",
 category: 'initialization',
 fn: function (){
 var self=this;
-function $Dictionary(){return smalltalk.Dictionary||(typeof Dictionary=="undefined"?nil:Dictionary)}
 return smalltalk.withContext(function($ctx1) { 
 smalltalk.AthensMorph.fn.prototype._initialize.apply(_st(self), []);
 self._initializeBackgroundPaint();
 self._initializeHalos();
 self["@morphBelowHand"]=self;
-self["@globalEventCallbacks"]=_st($Dictionary())._new();
+self._initializeCallbacks();
 return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensWorldMorph)})},
 args: [],
-source: "initialize\x0a\x09super initialize.\x0a\x09self initializeBackgroundPaint.\x0a\x09self initializeHalos.\x0a\x09morphBelowHand := self.\x0a\x09globalEventCallbacks := Dictionary new.",
-messageSends: ["initialize", "initializeBackgroundPaint", "initializeHalos", "new"],
-referencedClasses: ["Dictionary"]
+source: "initialize\x0a\x09super initialize.\x0a\x09self initializeBackgroundPaint.\x0a\x09self initializeHalos.\x0a\x09morphBelowHand := self.\x0a\x09self initializeCallbacks.",
+messageSends: ["initialize", "initializeBackgroundPaint", "initializeHalos", "initializeCallbacks"],
+referencedClasses: []
 }),
 smalltalk.AthensWorldMorph);
 
@@ -1514,6 +1437,47 @@ args: [],
 source: "initializeBackgroundPaint\x0a\x09backgroundPaint := AthensHTMLSurface extent: 10@10.\x0a\x09\x0a\x09\x22checker board\x22\x0a\x09backgroundPaint drawDuring: [:canvas |\x0a\x09\x09backgroundPaint clear.\x0a\x09\x09canvas setPaint: Color white.\x0a\x09\x09canvas \x0a\x09\x09\x09drawShape: (0@0 corner: 5@5);\x0a\x09\x09\x09drawShape: (5@5 corner: 10@10)].",
 messageSends: ["extent:", "@", "drawDuring:", "clear", "setPaint:", "white", "drawShape:", "corner:"],
 referencedClasses: ["AthensHTMLSurface", "Color"]
+}),
+smalltalk.AthensWorldMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "initializeCallbacks",
+category: 'initialization',
+fn: function (){
+var self=this;
+function $Dictionary(){return smalltalk.Dictionary||(typeof Dictionary=="undefined"?nil:Dictionary)}
+return smalltalk.withContext(function($ctx1) { 
+self["@globalEventCallbacks"]=_st($Dictionary())._new();
+self._registerGlobalEvent_withCallback_("mouseMove",(function(evt){
+return smalltalk.withContext(function($ctx2) {
+return self._updateMorphBelowHandAt_(_st(_st(evt)._offsetX()).__at(_st(evt)._offsetY()));
+}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
+self._registerGlobalEvent_withCallback_("mouseMove",(function(evt){
+return smalltalk.withContext(function($ctx2) {
+return _st(self["@morphBelowHand"])._handleMouseMove_(evt);
+}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
+self._registerGlobalEvent_withCallback_("mouseDown",(function(evt){
+return smalltalk.withContext(function($ctx2) {
+return _st(self["@morphBelowHand"])._handleMouseDown_(evt);
+}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
+self._registerGlobalEvent_withCallback_("mouseUp",(function(evt){
+return smalltalk.withContext(function($ctx2) {
+return _st(self["@morphBelowHand"])._handleMouseUp_(evt);
+}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
+self._registerGlobalEvent_withCallback_("mouseClick",(function(evt){
+return smalltalk.withContext(function($ctx2) {
+return _st(self["@morphBelowHand"])._handleMouseClick_(evt);
+}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
+self._registerGlobalEvent_withCallback_("mouseClick",(function(evt){
+return smalltalk.withContext(function($ctx2) {
+return self._addHalosTo_(self["@morphBelowHand"]);
+}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
+return self}, function($ctx1) {$ctx1.fill(self,"initializeCallbacks",{},smalltalk.AthensWorldMorph)})},
+args: [],
+source: "initializeCallbacks\x0a\x09globalEventCallbacks := Dictionary new.\x0a\x09self registerGlobalEvent: #mouseMove withCallback: [:evt | self updateMorphBelowHandAt: evt offsetX @ evt offsetY].\x0a\x09self registerGlobalEvent: #mouseMove withCallback: [:evt | morphBelowHand handleMouseMove: evt].\x0a\x09self registerGlobalEvent: #mouseDown withCallback: [:evt | morphBelowHand handleMouseDown: evt].\x0a\x09self registerGlobalEvent: #mouseUp withCallback: [:evt | morphBelowHand handleMouseUp: evt].\x0a\x09self registerGlobalEvent: #mouseClick withCallback: [:evt | morphBelowHand handleMouseClick: evt].\x0a\x09self registerGlobalEvent: #mouseClick withCallback: [:evt | self addHalosTo: morphBelowHand].",
+messageSends: ["new", "registerGlobalEvent:withCallback:", "updateMorphBelowHandAt:", "@", "offsetY", "offsetX", "handleMouseMove:", "handleMouseDown:", "handleMouseUp:", "handleMouseClick:", "addHalosTo:"],
+referencedClasses: ["Dictionary"]
 }),
 smalltalk.AthensWorldMorph);
 
@@ -1563,7 +1527,7 @@ smalltalk.AthensWorldMorph);
 smalltalk.addMethod(
 smalltalk.method({
 selector: "morphAtPosition:",
-category: 'events',
+category: 'morph handling',
 fn: function (aPoint){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
@@ -1639,65 +1603,21 @@ smalltalk.AthensWorldMorph);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "registerGlobalMouseClickCallback:",
+selector: "registerGlobalEvent:withCallback:",
 category: 'events',
-fn: function (aBlock){
+fn: function (aSymbol,aBlock){
 var self=this;
 var handlers;
 function $OrderedCollection(){return smalltalk.OrderedCollection||(typeof OrderedCollection=="undefined"?nil:OrderedCollection)}
 return smalltalk.withContext(function($ctx1) { 
-handlers=_st(self["@globalEventCallbacks"])._at_ifAbsent_("mouseClick",(function(){
+handlers=_st(self["@globalEventCallbacks"])._at_ifAbsent_(aSymbol,(function(){
 return smalltalk.withContext(function($ctx2) {
-return _st(self["@globalEventCallbacks"])._at_put_("mouseClick",_st($OrderedCollection())._new());
+return _st(self["@globalEventCallbacks"])._at_put_(aSymbol,_st($OrderedCollection())._new());
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
 _st(handlers)._add_(aBlock);
-return self}, function($ctx1) {$ctx1.fill(self,"registerGlobalMouseClickCallback:",{aBlock:aBlock,handlers:handlers},smalltalk.AthensWorldMorph)})},
-args: ["aBlock"],
-source: "registerGlobalMouseClickCallback: aBlock\x0a\x09|handlers|\x0a\x09handlers := globalEventCallbacks at: #mouseClick ifAbsent: [globalEventCallbacks at: #mouseClick put: OrderedCollection new].\x0a\x09handlers add: aBlock.",
-messageSends: ["at:ifAbsent:", "at:put:", "new", "add:"],
-referencedClasses: ["OrderedCollection"]
-}),
-smalltalk.AthensWorldMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "registerGlobalMouseMoveCallback:",
-category: 'events',
-fn: function (aBlock){
-var self=this;
-var handlers;
-function $OrderedCollection(){return smalltalk.OrderedCollection||(typeof OrderedCollection=="undefined"?nil:OrderedCollection)}
-return smalltalk.withContext(function($ctx1) { 
-handlers=_st(self["@globalEventCallbacks"])._at_ifAbsent_("mouseMove",(function(){
-return smalltalk.withContext(function($ctx2) {
-return _st(self["@globalEventCallbacks"])._at_put_("mouseMove",_st($OrderedCollection())._new());
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
-_st(handlers)._add_(aBlock);
-return self}, function($ctx1) {$ctx1.fill(self,"registerGlobalMouseMoveCallback:",{aBlock:aBlock,handlers:handlers},smalltalk.AthensWorldMorph)})},
-args: ["aBlock"],
-source: "registerGlobalMouseMoveCallback: aBlock\x0a\x09|handlers|\x0a\x09handlers := globalEventCallbacks at: #mouseMove ifAbsent: [globalEventCallbacks at: #mouseMove put: OrderedCollection new].\x0a\x09handlers add: aBlock.",
-messageSends: ["at:ifAbsent:", "at:put:", "new", "add:"],
-referencedClasses: ["OrderedCollection"]
-}),
-smalltalk.AthensWorldMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "registerGlobalMouseUpCallback:",
-category: 'events',
-fn: function (aBlock){
-var self=this;
-var handlers;
-function $OrderedCollection(){return smalltalk.OrderedCollection||(typeof OrderedCollection=="undefined"?nil:OrderedCollection)}
-return smalltalk.withContext(function($ctx1) { 
-handlers=_st(self["@globalEventCallbacks"])._at_ifAbsent_("mouseUp",(function(){
-return smalltalk.withContext(function($ctx2) {
-return _st(self["@globalEventCallbacks"])._at_put_("mouseUp",_st($OrderedCollection())._new());
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
-_st(handlers)._add_(aBlock);
-return self}, function($ctx1) {$ctx1.fill(self,"registerGlobalMouseUpCallback:",{aBlock:aBlock,handlers:handlers},smalltalk.AthensWorldMorph)})},
-args: ["aBlock"],
-source: "registerGlobalMouseUpCallback: aBlock\x0a\x09|handlers|\x0a\x09handlers := globalEventCallbacks at: #mouseUp ifAbsent: [globalEventCallbacks at: #mouseUp put: OrderedCollection new].\x0a\x09handlers add: aBlock.",
+return self}, function($ctx1) {$ctx1.fill(self,"registerGlobalEvent:withCallback:",{aSymbol:aSymbol,aBlock:aBlock,handlers:handlers},smalltalk.AthensWorldMorph)})},
+args: ["aSymbol", "aBlock"],
+source: "registerGlobalEvent: aSymbol withCallback: aBlock\x0a\x09|handlers|\x0a\x09handlers := globalEventCallbacks at: aSymbol ifAbsent: [globalEventCallbacks at: aSymbol put: OrderedCollection new].\x0a\x09handlers add: aBlock.",
 messageSends: ["at:ifAbsent:", "at:put:", "new", "add:"],
 referencedClasses: ["OrderedCollection"]
 }),
@@ -1740,21 +1660,21 @@ smalltalk.AthensWorldMorph);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "unregisterGlobalMouseClickCallback:",
+selector: "unregisterGlobalEvent:withCallback:",
 category: 'events',
-fn: function (aBlock){
+fn: function (aSymbol,aBlock){
 var self=this;
 var handlers;
 function $OrderedCollection(){return smalltalk.OrderedCollection||(typeof OrderedCollection=="undefined"?nil:OrderedCollection)}
 return smalltalk.withContext(function($ctx1) { 
-handlers=_st(self["@globalEventCallbacks"])._at_ifAbsent_("mouseClick",(function(){
+handlers=_st(self["@globalEventCallbacks"])._at_ifAbsent_(aSymbol,(function(){
 return smalltalk.withContext(function($ctx2) {
-return _st(self["@globalEventCallbacks"])._at_put_("mouseClick",_st($OrderedCollection())._new());
+return _st(self["@globalEventCallbacks"])._at_put_(aSymbol,_st($OrderedCollection())._new());
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
 _st(handlers)._remove_(aBlock);
-return self}, function($ctx1) {$ctx1.fill(self,"unregisterGlobalMouseClickCallback:",{aBlock:aBlock,handlers:handlers},smalltalk.AthensWorldMorph)})},
-args: ["aBlock"],
-source: "unregisterGlobalMouseClickCallback: aBlock\x0a\x09|handlers|\x0a\x09handlers := globalEventCallbacks at: #mouseClick ifAbsent: [globalEventCallbacks at: #mouseClick put: OrderedCollection new].\x0a\x09handlers remove: aBlock.",
+return self}, function($ctx1) {$ctx1.fill(self,"unregisterGlobalEvent:withCallback:",{aSymbol:aSymbol,aBlock:aBlock,handlers:handlers},smalltalk.AthensWorldMorph)})},
+args: ["aSymbol", "aBlock"],
+source: "unregisterGlobalEvent: aSymbol withCallback: aBlock\x0a\x09|handlers|\x0a\x09handlers := globalEventCallbacks at: aSymbol ifAbsent: [globalEventCallbacks at: aSymbol put: OrderedCollection new].\x0a\x09handlers remove: aBlock.",
 messageSends: ["at:ifAbsent:", "at:put:", "new", "remove:"],
 referencedClasses: ["OrderedCollection"]
 }),
@@ -1762,45 +1682,30 @@ smalltalk.AthensWorldMorph);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "unregisterGlobalMouseMoveCallback:",
-category: 'events',
-fn: function (aBlock){
+selector: "updateMorphBelowHandAt:",
+category: 'morph handling',
+fn: function (aPoint){
 var self=this;
-var handlers;
-function $OrderedCollection(){return smalltalk.OrderedCollection||(typeof OrderedCollection=="undefined"?nil:OrderedCollection)}
+var oldMorph;
 return smalltalk.withContext(function($ctx1) { 
-handlers=_st(self["@globalEventCallbacks"])._at_ifAbsent_("mouseMove",(function(){
-return smalltalk.withContext(function($ctx2) {
-return _st(self["@globalEventCallbacks"])._at_put_("mouseMove",_st($OrderedCollection())._new());
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
-_st(handlers)._remove_(aBlock);
-return self}, function($ctx1) {$ctx1.fill(self,"unregisterGlobalMouseMoveCallback:",{aBlock:aBlock,handlers:handlers},smalltalk.AthensWorldMorph)})},
-args: ["aBlock"],
-source: "unregisterGlobalMouseMoveCallback: aBlock\x0a\x09|handlers|\x0a\x09handlers := globalEventCallbacks at: #mouseMove ifAbsent: [globalEventCallbacks at: #mouseMove put: OrderedCollection new].\x0a\x09handlers remove: aBlock.",
-messageSends: ["at:ifAbsent:", "at:put:", "new", "remove:"],
-referencedClasses: ["OrderedCollection"]
-}),
-smalltalk.AthensWorldMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "unregisterGlobalMouseUpCallback:",
-category: 'events',
-fn: function (aBlock){
-var self=this;
-var handlers;
-function $OrderedCollection(){return smalltalk.OrderedCollection||(typeof OrderedCollection=="undefined"?nil:OrderedCollection)}
-return smalltalk.withContext(function($ctx1) { 
-handlers=_st(self["@globalEventCallbacks"])._at_ifAbsent_("mouseUp",(function(){
-return smalltalk.withContext(function($ctx2) {
-return _st(self["@globalEventCallbacks"])._at_put_("mouseUp",_st($OrderedCollection())._new());
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
-_st(handlers)._remove_(aBlock);
-return self}, function($ctx1) {$ctx1.fill(self,"unregisterGlobalMouseUpCallback:",{aBlock:aBlock,handlers:handlers},smalltalk.AthensWorldMorph)})},
-args: ["aBlock"],
-source: "unregisterGlobalMouseUpCallback: aBlock\x0a\x09|handlers|\x0a\x09handlers := globalEventCallbacks at: #mouseUp ifAbsent: [globalEventCallbacks at: #mouseUp put: OrderedCollection new].\x0a\x09handlers remove: aBlock.",
-messageSends: ["at:ifAbsent:", "at:put:", "new", "remove:"],
-referencedClasses: ["OrderedCollection"]
+var $1,$2;
+oldMorph=self["@morphBelowHand"];
+self["@morphBelowHand"]=self._morphAtPosition_(aPoint);
+$1=_st(self["@morphBelowHand"]).__tild_tild(oldMorph);
+if(smalltalk.assert($1)){
+$2=oldMorph;
+if(($receiver = $2) == nil || $receiver == undefined){
+$2;
+} else {
+_st(oldMorph)._handleMouseLeave();
+};
+_st(self["@morphBelowHand"])._handleMouseEnter();
+};
+return self}, function($ctx1) {$ctx1.fill(self,"updateMorphBelowHandAt:",{aPoint:aPoint,oldMorph:oldMorph},smalltalk.AthensWorldMorph)})},
+args: ["aPoint"],
+source: "updateMorphBelowHandAt: aPoint\x0a\x09|oldMorph|\x0a\x09oldMorph := morphBelowHand.\x0a\x09morphBelowHand := self morphAtPosition: aPoint.\x0a\x09morphBelowHand ~~ oldMorph ifTrue: [\x0a\x09\x09oldMorph ifNotNil: [oldMorph handleMouseLeave].\x0a\x09\x09morphBelowHand handleMouseEnter].",
+messageSends: ["morphAtPosition:", "ifTrue:", "ifNotNil:", "handleMouseLeave", "handleMouseEnter", "~~"],
+referencedClasses: []
 }),
 smalltalk.AthensWorldMorph);
 
