@@ -1730,7 +1730,38 @@ smalltalk.AthensPathSegmentConverter);
 
 
 
-smalltalk.addClass('AthensPolygon', smalltalk.Object, ['contours', 'currentContour'], 'Athens-Core-Paths');
+smalltalk.addClass('AthensPolygon', smalltalk.Object, ['contours', 'currentContour', 'distanceTolerance', 'angleTolerance', 'endPoint'], 'Athens-Core-Paths');
+smalltalk.addMethod(
+smalltalk.method({
+selector: "angleBetween:and:ifDegenerate:",
+category: 'bezier flattening',
+fn: function (p1,p2,aBlock){
+var self=this;
+var x1,y1,x2,y2,dot2,n2;
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2,$3;
+x1=_st(p1)._x();
+y1=_st(p1)._y();
+x2=_st(p2)._x();
+y2=_st(p2)._y();
+dot2=_st(_st(x1).__star(x2)).__plus(_st(y1).__star(y2));
+dot2=_st(dot2).__star(dot2);
+n2=_st(_st(_st(x1).__star(x1)).__plus(_st(y1).__star(y1))).__star(_st(_st(x2).__star(x2)).__plus(_st(y2).__star(y2)));
+$1=_st(n2).__eq((0));
+if(smalltalk.assert($1)){
+$2=_st(aBlock)._value();
+return $2;
+};
+$3=_st(_st(dot2).__slash(n2))._arcCos();
+return $3;
+}, function($ctx1) {$ctx1.fill(self,"angleBetween:and:ifDegenerate:",{p1:p1,p2:p2,aBlock:aBlock,x1:x1,y1:y1,x2:x2,y2:y2,dot2:dot2,n2:n2},smalltalk.AthensPolygon)})},
+args: ["p1", "p2", "aBlock"],
+source: "angleBetween: p1 and: p2 ifDegenerate: aBlock\x0a\x0a\x22 Calculate an angle (in radians) between two vectors. \x0aEvaluate a block, in case if calculation not possible because one of the vectors has zero length \x22\x0a\x0a\x09| x1 y1 x2 y2 dot2 n2 |\x0a\x09x1 := p1 x.\x0a\x09y1 := p1 y.\x0a\x09x2 := p2 x.\x0a\x09y2 := p2 y.\x0a\x09\x0a\x09dot2 := x1 * x2 + (y1 * y2).\x0a\x09dot2 := dot2 * dot2.\x0a\x09\x0a\x09n2 := (x1*x1 + (y1*y1)) * (x2*x2 + (y2*y2)).\x0a\x09\x0a\x09n2 = 0 ifTrue: [ ^ aBlock value ].\x0a\x09\x0a\x09^ (dot2 / n2) arcCos",
+messageSends: ["x", "y", "+", "*", "ifTrue:", "value", "=", "arcCos", "/"],
+referencedClasses: []
+}),
+smalltalk.AthensPolygon);
+
 smalltalk.addMethod(
 smalltalk.method({
 selector: "asPolygon",
@@ -1787,6 +1818,23 @@ return $2;
 args: [],
 source: "boundingBox\x0a\x09|minX minY maxX maxY|\x0a\x09contours do: [:contour |\x0a\x09\x09contour do: [:point |\x0a\x09\x09\x09minX == nil ifTrue: [minX := maxX := point x. minY := maxY := point y].\x0a\x09\x09\x09minX := minX min: point x.\x0a\x09\x09\x09minY := minY min: point y.\x0a\x09\x09\x09maxX := maxX max: point x.\x0a\x09\x09\x09maxY := maxY max: point y]].\x0a\x09^ minX@minY corner: maxX@maxY",
 messageSends: ["do:", "ifTrue:", "x", "y", "==", "min:", "max:", "corner:", "@"],
+referencedClasses: []
+}),
+smalltalk.AthensPolygon);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "curveVia:to:",
+category: 'conversion',
+fn: function (pt1,pt2){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self._recursiveBezier2X1_y1_x2_y2_x3_y3_(_st(self["@endPoint"])._x(),_st(self["@endPoint"])._y(),_st(pt1)._x(),_st(pt1)._y(),_st(pt2)._x(),_st(pt2)._y());
+self["@endPoint"]=pt2;
+return self}, function($ctx1) {$ctx1.fill(self,"curveVia:to:",{pt1:pt1,pt2:pt2},smalltalk.AthensPolygon)})},
+args: ["pt1", "pt2"],
+source: "curveVia: pt1 to: pt2\x0a\x09self recursiveBezier2X1: endPoint x y1: endPoint y\x0a\x09\x09x2: pt1 x y2: pt1 y\x0a\x09\x09x3: pt2 x y3: pt2 y.\x0a\x09endPoint := pt2.",
+messageSends: ["recursiveBezier2X1:y1:x2:y2:x3:y3:", "x", "y"],
 referencedClasses: []
 }),
 smalltalk.AthensPolygon);
@@ -1894,11 +1942,90 @@ var self=this;
 function $OrderedCollection(){return smalltalk.OrderedCollection||(typeof OrderedCollection=="undefined"?nil:OrderedCollection)}
 return smalltalk.withContext(function($ctx1) { 
 self["@contours"]=_st($OrderedCollection())._new();
+self["@distanceTolerance"]=(0.5);
+self["@angleTolerance"]=(0.1);
 return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensPolygon)})},
 args: [],
-source: "initialize\x0a\x09contours := OrderedCollection new.",
+source: "initialize\x0a\x09contours := OrderedCollection new.\x0a\x09\x0a\x09distanceTolerance := 0.5.\x0a\x09angleTolerance := 0.1. ",
 messageSends: ["new"],
 referencedClasses: ["OrderedCollection"]
+}),
+smalltalk.AthensPolygon);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "isFlatBezier2X1:y1:x2:y2:x3:y3:",
+category: 'bezier flattening',
+fn: function (x1,y1,x2,y2,x3,y3){
+var self=this;
+var dx,dy,d,da,angle;
+function $CurveAngleTolerance(){return smalltalk.CurveAngleTolerance||(typeof CurveAngleTolerance=="undefined"?nil:CurveAngleTolerance)}
+function $CollinearityEps(){return smalltalk.CollinearityEps||(typeof CollinearityEps=="undefined"?nil:CollinearityEps)}
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2,$3,$4,$5,$6,$7,$8,$9;
+dx=_st(x3).__minus(x1);
+dy=_st(y3).__minus(y1);
+d=_st(_st(_st(_st(x2).__minus(x3)).__star(dy)).__minus(_st(_st(y2).__minus(y3)).__star(dx)))._abs();
+$1=_st(d).__gt($CollinearityEps());
+if(smalltalk.assert($1)){
+$2=_st(_st(d).__star(d)).__lt_eq(_st(self["@distanceTolerance"]).__star(_st(_st(dx).__star(dx)).__plus(_st(dy).__star(dy))));
+if(smalltalk.assert($2)){
+$3=_st(self["@angleTolerance"]).__lt($CurveAngleTolerance());
+if(smalltalk.assert($3)){
+return true;
+};
+angle=self._angleBetween_and_ifDegenerate_(_st(_st(x2).__minus(x1)).__at(_st(y2).__minus(y1)),_st(_st(x3).__minus(x2)).__at(_st(y3).__minus(y2)),(function(){
+return smalltalk.withContext(function($ctx2) {
+return (0);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
+angle;
+$4=_st(angle).__lt_eq(self["@angleTolerance"]);
+if(smalltalk.assert($4)){
+return true;
+};
+};
+} else {
+da=_st(_st(dx).__star(dx)).__plus(_st(dy).__star(dy));
+da;
+$5=_st(da).__eq((0));
+if(smalltalk.assert($5)){
+d=_st(_st(_st(x1).__minus(x2))._squared()).__plus(_st(_st(y1).__minus(y2))._squared());
+d;
+} else {
+_st(_st(d).__eq(_st(_st(_st(x2).__minus(x1)).__star(dx)).__plus(_st(_st(y2).__minus(y1)).__star(dy)))).__slash(da);
+$6=_st(_st(d).__gt((0)))._and_((function(){
+return smalltalk.withContext(function($ctx2) {
+return _st(d).__lt((1));
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
+if(smalltalk.assert($6)){
+return true;
+};
+$7=_st(d).__lt_eq((0));
+if(smalltalk.assert($7)){
+d=_st(_st(_st(x1).__minus(x2))._squared()).__plus(_st(_st(y1).__minus(y2))._squared());
+d;
+} else {
+$8=_st(d).__gt_eq((1));
+if(smalltalk.assert($8)){
+d=_st(_st(_st(x2).__minus(x3))._squared()).__plus(_st(_st(y2).__minus(y3))._squared());
+d;
+} else {
+d=_st(_st(_st(_st(x2).__minus(x1)).__minus(_st(d).__star(dx)))._squared()).__plus(_st(_st(_st(y2).__minus(y1)).__minus(_st(d).__star(dy)))._squared());
+d;
+};
+};
+};
+$9=_st(d).__lt(self._distanceToleranceSquared());
+if(smalltalk.assert($9)){
+return true;
+};
+};
+return false;
+}, function($ctx1) {$ctx1.fill(self,"isFlatBezier2X1:y1:x2:y2:x3:y3:",{x1:x1,y1:y1,x2:x2,y2:y2,x3:x3,y3:y3,dx:dx,dy:dy,d:d,da:da,angle:angle},smalltalk.AthensPolygon)})},
+args: ["x1", "y1", "x2", "y2", "x3", "y3"],
+source: "isFlatBezier2X1: x1 y1: y1 x2: x2 y2: y2 x3: x3 y3: y3\x0a\x0a\x09| dx dy d da angle |\x0a\x09\x0a\x09dx := x3-x1.\x0a\x09dy := y3-y1.\x0a\x09\x0a \x09d := (((x2 - x3) * dy) - ((y2 - y3) * dx)) abs.\x0a\x0a\x09d > CollinearityEps ifTrue: [\x0a\x09\x09\x0a\x09\x09\x22regular case\x22\x0a\x0a\x09\x09d*d <= (distanceTolerance * ( dx*dx + (dy*dy))) ifTrue: [\x0a\x09\x09\x09\x0a\x09\x09\x09angleTolerance < CurveAngleTolerance ifTrue: [ ^ true ].\x0a\x09\x09\x09\x0a\x09\x09\x09angle := self angleBetween: x2-x1 @ (y2-y1) and: x3-x2 @ (y3-y2)\x0a\x09\x09\x09\x09ifDegenerate: [ 0.0 ].\x0a\x09\x09\x09\x0a\x09\x09\x09\x22parallel. no need to proceed further\x22\x0a\x09\x09\x09angle <= angleTolerance ifTrue: [ ^ true ]\x09\x09\x09\x09\x09\x0a\x09\x09]\x0a\x09]\x0a\x09ifFalse: [ \x0a\x09\x09\x22collinear\x22\x0a\x09\x09da := dx*dx + (dy*dy).\x0a\x09\x09\x0a\x09\x09da = 0 \x0a\x09\x09\x09ifTrue: [ d := (x1-x2) squared + (y1-y2) squared ]\x0a\x09\x09\x09ifFalse: [\x0a\x09\x09\x09\x09d = ((x2 - x1)*dx + ((y2 - y1)*dy)) / da.\x0a\x0a\x09\x09\x09\x09(d > 0.0 and: [ d < 1.0 ] ) ifTrue: [ \x0a\x09\x09\x09\x09\x09\x22Simple collinear case, 1---2---3\x22 \x0a\x09\x09\x09\x09\x09^ true\x0a     \x09\x09\x09\x09].\x0a\x09\x09\x09\x09d <= 0.0 \x0a\x09\x09\x09\x09\x09ifTrue: [ d := (x1-x2) squared + (y1-y2) squared ]\x0a\x09\x09\x09\x09\x09ifFalse: [\x0a\x09\x09\x09\x09\x09\x09d >= 1.0 \x0a\x09\x09\x09\x09\x09\x09\x09ifTrue: [ d:= (x2-x3) squared + (y2-y3) squared ]\x0a\x09\x09\x09\x09\x09\x09\x09ifFalse: [ d:= (x2 - x1 - (d*dx)) squared + (y2 - y1 - (d*dy)) squared ]\x0a\x09\x09\x09\x09\x09].\x0a\x09\x09\x09].\x0a\x0a\x09\x09\x09d < self distanceToleranceSquared ifTrue: [ ^ true ]\x09\x09\x0a\x09].\x0a\x0a\x09^ false",
+messageSends: ["-", "abs", "*", "ifTrue:ifFalse:", "ifTrue:", "<", "angleBetween:and:ifDegenerate:", "@", "<=", "+", "squared", "/", "=", "and:", ">", ">=", "distanceToleranceSquared"],
+referencedClasses: ["CurveAngleTolerance", "CollinearityEps"]
 }),
 smalltalk.AthensPolygon);
 
@@ -1910,9 +2037,10 @@ fn: function (aPoint){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 _st(self["@currentContour"])._add_(aPoint);
+self["@endPoint"]=aPoint;
 return self}, function($ctx1) {$ctx1.fill(self,"lineTo:",{aPoint:aPoint},smalltalk.AthensPolygon)})},
 args: ["aPoint"],
-source: "lineTo: aPoint \x0a\x09currentContour add: aPoint",
+source: "lineTo: aPoint \x0a\x09currentContour add: aPoint.\x0a\x09endPoint := aPoint.",
 messageSends: ["add:"],
 referencedClasses: []
 }),
@@ -1927,9 +2055,10 @@ var self=this;
 return smalltalk.withContext(function($ctx1) { 
 self._newContour();
 _st(self["@currentContour"])._add_(aPoint);
+self["@endPoint"]=aPoint;
 return self}, function($ctx1) {$ctx1.fill(self,"moveTo:",{aPoint:aPoint},smalltalk.AthensPolygon)})},
 args: ["aPoint"],
-source: "moveTo: aPoint \x0a\x09\x22 create a new contour \x22\x0a\x09\x0a\x09self newContour.\x0a\x09currentContour add: aPoint.",
+source: "moveTo: aPoint \x0a\x09\x22 create a new contour \x22\x0a\x09self newContour.\x0a\x09currentContour add: aPoint.\x0a\x09endPoint := aPoint.",
 messageSends: ["newContour", "add:"],
 referencedClasses: []
 }),
@@ -1992,6 +2121,45 @@ return $1;
 args: ["aPaint", "anAthensCanvas"],
 source: "paintFillsUsing: aPaint on: anAthensCanvas \x0a\x09\x0a\x09\x22This method is a part of rendering dispatch  Canvas->receiver->paint\x22\x0a\x09\x0a\x09^ aPaint fillPolygon: self on: anAthensCanvas",
 messageSends: ["fillPolygon:on:"],
+referencedClasses: []
+}),
+smalltalk.AthensPolygon);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "recursiveBezier2X1:y1:x2:y2:x3:y3:",
+category: 'bezier flattening',
+fn: function (x1,y1,x2,y2,x3,y3){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2,$3;
+$1=self._isFlatBezier2X1_y1_x2_y2_x3_y3_(x1,y1,x2,y2,x3,y3);
+if(smalltalk.assert($1)){
+$2=self;
+_st($2)._lineTo_(_st(x2).__at(y2));
+$3=_st($2)._lineTo_(_st(x3).__at(y3));
+$3;
+} else {
+var x12,y12,x23,y23,x123,y123;
+x12=_st(_st(x1).__plus(x2)).__star((0.5));
+x12;
+y12=_st(_st(y1).__plus(y2)).__star((0.5));
+y12;
+x23=_st(_st(x2).__plus(x3)).__star((0.5));
+x23;
+y23=_st(_st(y2).__plus(y3)).__star((0.5));
+y23;
+x123=_st(_st(x12).__plus(x23)).__star((0.5));
+x123;
+y123=_st(_st(y12).__plus(y23)).__star((0.5));
+y123;
+self._recursiveBezier2X1_y1_x2_y2_x3_y3_(x1,y1,x12,y12,x123,y123);
+self._recursiveBezier2X1_y1_x2_y2_x3_y3_(x123,y123,x23,y23,x3,y3);
+};
+return self}, function($ctx1) {$ctx1.fill(self,"recursiveBezier2X1:y1:x2:y2:x3:y3:",{x1:x1,y1:y1,x2:x2,y2:y2,x3:x3,y3:y3},smalltalk.AthensPolygon)})},
+args: ["x1", "y1", "x2", "y2", "x3", "y3"],
+source: "recursiveBezier2X1: x1 y1: y1 x2: x2 y2: y2 x3: x3 y3: y3\x0a\x0a\x09\x22recursively subdive bezier curve as long as #isFlatBezier2.. answers false \x22\x0a\x0a\x09(self isFlatBezier2X1: x1 y1: y1 x2: x2 y2: y2 x3: x3 y3: y3) ifTrue: [\x0a\x09\x09\x0a\x09\x09self \x0a\x09\x09\x09lineTo: x2 @ y2;\x0a\x09\x09\x09lineTo: x3 @ y3\x0a\x09] ifFalse: [\x0a\x09\x09| x12 y12 x23 y23 x123 y123 |\x09\x0a\x09\x22calculate midpoints of line segments \x22\x0a\x09\x09x12 := (x1 + x2) * 0.5.\x0a\x09\x09y12 := (y1 + y2) * 0.5 .\x0a\x0a\x09\x09x23 := (x2 + x3) * 0.5 .\x0a\x09\x09y23 := (y2 + y3) * 0.5 .\x0a\x0a\x09\x09x123 := (x12 + x23) * 0.5.\x0a\x09\x09y123 := (y12 + y23) * 0.5.\x0a\x09\x09\x0a\x09\x09self recursiveBezier2X1: x1 y1: y1 \x0a\x09\x09\x09x2: x12 \x0a\x09\x09\x09y2: y12 \x0a\x09\x09\x09x3: x123 \x0a\x09\x09\x09y3: y123.\x0a\x09\x09\x09\x0a\x09\x09self recursiveBezier2X1: x123 \x0a\x09\x09\x09y1: y123\x0a\x09\x09\x09x2: x23\x0a\x09\x09\x09y2: y23 \x0a\x09\x09\x09x3: x3 \x0a\x09\x09\x09y3: y3.\x0a\x09]",
+messageSends: ["ifTrue:ifFalse:", "lineTo:", "@", "*", "+", "recursiveBezier2X1:y1:x2:y2:x3:y3:", "isFlatBezier2X1:y1:x2:y2:x3:y3:"],
 referencedClasses: []
 }),
 smalltalk.AthensPolygon);

@@ -22,7 +22,6 @@ return smalltalk.withContext(function($ctx1) {
  var context2D = anAthensCanvas['@surface']['@context2D'];
 	self._preparePaintFor_(context2D);
 	context2D.beginPath();
-	anAthensCanvas['@pathTransform']._set();
 	//anAthensCanvas['@paintTransform']._apply();
 	context2D.fillStyle = self['@fillStyle'];
 	context2D.fillText(aString, 0, 0); ;
@@ -39,11 +38,12 @@ return smalltalk.withContext(function($ctx1) {
  var context2D = anAthensCanvas['@surface']['@context2D'];
 	self._preparePaintFor_(context2D);
 	context2D.beginPath();
-	anAthensCanvas['@pathTransform']._set();
 	aPath._drawOn_(anAthensCanvas);
-	anAthensCanvas['@paintTransform']._apply();
+	context2D.save();
+	anAthensCanvas['@pathTransform']._multiplyBy_(anAthensCanvas['@paintTransform']);
 	context2D.fillStyle = self['@fillStyle'];
-	context2D.fill(); ;
+	context2D.fill(); 
+	context2D.restore();;
 return self}, function($ctx1) {$ctx1.fill(self,"fillPath:on:",{aPath:aPath,anAthensCanvas:anAthensCanvas},smalltalk.AthensHTMLPaint)})},
 messageSends: []}),
 smalltalk.AthensHTMLPaint);
@@ -57,11 +57,12 @@ return smalltalk.withContext(function($ctx1) {
  var context2D = anAthensCanvas['@surface']['@context2D'];
 	self._preparePaintFor_(context2D);
 	context2D.beginPath();
-	anAthensCanvas['@pathTransform']._set();
 	context2D.rect(aRect._left(), aRect._top(), aRect._width(), aRect._height());
-	anAthensCanvas['@paintTransform']._apply();
+	context2D.save();
+	anAthensCanvas['@pathTransform']._multiplyBy_(anAthensCanvas['@paintTransform']);
 	context2D.fillStyle = self['@fillStyle'];
-	context2D.fill(); ;
+	context2D.fill(); 
+	context2D.restore(); ;
 return self}, function($ctx1) {$ctx1.fill(self,"fillRectangle:on:",{aRect:aRect,anAthensCanvas:anAthensCanvas},smalltalk.AthensHTMLPaint)})},
 messageSends: []}),
 smalltalk.AthensHTMLPaint);
@@ -356,7 +357,6 @@ var self=this;
 return smalltalk.withContext(function($ctx1) { 
  var context2D = anAthensCanvas['@surface']['@context2D'];
 	context2D.fillStyle = self['@fillStyle'];
-	anAthensCanvas._pathTransform()._set();
 	context2D.fillText(aString, 0, 0); ;
 return self}, function($ctx1) {$ctx1.fill(self,"drawString:on:",{aString:aString,anAthensCanvas:anAthensCanvas},smalltalk.AthensHTMLSolidPaint)})},
 messageSends: []}),
@@ -369,7 +369,6 @@ fn: function (aPath,anAthensCanvas){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
  var context2D = anAthensCanvas['@surface']['@context2D'];
-	anAthensCanvas._pathTransform()._set();
 	context2D.fillStyle = self['@fillStyle'];
 	aPath._drawOn_(anAthensCanvas);
 	context2D.fill(); ;
@@ -384,7 +383,6 @@ fn: function (aRect,anAthensCanvas){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
  var context2D = anAthensCanvas['@surface']['@context2D'];
-	anAthensCanvas._pathTransform()._set();
 	context2D.fillStyle = self['@fillStyle'];
 	context2D.fillRect(aRect._left(), aRect._top(), aRect._width(), aRect._height()); ;
 return self}, function($ctx1) {$ctx1.fill(self,"fillRectangle:on:",{aRect:aRect,anAthensCanvas:anAthensCanvas},smalltalk.AthensHTMLSolidPaint)})},
@@ -456,7 +454,6 @@ fn: function (aPath,anAthensCanvas){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
  var context2D = anAthensCanvas['@surface']['@context2D'];
-	anAthensCanvas['@pathTransform']._set();
 	context2D.strokeStyle = self['@fillPaint']['@fillStyle'];
 	context2D.lineWidth = self['@width'];
 	context2D.lineJoin = self['@joinStyle'];
@@ -479,7 +476,6 @@ fn: function (aRect,anAthensCanvas){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
  var context2D = anAthensCanvas['@surface']['@context2D'];
-	anAthensCanvas['@pathTransform']._set();
 	context2D.strokeStyle = self['@fillPaint']['@fillStyle'];
 	context2D.lineWidth = self['@width'];
 	context2D.lineJoin = self['@joinStyle'];

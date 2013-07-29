@@ -3,17 +3,17 @@ smalltalk.addClass('AthensHTMLCanvas', smalltalk.AthensCanvas, ['pathTransform',
 smalltalk.addMethod(
 smalltalk.method({
 selector: "clipBy:during:",
-fn: function (aRectangle,aBlock){
+fn: function (aShape,aBlock){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
  var context2D = self['@surface']['@context2D'];
 	context2D.save();
 	context2D.beginPath();
-	self['@pathTransform']._set();
-	context2D.rect(aRectangle._left(), aRectangle._top(), aRectangle._width(0), aRectangle._height());
+	aShape._drawOn_(self);
 	context2D.clip();
+	context2D.beginPath();
 	(function() {aBlock._value();})._ensure_(function() {context2D.restore();}); ;
-return self}, function($ctx1) {$ctx1.fill(self,"clipBy:during:",{aRectangle:aRectangle,aBlock:aBlock},smalltalk.AthensHTMLCanvas)})},
+return self}, function($ctx1) {$ctx1.fill(self,"clipBy:during:",{aShape:aShape,aBlock:aBlock},smalltalk.AthensHTMLCanvas)})},
 messageSends: []}),
 smalltalk.AthensHTMLCanvas);
 
@@ -120,15 +120,16 @@ smalltalk.method({
 selector: "surface:",
 fn: function (anHTMLSurface){
 var self=this;
-function $AthensHTMLMatrix(){return smalltalk.AthensHTMLMatrix||(typeof AthensHTMLMatrix=="undefined"?nil:AthensHTMLMatrix)}
+function $AthensHTMLTransformation(){return smalltalk.AthensHTMLTransformation||(typeof AthensHTMLTransformation=="undefined"?nil:AthensHTMLTransformation)}
+function $AthensAffineTransform(){return smalltalk.AthensAffineTransform||(typeof AthensAffineTransform=="undefined"?nil:AthensAffineTransform)}
 function $AthensHTMLPaintMode(){return smalltalk.AthensHTMLPaintMode||(typeof AthensHTMLPaintMode=="undefined"?nil:AthensHTMLPaintMode)}
 return smalltalk.withContext(function($ctx1) { 
 self["@surface"]=anHTMLSurface;
-self["@pathTransform"]=_st($AthensHTMLMatrix())._on_(self["@surface"]);
-self["@paintTransform"]=_st($AthensHTMLMatrix())._on_(self["@surface"]);
+self["@pathTransform"]=_st($AthensHTMLTransformation())._on_(self["@surface"]);
+self["@paintTransform"]=_st($AthensAffineTransform())._new();
 self["@paintMode"]=_st($AthensHTMLPaintMode())._on_(self["@surface"]);
 return self}, function($ctx1) {$ctx1.fill(self,"surface:",{anHTMLSurface:anHTMLSurface},smalltalk.AthensHTMLCanvas)})},
-messageSends: ["on:"]}),
+messageSends: ["on:", "new"]}),
 smalltalk.AthensHTMLCanvas);
 
 

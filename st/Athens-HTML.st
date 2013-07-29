@@ -23,20 +23,20 @@ setFont: aFont
 
 surface: anHTMLSurface
 	surface := anHTMLSurface.
-	pathTransform := AthensHTMLMatrix on: surface.
-	paintTransform := AthensHTMLMatrix on: surface.
+	pathTransform := AthensHTMLTransformation on: surface.
+	paintTransform := AthensAffineTransform new.
 	paintMode := AthensHTMLPaintMode on: surface.
 ! !
 
 !AthensHTMLCanvas methodsFor: 'clipping'!
 
-clipBy: aRectangle during: aBlock
+clipBy: aShape during: aBlock
 	< var context2D = self['@surface']['@context2D'];
 	context2D.save();
 	context2D.beginPath();
-	self['@pathTransform']._set();
-	context2D.rect(aRectangle._left(), aRectangle._top(), aRectangle._width(0), aRectangle._height());
+	aShape._drawOn_(self);
 	context2D.clip();
+	context2D.beginPath();
 	(function() {aBlock._value();})._ensure_(function() {context2D.restore();}); >
 ! !
 

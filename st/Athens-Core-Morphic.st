@@ -1,6 +1,6 @@
 Smalltalk current createPackage: 'Athens-Core-Morphic'!
 Object subclass: #AthensMorph
-	instanceVariableNames: 'transformation outerShape owner submorphs color globalPathTransform globalOuterShape visible eventCallbacks'
+	instanceVariableNames: 'transformation outerShape outerPolygon owner submorphs color globalPathTransform globalOuterPolygon visible eventCallbacks'
 	package: 'Athens-Core-Morphic'!
 
 !AthensMorph methodsFor: 'accessing'!
@@ -10,18 +10,19 @@ color: aColor
 	self redraw.
 !
 
-globalOuterShape
-	^ globalOuterShape
+globalBounds
+	^ globalOuterPolygon boundingBox
 !
 
 globalPathTransform
 	^ globalPathTransform
 !
 
-outerShape: shapeOrPolygon
-	outerShape := shapeOrPolygon asPolygon.
-	globalOuterShape := outerShape deepCopy.
-	globalOuterShape multiplyBy: globalPathTransform.
+outerShape: aShape
+	outerShape := aShape.
+	outerPolygon := aShape asPolygon.
+	globalOuterPolygon := outerPolygon deepCopy.
+	globalOuterPolygon multiplyBy: globalPathTransform.
 !
 
 owner
@@ -75,11 +76,15 @@ redrawEverythingOn: canvas
 	globalPathTransform loadAffineTransform: owner globalPathTransform.
 	globalPathTransform multiplyBy: transformation.
 	visible ifTrue: [
-		canvas pathTransform loadAffineTransform: globalPathTransform.
-		canvas pathTransform setIdentity.
-		canvas pathTransform set.
-		self drawOn: canvas.
-		submorphs do: [:morph | morph redrawEverythingOn: canvas]].
+		canvas pathTransform restoreAfter: [
+			canvas pathTransform multiplyBy: transformation.
+			canvas pathTransform setIdentity.
+
+			self drawOn: canvas.
+			outerShape ifNil: [self outerShape: (0@0 corner: 50@50)].
+			
+			canvas clipBy: outerShape during: [
+				submorphs do: [:morph | morph redrawEverythingOn: canvas]]]].
 ! !
 
 !AthensMorph methodsFor: 'events'!
@@ -109,13 +114,10 @@ handleMouseUp: evt
 !
 
 morphAtPosition: aPoint
-	submorphs reverseDo: [:morph | |ret|
-		morph isVisible ifTrue: [
-			ret := morph morphAtPosition: aPoint.
-			ret ifNotNil: [^ ret]]].
-		
-	((globalOuterShape includesPoint: aPoint) or: [self isWorldMorph])
-		ifTrue: [^ self]
+	(globalOuterPolygon includesPoint: aPoint)
+		ifTrue: [submorphs reverseDo: [:morph |
+			morph isVisible ifTrue: [
+				(morph morphAtPosition: aPoint) ifNotNil: [:m | ^ m]]]]
 		ifFalse: [^ nil].
 !
 
@@ -224,18 +226,26 @@ isWorldMorph
 ! !
 
 AthensMorph subclass: #AthensButtonMorph
-	instanceVariableNames: 'text extent font'
+	instanceVariableNames: 'text extent font backgroundColor'
 	package: 'Athens-Core-Morphic'!
+
+!AthensButtonMorph methodsFor: 'accessing'!
+
+color: aColor
+	super color: aColor.
+	backgroundColor := aColor.
+	self redraw.
+! !
 
 !AthensButtonMorph methodsFor: 'drawing'!
 
 drawOn: canvas
 	|textX textY shape|
 	shape := 0@0 corner: extent.
-	outerShape := shape asPolygon.
+	self outerShape: shape.
 	canvas setStrokePaint: Color black.
 	canvas drawShape: shape.
-	canvas setPaint: Color white.
+	canvas setPaint: backgroundColor.
 	canvas drawShape: shape.
 	canvas setFont: font.
 	textX := (canvas measureStringWidth: text) / 2.
@@ -245,6 +255,20 @@ drawOn: canvas
 	canvas drawString: text.
 ! !
 
+!AthensButtonMorph methodsFor: 'events'!
+
+handleMouseEnter
+	super handleMouseEnter.
+	backgroundColor := Color gray.
+	self redraw.
+!
+
+handleMouseLeave
+	super handleMouseLeave.
+	backgroundColor := color.
+	self redraw.
+! !
+
 !AthensButtonMorph methodsFor: 'initialization'!
 
 initialize
@@ -252,6 +276,7 @@ initialize
 	extent := 200@25.
 	text := 'ButtonMorph'.
 	font := LogicalFont familyName: 'Verdana' pointSize: 15.
+	color := backgroundColor := Color white.
 ! !
 
 AthensMorph subclass: #AthensHaloMorph
@@ -278,7 +303,7 @@ drawOn: canvas
 	canvas setPaint: Color white.
 	canvas pathTransform translateX: 2 Y: 11.
 	canvas drawString: self haloText.
-	self outerShape: shape asPolygon.
+	self outerShape: shape.
 !
 
 generatePathWith: canvas
@@ -429,6 +454,254 @@ initialize
 	globalUpHandler := [:evt | self processMouseUp: evt].
 ! !
 
+AthensMorph subclass: #AthensRectangleMorph
+	instanceVariableNames: 'width height borderColor fillColor'
+	package: 'Athens-Core-Morphic'!
+
+!AthensRectangleMorph methodsFor: 'accessing'!
+
+borderColor: aColor
+	borderColor := aColor.
+	self redraw.
+!
+
+fillColor: aColor
+	fillColor := aColor.
+	self redraw.
+!
+
+height: aNumber
+	height := aNumber.
+	self redraw.
+!
+
+width: aNumber
+	width := aNumber.
+	self redraw.
+! !
+
+!AthensRectangleMorph methodsFor: 'drawing'!
+
+drawOn: canvas
+	|shape|
+	shape := 0@0 corner: width@height.
+	canvas setPaint: fillColor.
+	canvas drawShape: shape.
+	canvas setStrokePaint: borderColor.
+	canvas drawShape: shape.
+	self outerShape: shape.
+! !
+
+!AthensRectangleMorph methodsFor: 'initialization'!
+
+initialize
+	super initialize.
+	width := height := 50.
+	borderColor := Color black.
+	fillColor := Color white.
+! !
+
+!AthensRectangleMorph class methodsFor: 'instance creation'!
+
+extent: aPoint
+	^ self new
+		width: aPoint x;
+		height: aPoint y;
+		yourself
+! !
+
+AthensRectangleMorph subclass: #AthensTextMorph
+	instanceVariableNames: 'text font fontColor highlightFontColor highlighted'
+	package: 'Athens-Core-Morphic'!
+
+!AthensTextMorph methodsFor: 'accessing'!
+
+font: aFont
+	font := aFont.
+	self redraw.
+!
+
+fontColor: aColor
+	fontColor := highlightFontColor := aColor.
+	self redraw.
+!
+
+highlightFontColor: aColor
+	highlightFontColor := aColor.
+!
+
+text: aString
+	text := aString.
+	self redraw.
+! !
+
+!AthensTextMorph methodsFor: 'drawing'!
+
+drawOn: canvas
+	super drawOn: canvas.
+	canvas setFont: font.
+	highlighted 
+		ifTrue: [canvas setPaint: highlightFontColor]
+		ifFalse: [canvas setPaint: fontColor].
+	canvas pathTransform translateX: 0 Y: 15.
+	canvas drawString: text.
+! !
+
+!AthensTextMorph methodsFor: 'events'!
+
+handleMouseEnter
+	super handleMouseEnter.
+	highlighted := true.
+	self redraw.
+!
+
+handleMouseLeave
+	super handleMouseLeave.
+	highlighted := false.
+	self redraw.
+! !
+
+!AthensTextMorph methodsFor: 'initialization'!
+
+initialize
+	super initialize.
+	borderColor := fillColor := Color transparent.
+	text := 'a TextMorph'.
+	font := LogicalFont familyName: 'Verdana' pointSize: 15.
+	fontColor := highlightFontColor := Color black.
+	highlighted := false.
+! !
+
+AthensTextMorph subclass: #AthensIconMorph
+	instanceVariableNames: ''
+	package: 'Athens-Core-Morphic'!
+
+!AthensIconMorph methodsFor: ' accessing'!
+
+font: aFont
+	self notAllowed.
+!
+
+size: aNumber
+	font := LogicalFont familyName: 'FontAwesome' pointSize: aNumber asString.
+	self redraw.
+! !
+
+!AthensIconMorph methodsFor: 'initialization'!
+
+initialize
+	super initialize.
+	self size: 12.
+! !
+
+!AthensIconMorph class methodsFor: 'instance creation'!
+
+remove
+	^ self new
+		text: '';
+		yourself
+! !
+
+AthensMorph subclass: #AthensWindowMorph
+	instanceVariableNames: 'width height title font titleBarMorph titleTextMorph windowMoveHandler windowUpHandler'
+	package: 'Athens-Core-Morphic'!
+
+!AthensWindowMorph methodsFor: 'accessing'!
+
+height: aNumber
+	height := aNumber.
+	self redraw.
+!
+
+width: aNumber
+	width := aNumber.
+	self redraw.
+! !
+
+!AthensWindowMorph methodsFor: 'drawing'!
+
+drawOn: canvas
+	|shape|
+	shape := 0@0 corner: width@height.
+	canvas setPaint: Color white.
+	canvas drawShape: shape.
+	canvas setStrokePaint: Color black.
+	canvas drawShape: shape.
+	self outerShape: shape.
+!
+
+redraw
+	titleBarMorph width: width - 10.
+	super redraw.
+! !
+
+!AthensWindowMorph methodsFor: 'events'!
+
+windowMouseMove: evt
+	self translateBy: (globalPathTransform inverseTransform: evt offsetX @ evt offsetY).
+!
+
+windowMouseUp: evt
+	self world unregisterGlobalEvent: #mouseMove withCallback: windowMoveHandler.
+	self world unregisterGlobalEvent: #mouseUp withCallback: windowUpHandler.
+!
+
+windowUpHandler: evt
+	self world unregisterGlobalEvent: #mouseMove withCallback: windowMoveHandler.
+	self world unregisterGlobalEvent: #mouseUp withCallback: windowUpHandler.
+! !
+
+!AthensWindowMorph methodsFor: 'initialization'!
+
+initialize
+	super initialize.
+	width := height := 200.
+	self initializeTitleBar.
+	self initializeEvents.
+	font := LogicalFont familyName: 'Arial' pointSize: '14'.
+!
+
+initializeEvents
+	|mouseDownHandler|
+	windowMoveHandler := [:evt | self windowMouseMove: evt].
+	windowUpHandler := [:evt | self windowMouseUp: evt].
+	mouseDownHandler := [:evt | 	
+		self world registerGlobalEvent: #mouseMove withCallback: windowMoveHandler.
+		self world registerGlobalEvent: #mouseUp withCallback: windowUpHandler].
+	titleBarMorph onMouseDown: mouseDownHandler.
+	titleTextMorph onMouseDown: mouseDownHandler.
+!
+
+initializeTitleBar
+	|closeButton|
+	title := 'Window Title'.
+	titleBarMorph := AthensRectangleMorph extent: width - 10 @ 25.
+	titleBarMorph fillColor: Color black.
+	titleBarMorph borderColor: Color transparent.
+	titleBarMorph translateByX: 5 Y: 5.
+	self addMorph: titleBarMorph.
+	titleTextMorph := AthensTextMorph extent: width - 16 @ 19.
+	titleTextMorph translateByX: 3 Y: 3.
+	titleTextMorph fontColor: Color white.
+	titleTextMorph text: title.
+	titleBarMorph addMorph: titleTextMorph.
+	closeButton := AthensIconMorph remove.
+	closeButton fontColor: Color white.
+	closeButton highlightFontColor: Color gray.
+	closeButton translateByX: width - 25 Y: 2.
+	closeButton onMouseClick: [self delete].
+	titleBarMorph addMorph: closeButton.
+! !
+
+!AthensWindowMorph class methodsFor: 'instance creation'!
+
+extent: aPoint
+	^ self new
+		width: aPoint x;
+		height: aPoint y;
+		yourself
+! !
+
 AthensMorph subclass: #AthensWorldMorph
 	instanceVariableNames: 'backgroundPaint surface morphBelowHand halos globalEventCallbacks'
 	package: 'Athens-Core-Morphic'!
@@ -441,7 +714,7 @@ surface
 
 surface: aSurface
 	surface := aSurface.
-	self outerShape: (0@0 corner: surface extent) asPolygon.
+	self outerShape: (0@0 corner: surface extent).
 ! !
 
 !AthensWorldMorph methodsFor: 'drawing'!
@@ -488,7 +761,7 @@ addHalosTo: aMorph
 	aMorph isHaloMorph ifFalse: [
 		halos do: [:halo | 
 			halo resetTransformation.
-			halo translateBy: aMorph globalOuterShape boundingBox origin + halo haloPosition.
+			halo translateBy: aMorph globalBounds origin + halo haloPosition.
 			halo attachedTo: aMorph.
 			halo show]].
 !
@@ -545,7 +818,8 @@ morphAtPosition: aPoint
 			ret := morph morphAtPosition: aPoint.
 			ret ifNotNil: [^ ret]]].
 	
-	^ super morphAtPosition: aPoint
+	(super morphAtPosition: aPoint) ifNotNil: [:m | ^ m].
+	^ self
 !
 
 updateMorphBelowHandAt: aPoint

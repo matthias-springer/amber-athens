@@ -6,73 +6,21 @@ selector: "surface:",
 category: 'initialization',
 fn: function (anHTMLSurface){
 var self=this;
-function $AthensHTMLMorphicMatrix(){return smalltalk.AthensHTMLMorphicMatrix||(typeof AthensHTMLMorphicMatrix=="undefined"?nil:AthensHTMLMorphicMatrix)}
+function $AthensHTMLMorphicTransformation(){return smalltalk.AthensHTMLMorphicTransformation||(typeof AthensHTMLMorphicTransformation=="undefined"?nil:AthensHTMLMorphicTransformation)}
+function $AthensAffineTransform(){return smalltalk.AthensAffineTransform||(typeof AthensAffineTransform=="undefined"?nil:AthensAffineTransform)}
 function $AthensHTMLPaintMode(){return smalltalk.AthensHTMLPaintMode||(typeof AthensHTMLPaintMode=="undefined"?nil:AthensHTMLPaintMode)}
 return smalltalk.withContext(function($ctx1) { 
 self["@surface"]=anHTMLSurface;
-self["@pathTransform"]=_st($AthensHTMLMorphicMatrix())._on_(self["@surface"]);
-self["@paintTransform"]=_st($AthensHTMLMorphicMatrix())._on_(self["@surface"]);
+self["@pathTransform"]=_st($AthensHTMLMorphicTransformation())._on_(self["@surface"]);
+self["@paintTransform"]=_st($AthensAffineTransform())._new();
 self["@paintMode"]=_st($AthensHTMLPaintMode())._on_(self["@surface"]);
 return self}, function($ctx1) {$ctx1.fill(self,"surface:",{anHTMLSurface:anHTMLSurface},smalltalk.AthensHTMLMorphicCanvas)})},
 args: ["anHTMLSurface"],
-source: "surface: anHTMLSurface\x0a\x09surface := anHTMLSurface.\x0a\x09pathTransform := AthensHTMLMorphicMatrix on: surface.\x0a\x09paintTransform := AthensHTMLMorphicMatrix on: surface.\x0a\x09paintMode := AthensHTMLPaintMode on: surface.",
-messageSends: ["on:"],
-referencedClasses: ["AthensHTMLMorphicMatrix", "AthensHTMLPaintMode"]
+source: "surface: anHTMLSurface\x0a\x09surface := anHTMLSurface.\x0a\x09pathTransform := AthensHTMLMorphicTransformation on: surface.\x0a\x09paintTransform := AthensAffineTransform new.\x0a\x09paintMode := AthensHTMLPaintMode on: surface.",
+messageSends: ["on:", "new"],
+referencedClasses: ["AthensHTMLMorphicTransformation", "AthensAffineTransform", "AthensHTMLPaintMode"]
 }),
 smalltalk.AthensHTMLMorphicCanvas);
-
-
-
-smalltalk.addClass('AthensHTMLMorphicMatrix', smalltalk.AthensHTMLMatrix, ['relativeIdentity'], 'Athens-HTML-Morphic');
-smalltalk.addMethod(
-smalltalk.method({
-selector: "initialize",
-category: 'initialization',
-fn: function (){
-var self=this;
-function $AthensAffineTransform(){return smalltalk.AthensAffineTransform||(typeof AthensAffineTransform=="undefined"?nil:AthensAffineTransform)}
-return smalltalk.withContext(function($ctx1) { 
-self["@relativeIdentity"]=_st($AthensAffineTransform())._new();
-smalltalk.AthensHTMLMatrix.fn.prototype._initialize.apply(_st(self), []);
-return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensHTMLMorphicMatrix)})},
-args: [],
-source: "initialize\x0a\x09relativeIdentity := AthensAffineTransform new.\x0a\x09super initialize.",
-messageSends: ["new", "initialize"],
-referencedClasses: ["AthensAffineTransform"]
-}),
-smalltalk.AthensHTMLMorphicMatrix);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "loadIdentity",
-category: 'initialization',
-fn: function (){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-self._loadAffineTransform_(self["@relativeIdentity"]);
-return self}, function($ctx1) {$ctx1.fill(self,"loadIdentity",{},smalltalk.AthensHTMLMorphicMatrix)})},
-args: [],
-source: "loadIdentity\x0a\x09self loadAffineTransform: relativeIdentity.",
-messageSends: ["loadAffineTransform:"],
-referencedClasses: []
-}),
-smalltalk.AthensHTMLMorphicMatrix);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "setIdentity",
-category: 'initialization',
-fn: function (){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-_st(self["@relativeIdentity"])._loadAffineTransform_(self);
-return self}, function($ctx1) {$ctx1.fill(self,"setIdentity",{},smalltalk.AthensHTMLMorphicMatrix)})},
-args: [],
-source: "setIdentity\x0a\x09relativeIdentity loadAffineTransform: self.",
-messageSends: ["loadAffineTransform:"],
-referencedClasses: []
-}),
-smalltalk.AthensHTMLMorphicMatrix);
 
 
 
@@ -180,6 +128,59 @@ messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLMorphicSurface);
+
+
+
+smalltalk.addClass('AthensHTMLMorphicTransformation', smalltalk.AthensHTMLTransformation, ['relativeIdentity'], 'Athens-HTML-Morphic');
+smalltalk.addMethod(
+smalltalk.method({
+selector: "initialize",
+category: 'initialization',
+fn: function (){
+var self=this;
+function $AthensAffineTransform(){return smalltalk.AthensAffineTransform||(typeof AthensAffineTransform=="undefined"?nil:AthensAffineTransform)}
+return smalltalk.withContext(function($ctx1) { 
+self["@relativeIdentity"]=_st($AthensAffineTransform())._new();
+smalltalk.AthensHTMLTransformation.fn.prototype._initialize.apply(_st(self), []);
+return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensHTMLMorphicTransformation)})},
+args: [],
+source: "initialize\x0a\x09relativeIdentity := AthensAffineTransform new.\x0a\x09super initialize.",
+messageSends: ["new", "initialize"],
+referencedClasses: ["AthensAffineTransform"]
+}),
+smalltalk.AthensHTMLMorphicTransformation);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "loadIdentity",
+category: 'initialization',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self._loadAffineTransform_(self["@relativeIdentity"]);
+return self}, function($ctx1) {$ctx1.fill(self,"loadIdentity",{},smalltalk.AthensHTMLMorphicMatrix)})},
+args: [],
+source: "loadIdentity\x0a\x09self loadAffineTransform: relativeIdentity.",
+messageSends: ["loadAffineTransform:"],
+referencedClasses: []
+}),
+smalltalk.AthensHTMLMorphicTransformation);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "setIdentity",
+category: 'initialization',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+_st(self["@relativeIdentity"])._loadAffineTransform_(self);
+return self}, function($ctx1) {$ctx1.fill(self,"setIdentity",{},smalltalk.AthensHTMLMorphicMatrix)})},
+args: [],
+source: "setIdentity\x0a\x09relativeIdentity loadAffineTransform: self.",
+messageSends: ["loadAffineTransform:"],
+referencedClasses: []
+}),
+smalltalk.AthensHTMLMorphicTransformation);
 
 
 

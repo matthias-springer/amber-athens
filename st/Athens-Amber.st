@@ -251,6 +251,12 @@ asPolygon
 		yourself
 ! !
 
+!Rectangle methodsFor: 'drawing'!
+
+drawOn: canvas
+	< canvas['@surface']['@context2D'].rect(self._left(), self._top(), self._width(0), self._height()); >
+! !
+
 !Rectangle class methodsFor: 'instance creation'!
 
 origin: originPoint corner: cornerPoint

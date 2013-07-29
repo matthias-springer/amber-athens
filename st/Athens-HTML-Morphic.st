@@ -7,28 +7,9 @@ AthensHTMLCanvas subclass: #AthensHTMLMorphicCanvas
 
 surface: anHTMLSurface
 	surface := anHTMLSurface.
-	pathTransform := AthensHTMLMorphicMatrix on: surface.
-	paintTransform := AthensHTMLMorphicMatrix on: surface.
+	pathTransform := AthensHTMLMorphicTransformation on: surface.
+	paintTransform := AthensAffineTransform new.
 	paintMode := AthensHTMLPaintMode on: surface.
-! !
-
-AthensHTMLMatrix subclass: #AthensHTMLMorphicMatrix
-	instanceVariableNames: 'relativeIdentity'
-	package: 'Athens-HTML-Morphic'!
-
-!AthensHTMLMorphicMatrix methodsFor: 'initialization'!
-
-initialize
-	relativeIdentity := AthensAffineTransform new.
-	super initialize.
-!
-
-loadIdentity
-	self loadAffineTransform: relativeIdentity.
-!
-
-setIdentity
-	relativeIdentity loadAffineTransform: self.
 ! !
 
 AthensHTMLSurface subclass: #AthensHTMLMorphicSurface
@@ -77,5 +58,24 @@ newCanvas
 renderOn: html
 	super renderOn: html.
 	world redraw.
+! !
+
+AthensHTMLTransformation subclass: #AthensHTMLMorphicTransformation
+	instanceVariableNames: 'relativeIdentity'
+	package: 'Athens-HTML-Morphic'!
+
+!AthensHTMLMorphicTransformation methodsFor: 'initialization'!
+
+initialize
+	relativeIdentity := AthensAffineTransform new.
+	super initialize.
+!
+
+loadIdentity
+	self loadAffineTransform: relativeIdentity.
+!
+
+setIdentity
+	relativeIdentity loadAffineTransform: self.
 ! !
 

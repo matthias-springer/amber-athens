@@ -489,6 +489,17 @@ smalltalk.Rectangle);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "drawOn:",
+fn: function (canvas){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ canvas['@surface']['@context2D'].rect(self._left(), self._top(), self._width(0), self._height()); ;
+return self}, function($ctx1) {$ctx1.fill(self,"drawOn:",{canvas:canvas},smalltalk.Rectangle)})},
+messageSends: []}),
+smalltalk.Rectangle);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "height",
 fn: function (){
 var self=this;

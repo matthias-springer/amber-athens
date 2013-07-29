@@ -1,62 +1,70 @@
 Smalltalk current createPackage: 'Athens-HTML-Matrices'!
-AthensAffineTransform subclass: #AthensHTMLMatrix
+AthensAffineTransform subclass: #AthensHTMLTransformation
 	instanceVariableNames: 'surface'
 	package: 'Athens-HTML-Matrices'!
 
-!AthensHTMLMatrix methodsFor: 'accessing'!
+!AthensHTMLTransformation methodsFor: 'accessing'!
+
+getMatrix
+	self error: 'not allowed'.
+!
 
 surface: aSurface
 	surface := aSurface.
 ! !
 
-!AthensHTMLMatrix methodsFor: 'applying transformations'!
-
-apply
-	< // Applies this matrix to the current transformation (multiplication)
-	if (self['@surface'] !!== undefined) {
-		self['@surface']['@context2D'].transform(self['@sx'], self['@shy'], self['@shx'], self['@sy'], self['@x'], self['@y']);
-	} >
-!
-
-set
-	< // Overwrites the current transformation
-	if (self['@surface'] !!== undefined) {
-		self['@surface']['@context2D'].setTransform(self['@sx'], self['@shy'], self['@shx'], self['@sy'], self['@x'], self['@y']);
-	} >
-! !
-
-!AthensHTMLMatrix methodsFor: 'transformations'!
+!AthensHTMLTransformation methodsFor: 'transformations'!
 
 loadAffineTransform: m
-	super loadAffineTransform: m.
-	self set.
+	< self['@surface']['@context2D'].setTransform(m['@sx'], m['@shy'], m['@shx'], m['@sy'], m['@x'], m['@y']); >
 !
 
 loadIdentity
-	super loadIdentity.
-	self set.
+	< self['@surface']['@context2D'].setTransform(1, 0, 0, 1, 0, 0); >
+!
+
+multiplyBy: m
+	< self['@surface']['@context2D'].transform(m['@sx'], m['@shy'], m['@shx'], m['@sy'], m['@x'], m['@y']); >
 !
 
 restoreAfter: aBlock
-	< var sx = self['@sx'];
-	var shx = self['@shx'];
-	var x = self['@x'];
-	var shy = self['@shy'];
-	var sy = self['@sy'];
-	var y = self['@y'];
+	< self['@surface']['@context2D'].save();
 	
 	aBlock._ensure_(function() {
-		self['@sx'] = sx;
-		self['@shx'] = shx;
-		self['@x'] = x;
-		self['@shy'] = shy;
-		self['@sy'] = sy;
-		self['@y'] = y;
-		self._set();
+		self['@surface']['@context2D'].restore();
 	}); >
+!
+
+rotateByDegrees: angle
+	< self['@surface']['@context2D'].rotate(angle * Math.PI/180); >
+!
+
+rotateByRadians: angle
+	< self['@surface']['@context2D'].rotate(angle); >
+!
+
+scaleBy: factor
+	< if (factor.constructor === Number) {
+		self['@surface']['@context2D'].scale(factor, factor);
+	}	
+	else {
+		self['@surface']['@context2D'].scale(factor['@x'], factor['@y']);
+	} >
+!
+
+scaleX: fx Y: fy
+	< self['@surface']['@context2D'].scale(fx, fy); >
+!
+
+translateBy: aPoint
+	< self['@surface']['@context2D'].translate(aPoint['@x'], aPoint['@y']); >
+!
+
+translateX: px Y: py
+	< self['@surface']['@context2D'].translate(px, py); >
 ! !
 
-!AthensHTMLMatrix class methodsFor: 'instance creation'!
+!AthensHTMLTransformation class methodsFor: 'instance creation'!
 
 on: anHTMLSurface
 	^ self basicNew
