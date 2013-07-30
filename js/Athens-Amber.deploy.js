@@ -197,6 +197,61 @@ smalltalk.Color.klass);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "cosmoBlue",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self._r_g_b_rgba_(0.06, 0.51, 0.96, 'rgba(15,130,245,1)'); ;
+return self}, function($ctx1) {$ctx1.fill(self,"cosmoBlue",{},smalltalk.Color.klass)})},
+messageSends: []}),
+smalltalk.Color.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "cosmoDarkBlue",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self._r_g_b_rgba_(0, 0.3, 0.6, 'rgba(0,76,153,1)'); ;
+return self}, function($ctx1) {$ctx1.fill(self,"cosmoDarkBlue",{},smalltalk.Color.klass)})},
+messageSends: []}),
+smalltalk.Color.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "cosmoGray",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self._r_g_b_rgba_(0.6, 0.6, 0.6, 'rgba(153,153,153,1)'); ;
+return self}, function($ctx1) {$ctx1.fill(self,"cosmoGray",{},smalltalk.Color.klass)})},
+messageSends: []}),
+smalltalk.Color.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "cosmoLightGray",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self._r_g_b_rgba_(0.87, 0.87, 0.87, 'rgba(223,223,223,1)'); ;
+return self}, function($ctx1) {$ctx1.fill(self,"cosmoLightGray",{},smalltalk.Color.klass)})},
+messageSends: []}),
+smalltalk.Color.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "cosmoMiddleBlue",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self._r_g_b_rgba_(0, 0.45, 0.9, 'rgba(0,114,230,1)'); ;
+return self}, function($ctx1) {$ctx1.fill(self,"cosmoMiddleBlue",{},smalltalk.Color.klass)})},
+messageSends: []}),
+smalltalk.Color.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "gray",
 fn: function (){
 var self=this;
@@ -493,7 +548,7 @@ selector: "drawOn:",
 fn: function (canvas){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- canvas['@surface']['@context2D'].rect(self._left(), self._top(), self._width(0), self._height()); ;
+ canvas['@surface']['@context2D'].rect(self._left(), self._top(), self._width(), self._height()); ;
 return self}, function($ctx1) {$ctx1.fill(self,"drawOn:",{canvas:canvas},smalltalk.Rectangle)})},
 messageSends: []}),
 smalltalk.Rectangle);

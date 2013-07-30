@@ -1,6 +1,6 @@
 Smalltalk current createPackage: 'Athens-Core-Morphic'!
 Object subclass: #AthensMorph
-	instanceVariableNames: 'transformation outerShape outerPolygon owner submorphs color globalPathTransform globalOuterPolygon visible eventCallbacks'
+	instanceVariableNames: 'transformation outerShape outerPolygon owner submorphs color globalPathTransform globalOuterPolygon visible eventCallbacks hasMouseFocus'
 	package: 'Athens-Core-Morphic'!
 
 !AthensMorph methodsFor: 'accessing'!
@@ -80,7 +80,9 @@ redrawEverythingOn: canvas
 			canvas pathTransform multiplyBy: transformation.
 			canvas pathTransform setIdentity.
 
-			self drawOn: canvas.
+			canvas pathTransform restoreAfter: [
+				self drawOn: canvas].
+				
 			outerShape ifNil: [self outerShape: (0@0 corner: 50@50)].
 			
 			canvas clipBy: outerShape during: [
@@ -98,10 +100,12 @@ handleMouseDown: evt
 !
 
 handleMouseEnter
+	hasMouseFocus := true.
 	(eventCallbacks at: #mouseEnter ifAbsent: []) value.
 !
 
 handleMouseLeave
+	hasMouseFocus := false.
 	(eventCallbacks at: #mouseLeave ifAbsent: []) value.
 !
 
@@ -181,6 +185,7 @@ initialize
 	submorphs := OrderedCollection new.
 	visible := true.
 	eventCallbacks := Dictionary new.
+	hasMouseFocus := false.
 ! !
 
 !AthensMorph methodsFor: 'morph handling'!
@@ -226,15 +231,18 @@ isWorldMorph
 ! !
 
 AthensMorph subclass: #AthensButtonMorph
-	instanceVariableNames: 'text extent font backgroundColor'
+	instanceVariableNames: 'text extent font borderColor highlightColor'
 	package: 'Athens-Core-Morphic'!
 
 !AthensButtonMorph methodsFor: 'accessing'!
 
-color: aColor
-	super color: aColor.
-	backgroundColor := aColor.
+borderColor: aColor
+	borderColor := aColor.
 	self redraw.
+!
+
+highlightColor: aColor
+	highlightColor := aColor.
 ! !
 
 !AthensButtonMorph methodsFor: 'drawing'!
@@ -243,15 +251,17 @@ drawOn: canvas
 	|textX textY shape|
 	shape := 0@0 corner: extent.
 	self outerShape: shape.
-	canvas setStrokePaint: Color black.
+	canvas setPaint: borderColor.
 	canvas drawShape: shape.
-	canvas setPaint: backgroundColor.
-	canvas drawShape: shape.
+	hasMouseFocus 
+		ifTrue: [canvas setPaint: highlightColor]
+		ifFalse: [canvas setPaint: color].
+	canvas drawShape: (1@1 corner: extent - (1@1)).
 	canvas setFont: font.
 	textX := (canvas measureStringWidth: text) / 2.
 	textY := (extent y + (font pointSize*0.6)) / 2.
 	canvas pathTransform translateX: textX Y: textY.
-	canvas setPaint: Color black.
+	canvas setPaint: Color white.
 	canvas drawString: text.
 ! !
 
@@ -259,13 +269,11 @@ drawOn: canvas
 
 handleMouseEnter
 	super handleMouseEnter.
-	backgroundColor := Color gray.
 	self redraw.
 !
 
 handleMouseLeave
 	super handleMouseLeave.
-	backgroundColor := color.
 	self redraw.
 ! !
 
@@ -275,8 +283,10 @@ initialize
 	super initialize.
 	extent := 200@25.
 	text := 'ButtonMorph'.
-	font := LogicalFont familyName: 'Verdana' pointSize: 15.
-	color := backgroundColor := Color white.
+	font := LogicalFont familyName: 'Arial' pointSize: 15.
+	color := Color cosmoBlue.
+	highlightColor := Color cosmoMiddleBlue.
+	borderColor := Color cosmoDarkBlue.
 ! !
 
 AthensMorph subclass: #AthensHaloMorph
@@ -454,6 +464,96 @@ initialize
 	globalUpHandler := [:evt | self processMouseUp: evt].
 ! !
 
+AthensMorph subclass: #AthensRadioButtonMorph
+	instanceVariableNames: 'text textMorph isChecked'
+	package: 'Athens-Core-Morphic'!
+
+!AthensRadioButtonMorph methodsFor: 'accessing'!
+
+checked: aBoolean
+	isChecked := aBoolean.
+	self redraw.
+!
+
+isChecked
+	^ isChecked
+! !
+
+!AthensRadioButtonMorph methodsFor: 'drawing'!
+
+drawOn: canvas
+	|circle|
+	canvas pathTransform translateBy: 0@3.
+	circle := canvas createPath: [:builder | 
+		builder 
+			absolute;
+			moveTo: 0@5;
+			cwArcTo: 10@5 angle: 180;
+			cwArcTo: 0@5 angle: 90 ] .
+	canvas setShape: circle.
+	canvas setPaint: Color cosmoGray.
+	canvas draw.
+
+	canvas pathTransform translateBy: 0@0.5.
+	circle := canvas createPath: [:builder | 
+		builder 
+			absolute;
+			moveTo: 1@4;
+			cwArcTo: 9@4 angle: 180;
+			cwArcTo: 1@4 angle: 90 ] .
+	canvas setShape: circle.
+	hasMouseFocus
+		ifTrue: [canvas setPaint: Color cosmoLightGray]
+		ifFalse: [canvas setPaint: Color white].
+	canvas draw.
+
+	isChecked ifTrue: [
+		canvas pathTransform translateBy: 0@0.5.
+		circle := canvas createPath: [:builder | 
+			builder 
+				absolute;
+				moveTo: 2@3;
+				cwArcTo: 8@3 angle: 180;
+				cwArcTo: 2@3 angle: 90 ] .
+		canvas setShape: circle.
+		canvas setPaint: Color black.
+		canvas draw].
+
+	self outerShape: (0@0 corner: 15 + textMorph width @15).
+! !
+
+!AthensRadioButtonMorph methodsFor: 'events'!
+
+handleMouseClick: evt
+	self checked: isChecked not.
+	super handleMouseClick: evt.
+!
+
+handleMouseEnter
+	super handleMouseEnter.
+	self redraw.
+!
+
+handleMouseLeave
+	super handleMouseLeave.
+	self redraw.
+! !
+
+!AthensRadioButtonMorph methodsFor: 'initialization'!
+
+initialize
+	super initialize.
+	self initializeText.
+	isChecked := false.
+!
+
+initializeText
+	textMorph := AthensTextMorph new.
+	textMorph translateByX: 15 Y: -5.
+	textMorph text: 'RadioButtonMorph'.
+	self addMorph: textMorph.
+! !
+
 AthensMorph subclass: #AthensRectangleMorph
 	instanceVariableNames: 'width height borderColor fillColor'
 	package: 'Athens-Core-Morphic'!
@@ -470,9 +570,17 @@ fillColor: aColor
 	self redraw.
 !
 
+height
+	^ height
+!
+
 height: aNumber
 	height := aNumber.
 	self redraw.
+!
+
+width
+	^ width
 !
 
 width: aNumber
@@ -511,7 +619,7 @@ extent: aPoint
 ! !
 
 AthensRectangleMorph subclass: #AthensTextMorph
-	instanceVariableNames: 'text font fontColor highlightFontColor highlighted'
+	instanceVariableNames: 'text font fontColor highlightFontColor'
 	package: 'Athens-Core-Morphic'!
 
 !AthensTextMorph methodsFor: 'accessing'!
@@ -540,24 +648,25 @@ text: aString
 drawOn: canvas
 	super drawOn: canvas.
 	canvas setFont: font.
-	highlighted 
+	hasMouseFocus 
 		ifTrue: [canvas setPaint: highlightFontColor]
 		ifFalse: [canvas setPaint: fontColor].
 	canvas pathTransform translateX: 0 Y: 15.
 	canvas drawString: text.
+	
+	width := canvas measureStringWidth: text.
+	self outerShape: (0@0 corner: width@15).
 ! !
 
 !AthensTextMorph methodsFor: 'events'!
 
 handleMouseEnter
 	super handleMouseEnter.
-	highlighted := true.
 	self redraw.
 !
 
 handleMouseLeave
 	super handleMouseLeave.
-	highlighted := false.
 	self redraw.
 ! !
 
@@ -569,7 +678,6 @@ initialize
 	text := 'a TextMorph'.
 	font := LogicalFont familyName: 'Verdana' pointSize: 15.
 	fontColor := highlightFontColor := Color black.
-	highlighted := false.
 ! !
 
 AthensTextMorph subclass: #AthensIconMorph

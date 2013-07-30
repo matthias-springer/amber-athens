@@ -88,6 +88,26 @@ blue
 	< return self._r_g_b_rgba_(0, 0, 1, 'rgba(0,0,255,1)'); >
 !
 
+cosmoBlue
+	< return self._r_g_b_rgba_(0.06, 0.51, 0.96, 'rgba(15,130,245,1)'); >
+!
+
+cosmoDarkBlue
+	< return self._r_g_b_rgba_(0, 0.3, 0.6, 'rgba(0,76,153,1)'); >
+!
+
+cosmoGray
+	< return self._r_g_b_rgba_(0.6, 0.6, 0.6, 'rgba(153,153,153,1)'); >
+!
+
+cosmoLightGray
+	< return self._r_g_b_rgba_(0.87, 0.87, 0.87, 'rgba(223,223,223,1)'); >
+!
+
+cosmoMiddleBlue
+	< return self._r_g_b_rgba_(0, 0.45, 0.9, 'rgba(0,114,230,1)'); >
+!
+
 gray
 	< return self._r_g_b_rgba_(0.5, 0.5, 0.5, 'rgba(128, 128, 128, 1)'); >
 !
@@ -254,7 +274,7 @@ asPolygon
 !Rectangle methodsFor: 'drawing'!
 
 drawOn: canvas
-	< canvas['@surface']['@context2D'].rect(self._left(), self._top(), self._width(0), self._height()); >
+	< canvas['@surface']['@context2D'].rect(self._left(), self._top(), self._width(), self._height()); >
 ! !
 
 !Rectangle class methodsFor: 'instance creation'!
