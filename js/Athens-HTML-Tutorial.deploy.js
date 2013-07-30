@@ -182,62 +182,6 @@ smalltalk.AthensTigerShape);
 smalltalk.addClass('AthensTutorial', smalltalk.Object, ['surface'], 'Athens-HTML-Tutorial');
 smalltalk.addMethod(
 smalltalk.method({
-selector: "doItstep34",
-fn: function (){
-var self=this;
-var path,poly,font;
-function $LogicalFont(){return smalltalk.LogicalFont||(typeof LogicalFont=="undefined"?nil:LogicalFont)}
-function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
-return smalltalk.withContext(function($ctx1) { 
-var $1,$2,$3;
-font=_st($LogicalFont())._familyName_pointSize_("Arial",(20));
-_st(self["@surface"])._drawDuring_((function(canvas){
-return smalltalk.withContext(function($ctx2) {
-_st(self["@surface"])._clear_(_st($Color())._gray());
-_st(canvas)._setPaint_(_st($Color())._white());
-_st(canvas)._setFont_(font);
-_st(_st(canvas)._pathTransform())._translateX_Y_((100),(200));
-_st(canvas)._drawString_("Move the mouse cursor.");
-path=_st(canvas)._createPath_((function(builder){
-return smalltalk.withContext(function($ctx3) {
-$1=builder;
-_st($1)._absolute();
-_st($1)._lineTo_((15).__at((50)));
-_st($1)._lineTo_((60).__at((60)));
-_st($1)._lineTo_((150).__at((50)));
-$2=_st($1)._lineTo_((0).__at((0)));
-return $2;
-}, function($ctx3) {$ctx3.fillBlock({builder:builder},$ctx2)})}));
-path;
-poly=_st(path)._asPolygon();
-return poly;
-}, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
-_st(self["@surface"])._onMouseMove_((function(e){
-return smalltalk.withContext(function($ctx2) {
-return _st(self["@surface"])._drawDuring_((function(canvas){
-return smalltalk.withContext(function($ctx3) {
-_st(self["@surface"])._clear_(_st($Color())._gray());
-_st(_st(canvas)._pathTransform())._translateX_Y_((0),(0));
-_st(canvas)._setShape_(path);
-$3=_st(poly)._includesPoint_(_st(_st(e)._offsetX()).__at(_st(e)._offsetY()));
-if(smalltalk.assert($3)){
-_st(canvas)._setPaint_(_st($Color())._blue());
-} else {
-_st(canvas)._setPaint_(_st($Color())._green());
-};
-_st(canvas)._draw();
-_st(canvas)._setFont_(font);
-_st(canvas)._setPaint_(_st($Color())._red());
-_st(_st(canvas)._pathTransform())._translateX_Y_((100),(20));
-return _st(canvas)._drawString_(_st(_st(_st("(".__comma(_st(_st(e)._offsetX())._asString())).__comma(", ")).__comma(_st(_st(e)._offsetY())._asString())).__comma(")"));
-}, function($ctx3) {$ctx3.fillBlock({canvas:canvas},$ctx2)})}));
-}, function($ctx2) {$ctx2.fillBlock({e:e},$ctx1)})}));
-return self}, function($ctx1) {$ctx1.fill(self,"doItstep34",{path:path,poly:poly,font:font},smalltalk.AthensTutorial)})},
-messageSends: ["familyName:pointSize:", "drawDuring:", "clear:", "gray", "setPaint:", "white", "setFont:", "translateX:Y:", "pathTransform", "drawString:", "createPath:", "absolute", "lineTo:", "@", "asPolygon", "onMouseMove:", "setShape:", "ifTrue:ifFalse:", "blue", "green", "includesPoint:", "offsetY", "offsetX", "draw", "red", ",", "asString"]}),
-smalltalk.AthensTutorial);
-
-smalltalk.addMethod(
-smalltalk.method({
 selector: "initialize",
 fn: function (){
 var self=this;
@@ -1186,6 +1130,70 @@ smalltalk.AthensTutorial);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "step37",
+fn: function (){
+var self=this;
+var window,descText,counter,optIncrement,optDecrement,button;
+function $AthensWindowMorph(){return smalltalk.AthensWindowMorph||(typeof AthensWindowMorph=="undefined"?nil:AthensWindowMorph)}
+function $AthensTextMorph(){return smalltalk.AthensTextMorph||(typeof AthensTextMorph=="undefined"?nil:AthensTextMorph)}
+function $AthensRadioButtonMorph(){return smalltalk.AthensRadioButtonMorph||(typeof AthensRadioButtonMorph=="undefined"?nil:AthensRadioButtonMorph)}
+function $AthensButtonMorph(){return smalltalk.AthensButtonMorph||(typeof AthensButtonMorph=="undefined"?nil:AthensButtonMorph)}
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+window=_st($AthensWindowMorph())._new();
+_st(window)._title_("Counter Example");
+descText=_st($AthensTextMorph())._new();
+_st(descText)._text_("Current value: ");
+_st(descText)._translateByX_Y_((25),(40));
+_st(window)._addMorph_(descText);
+counter=_st($AthensTextMorph())._new();
+_st(counter)._text_("0");
+_st(counter)._translateByX_Y_((150),(40));
+_st(window)._addMorph_(counter);
+optIncrement=_st($AthensRadioButtonMorph())._new();
+_st(optIncrement)._text_("Increment number");
+_st(optIncrement)._translateByX_Y_((25),(70));
+_st(window)._addMorph_(optIncrement);
+optDecrement=_st($AthensRadioButtonMorph())._new();
+_st(optDecrement)._text_("Decrement number");
+_st(optDecrement)._translateByX_Y_((25),(90));
+_st(window)._addMorph_(optDecrement);
+_st(optIncrement)._onChange_((function(val){
+return smalltalk.withContext(function($ctx2) {
+return _st(optDecrement)._checked_(_st(val)._not());
+}, function($ctx2) {$ctx2.fillBlock({val:val},$ctx1)})}));
+_st(optDecrement)._onChange_((function(val){
+return smalltalk.withContext(function($ctx2) {
+return _st(optIncrement)._checked_(_st(val)._not());
+}, function($ctx2) {$ctx2.fillBlock({val:val},$ctx1)})}));
+_st(optIncrement)._checked_(true);
+button=_st($AthensButtonMorph())._new();
+_st(button)._text_("Do it");
+_st(button)._translateByX_Y_((25),(120));
+_st(button)._width_((150));
+_st(button)._onMouseClick_((function(evt){
+var val;
+return smalltalk.withContext(function($ctx2) {
+val=_st(_st(counter)._text())._asNumber();
+val;
+$1=_st(optIncrement)._isChecked();
+if(smalltalk.assert($1)){
+val=_st(val).__plus((1));
+val;
+} else {
+val=_st(val).__minus((1));
+val;
+};
+return _st(counter)._text_(_st(val)._asString());
+}, function($ctx2) {$ctx2.fillBlock({evt:evt,val:val},$ctx1)})}));
+_st(window)._addMorph_(button);
+_st(_st(self["@surface"])._world())._addMorph_(window);
+return self}, function($ctx1) {$ctx1.fill(self,"step37",{window:window,descText:descText,counter:counter,optIncrement:optIncrement,optDecrement:optDecrement,button:button},smalltalk.AthensTutorial)})},
+messageSends: ["new", "title:", "text:", "translateByX:Y:", "addMorph:", "onChange:", "checked:", "not", "width:", "onMouseClick:", "asNumber", "text", "ifTrue:ifFalse:", "+", "-", "isChecked", "asString", "world"]}),
+smalltalk.AthensTutorial);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "step4",
 fn: function (){
 var self=this;
@@ -1365,9 +1373,9 @@ var self=this;
 return smalltalk.withContext(function($ctx1) { 
 var $1;
 self["@step"]=_st(self["@step"]).__plus((1));
-$1=_st(self["@step"]).__gt((36));
+$1=_st(self["@step"]).__gt((37));
 if(smalltalk.assert($1)){
-self["@step"]=(36);
+self["@step"]=(37);
 self["@step"];
 };
 self._showStep_(self["@step"]);

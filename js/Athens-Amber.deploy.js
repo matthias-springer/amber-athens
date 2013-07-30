@@ -219,6 +219,17 @@ smalltalk.Color.klass);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "cosmoDarkGray",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self._r_g_b_rgba_(0.33, 0.33, 0.33, 'rgba(85,85,85,1)'); ;
+return self}, function($ctx1) {$ctx1.fill(self,"cosmoDarkGray",{},smalltalk.Color.klass)})},
+messageSends: []}),
+smalltalk.Color.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "cosmoGray",
 fn: function (){
 var self=this;

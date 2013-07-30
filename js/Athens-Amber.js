@@ -299,6 +299,22 @@ smalltalk.Color.klass);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "cosmoDarkGray",
+category: 'instance creation',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self._r_g_b_rgba_(0.33, 0.33, 0.33, 'rgba(85,85,85,1)'); ;
+return self}, function($ctx1) {$ctx1.fill(self,"cosmoDarkGray",{},smalltalk.Color.klass)})},
+args: [],
+source: "cosmoDarkGray\x0a\x09< return self._r_g_b_rgba_(0.33, 0.33, 0.33, 'rgba(85,85,85,1)'); >",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.Color.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "cosmoGray",
 category: 'instance creation',
 fn: function (){

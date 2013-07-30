@@ -96,6 +96,10 @@ cosmoDarkBlue
 	< return self._r_g_b_rgba_(0, 0.3, 0.6, 'rgba(0,76,153,1)'); >
 !
 
+cosmoDarkGray
+	< return self._r_g_b_rgba_(0.33, 0.33, 0.33, 'rgba(85,85,85,1)'); >
+!
+
 cosmoGray
 	< return self._r_g_b_rgba_(0.6, 0.6, 0.6, 'rgba(153,153,153,1)'); >
 !

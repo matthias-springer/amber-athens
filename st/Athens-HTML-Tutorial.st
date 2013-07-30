@@ -81,53 +81,6 @@ Object subclass: #AthensTutorial
 	instanceVariableNames: 'surface'
 	package: 'Athens-HTML-Tutorial'!
 
-!AthensTutorial methodsFor: ''!
-
-doItstep34
-	|path poly font|
-	"Step 34: Event handling"
-
-	font := LogicalFont familyName: 'Arial' pointSize: 20.
-	
-	surface drawDuring: [:canvas |  
-		
-		surface clear: Color gray.
-	
-		canvas setPaint: Color white.
-		canvas setFont: font.
-		canvas pathTransform translateX: 100 Y: 200.
-		canvas drawString: 'Move the mouse cursor.'.
-	
-		path := canvas createPath: [:builder |
-			
-			builder 
-				absolute;
-				lineTo: 15@ 50;
-				lineTo: 60@ 60;
-				lineTo: 150@50;
-				lineTo: 0@0
-			].
-	
-		poly := path asPolygon.
-	].
-
-	surface onMouseMove: [:e | surface drawDuring: [:canvas |
-		surface clear: Color gray.
-		canvas pathTransform translateX: 0 Y: 0.
-
-		canvas setShape: path.
-		(poly includesPoint: e offsetX @ e offsetY)
-			ifTrue: [canvas setPaint: Color blue]
-			ifFalse: [canvas setPaint: Color green].
-			
-		canvas draw.
-
-		canvas setFont: font.
-		canvas setPaint: Color red.
-		canvas pathTransform translateX: 100 Y: 20.
-		canvas drawString: '(', e offsetX asString, ', ', e offsetY asString, ')']].
-! !
-
 !AthensTutorial methodsFor: 'initialize-release'!
 
 initialize
@@ -1343,6 +1296,52 @@ step36
 	morph addMorph: innerMorph.
 !
 
+step37
+	|window descText counter optIncrement optDecrement button|
+	"Step 37: [Morphic Demo] Using basic Morphs."
+	
+	window := AthensWindowMorph new.
+	window title: 'Counter Example'.
+
+	descText := AthensTextMorph new.
+	descText text: 'Current value: '.
+	descText translateByX: 25 Y: 40.
+	window addMorph: descText.
+	
+	counter := AthensTextMorph new.
+	counter text: '0'.
+	counter translateByX: 150 Y: 40.
+	window addMorph: counter.
+	
+	optIncrement := AthensRadioButtonMorph new.
+	optIncrement text: 'Increment number'.
+	optIncrement translateByX: 25 Y: 70.
+	window addMorph: optIncrement.
+	
+	optDecrement := AthensRadioButtonMorph new.
+	optDecrement text: 'Decrement number'.
+	optDecrement translateByX: 25 Y: 90.
+	window addMorph: optDecrement.
+	
+	optIncrement onChange: [:val | optDecrement checked: val not].
+	optDecrement onChange: [:val | optIncrement checked: val not].
+	optIncrement checked: true.
+	
+	button := AthensButtonMorph new.
+	button text: 'Do it'.
+	button translateByX: 25 Y: 120.
+	button width: 150.
+	button onMouseClick: [:evt | |val|
+		val := counter text asNumber.
+		optIncrement isChecked
+			ifTrue: [val := val + 1]
+			ifFalse: [val := val - 1].
+		counter text: val asString].
+
+	window addMorph: button.
+	surface world addMorph: window.
+!
+
 step4
 "Step 4: Shapes and paints.
 
@@ -1577,8 +1576,8 @@ initialize
 
 nextStep
 	step := step + 1.
-	step > 36
-		ifTrue: [step := 36].
+	step > 37
+		ifTrue: [step := 37].
 	self showStep: step.
 !
 

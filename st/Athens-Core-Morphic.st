@@ -1,6 +1,6 @@
 Smalltalk current createPackage: 'Athens-Core-Morphic'!
 Object subclass: #AthensMorph
-	instanceVariableNames: 'transformation outerShape outerPolygon owner submorphs color globalPathTransform globalOuterPolygon visible eventCallbacks hasMouseFocus'
+	instanceVariableNames: 'transformation outerShape outerPolygon owner submorphs color globalPathTransform globalOuterPolygon visible eventCallbacks hasMouseFocus isMouseDown'
 	package: 'Athens-Core-Morphic'!
 
 !AthensMorph methodsFor: 'accessing'!
@@ -91,11 +91,16 @@ redrawEverythingOn: canvas
 
 !AthensMorph methodsFor: 'events'!
 
+handleChange: evt
+	(eventCallbacks at: #change ifAbsent: []) value: evt.
+!
+
 handleMouseClick: evt
 	(eventCallbacks at: #mouseClick ifAbsent: []) value.
 !
 
 handleMouseDown: evt
+	isMouseDown := true.
 	(eventCallbacks at: #mouseDown ifAbsent: []) value.
 !
 
@@ -106,6 +111,7 @@ handleMouseEnter
 
 handleMouseLeave
 	hasMouseFocus := false.
+	isMouseDown := false.
 	(eventCallbacks at: #mouseLeave ifAbsent: []) value.
 !
 
@@ -114,15 +120,20 @@ handleMouseMove: evt
 !
 
 handleMouseUp: evt
+	isMouseDown := false.
 	(eventCallbacks at: #mouseUp ifAbsent: []) value.
 !
 
-morphAtPosition: aPoint
+morphsAtPosition: aPoint
 	(globalOuterPolygon includesPoint: aPoint)
 		ifTrue: [submorphs reverseDo: [:morph |
 			morph isVisible ifTrue: [
-				(morph morphAtPosition: aPoint) ifNotNil: [:m | ^ m]]]]
+				(morph morphsAtPosition: aPoint) ifNotNil: [:m | 
+					^ m
+						add: self;
+						yourself]]]]
 		ifFalse: [^ nil].
+	^ {self}
 !
 
 onMouseClick: aBlock
@@ -147,6 +158,10 @@ onMouseMove: aBlock
 
 onMouseUp: aBlock
 	eventCallbacks at: #mouseUp put: aBlock.
+!
+
+signalChange: evt
+	self handleChange: evt.
 ! !
 
 !AthensMorph methodsFor: 'geometry'!
@@ -185,7 +200,7 @@ initialize
 	submorphs := OrderedCollection new.
 	visible := true.
 	eventCallbacks := Dictionary new.
-	hasMouseFocus := false.
+	hasMouseFocus := isMouseDown := false.
 ! !
 
 !AthensMorph methodsFor: 'morph handling'!
@@ -231,7 +246,7 @@ isWorldMorph
 ! !
 
 AthensMorph subclass: #AthensButtonMorph
-	instanceVariableNames: 'text extent font borderColor highlightColor'
+	instanceVariableNames: 'text extent font borderColor highlightColor downColor'
 	package: 'Athens-Core-Morphic'!
 
 !AthensButtonMorph methodsFor: 'accessing'!
@@ -241,8 +256,22 @@ borderColor: aColor
 	self redraw.
 !
 
+height: aNumber
+	extent y: aNumber.
+	self redraw.
+!
+
 highlightColor: aColor
 	highlightColor := aColor.
+!
+
+text: aString
+	text := aString.
+!
+
+width: aNumber
+	extent x: aNumber.
+	self redraw.
 ! !
 
 !AthensButtonMorph methodsFor: 'drawing'!
@@ -256,6 +285,7 @@ drawOn: canvas
 	hasMouseFocus 
 		ifTrue: [canvas setPaint: highlightColor]
 		ifFalse: [canvas setPaint: color].
+	isMouseDown ifTrue: [canvas setPaint: borderColor].
 	canvas drawShape: (1@1 corner: extent - (1@1)).
 	canvas setFont: font.
 	textX := (canvas measureStringWidth: text) / 2.
@@ -267,6 +297,11 @@ drawOn: canvas
 
 !AthensButtonMorph methodsFor: 'events'!
 
+handleMouseDown: evt
+	super handleMouseDown: evt.
+	self redraw.
+!
+
 handleMouseEnter
 	super handleMouseEnter.
 	self redraw.
@@ -274,6 +309,11 @@ handleMouseEnter
 
 handleMouseLeave
 	super handleMouseLeave.
+	self redraw.
+!
+
+handleMouseUp: evt
+	super handleMouseUp: evt.
 	self redraw.
 ! !
 
@@ -287,6 +327,83 @@ initialize
 	color := Color cosmoBlue.
 	highlightColor := Color cosmoMiddleBlue.
 	borderColor := Color cosmoDarkBlue.
+! !
+
+AthensMorph subclass: #AthensCheckBoxMorph
+	instanceVariableNames: 'text textMorph isChecked'
+	package: 'Athens-Core-Morphic'!
+
+!AthensCheckBoxMorph methodsFor: 'accessing'!
+
+checked: aBoolean
+	isChecked := aBoolean.
+	self redraw.
+!
+
+isChecked
+	^ isChecked
+! !
+
+!AthensCheckBoxMorph methodsFor: 'drawing'!
+
+drawOn: canvas
+	canvas pathTransform translateBy: 0@1.
+	canvas setShape: (0@0 corner: 10@10).
+	canvas setPaint: Color cosmoGray.
+	isMouseDown ifTrue: [canvas setPaint: Color cosmoDarkGray].
+	canvas draw.
+
+	canvas pathTransform translateBy: 0.25@0.25. 
+	canvas setShape: (1@1 corner: 9@9).
+	hasMouseFocus
+		ifTrue: [canvas setPaint: Color cosmoLightGray]
+		ifFalse: [canvas setPaint: Color white].
+	canvas draw.
+
+	isChecked ifTrue: [
+		canvas pathTransform translateBy: 0@0.
+		canvas setShape: (2@2 corner: 8@8).
+		canvas setPaint: Color black.
+		canvas draw].
+
+	self outerShape: (0@0 corner: 15 + textMorph width @15).
+! !
+
+!AthensCheckBoxMorph methodsFor: 'events'!
+
+handleMouseClick: evt
+	self checked: isChecked not.
+	super handleMouseClick: evt.
+!
+
+handleMouseDown: evt
+	super handleMouseDown: evt.
+	self redraw.
+!
+
+handleMouseEnter
+	super handleMouseEnter.
+	self redraw.
+!
+
+handleMouseLeave
+	super handleMouseLeave.
+	self redraw.
+! !
+
+!AthensCheckBoxMorph methodsFor: 'initialization'!
+
+initialize
+	super initialize.
+	self initializeText.
+	isChecked := false.
+!
+
+initializeText
+	textMorph := AthensTextMorph new.
+	textMorph translateByX: 15 Y: -5.
+	textMorph text: 'CheckBoxMorph'.
+	self addMorph: textMorph.
 ! !
 
 AthensMorph subclass: #AthensHaloMorph
@@ -471,12 +588,19 @@ AthensMorph subclass: #AthensRadioButtonMorph
 !AthensRadioButtonMorph methodsFor: 'accessing'!
 
 checked: aBoolean
+	|changed|
+	changed := isChecked == aBoolean not.
 	isChecked := aBoolean.
+	changed ifTrue: [self signalChange: isChecked].
 	self redraw.
 !
 
 isChecked
 	^ isChecked
+!
+
+text: aString
+	textMorph text: aString.
 ! !
 
 !AthensRadioButtonMorph methodsFor: 'drawing'!
@@ -492,6 +616,7 @@ drawOn: canvas
 			cwArcTo: 0@5 angle: 90 ] .
 	canvas setShape: circle.
 	canvas setPaint: Color cosmoGray.
+	isMouseDown ifTrue: [canvas setPaint: Color cosmoDarkGray].
 	canvas draw.
 
 	canvas pathTransform translateBy: 0@0.5.
@@ -500,7 +625,7 @@ drawOn: canvas
 			absolute;
 			moveTo: 1@4;
 			cwArcTo: 9@4 angle: 180;
-			cwArcTo: 1@4 angle: 90 ] .
+			cwArcTo: 1@4 angle: 90].
 	canvas setShape: circle.
 	hasMouseFocus
 		ifTrue: [canvas setPaint: Color cosmoLightGray]
@@ -529,6 +654,11 @@ handleMouseClick: evt
 	super handleMouseClick: evt.
 !
 
+handleMouseDown: evt
+	super handleMouseDown: evt.
+	self redraw.
+!
+
 handleMouseEnter
 	super handleMouseEnter.
 	self redraw.
@@ -537,6 +667,15 @@ handleMouseEnter
 handleMouseLeave
 	super handleMouseLeave.
 	self redraw.
+!
+
+handleMouseUp: evt
+	super handleMouseUp: evt.
+	self redraw.
+!
+
+onChange: aBlock
+	eventCallbacks at: #change put: aBlock.
 ! !
 
 !AthensRadioButtonMorph methodsFor: 'initialization'!
@@ -638,6 +777,10 @@ highlightFontColor: aColor
 	highlightFontColor := aColor.
 !
 
+text
+	^ text
+!
+
 text: aString
 	text := aString.
 	self redraw.
@@ -676,7 +819,7 @@ initialize
 	super initialize.
 	borderColor := fillColor := Color transparent.
 	text := 'a TextMorph'.
-	font := LogicalFont familyName: 'Verdana' pointSize: 15.
+	font := LogicalFont familyName: 'Arial' pointSize: 15.
 	fontColor := highlightFontColor := Color black.
 ! !
 
@@ -718,6 +861,12 @@ AthensMorph subclass: #AthensWindowMorph
 
 height: aNumber
 	height := aNumber.
+	self redraw.
+!
+
+title: aString
+	title := aString.
+	titleTextMorph text: aString.
 	self redraw.
 !
 
@@ -777,7 +926,6 @@ initializeEvents
 		self world registerGlobalEvent: #mouseMove withCallback: windowMoveHandler.
 		self world registerGlobalEvent: #mouseUp withCallback: windowUpHandler].
 	titleBarMorph onMouseDown: mouseDownHandler.
-	titleTextMorph onMouseDown: mouseDownHandler.
 !
 
 initializeTitleBar
@@ -811,7 +959,7 @@ extent: aPoint
 ! !
 
 AthensMorph subclass: #AthensWorldMorph
-	instanceVariableNames: 'backgroundPaint surface morphBelowHand halos globalEventCallbacks'
+	instanceVariableNames: 'backgroundPaint surface morphsUnderHand halos globalEventCallbacks'
 	package: 'Athens-Core-Morphic'!
 
 !AthensWorldMorph methodsFor: 'accessing'!
@@ -845,6 +993,18 @@ redrawHalosOn: canvas
 ! !
 
 !AthensWorldMorph methodsFor: 'events'!
+
+delegateEvent: aSymbol with: evt
+	morphsUnderHand do: [:morph |
+		morph == morphsUnderHand last
+			ifTrue: [evt basicAt: #topMost put: true]
+			ifFalse: [evt basicAt: #topMost put: false].
+				
+		aSymbol == #mouseClick ifTrue: [morph handleMouseClick: evt].
+		aSymbol == #mouseMove ifTrue: [morph handleMouseMove: evt].
+		aSymbol == #mouseDown ifTrue: [morph handleMouseDown: evt].
+		aSymbol == #mouseUp ifTrue: [morph handleMouseUp: evt]].
+!
 
 handleEvent: aSymbol with: evt
 	(globalEventCallbacks at: aSymbol ifAbsent: [{}])
@@ -884,7 +1044,7 @@ initialize
 	super initialize.
 	self initializeBackgroundPaint.
 	self initializeHalos.
-	morphBelowHand := self.
+	morphsUnderHand := {self}.
 	self initializeCallbacks.
 !
 
@@ -902,12 +1062,10 @@ initializeBackgroundPaint
 
 initializeCallbacks
 	globalEventCallbacks := Dictionary new.
-	self registerGlobalEvent: #mouseMove withCallback: [:evt | self updateMorphBelowHandAt: evt offsetX @ evt offsetY].
-	self registerGlobalEvent: #mouseMove withCallback: [:evt | morphBelowHand handleMouseMove: evt].
-	self registerGlobalEvent: #mouseDown withCallback: [:evt | morphBelowHand handleMouseDown: evt].
-	self registerGlobalEvent: #mouseUp withCallback: [:evt | morphBelowHand handleMouseUp: evt].
-	self registerGlobalEvent: #mouseClick withCallback: [:evt | morphBelowHand handleMouseClick: evt].
-	self registerGlobalEvent: #mouseClick withCallback: [:evt | self addHalosTo: morphBelowHand].
+	self registerGlobalEvent: #mouseMove withCallback: [:evt | self updateMorphsUnderHandAt: evt offsetX @ evt offsetY].
+	{#mouseMove. #mouseDown. #mouseUp. #mouseClick} do: [:sym |
+		self registerGlobalEvent: sym withCallback: [:evt | self delegateEvent: sym with: evt]].
+	"self registerGlobalEvent: #mouseClick withCallback: [:evt | self addHalosTo: morphBelowHand]."
 !
 
 initializeHalos
@@ -920,23 +1078,26 @@ initializeHalos
 
 !AthensWorldMorph methodsFor: 'morph handling'!
 
-morphAtPosition: aPoint
+morphsAtPosition: aPoint
 	halos reverseDo: [:morph | |ret|
 		morph isVisible ifTrue: [
-			ret := morph morphAtPosition: aPoint.
-			ret ifNotNil: [^ ret]]].
+			ret := morph morphsAtPosition: aPoint.
+			ret ifNotNil: [^ ret
+				add: self;
+				yourself]]].
 	
-	(super morphAtPosition: aPoint) ifNotNil: [:m | ^ m].
-	^ self
+	(super morphsAtPosition: aPoint) ifNotNil: [:m | ^ m].
+	^ {self}
 !
 
-updateMorphBelowHandAt: aPoint
-	|oldMorph|
-	oldMorph := morphBelowHand.
-	morphBelowHand := self morphAtPosition: aPoint.
-	morphBelowHand ~~ oldMorph ifTrue: [
-		oldMorph ifNotNil: [oldMorph handleMouseLeave].
-		morphBelowHand handleMouseEnter].
+updateMorphsUnderHandAt: aPoint
+	|oldMorphs|
+	oldMorphs := morphsUnderHand.
+	morphsUnderHand := self morphsAtPosition: aPoint.
+	oldMorphs do: [:m |
+		(morphsUnderHand includes: m) ifFalse: [m handleMouseLeave]].
+	morphsUnderHand do: [:m |
+		(oldMorphs includes: m) ifFalse: [m handleMouseEnter]].
 ! !
 
 !AthensWorldMorph methodsFor: 'testing'!
