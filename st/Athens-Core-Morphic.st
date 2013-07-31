@@ -1,6 +1,6 @@
 Smalltalk current createPackage: 'Athens-Core-Morphic'!
 Object subclass: #AthensMorph
-	instanceVariableNames: 'transformation outerShape outerPolygon owner submorphs color globalPathTransform globalOuterPolygon visible eventCallbacks hasMouseFocus isMouseDown'
+	instanceVariableNames: 'transformation outerShape outerPolygon owner submorphs color globalPathTransform globalOuterPolygon visible eventCallbacks hasMouseFocus isMouseDown zIndex'
 	package: 'Athens-Core-Morphic'!
 
 !AthensMorph methodsFor: 'accessing'!
@@ -16,6 +16,13 @@ globalBounds
 
 globalPathTransform
 	^ globalPathTransform
+!
+
+maxZIndex
+	|index|
+	index := 0.
+	submorphs do: [:morph | index := index max: morph zIndex].
+	^ index
 !
 
 outerShape: aShape
@@ -46,6 +53,15 @@ world
 	m := self.
 	[m isWorldMorph] whileFalse: [m := m owner].
 	^ m
+!
+
+zIndex
+	^ zIndex
+!
+
+zIndex: aNumber
+	zIndex := aNumber.
+	owner submorphsZIndicesChanged.
 ! !
 
 !AthensMorph methodsFor: 'drawing'!
@@ -201,6 +217,7 @@ initialize
 	visible := true.
 	eventCallbacks := Dictionary new.
 	hasMouseFocus := isMouseDown := false.
+	zIndex := 0.
 ! !
 
 !AthensMorph methodsFor: 'morph handling'!
@@ -209,6 +226,10 @@ addMorph: aMorph
 	self submorphs add: aMorph.
 	aMorph owner: self.
 	aMorph isVisible ifTrue: [aMorph redraw].
+!
+
+bringToFront
+	self zIndex: owner maxZIndex + 1.
 !
 
 delete
@@ -221,6 +242,10 @@ hide
 	self redraw.
 !
 
+layoutChanged
+	"Morph does not respond to layout changes."
+!
+
 removeMorph: aMorph
 	submorphs remove: aMorph.
 	self redraw.
@@ -228,6 +253,11 @@ removeMorph: aMorph
 
 show
 	visible := true.
+	self redraw.
+!
+
+submorphsZIndicesChanged
+	submorphs sort: [:m1 :m2 | m1 zIndex < m2 zIndex].
 	self redraw.
 ! !
 
@@ -650,7 +680,7 @@ drawOn: canvas
 !AthensRadioButtonMorph methodsFor: 'events'!
 
 handleMouseClick: evt
-	self checked: isChecked not.
+	self checked: true.
 	super handleMouseClick: evt.
 !
 
@@ -853,14 +883,66 @@ remove
 		yourself
 ! !
 
+AthensIconMorph subclass: #AthensResizeMorph
+	instanceVariableNames: 'globalMoveHandler globalUpHandler lastPosition'
+	package: 'Athens-Core-Morphic'!
+
+!AthensResizeMorph methodsFor: 'events'!
+
+handleMouseDown: evt
+	lastPosition := evt at: #globalPosition.
+	self world registerGlobalEvent: #mouseMove withCallback: globalMoveHandler.
+	self world registerGlobalEvent: #mouseUp withCallback: globalUpHandler.
+!
+
+handleMouseUp: evt
+	self world unregisterGlobalEvent: #mouseMove withCallback: globalMoveHandler.
+	self world unregisterGlobalEvent: #mouseUp withCallback: globalUpHandler.
+!
+
+processMouseMove: evt
+	|delta|
+	delta := evt globalPosition - lastPosition.
+	lastPosition := evt globalPosition.
+	owner width: owner width + delta x.
+	owner height: owner height + delta y.
+	self translateByX: delta x Y: delta y.
+!
+
+processMouseUp: evt
+	self handleMouseUp: evt.
+! !
+
+!AthensResizeMorph methodsFor: 'initialization'!
+
+drawOn: canvas
+	canvas pathTransform translateBy: 16@0.
+	canvas pathTransform rotateByDegrees: 90.
+	super drawOn: canvas.
+!
+
+initialize
+	super initialize.
+	text := ''.
+	fontColor := Color cosmoDarkGray.
+	highlightFontColor := Color black.
+	globalMoveHandler := [:evt | self processMouseMove: evt].
+	globalUpHandler := [:evt | self processMouseUp: evt].
+! !
+
 AthensMorph subclass: #AthensWindowMorph
-	instanceVariableNames: 'width height title font titleBarMorph titleTextMorph windowMoveHandler windowUpHandler'
+	instanceVariableNames: 'width height title font titleBarMorph titleTextMorph windowMoveHandler windowUpHandler closeButton'
 	package: 'Athens-Core-Morphic'!
 
 !AthensWindowMorph methodsFor: 'accessing'!
 
+height
+	^ height
+!
+
 height: aNumber
 	height := aNumber.
+	self layoutChanged.
 	self redraw.
 !
 
@@ -870,8 +952,13 @@ title: aString
 	self redraw.
 !
 
+width
+	^ width
+!
+
 width: aNumber
 	width := aNumber.
+	self layoutChanged.
 	self redraw.
 ! !
 
@@ -894,6 +981,16 @@ redraw
 
 !AthensWindowMorph methodsFor: 'events'!
 
+handleMouseClick: evt
+	self bringToFront.
+	super handleMouseClick: evt.
+!
+
+handleMouseDown: evt
+	self bringToFront.
+	super handleMouseDown: evt.
+!
+
 windowMouseMove: evt
 	self translateBy: (globalPathTransform inverseTransform: evt offsetX @ evt offsetY).
 !
@@ -915,6 +1012,7 @@ initialize
 	width := height := 200.
 	self initializeTitleBar.
 	self initializeEvents.
+	self initializeResizeIcon.
 	font := LogicalFont familyName: 'Arial' pointSize: '14'.
 !
 
@@ -928,8 +1026,14 @@ initializeEvents
 	titleBarMorph onMouseDown: mouseDownHandler.
 !
 
+initializeResizeIcon
+	|resizeMorph|
+	resizeMorph := AthensResizeMorph new.
+	resizeMorph translateByX: width - 15 Y: height - 15.
+	self addMorph: resizeMorph.
+!
+
 initializeTitleBar
-	|closeButton|
 	title := 'Window Title'.
 	titleBarMorph := AthensRectangleMorph extent: width - 10 @ 25.
 	titleBarMorph fillColor: Color black.
@@ -949,6 +1053,14 @@ initializeTitleBar
 	titleBarMorph addMorph: closeButton.
 ! !
 
+!AthensWindowMorph methodsFor: 'morph handling'!
+
+layoutChanged
+	submorphs do: [:morph | morph layoutChanged].
+	closeButton resetTransformation.
+	closeButton translateByX: width - 25 Y: 2.
+! !
+
 !AthensWindowMorph class methodsFor: 'instance creation'!
 
 extent: aPoint
@@ -959,7 +1071,7 @@ extent: aPoint
 ! !
 
 AthensMorph subclass: #AthensWorldMorph
-	instanceVariableNames: 'backgroundPaint surface morphsUnderHand halos globalEventCallbacks'
+	instanceVariableNames: 'backgroundPaint surface morphsUnderHand halos globalEventCallbacks handPosition'
 	package: 'Athens-Core-Morphic'!
 
 !AthensWorldMorph methodsFor: 'accessing'!
@@ -1000,6 +1112,11 @@ delegateEvent: aSymbol with: evt
 			ifTrue: [evt basicAt: #topMost put: true]
 			ifFalse: [evt basicAt: #topMost put: false].
 				
+		aSymbol == #mouseMove | (aSymbol == #mouseClick) | (aSymbol == #mouseDown) | (aSymbol == #mouseUp)
+			ifTrue: [
+				evt at: #position put: (morph globalPathTransform inverseTransform: handPosition).
+				evt at: #globalPosition put: handPosition].
+
 		aSymbol == #mouseClick ifTrue: [morph handleMouseClick: evt].
 		aSymbol == #mouseMove ifTrue: [morph handleMouseMove: evt].
 		aSymbol == #mouseDown ifTrue: [morph handleMouseDown: evt].
@@ -1045,6 +1162,7 @@ initialize
 	self initializeBackgroundPaint.
 	self initializeHalos.
 	morphsUnderHand := {self}.
+	handPosition := 0@0.
 	self initializeCallbacks.
 !
 
@@ -1062,7 +1180,9 @@ initializeBackgroundPaint
 
 initializeCallbacks
 	globalEventCallbacks := Dictionary new.
-	self registerGlobalEvent: #mouseMove withCallback: [:evt | self updateMorphsUnderHandAt: evt offsetX @ evt offsetY].
+	self registerGlobalEvent: #mouseMove withCallback: [:evt | 
+		self updateMorphsUnderHandAt: evt offsetX @ evt offsetY.
+		handPosition := evt offsetX @ evt offsetY].
 	{#mouseMove. #mouseDown. #mouseUp. #mouseClick} do: [:sym |
 		self registerGlobalEvent: sym withCallback: [:evt | self delegateEvent: sym with: evt]].
 	"self registerGlobalEvent: #mouseClick withCallback: [:evt | self addHalosTo: morphBelowHand]."
