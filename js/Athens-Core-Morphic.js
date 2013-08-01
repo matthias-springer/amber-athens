@@ -166,11 +166,14 @@ var self=this;
 return smalltalk.withContext(function($ctx1) { 
 _st(_st(self["@eventCallbacks"])._at_ifAbsent_("mouseClick",(function(){
 return smalltalk.withContext(function($ctx2) {
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})})))._value();
+return (function(ev){
+return smalltalk.withContext(function($ctx3) {
+}, function($ctx3) {$ctx3.fillBlock({ev:ev},$ctx2)})});
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})})))._value_(evt);
 return self}, function($ctx1) {$ctx1.fill(self,"handleMouseClick:",{evt:evt},smalltalk.AthensMorph)})},
 args: ["evt"],
-source: "handleMouseClick: evt\x0a\x09(eventCallbacks at: #mouseClick ifAbsent: []) value.",
-messageSends: ["value", "at:ifAbsent:"],
+source: "handleMouseClick: evt\x0a\x09(eventCallbacks at: #mouseClick ifAbsent: [[:ev | ]]) value: evt. ",
+messageSends: ["value:", "at:ifAbsent:"],
 referencedClasses: []
 }),
 smalltalk.AthensMorph);
@@ -185,11 +188,14 @@ return smalltalk.withContext(function($ctx1) {
 self["@isMouseDown"]=true;
 _st(_st(self["@eventCallbacks"])._at_ifAbsent_("mouseDown",(function(){
 return smalltalk.withContext(function($ctx2) {
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})})))._value();
+return (function(ev){
+return smalltalk.withContext(function($ctx3) {
+}, function($ctx3) {$ctx3.fillBlock({ev:ev},$ctx2)})});
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})})))._value_(evt);
 return self}, function($ctx1) {$ctx1.fill(self,"handleMouseDown:",{evt:evt},smalltalk.AthensMorph)})},
 args: ["evt"],
-source: "handleMouseDown: evt\x0a\x09isMouseDown := true.\x0a\x09(eventCallbacks at: #mouseDown ifAbsent: []) value.",
-messageSends: ["value", "at:ifAbsent:"],
+source: "handleMouseDown: evt\x0a\x09isMouseDown := true.\x0a\x09(eventCallbacks at: #mouseDown ifAbsent: [[:ev |]]) value: evt.",
+messageSends: ["value:", "at:ifAbsent:"],
 referencedClasses: []
 }),
 smalltalk.AthensMorph);
@@ -264,11 +270,14 @@ return smalltalk.withContext(function($ctx1) {
 self["@isMouseDown"]=false;
 _st(_st(self["@eventCallbacks"])._at_ifAbsent_("mouseUp",(function(){
 return smalltalk.withContext(function($ctx2) {
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})})))._value();
+return (function(ev){
+return smalltalk.withContext(function($ctx3) {
+}, function($ctx3) {$ctx3.fillBlock({ev:ev},$ctx2)})});
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})})))._value_(evt);
 return self}, function($ctx1) {$ctx1.fill(self,"handleMouseUp:",{evt:evt},smalltalk.AthensMorph)})},
 args: ["evt"],
-source: "handleMouseUp: evt\x0a\x09isMouseDown := false.\x0a\x09(eventCallbacks at: #mouseUp ifAbsent: []) value.",
-messageSends: ["value", "at:ifAbsent:"],
+source: "handleMouseUp: evt\x0a\x09isMouseDown := false.\x0a\x09(eventCallbacks at: #mouseUp ifAbsent: [[:ev |]]) value: evt.",
+messageSends: ["value:", "at:ifAbsent:"],
 referencedClasses: []
 }),
 smalltalk.AthensMorph);
@@ -2795,7 +2804,7 @@ smalltalk.AthensResizeMorph);
 
 
 
-smalltalk.addClass('AthensWindowMorph', smalltalk.AthensMorph, ['width', 'height', 'title', 'font', 'titleBarMorph', 'titleTextMorph', 'resizeMorph', 'windowMoveHandler', 'windowUpHandler', 'closeButton'], 'Athens-Core-Morphic');
+smalltalk.addClass('AthensWindowMorph', smalltalk.AthensMorph, ['width', 'height', 'title', 'font', 'titleBarMorph', 'titleTextMorph', 'resizeMorph', 'windowMoveHandler', 'windowMoveOffset', 'windowUpHandler', 'closeButton'], 'Athens-Core-Morphic');
 smalltalk.addMethod(
 smalltalk.method({
 selector: "drawOn:",
@@ -2843,12 +2852,13 @@ category: 'events',
 fn: function (evt){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
+self["@windowMoveOffset"]=_st(evt)._position();
 self._bringToFront();
 smalltalk.AthensMorph.fn.prototype._handleMouseDown_.apply(_st(self), [evt]);
 return self}, function($ctx1) {$ctx1.fill(self,"handleMouseDown:",{evt:evt},smalltalk.AthensWindowMorph)})},
 args: ["evt"],
-source: "handleMouseDown: evt\x0a\x09self bringToFront.\x0a\x09super handleMouseDown: evt.",
-messageSends: ["bringToFront", "handleMouseDown:"],
+source: "handleMouseDown: evt\x0a\x09windowMoveOffset := evt position.\x0a\x09self bringToFront.\x0a\x09super handleMouseDown: evt.",
+messageSends: ["position", "bringToFront", "handleMouseDown:"],
 referencedClasses: []
 }),
 smalltalk.AthensWindowMorph);
@@ -2936,7 +2946,7 @@ return _st(self._world())._registerGlobalEvent_withCallback_("mouseUp",self["@wi
 _st(self["@titleBarMorph"])._onMouseDown_(mouseDownHandler);
 return self}, function($ctx1) {$ctx1.fill(self,"initializeEvents",{mouseDownHandler:mouseDownHandler},smalltalk.AthensWindowMorph)})},
 args: [],
-source: "initializeEvents\x0a\x09|mouseDownHandler|\x0a\x09windowMoveHandler := [:evt | self windowMouseMove: evt].\x0a\x09windowUpHandler := [:evt | self windowMouseUp: evt].\x0a\x09mouseDownHandler := [:evt | \x09\x0a\x09\x09self world registerGlobalEvent: #mouseMove withCallback: windowMoveHandler.\x0a\x09\x09self world registerGlobalEvent: #mouseUp withCallback: windowUpHandler].\x0a\x09titleBarMorph onMouseDown: mouseDownHandler.",
+source: "initializeEvents\x0a\x09|mouseDownHandler|\x0a\x09windowMoveHandler := [:evt | self windowMouseMove: evt].\x0a\x09windowUpHandler := [:evt | self windowMouseUp: evt].\x0a\x09mouseDownHandler := [:evt | \x0a\x09\x09self world registerGlobalEvent: #mouseMove withCallback: windowMoveHandler.\x0a\x09\x09self world registerGlobalEvent: #mouseUp withCallback: windowUpHandler].\x0a\x09titleBarMorph onMouseDown: mouseDownHandler.",
 messageSends: ["windowMouseMove:", "windowMouseUp:", "registerGlobalEvent:withCallback:", "world", "onMouseDown:"],
 referencedClasses: []
 }),
@@ -3101,11 +3111,11 @@ category: 'events',
 fn: function (evt){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self._translateBy_(_st(self["@globalPathTransform"])._inverseTransform_(_st(_st(evt)._offsetX()).__at(_st(evt)._offsetY())));
+self._translateBy_(_st(_st(self["@globalPathTransform"])._inverseTransform_(_st(_st(evt)._offsetX()).__at(_st(evt)._offsetY()))).__minus(self["@windowMoveOffset"]));
 return self}, function($ctx1) {$ctx1.fill(self,"windowMouseMove:",{evt:evt},smalltalk.AthensWindowMorph)})},
 args: ["evt"],
-source: "windowMouseMove: evt\x0a\x09self translateBy: (globalPathTransform inverseTransform: evt offsetX @ evt offsetY).",
-messageSends: ["translateBy:", "inverseTransform:", "@", "offsetY", "offsetX"],
+source: "windowMouseMove: evt\x0a\x09self translateBy: (globalPathTransform inverseTransform: evt offsetX @ evt offsetY) - windowMoveOffset.",
+messageSends: ["translateBy:", "-", "inverseTransform:", "@", "offsetY", "offsetX"],
 referencedClasses: []
 }),
 smalltalk.AthensWindowMorph);
@@ -3122,23 +3132,6 @@ _st(self._world())._unregisterGlobalEvent_withCallback_("mouseUp",self["@windowU
 return self}, function($ctx1) {$ctx1.fill(self,"windowMouseUp:",{evt:evt},smalltalk.AthensWindowMorph)})},
 args: ["evt"],
 source: "windowMouseUp: evt\x0a\x09self world unregisterGlobalEvent: #mouseMove withCallback: windowMoveHandler.\x0a\x09self world unregisterGlobalEvent: #mouseUp withCallback: windowUpHandler.",
-messageSends: ["unregisterGlobalEvent:withCallback:", "world"],
-referencedClasses: []
-}),
-smalltalk.AthensWindowMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "windowUpHandler:",
-category: 'events',
-fn: function (evt){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-_st(self._world())._unregisterGlobalEvent_withCallback_("mouseMove",self["@windowMoveHandler"]);
-_st(self._world())._unregisterGlobalEvent_withCallback_("mouseUp",self["@windowUpHandler"]);
-return self}, function($ctx1) {$ctx1.fill(self,"windowUpHandler:",{evt:evt},smalltalk.AthensWindowMorph)})},
-args: ["evt"],
-source: "windowUpHandler: evt\x0a\x09self world unregisterGlobalEvent: #mouseMove withCallback: windowMoveHandler.\x0a\x09self world unregisterGlobalEvent: #mouseUp withCallback: windowUpHandler.",
 messageSends: ["unregisterGlobalEvent:withCallback:", "world"],
 referencedClasses: []
 }),
@@ -3235,7 +3228,7 @@ return _st(morph)._handleMouseUp_(evt);
 }, function($ctx2) {$ctx2.fillBlock({morph:morph},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"delegateEvent:with:",{aSymbol:aSymbol,evt:evt},smalltalk.AthensWorldMorph)})},
 args: ["aSymbol", "evt"],
-source: "delegateEvent: aSymbol with: evt\x0a\x09morphsUnderHand do: [:morph |\x0a\x09\x09morph == morphsUnderHand last\x0a\x09\x09\x09ifTrue: [evt basicAt: #topMost put: true]\x0a\x09\x09\x09ifFalse: [evt basicAt: #topMost put: false].\x0a\x09\x09\x09\x09\x0a\x09\x09aSymbol == #mouseMove | (aSymbol == #mouseClick) | (aSymbol == #mouseDown) | (aSymbol == #mouseUp)\x0a\x09\x09\x09ifTrue: [\x0a\x09\x09\x09\x09evt at: #position put: (morph globalPathTransform inverseTransform: handPosition).\x0a\x09\x09\x09\x09evt at: #globalPosition put: handPosition].\x0a\x0a\x09\x09aSymbol == #mouseClick ifTrue: [morph handleMouseClick: evt].\x0a\x09\x09aSymbol == #mouseMove ifTrue: [morph handleMouseMove: evt].\x0a\x09\x09aSymbol == #mouseDown ifTrue: [morph handleMouseDown: evt].\x0a\x09\x09aSymbol == #mouseUp ifTrue: [morph handleMouseUp: evt]].",
+source: "delegateEvent: aSymbol with: evt\x0a\x09morphsUnderHand do: [:morph |\x0a\x09\x09morph == morphsUnderHand last\x0a\x09\x09\x09ifTrue: [evt basicAt: #topMost put: true]\x0a\x09\x09\x09ifFalse: [evt basicAt: #topMost put: false].\x0a\x09\x09\x09\x09\x0a\x09\x09aSymbol == #mouseMove | (aSymbol == #mouseClick) | (aSymbol == #mouseDown) | (aSymbol == #mouseUp)\x0a\x09\x09\x09ifTrue: [\x0a\x09\x09\x09\x09evt at: #position put: (morph globalPathTransform inverseTransform: handPosition).\x0a\x09\x09\x09\x09evt at: #globalPosition put: handPosition].\x0a\x09\x09\x0a\x09\x09aSymbol == #mouseClick ifTrue: [morph handleMouseClick: evt].\x0a\x09\x09aSymbol == #mouseMove ifTrue: [morph handleMouseMove: evt].\x0a\x09\x09aSymbol == #mouseDown ifTrue: [morph handleMouseDown: evt].\x0a\x09\x09aSymbol == #mouseUp ifTrue: [morph handleMouseUp: evt]].",
 messageSends: ["do:", "ifTrue:ifFalse:", "basicAt:put:", "==", "last", "ifTrue:", "at:put:", "inverseTransform:", "globalPathTransform", "|", "handleMouseClick:", "handleMouseMove:", "handleMouseDown:", "handleMouseUp:"],
 referencedClasses: []
 }),

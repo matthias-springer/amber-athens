@@ -125,9 +125,12 @@ var self=this;
 return smalltalk.withContext(function($ctx1) { 
 _st(_st(self["@eventCallbacks"])._at_ifAbsent_("mouseClick",(function(){
 return smalltalk.withContext(function($ctx2) {
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})})))._value();
+return (function(ev){
+return smalltalk.withContext(function($ctx3) {
+}, function($ctx3) {$ctx3.fillBlock({ev:ev},$ctx2)})});
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})})))._value_(evt);
 return self}, function($ctx1) {$ctx1.fill(self,"handleMouseClick:",{evt:evt},smalltalk.AthensMorph)})},
-messageSends: ["value", "at:ifAbsent:"]}),
+messageSends: ["value:", "at:ifAbsent:"]}),
 smalltalk.AthensMorph);
 
 smalltalk.addMethod(
@@ -139,9 +142,12 @@ return smalltalk.withContext(function($ctx1) {
 self["@isMouseDown"]=true;
 _st(_st(self["@eventCallbacks"])._at_ifAbsent_("mouseDown",(function(){
 return smalltalk.withContext(function($ctx2) {
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})})))._value();
+return (function(ev){
+return smalltalk.withContext(function($ctx3) {
+}, function($ctx3) {$ctx3.fillBlock({ev:ev},$ctx2)})});
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})})))._value_(evt);
 return self}, function($ctx1) {$ctx1.fill(self,"handleMouseDown:",{evt:evt},smalltalk.AthensMorph)})},
-messageSends: ["value", "at:ifAbsent:"]}),
+messageSends: ["value:", "at:ifAbsent:"]}),
 smalltalk.AthensMorph);
 
 smalltalk.addMethod(
@@ -198,9 +204,12 @@ return smalltalk.withContext(function($ctx1) {
 self["@isMouseDown"]=false;
 _st(_st(self["@eventCallbacks"])._at_ifAbsent_("mouseUp",(function(){
 return smalltalk.withContext(function($ctx2) {
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})})))._value();
+return (function(ev){
+return smalltalk.withContext(function($ctx3) {
+}, function($ctx3) {$ctx3.fillBlock({ev:ev},$ctx2)})});
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})})))._value_(evt);
 return self}, function($ctx1) {$ctx1.fill(self,"handleMouseUp:",{evt:evt},smalltalk.AthensMorph)})},
-messageSends: ["value", "at:ifAbsent:"]}),
+messageSends: ["value:", "at:ifAbsent:"]}),
 smalltalk.AthensMorph);
 
 smalltalk.addMethod(
@@ -2105,7 +2114,7 @@ smalltalk.AthensResizeMorph);
 
 
 
-smalltalk.addClass('AthensWindowMorph', smalltalk.AthensMorph, ['width', 'height', 'title', 'font', 'titleBarMorph', 'titleTextMorph', 'resizeMorph', 'windowMoveHandler', 'windowUpHandler', 'closeButton'], 'Athens-Core-Morphic');
+smalltalk.addClass('AthensWindowMorph', smalltalk.AthensMorph, ['width', 'height', 'title', 'font', 'titleBarMorph', 'titleTextMorph', 'resizeMorph', 'windowMoveHandler', 'windowMoveOffset', 'windowUpHandler', 'closeButton'], 'Athens-Core-Morphic');
 smalltalk.addMethod(
 smalltalk.method({
 selector: "drawOn:",
@@ -2142,10 +2151,11 @@ selector: "handleMouseDown:",
 fn: function (evt){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
+self["@windowMoveOffset"]=_st(evt)._position();
 self._bringToFront();
 smalltalk.AthensMorph.fn.prototype._handleMouseDown_.apply(_st(self), [evt]);
 return self}, function($ctx1) {$ctx1.fill(self,"handleMouseDown:",{evt:evt},smalltalk.AthensWindowMorph)})},
-messageSends: ["bringToFront", "handleMouseDown:"]}),
+messageSends: ["position", "bringToFront", "handleMouseDown:"]}),
 smalltalk.AthensWindowMorph);
 
 smalltalk.addMethod(
@@ -2340,9 +2350,9 @@ selector: "windowMouseMove:",
 fn: function (evt){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self._translateBy_(_st(self["@globalPathTransform"])._inverseTransform_(_st(_st(evt)._offsetX()).__at(_st(evt)._offsetY())));
+self._translateBy_(_st(_st(self["@globalPathTransform"])._inverseTransform_(_st(_st(evt)._offsetX()).__at(_st(evt)._offsetY()))).__minus(self["@windowMoveOffset"]));
 return self}, function($ctx1) {$ctx1.fill(self,"windowMouseMove:",{evt:evt},smalltalk.AthensWindowMorph)})},
-messageSends: ["translateBy:", "inverseTransform:", "@", "offsetY", "offsetX"]}),
+messageSends: ["translateBy:", "-", "inverseTransform:", "@", "offsetY", "offsetX"]}),
 smalltalk.AthensWindowMorph);
 
 smalltalk.addMethod(
@@ -2354,18 +2364,6 @@ return smalltalk.withContext(function($ctx1) {
 _st(self._world())._unregisterGlobalEvent_withCallback_("mouseMove",self["@windowMoveHandler"]);
 _st(self._world())._unregisterGlobalEvent_withCallback_("mouseUp",self["@windowUpHandler"]);
 return self}, function($ctx1) {$ctx1.fill(self,"windowMouseUp:",{evt:evt},smalltalk.AthensWindowMorph)})},
-messageSends: ["unregisterGlobalEvent:withCallback:", "world"]}),
-smalltalk.AthensWindowMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "windowUpHandler:",
-fn: function (evt){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-_st(self._world())._unregisterGlobalEvent_withCallback_("mouseMove",self["@windowMoveHandler"]);
-_st(self._world())._unregisterGlobalEvent_withCallback_("mouseUp",self["@windowUpHandler"]);
-return self}, function($ctx1) {$ctx1.fill(self,"windowUpHandler:",{evt:evt},smalltalk.AthensWindowMorph)})},
 messageSends: ["unregisterGlobalEvent:withCallback:", "world"]}),
 smalltalk.AthensWindowMorph);
 

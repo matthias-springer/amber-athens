@@ -112,12 +112,12 @@ handleChange: evt
 !
 
 handleMouseClick: evt
-	(eventCallbacks at: #mouseClick ifAbsent: []) value.
+	(eventCallbacks at: #mouseClick ifAbsent: [[:ev | ]]) value: evt.
 !
 
 handleMouseDown: evt
 	isMouseDown := true.
-	(eventCallbacks at: #mouseDown ifAbsent: []) value.
+	(eventCallbacks at: #mouseDown ifAbsent: [[:ev |]]) value: evt.
 !
 
 handleMouseEnter
@@ -137,7 +137,7 @@ handleMouseMove: evt
 
 handleMouseUp: evt
 	isMouseDown := false.
-	(eventCallbacks at: #mouseUp ifAbsent: []) value.
+	(eventCallbacks at: #mouseUp ifAbsent: [[:ev |]]) value: evt.
 !
 
 morphsAtPosition: aPoint
@@ -984,7 +984,7 @@ initialize
 ! !
 
 AthensMorph subclass: #AthensWindowMorph
-	instanceVariableNames: 'width height title font titleBarMorph titleTextMorph resizeMorph windowMoveHandler windowUpHandler closeButton'
+	instanceVariableNames: 'width height title font titleBarMorph titleTextMorph resizeMorph windowMoveHandler windowMoveOffset windowUpHandler closeButton'
 	package: 'Athens-Core-Morphic'!
 
 !AthensWindowMorph methodsFor: 'accessing'!
@@ -1040,20 +1040,16 @@ handleMouseClick: evt
 !
 
 handleMouseDown: evt
+	windowMoveOffset := evt position.
 	self bringToFront.
 	super handleMouseDown: evt.
 !
 
 windowMouseMove: evt
-	self translateBy: (globalPathTransform inverseTransform: evt offsetX @ evt offsetY).
+	self translateBy: (globalPathTransform inverseTransform: evt offsetX @ evt offsetY) - windowMoveOffset.
 !
 
 windowMouseUp: evt
-	self world unregisterGlobalEvent: #mouseMove withCallback: windowMoveHandler.
-	self world unregisterGlobalEvent: #mouseUp withCallback: windowUpHandler.
-!
-
-windowUpHandler: evt
 	self world unregisterGlobalEvent: #mouseMove withCallback: windowMoveHandler.
 	self world unregisterGlobalEvent: #mouseUp withCallback: windowUpHandler.
 ! !
@@ -1073,7 +1069,7 @@ initializeEvents
 	|mouseDownHandler|
 	windowMoveHandler := [:evt | self windowMouseMove: evt].
 	windowUpHandler := [:evt | self windowMouseUp: evt].
-	mouseDownHandler := [:evt | 	
+	mouseDownHandler := [:evt | 
 		self world registerGlobalEvent: #mouseMove withCallback: windowMoveHandler.
 		self world registerGlobalEvent: #mouseUp withCallback: windowUpHandler].
 	titleBarMorph onMouseDown: mouseDownHandler.
@@ -1170,7 +1166,7 @@ delegateEvent: aSymbol with: evt
 			ifTrue: [
 				evt at: #position put: (morph globalPathTransform inverseTransform: handPosition).
 				evt at: #globalPosition put: handPosition].
-
+		
 		aSymbol == #mouseClick ifTrue: [morph handleMouseClick: evt].
 		aSymbol == #mouseMove ifTrue: [morph handleMouseMove: evt].
 		aSymbol == #mouseDown ifTrue: [morph handleMouseDown: evt].
