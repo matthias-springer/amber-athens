@@ -275,57 +275,37 @@ isWorldMorph
 	^ false
 ! !
 
-AthensMorph subclass: #AthensButtonMorph
-	instanceVariableNames: 'text extent font borderColor highlightColor downColor'
+AthensMorph subclass: #AthensBinaryStatusButtonMorph
+	instanceVariableNames: 'textMorph isChecked'
 	package: 'Athens-Core-Morphic'!
 
-!AthensButtonMorph methodsFor: 'accessing'!
+!AthensBinaryStatusButtonMorph methodsFor: 'accessing'!
 
-borderColor: aColor
-	borderColor := aColor.
+checked: aBoolean
+	|changed|
+	changed := isChecked == aBoolean not.
+	isChecked := aBoolean.
+	changed ifTrue: [self signalChange: isChecked].
 	self redraw.
 !
 
-height: aNumber
-	extent y: aNumber.
-	self redraw.
-!
-
-highlightColor: aColor
-	highlightColor := aColor.
+isChecked
+	^ isChecked
 !
 
 text: aString
-	text := aString.
-!
-
-width: aNumber
-	extent x: aNumber.
-	self redraw.
+	textMorph text: aString.
+	self layoutChanged.
 ! !
 
-!AthensButtonMorph methodsFor: 'drawing'!
+!AthensBinaryStatusButtonMorph methodsFor: 'drawing'!
 
 drawOn: canvas
-	|textX textY shape|
-	shape := 0@0 corner: extent.
-	self outerShape: shape.
-	canvas setPaint: borderColor.
-	canvas drawShape: shape.
-	hasMouseFocus 
-		ifTrue: [canvas setPaint: highlightColor]
-		ifFalse: [canvas setPaint: color].
-	isMouseDown ifTrue: [canvas setPaint: borderColor].
-	canvas drawShape: (1@1 corner: extent - (1@1)).
-	canvas setFont: font.
-	textX := (canvas measureStringWidth: text) / 2.
-	textY := (extent y + (font pointSize*0.6)) / 2.
-	canvas pathTransform translateX: textX Y: textY.
-	canvas setPaint: Color white.
-	canvas drawString: text.
+	self drawStatusOn: canvas.
+	self outerShape: (0@0 corner: 15 + textMorph width @15).
 ! !
 
-!AthensButtonMorph methodsFor: 'events'!
+!AthensBinaryStatusButtonMorph methodsFor: 'events'!
 
 handleMouseDown: evt
 	super handleMouseDown: evt.
@@ -345,38 +325,34 @@ handleMouseLeave
 handleMouseUp: evt
 	super handleMouseUp: evt.
 	self redraw.
+!
+
+onChange: aBlock
+	eventCallbacks at: #change put: aBlock.
 ! !
 
-!AthensButtonMorph methodsFor: 'initialization'!
+!AthensBinaryStatusButtonMorph methodsFor: 'initialization'!
 
 initialize
 	super initialize.
-	extent := 200@25.
-	text := 'ButtonMorph'.
-	font := LogicalFont familyName: 'Arial' pointSize: 15.
-	color := Color cosmoBlue.
-	highlightColor := Color cosmoMiddleBlue.
-	borderColor := Color cosmoDarkBlue.
-! !
-
-AthensMorph subclass: #AthensCheckBoxMorph
-	instanceVariableNames: 'text textMorph isChecked'
-	package: 'Athens-Core-Morphic'!
-
-!AthensCheckBoxMorph methodsFor: 'accessing'!
-
-checked: aBoolean
-	isChecked := aBoolean.
-	self redraw.
+	self initializeText.
+	isChecked := false.
 !
 
-isChecked
-	^ isChecked
+initializeText
+	textMorph := AthensTextMorph new.
+	textMorph translateByX: 15 Y: -4.
+	textMorph text: 'BinaryStatusButtonMorph'.
+	self addMorph: textMorph.
 ! !
+
+AthensBinaryStatusButtonMorph subclass: #AthensCheckBoxMorph
+	instanceVariableNames: ''
+	package: 'Athens-Core-Morphic'!
 
 !AthensCheckBoxMorph methodsFor: 'drawing'!
 
-drawOn: canvas
+drawStatusOn: canvas
 	canvas pathTransform translateBy: 0@1.
 	canvas setShape: (0@0 corner: 10@10).
 	canvas setPaint: Color cosmoGray.
@@ -395,8 +371,6 @@ drawOn: canvas
 		canvas setShape: (2@2 corner: 8@8).
 		canvas setPaint: Color black.
 		canvas draw].
-
-	self outerShape: (0@0 corner: 15 + textMorph width @15).
 ! !
 
 !AthensCheckBoxMorph methodsFor: 'events'!
@@ -404,36 +378,59 @@ drawOn: canvas
 handleMouseClick: evt
 	self checked: isChecked not.
 	super handleMouseClick: evt.
-!
-
-handleMouseDown: evt
-	super handleMouseDown: evt.
-	self redraw.
-!
-
-handleMouseEnter
-	super handleMouseEnter.
-	self redraw.
-!
-
-handleMouseLeave
-	super handleMouseLeave.
-	self redraw.
 ! !
 
-!AthensCheckBoxMorph methodsFor: 'initialization'!
+AthensBinaryStatusButtonMorph subclass: #AthensRadioButtonMorph
+	instanceVariableNames: ''
+	package: 'Athens-Core-Morphic'!
 
-initialize
-	super initialize.
-	self initializeText.
-	isChecked := false.
-!
+!AthensRadioButtonMorph methodsFor: 'drawing'!
 
-initializeText
-	textMorph := AthensTextMorph new.
-	textMorph translateByX: 15 Y: -5.
-	textMorph text: 'CheckBoxMorph'.
-	self addMorph: textMorph.
+drawStatusOn: canvas
+	|circle|
+	canvas pathTransform translateBy: 0@3.
+	circle := canvas createPath: [:builder | 
+		builder 
+			absolute;
+			moveTo: 0@5;
+			cwArcTo: 10@5 angle: 180;
+			cwArcTo: 0@5 angle: 90 ] .
+	canvas setShape: circle.
+	canvas setPaint: Color cosmoGray.
+	isMouseDown ifTrue: [canvas setPaint: Color cosmoDarkGray].
+	canvas draw.
+
+	canvas pathTransform translateBy: 0@0.5.
+	circle := canvas createPath: [:builder | 
+		builder 
+			absolute;
+			moveTo: 1@4;
+			cwArcTo: 9@4 angle: 180;
+			cwArcTo: 1@4 angle: 90].
+	canvas setShape: circle.
+	hasMouseFocus
+		ifTrue: [canvas setPaint: Color cosmoLightGray]
+		ifFalse: [canvas setPaint: Color white].
+	canvas draw.
+
+	isChecked ifTrue: [
+		canvas pathTransform translateBy: 0@0.5.
+		circle := canvas createPath: [:builder | 
+			builder 
+				absolute;
+				moveTo: 2@3;
+				cwArcTo: 8@3 angle: 180;
+				cwArcTo: 2@3 angle: 90 ] .
+		canvas setShape: circle.
+		canvas setPaint: Color black.
+		canvas draw].
+! !
+
+!AthensRadioButtonMorph methodsFor: 'events'!
+
+handleMouseClick: evt
+	self checked: true.
+	super handleMouseClick: evt.
 ! !
 
 AthensMorph subclass: #AthensHaloMorph
@@ -611,78 +608,76 @@ initialize
 	globalUpHandler := [:evt | self processMouseUp: evt].
 ! !
 
-AthensMorph subclass: #AthensRadioButtonMorph
-	instanceVariableNames: 'text textMorph isChecked'
+AthensMorph subclass: #AthensRectangleMorph
+	instanceVariableNames: 'width height borderColor fillColor mouseDownFillColor mouseFocusFillColor hasSharpBorder'
 	package: 'Athens-Core-Morphic'!
 
-!AthensRadioButtonMorph methodsFor: 'accessing'!
+!AthensRectangleMorph methodsFor: 'accessing'!
 
-checked: aBoolean
-	|changed|
-	changed := isChecked == aBoolean not.
-	isChecked := aBoolean.
-	changed ifTrue: [self signalChange: isChecked].
+borderColor: aColor
+	borderColor := aColor.
 	self redraw.
 !
 
-isChecked
-	^ isChecked
+fillColor: aColor
+	fillColor := mouseDownFillColor := mouseFocusFillColor := aColor.
+	self redraw.
 !
 
-text: aString
-	textMorph text: aString.
+height
+	^ height
+!
+
+height: aNumber
+	height := aNumber.
+	self layoutChanged.
+	self redraw.
+!
+
+mouseDownFillColor: aColor
+	mouseDownFillColor := aColor.
+!
+
+mouseFocusFillColor: aColor
+	mouseFocusFillColor := aColor.
+!
+
+width
+	^ width
+!
+
+width: aNumber
+	width := aNumber.
+	self layoutChanged.
+	self redraw.
 ! !
 
-!AthensRadioButtonMorph methodsFor: 'drawing'!
+!AthensRectangleMorph methodsFor: 'drawing'!
 
 drawOn: canvas
-	|circle|
-	canvas pathTransform translateBy: 0@3.
-	circle := canvas createPath: [:builder | 
-		builder 
-			absolute;
-			moveTo: 0@5;
-			cwArcTo: 10@5 angle: 180;
-			cwArcTo: 0@5 angle: 90 ] .
-	canvas setShape: circle.
-	canvas setPaint: Color cosmoGray.
-	isMouseDown ifTrue: [canvas setPaint: Color cosmoDarkGray].
-	canvas draw.
-
-	canvas pathTransform translateBy: 0@0.5.
-	circle := canvas createPath: [:builder | 
-		builder 
-			absolute;
-			moveTo: 1@4;
-			cwArcTo: 9@4 angle: 180;
-			cwArcTo: 1@4 angle: 90].
-	canvas setShape: circle.
-	hasMouseFocus
-		ifTrue: [canvas setPaint: Color cosmoLightGray]
-		ifFalse: [canvas setPaint: Color white].
-	canvas draw.
-
-	isChecked ifTrue: [
-		canvas pathTransform translateBy: 0@0.5.
-		circle := canvas createPath: [:builder | 
-			builder 
-				absolute;
-				moveTo: 2@3;
-				cwArcTo: 8@3 angle: 180;
-				cwArcTo: 2@3 angle: 90 ] .
-		canvas setShape: circle.
-		canvas setPaint: Color black.
-		canvas draw].
-
-	self outerShape: (0@0 corner: 15 + textMorph width @15).
+	|shape currentFillColor|
+	shape := 0@0 corner: width@height.
+	hasMouseFocus 
+		ifTrue: [currentFillColor := mouseFocusFillColor]
+		ifFalse: [currentFillColor := fillColor].
+	isMouseDown ifTrue: [currentFillColor := mouseDownFillColor].
+	
+	hasSharpBorder
+		ifTrue: [
+			canvas setPaint: borderColor.
+			canvas drawShape: shape.
+			canvas setPaint: currentFillColor.
+			canvas drawShape: (1@1 corner: width - 1 @ (height - 1))]
+		ifFalse: [
+			canvas setPaint: currentFillColor.
+			canvas drawShape: shape.
+			canvas setStrokePaint: borderColor.
+			canvas drawShape: shape].
+			
+	self outerShape: shape.
 ! !
 
-!AthensRadioButtonMorph methodsFor: 'events'!
-
-handleMouseClick: evt
-	self checked: true.
-	super handleMouseClick: evt.
-!
+!AthensRectangleMorph methodsFor: 'events'!
 
 handleMouseDown: evt
 	super handleMouseDown: evt.
@@ -702,71 +697,6 @@ handleMouseLeave
 handleMouseUp: evt
 	super handleMouseUp: evt.
 	self redraw.
-!
-
-onChange: aBlock
-	eventCallbacks at: #change put: aBlock.
-! !
-
-!AthensRadioButtonMorph methodsFor: 'initialization'!
-
-initialize
-	super initialize.
-	self initializeText.
-	isChecked := false.
-!
-
-initializeText
-	textMorph := AthensTextMorph new.
-	textMorph translateByX: 15 Y: -5.
-	textMorph text: 'RadioButtonMorph'.
-	self addMorph: textMorph.
-! !
-
-AthensMorph subclass: #AthensRectangleMorph
-	instanceVariableNames: 'width height borderColor fillColor'
-	package: 'Athens-Core-Morphic'!
-
-!AthensRectangleMorph methodsFor: 'accessing'!
-
-borderColor: aColor
-	borderColor := aColor.
-	self redraw.
-!
-
-fillColor: aColor
-	fillColor := aColor.
-	self redraw.
-!
-
-height
-	^ height
-!
-
-height: aNumber
-	height := aNumber.
-	self redraw.
-!
-
-width
-	^ width
-!
-
-width: aNumber
-	width := aNumber.
-	self redraw.
-! !
-
-!AthensRectangleMorph methodsFor: 'drawing'!
-
-drawOn: canvas
-	|shape|
-	shape := 0@0 corner: width@height.
-	canvas setPaint: fillColor.
-	canvas drawShape: shape.
-	canvas setStrokePaint: borderColor.
-	canvas drawShape: shape.
-	self outerShape: shape.
 ! !
 
 !AthensRectangleMorph methodsFor: 'initialization'!
@@ -775,7 +705,8 @@ initialize
 	super initialize.
 	width := height := 50.
 	borderColor := Color black.
-	fillColor := Color white.
+	fillColor := mouseDownFillColor := mouseFocusFillColor := Color white.
+	hasSharpBorder := false.
 ! !
 
 !AthensRectangleMorph class methodsFor: 'instance creation'!
@@ -787,6 +718,49 @@ extent: aPoint
 		yourself
 ! !
 
+AthensRectangleMorph subclass: #AthensButtonMorph
+	instanceVariableNames: 'textMorph'
+	package: 'Athens-Core-Morphic'!
+
+!AthensButtonMorph methodsFor: 'accessing'!
+
+text: aString
+	textMorph text: aString.
+	self layoutChanged.
+! !
+
+!AthensButtonMorph methodsFor: 'initialization'!
+
+initialize
+	super initialize.
+	self initializeTextMorph.
+	self initializeColors.
+	hasSharpBorder := true.
+	self layoutChanged.
+!
+
+initializeColors
+	fillColor := Color cosmoBlue.
+	mouseFocusFillColor := Color cosmoMiddleBlue.
+	borderColor := mouseDownFillColor := Color cosmoDarkBlue.
+	textMorph fontColor: Color white.
+!
+
+initializeTextMorph
+	textMorph := AthensTextMorph new.
+	textMorph text: 'ButtonMorph'.
+	self addMorph: textMorph.
+! !
+
+!AthensButtonMorph methodsFor: 'morph handling'!
+
+layoutChanged
+	super layoutChanged.
+	textMorph
+		resetTransformation;
+		translateByX: width - textMorph width / 2 Y: height - textMorph height / 2.
+! !
+
 AthensRectangleMorph subclass: #AthensTextMorph
 	instanceVariableNames: 'text font fontColor highlightFontColor'
 	package: 'Athens-Core-Morphic'!
@@ -795,6 +769,7 @@ AthensRectangleMorph subclass: #AthensTextMorph
 
 font: aFont
 	font := aFont.
+	height := font pointSize * 1.25.
 	self redraw.
 !
 
@@ -828,7 +803,8 @@ drawOn: canvas
 	canvas drawString: text.
 	
 	width := canvas measureStringWidth: text.
-	self outerShape: (0@0 corner: width@15).
+	
+	self outerShape: (0@0 corner: width@height).
 ! !
 
 !AthensTextMorph methodsFor: 'events'!
@@ -847,9 +823,10 @@ handleMouseLeave
 
 initialize
 	super initialize.
-	borderColor := fillColor := Color transparent.
+	borderColor := fillColor := mouseDownFillColor := mouseFocusFillColor := Color transparent.
 	text := 'a TextMorph'.
 	font := LogicalFont familyName: 'Arial' pointSize: 15.
+	height := font pointSize * 1.25.
 	fontColor := highlightFontColor := Color black.
 ! !
 
@@ -864,7 +841,7 @@ font: aFont
 !
 
 size: aNumber
-	font := LogicalFont familyName: 'FontAwesome' pointSize: aNumber asString.
+	font := LogicalFont familyName: 'FontAwesome' pointSize: aNumber.
 	self redraw.
 ! !
 
@@ -884,13 +861,12 @@ remove
 ! !
 
 AthensIconMorph subclass: #AthensResizeMorph
-	instanceVariableNames: 'globalMoveHandler globalUpHandler lastPosition'
+	instanceVariableNames: 'globalMoveHandler globalUpHandler'
 	package: 'Athens-Core-Morphic'!
 
 !AthensResizeMorph methodsFor: 'events'!
 
 handleMouseDown: evt
-	lastPosition := evt at: #globalPosition.
 	self world registerGlobalEvent: #mouseMove withCallback: globalMoveHandler.
 	self world registerGlobalEvent: #mouseUp withCallback: globalUpHandler.
 !
@@ -901,12 +877,10 @@ handleMouseUp: evt
 !
 
 processMouseMove: evt
-	|delta|
-	delta := evt globalPosition - lastPosition.
-	lastPosition := evt globalPosition.
-	owner width: owner width + delta x.
-	owner height: owner height + delta y.
-	self translateByX: delta x Y: delta y.
+	|newPos|
+	newPos := owner globalPathTransform inverseTransform: evt globalPosition.
+	owner width: newPos x.
+	owner height: newPos y.
 !
 
 processMouseUp: evt
@@ -931,7 +905,7 @@ initialize
 ! !
 
 AthensMorph subclass: #AthensWindowMorph
-	instanceVariableNames: 'width height title font titleBarMorph titleTextMorph windowMoveHandler windowUpHandler closeButton'
+	instanceVariableNames: 'width height title font titleBarMorph titleTextMorph resizeMorph windowMoveHandler windowUpHandler closeButton'
 	package: 'Athens-Core-Morphic'!
 
 !AthensWindowMorph methodsFor: 'accessing'!
@@ -1027,7 +1001,6 @@ initializeEvents
 !
 
 initializeResizeIcon
-	|resizeMorph|
 	resizeMorph := AthensResizeMorph new.
 	resizeMorph translateByX: width - 15 Y: height - 15.
 	self addMorph: resizeMorph.
@@ -1059,6 +1032,8 @@ layoutChanged
 	submorphs do: [:morph | morph layoutChanged].
 	closeButton resetTransformation.
 	closeButton translateByX: width - 25 Y: 2.
+	resizeMorph resetTransformation.
+	resizeMorph translateByX: width - 15 Y: height - 15.
 ! !
 
 !AthensWindowMorph class methodsFor: 'instance creation'!
