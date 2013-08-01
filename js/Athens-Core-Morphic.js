@@ -718,6 +718,40 @@ smalltalk.AthensMorph);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "rotateByDegrees:",
+category: 'geometry',
+fn: function (aNumber){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+_st(self["@transformation"])._rotateByDegrees_(aNumber);
+self._redraw();
+return self}, function($ctx1) {$ctx1.fill(self,"rotateByDegrees:",{aNumber:aNumber},smalltalk.AthensMorph)})},
+args: ["aNumber"],
+source: "rotateByDegrees: aNumber\x0a\x09transformation rotateByDegrees: aNumber.\x0a\x09self redraw.",
+messageSends: ["rotateByDegrees:", "redraw"],
+referencedClasses: []
+}),
+smalltalk.AthensMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "rotateByRadians:",
+category: 'geometry',
+fn: function (aNumber){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+_st(self["@transformation"])._rotateByRadians_(aNumber);
+self._redraw();
+return self}, function($ctx1) {$ctx1.fill(self,"rotateByRadians:",{aNumber:aNumber},smalltalk.AthensMorph)})},
+args: ["aNumber"],
+source: "rotateByRadians: aNumber\x0a\x09transformation rotateByRadians: aNumber.\x0a\x09self redraw.",
+messageSends: ["rotateByRadians:", "redraw"],
+referencedClasses: []
+}),
+smalltalk.AthensMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "scaleByX:Y:",
 category: 'geometry',
 fn: function (x,y){
@@ -1802,7 +1836,7 @@ var self=this;
 var shape,currentFillColor;
 return smalltalk.withContext(function($ctx1) { 
 var $1,$2,$3;
-shape=_st((0).__at((0)))._corner_(_st(self["@width"]).__at(self["@height"]));
+shape=_st((0).__at((0)))._corner_(_st(self._width()).__at(self["@height"]));
 $1=self["@hasMouseFocus"];
 if(smalltalk.assert($1)){
 currentFillColor=self["@mouseFocusFillColor"];
@@ -1831,8 +1865,8 @@ _st(canvas)._drawShape_(shape);
 self._outerShape_(shape);
 return self}, function($ctx1) {$ctx1.fill(self,"drawOn:",{canvas:canvas,shape:shape,currentFillColor:currentFillColor},smalltalk.AthensRectangleMorph)})},
 args: ["canvas"],
-source: "drawOn: canvas\x0a\x09|shape currentFillColor|\x0a\x09shape := 0@0 corner: width@height.\x0a\x09hasMouseFocus \x0a\x09\x09ifTrue: [currentFillColor := mouseFocusFillColor]\x0a\x09\x09ifFalse: [currentFillColor := fillColor].\x0a\x09isMouseDown ifTrue: [currentFillColor := mouseDownFillColor].\x0a\x09\x0a\x09hasSharpBorder\x0a\x09\x09ifTrue: [\x0a\x09\x09\x09canvas setPaint: borderColor.\x0a\x09\x09\x09canvas drawShape: shape.\x0a\x09\x09\x09canvas setPaint: currentFillColor.\x0a\x09\x09\x09canvas drawShape: (1@1 corner: width - 1 @ (height - 1))]\x0a\x09\x09ifFalse: [\x0a\x09\x09\x09canvas setPaint: currentFillColor.\x0a\x09\x09\x09canvas drawShape: shape.\x0a\x09\x09\x09canvas setStrokePaint: borderColor.\x0a\x09\x09\x09canvas drawShape: shape].\x0a\x09\x09\x09\x0a\x09self outerShape: shape.",
-messageSends: ["corner:", "@", "ifTrue:ifFalse:", "ifTrue:", "setPaint:", "drawShape:", "-", "setStrokePaint:", "outerShape:"],
+source: "drawOn: canvas\x0a\x09|shape currentFillColor|\x0a\x09\x22Use method width instead of instance variable to ensure that width is calculated.\x22\x0a\x09shape := 0@0 corner: self width@height.\x0a\x09hasMouseFocus \x0a\x09\x09ifTrue: [currentFillColor := mouseFocusFillColor]\x0a\x09\x09ifFalse: [currentFillColor := fillColor].\x0a\x09isMouseDown ifTrue: [currentFillColor := mouseDownFillColor].\x0a\x09\x0a\x09hasSharpBorder\x0a\x09\x09ifTrue: [\x0a\x09\x09\x09canvas setPaint: borderColor.\x0a\x09\x09\x09canvas drawShape: shape.\x0a\x09\x09\x09canvas setPaint: currentFillColor.\x0a\x09\x09\x09canvas drawShape: (1@1 corner: width - 1 @ (height - 1))]\x0a\x09\x09ifFalse: [\x0a\x09\x09\x09canvas setPaint: currentFillColor.\x0a\x09\x09\x09canvas drawShape: shape.\x0a\x09\x09\x09canvas setStrokePaint: borderColor.\x0a\x09\x09\x09canvas drawShape: shape].\x0a\x09\x09\x09\x0a\x09self outerShape: shape.",
+messageSends: ["corner:", "@", "width", "ifTrue:ifFalse:", "ifTrue:", "setPaint:", "drawShape:", "-", "setStrokePaint:", "outerShape:"],
 referencedClasses: []
 }),
 smalltalk.AthensRectangleMorph);
@@ -2176,7 +2210,92 @@ smalltalk.AthensButtonMorph);
 
 
 
+smalltalk.addClass('AthensIconButtonMorph', smalltalk.AthensButtonMorph, ['iconMorph'], 'Athens-Core-Morphic');
+smalltalk.addMethod(
+smalltalk.method({
+selector: "icon:",
+category: 'accessing',
+fn: function (anIconMorph){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self["@iconMorph"];
+if(($receiver = $1) == nil || $receiver == undefined){
+$1;
+} else {
+_st(self["@iconMorph"])._delete();
+};
+self["@iconMorph"]=anIconMorph;
+_st(self["@iconMorph"])._fontColor_(_st(self["@textMorph"])._fontColor());
+self._addMorph_(self["@iconMorph"]);
+self._layoutChanged();
+return self}, function($ctx1) {$ctx1.fill(self,"icon:",{anIconMorph:anIconMorph},smalltalk.AthensIconButtonMorph)})},
+args: ["anIconMorph"],
+source: "icon: anIconMorph\x0a\x09iconMorph ifNotNil: [iconMorph delete].\x0a\x09iconMorph := anIconMorph.\x0a\x09iconMorph fontColor: textMorph fontColor.\x0a\x09self addMorph: iconMorph.\x0a\x09self layoutChanged.",
+messageSends: ["ifNotNil:", "delete", "fontColor:", "fontColor", "addMorph:", "layoutChanged"],
+referencedClasses: []
+}),
+smalltalk.AthensIconButtonMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "layoutChanged",
+category: 'morph handling',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2,$3;
+smalltalk.AthensButtonMorph.fn.prototype._layoutChanged.apply(_st(self), []);
+$1=self["@iconMorph"];
+if(($receiver = $1) == nil || $receiver == undefined){
+$1;
+} else {
+_st(self["@textMorph"])._translateByX_Y_(_st(_st(_st(self["@iconMorph"])._width()).__slash((2))).__plus((2.5)),(0));
+$2=self["@iconMorph"];
+_st($2)._resetTransformation();
+$3=_st($2)._translateByX_Y_(_st(_st(_st(_st(self["@width"]).__minus(_st(self["@textMorph"])._width())).__minus(_st(self["@iconMorph"])._width())).__slash((2))).__minus((2.5)),_st(_st(_st(self["@height"]).__minus(_st(self["@textMorph"])._height())).__slash((2))).__minus((1)));
+$3;
+};
+return self}, function($ctx1) {$ctx1.fill(self,"layoutChanged",{},smalltalk.AthensIconButtonMorph)})},
+args: [],
+source: "layoutChanged\x0a\x09super layoutChanged.\x0a\x09\x0a\x09iconMorph ifNotNil: [\x0a\x09\x09textMorph translateByX: iconMorph width / 2 + 2.5 Y: 0.\x0a\x09\x09iconMorph\x0a\x09\x09\x09resetTransformation;\x0a\x09\x09\x09translateByX: width - textMorph width - iconMorph width / 2 - 2.5 Y: height - textMorph height / 2 - 1].",
+messageSends: ["layoutChanged", "ifNotNil:", "translateByX:Y:", "+", "/", "width", "resetTransformation", "-", "height"],
+referencedClasses: []
+}),
+smalltalk.AthensIconButtonMorph);
+
+
+
 smalltalk.addClass('AthensTextMorph', smalltalk.AthensRectangleMorph, ['text', 'font', 'fontColor', 'highlightFontColor'], 'Athens-Core-Morphic');
+smalltalk.addMethod(
+smalltalk.method({
+selector: "calculateWidth",
+category: 'drawing',
+fn: function (){
+var self=this;
+var surface;
+function $AthensHTMLSurface(){return smalltalk.AthensHTMLSurface||(typeof AthensHTMLSurface=="undefined"?nil:AthensHTMLSurface)}
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+var $early={};
+try {
+surface=_st($AthensHTMLSurface())._extent_((0).__at((0)));
+_st(surface)._drawDuring_((function(canvas){
+return smalltalk.withContext(function($ctx2) {
+_st(canvas)._setFont_(self["@font"]);
+$1=_st(canvas)._measureStringWidth_(self["@text"]);
+throw $early=[$1];
+}, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
+return self}
+catch(e) {if(e===$early)return e[0]; throw e}
+}, function($ctx1) {$ctx1.fill(self,"calculateWidth",{surface:surface},smalltalk.AthensTextMorph)})},
+args: [],
+source: "calculateWidth\x0a\x09|surface|\x0a\x09surface := AthensHTMLSurface extent: 0@0.\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09canvas setFont: font.\x0a\x09\x09^ canvas measureStringWidth: text].",
+messageSends: ["extent:", "@", "drawDuring:", "setFont:", "measureStringWidth:"],
+referencedClasses: ["AthensHTMLSurface"]
+}),
+smalltalk.AthensTextMorph);
+
 smalltalk.addMethod(
 smalltalk.method({
 selector: "drawOn:",
@@ -2219,6 +2338,24 @@ return self}, function($ctx1) {$ctx1.fill(self,"font:",{aFont:aFont},smalltalk.A
 args: ["aFont"],
 source: "font: aFont\x0a\x09font := aFont.\x0a\x09height := font pointSize * 1.25.\x0a\x09self redraw.",
 messageSends: ["*", "pointSize", "redraw"],
+referencedClasses: []
+}),
+smalltalk.AthensTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "fontColor",
+category: 'accessing',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self["@fontColor"];
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"fontColor",{},smalltalk.AthensTextMorph)})},
+args: [],
+source: "fontColor\x0a\x09^ fontColor",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensTextMorph);
@@ -2344,11 +2481,37 @@ fn: function (aString){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 self["@text"]=aString;
+self["@width"]=nil;
 self._redraw();
 return self}, function($ctx1) {$ctx1.fill(self,"text:",{aString:aString},smalltalk.AthensTextMorph)})},
 args: ["aString"],
-source: "text: aString\x0a\x09text := aString.\x0a\x09self redraw.",
+source: "text: aString\x0a\x09text := aString.\x0a\x09width := nil.\x0a\x09self redraw.",
 messageSends: ["redraw"],
+referencedClasses: []
+}),
+smalltalk.AthensTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "width",
+category: 'accessing',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2;
+$1=self["@width"];
+if(($receiver = $1) == nil || $receiver == undefined){
+self["@width"]=self._calculateWidth();
+self["@width"];
+} else {
+$1;
+};
+$2=self["@width"];
+return $2;
+}, function($ctx1) {$ctx1.fill(self,"width",{},smalltalk.AthensTextMorph)})},
+args: [],
+source: "width\x0a\x09width ifNil: [width := self calculateWidth].\x0a\x09^ width",
+messageSends: ["ifNil:", "calculateWidth"],
 referencedClasses: []
 }),
 smalltalk.AthensTextMorph);
@@ -2424,6 +2587,90 @@ return $1;
 }, function($ctx1) {$ctx1.fill(self,"remove",{},smalltalk.AthensIconMorph.klass)})},
 args: [],
 source: "remove\x0a\x09^ self new\x0a\x09\x09text: '';\x0a\x09\x09yourself",
+messageSends: ["text:", "new", "yourself"],
+referencedClasses: []
+}),
+smalltalk.AthensIconMorph.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "resizeFull",
+category: 'instance creation',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $2,$3,$1;
+$2=self._new();
+_st($2)._text_("");
+$3=_st($2)._yourself();
+$1=$3;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"resizeFull",{},smalltalk.AthensIconMorph.klass)})},
+args: [],
+source: "resizeFull\x0a\x09^ self new\x0a\x09\x09text: '';\x0a\x09\x09yourself",
+messageSends: ["text:", "new", "yourself"],
+referencedClasses: []
+}),
+smalltalk.AthensIconMorph.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "resizeSmall",
+category: 'instance creation',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $2,$3,$1;
+$2=self._new();
+_st($2)._text_("");
+$3=_st($2)._yourself();
+$1=$3;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"resizeSmall",{},smalltalk.AthensIconMorph.klass)})},
+args: [],
+source: "resizeSmall\x0a\x09^ self new\x0a\x09\x09text: '';\x0a\x09\x09yourself",
+messageSends: ["text:", "new", "yourself"],
+referencedClasses: []
+}),
+smalltalk.AthensIconMorph.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "rotateCcw",
+category: 'instance creation',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $2,$3,$1;
+$2=self._new();
+_st($2)._text_("");
+$3=_st($2)._yourself();
+$1=$3;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"rotateCcw",{},smalltalk.AthensIconMorph.klass)})},
+args: [],
+source: "rotateCcw\x0a\x09^ self new\x0a\x09\x09text: '';\x0a\x09\x09yourself",
+messageSends: ["text:", "new", "yourself"],
+referencedClasses: []
+}),
+smalltalk.AthensIconMorph.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "rotateCw",
+category: 'instance creation',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $2,$3,$1;
+$2=self._new();
+_st($2)._text_("");
+$3=_st($2)._yourself();
+$1=$3;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"rotateCw",{},smalltalk.AthensIconMorph.klass)})},
+args: [],
+source: "rotateCw\x0a\x09^ self new\x0a\x09\x09text: '';\x0a\x09\x09yourself",
 messageSends: ["text:", "new", "yourself"],
 referencedClasses: []
 }),

@@ -1342,6 +1342,52 @@ step37
 	surface world addMorph: window.
 !
 
+step38
+	|window button|
+	"Step 38: [Morphic Demo] Morph transformations."
+	
+	window := AthensWindowMorph new.
+	window title: 'Transformations Example'.
+
+	button := AthensIconButtonMorph new
+		text: '5 degrees';
+		icon: AthensIconMorph rotateCw;
+		width: 150; height: 20;
+		translateByX: 25 Y: 50;
+		onMouseClick: [:evt | window rotateByDegrees: 5];
+		yourself.
+	window addMorph: button.
+	
+	button := AthensIconButtonMorph new
+		text: '5 degrees';
+		icon: AthensIconMorph rotateCcw;
+		width: 150; height: 20;
+		translateByX: 25 Y: 80;
+		onMouseClick: [:evt | window rotateByDegrees: -5];
+		yourself.
+	window addMorph: button.
+
+	button := AthensIconButtonMorph new
+		text: 'Scale X +0.25';
+		icon: AthensIconMorph resizeFull;
+		width: 150; height: 20;
+		translateByX: 25 Y: 110;
+		onMouseClick: [:evt | window scaleByX: 1.25 Y: 1];
+		yourself.
+	window addMorph: button.
+	
+	button := AthensIconButtonMorph new
+		text: 'Scale X -0.25';
+		icon: AthensIconMorph resizeSmall;
+		width: 150; height: 20;
+		translateByX: 25 Y: 140;
+		onMouseClick: [:evt | window scaleByX: 0.75 Y: 1];
+		yourself.
+	window addMorph: button.
+	
+	surface world addMorph: window.
+!
+
 step4
 "Step 4: Shapes and paints.
 
@@ -1576,8 +1622,8 @@ initialize
 
 nextStep
 	step := step + 1.
-	step > 37
-		ifTrue: [step := 37].
+	step > 38
+		ifTrue: [step := 38].
 	self showStep: step.
 !
 

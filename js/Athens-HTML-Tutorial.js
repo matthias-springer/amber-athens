@@ -1439,6 +1439,81 @@ smalltalk.AthensTutorial);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "step38",
+category: 'steps',
+fn: function (){
+var self=this;
+var window,button;
+function $AthensWindowMorph(){return smalltalk.AthensWindowMorph||(typeof AthensWindowMorph=="undefined"?nil:AthensWindowMorph)}
+function $AthensIconButtonMorph(){return smalltalk.AthensIconButtonMorph||(typeof AthensIconButtonMorph=="undefined"?nil:AthensIconButtonMorph)}
+function $AthensIconMorph(){return smalltalk.AthensIconMorph||(typeof AthensIconMorph=="undefined"?nil:AthensIconMorph)}
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2,$3,$4,$5,$6,$7,$8;
+window=_st($AthensWindowMorph())._new();
+_st(window)._title_("Transformations Example");
+$1=_st($AthensIconButtonMorph())._new();
+_st($1)._text_("5 degrees");
+_st($1)._icon_(_st($AthensIconMorph())._rotateCw());
+_st($1)._width_((150));
+_st($1)._height_((20));
+_st($1)._translateByX_Y_((25),(50));
+_st($1)._onMouseClick_((function(evt){
+return smalltalk.withContext(function($ctx2) {
+return _st(window)._rotateByDegrees_((5));
+}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
+$2=_st($1)._yourself();
+button=$2;
+_st(window)._addMorph_(button);
+$3=_st($AthensIconButtonMorph())._new();
+_st($3)._text_("5 degrees");
+_st($3)._icon_(_st($AthensIconMorph())._rotateCcw());
+_st($3)._width_((150));
+_st($3)._height_((20));
+_st($3)._translateByX_Y_((25),(80));
+_st($3)._onMouseClick_((function(evt){
+return smalltalk.withContext(function($ctx2) {
+return _st(window)._rotateByDegrees_((-5));
+}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
+$4=_st($3)._yourself();
+button=$4;
+_st(window)._addMorph_(button);
+$5=_st($AthensIconButtonMorph())._new();
+_st($5)._text_("Scale X +0.25");
+_st($5)._icon_(_st($AthensIconMorph())._resizeFull());
+_st($5)._width_((150));
+_st($5)._height_((20));
+_st($5)._translateByX_Y_((25),(110));
+_st($5)._onMouseClick_((function(evt){
+return smalltalk.withContext(function($ctx2) {
+return _st(window)._scaleByX_Y_((1.25),(1));
+}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
+$6=_st($5)._yourself();
+button=$6;
+_st(window)._addMorph_(button);
+$7=_st($AthensIconButtonMorph())._new();
+_st($7)._text_("Scale X -0.25");
+_st($7)._icon_(_st($AthensIconMorph())._resizeSmall());
+_st($7)._width_((150));
+_st($7)._height_((20));
+_st($7)._translateByX_Y_((25),(140));
+_st($7)._onMouseClick_((function(evt){
+return smalltalk.withContext(function($ctx2) {
+return _st(window)._scaleByX_Y_((0.75),(1));
+}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
+$8=_st($7)._yourself();
+button=$8;
+_st(window)._addMorph_(button);
+_st(_st(self["@surface"])._world())._addMorph_(window);
+return self}, function($ctx1) {$ctx1.fill(self,"step38",{window:window,button:button},smalltalk.AthensTutorial)})},
+args: [],
+source: "step38\x0a\x09|window button|\x0a\x09\x22Step 38: [Morphic Demo] Morph transformations.\x22\x0a\x09\x0a\x09window := AthensWindowMorph new.\x0a\x09window title: 'Transformations Example'.\x0a\x0a\x09button := AthensIconButtonMorph new\x0a\x09\x09text: '5 degrees';\x0a\x09\x09icon: AthensIconMorph rotateCw;\x0a\x09\x09width: 150; height: 20;\x0a\x09\x09translateByX: 25 Y: 50;\x0a\x09\x09onMouseClick: [:evt | window rotateByDegrees: 5];\x0a\x09\x09yourself.\x0a\x09window addMorph: button.\x0a\x09\x0a\x09button := AthensIconButtonMorph new\x0a\x09\x09text: '5 degrees';\x0a\x09\x09icon: AthensIconMorph rotateCcw;\x0a\x09\x09width: 150; height: 20;\x0a\x09\x09translateByX: 25 Y: 80;\x0a\x09\x09onMouseClick: [:evt | window rotateByDegrees: -5];\x0a\x09\x09yourself.\x0a\x09window addMorph: button.\x0a\x0a\x09button := AthensIconButtonMorph new\x0a\x09\x09text: 'Scale X +0.25';\x0a\x09\x09icon: AthensIconMorph resizeFull;\x0a\x09\x09width: 150; height: 20;\x0a\x09\x09translateByX: 25 Y: 110;\x0a\x09\x09onMouseClick: [:evt | window scaleByX: 1.25 Y: 1];\x0a\x09\x09yourself.\x0a\x09window addMorph: button.\x0a\x09\x0a\x09button := AthensIconButtonMorph new\x0a\x09\x09text: 'Scale X -0.25';\x0a\x09\x09icon: AthensIconMorph resizeSmall;\x0a\x09\x09width: 150; height: 20;\x0a\x09\x09translateByX: 25 Y: 140;\x0a\x09\x09onMouseClick: [:evt | window scaleByX: 0.75 Y: 1];\x0a\x09\x09yourself.\x0a\x09window addMorph: button.\x0a\x09\x0a\x09surface world addMorph: window.",
+messageSends: ["new", "title:", "text:", "icon:", "rotateCw", "width:", "height:", "translateByX:Y:", "onMouseClick:", "rotateByDegrees:", "yourself", "addMorph:", "rotateCcw", "resizeFull", "scaleByX:Y:", "resizeSmall", "world"],
+referencedClasses: ["AthensWindowMorph", "AthensIconButtonMorph", "AthensIconMorph"]
+}),
+smalltalk.AthensTutorial);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "step4",
 category: 'steps',
 fn: function (){
@@ -1659,15 +1734,15 @@ var self=this;
 return smalltalk.withContext(function($ctx1) { 
 var $1;
 self["@step"]=_st(self["@step"]).__plus((1));
-$1=_st(self["@step"]).__gt((37));
+$1=_st(self["@step"]).__gt((38));
 if(smalltalk.assert($1)){
-self["@step"]=(37);
+self["@step"]=(38);
 self["@step"];
 };
 self._showStep_(self["@step"]);
 return self}, function($ctx1) {$ctx1.fill(self,"nextStep",{},smalltalk.AthensTutorialWidget)})},
 args: [],
-source: "nextStep\x0a\x09step := step + 1.\x0a\x09step > 37\x0a\x09\x09ifTrue: [step := 37].\x0a\x09self showStep: step.",
+source: "nextStep\x0a\x09step := step + 1.\x0a\x09step > 38\x0a\x09\x09ifTrue: [step := 38].\x0a\x09self showStep: step.",
 messageSends: ["+", "ifTrue:", ">", "showStep:"],
 referencedClasses: []
 }),

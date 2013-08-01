@@ -192,6 +192,16 @@ rotateBy: aNumber
 	self redraw.
 !
 
+rotateByDegrees: aNumber
+	transformation rotateByDegrees: aNumber.
+	self redraw.
+!
+
+rotateByRadians: aNumber
+	transformation rotateByRadians: aNumber.
+	self redraw.
+!
+
 scaleByX: x Y: y
 	transformation scaleX: x Y: y.
 	self redraw.
@@ -656,7 +666,8 @@ width: aNumber
 
 drawOn: canvas
 	|shape currentFillColor|
-	shape := 0@0 corner: width@height.
+	"Use method width instead of instance variable to ensure that width is calculated."
+	shape := 0@0 corner: self width@height.
 	hasMouseFocus 
 		ifTrue: [currentFillColor := mouseFocusFillColor]
 		ifFalse: [currentFillColor := fillColor].
@@ -761,6 +772,32 @@ layoutChanged
 		translateByX: width - textMorph width / 2 Y: height - textMorph height / 2.
 ! !
 
+AthensButtonMorph subclass: #AthensIconButtonMorph
+	instanceVariableNames: 'iconMorph'
+	package: 'Athens-Core-Morphic'!
+
+!AthensIconButtonMorph methodsFor: 'accessing'!
+
+icon: anIconMorph
+	iconMorph ifNotNil: [iconMorph delete].
+	iconMorph := anIconMorph.
+	iconMorph fontColor: textMorph fontColor.
+	self addMorph: iconMorph.
+	self layoutChanged.
+! !
+
+!AthensIconButtonMorph methodsFor: 'morph handling'!
+
+layoutChanged
+	super layoutChanged.
+	
+	iconMorph ifNotNil: [
+		textMorph translateByX: iconMorph width / 2 + 2.5 Y: 0.
+		iconMorph
+			resetTransformation;
+			translateByX: width - textMorph width - iconMorph width / 2 - 2.5 Y: height - textMorph height / 2 - 1].
+! !
+
 AthensRectangleMorph subclass: #AthensTextMorph
 	instanceVariableNames: 'text font fontColor highlightFontColor'
 	package: 'Athens-Core-Morphic'!
@@ -771,6 +808,10 @@ font: aFont
 	font := aFont.
 	height := font pointSize * 1.25.
 	self redraw.
+!
+
+fontColor
+	^ fontColor
 !
 
 fontColor: aColor
@@ -788,10 +829,24 @@ text
 
 text: aString
 	text := aString.
+	width := nil.
 	self redraw.
+!
+
+width
+	width ifNil: [width := self calculateWidth].
+	^ width
 ! !
 
 !AthensTextMorph methodsFor: 'drawing'!
+
+calculateWidth
+	|surface|
+	surface := AthensHTMLSurface extent: 0@0.
+	surface drawDuring: [:canvas |
+		canvas setFont: font.
+		^ canvas measureStringWidth: text].
+!
 
 drawOn: canvas
 	super drawOn: canvas.
@@ -857,6 +912,30 @@ initialize
 remove
 	^ self new
 		text: '';
+		yourself
+!
+
+resizeFull
+	^ self new
+		text: '';
+		yourself
+!
+
+resizeSmall
+	^ self new
+		text: '';
+		yourself
+!
+
+rotateCcw
+	^ self new
+		text: '';
+		yourself
+!
+
+rotateCw
+	^ self new
+		text: '';
 		yourself
 ! !
 

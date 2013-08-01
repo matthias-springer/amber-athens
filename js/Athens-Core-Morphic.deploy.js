@@ -538,6 +538,30 @@ smalltalk.AthensMorph);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "rotateByDegrees:",
+fn: function (aNumber){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+_st(self["@transformation"])._rotateByDegrees_(aNumber);
+self._redraw();
+return self}, function($ctx1) {$ctx1.fill(self,"rotateByDegrees:",{aNumber:aNumber},smalltalk.AthensMorph)})},
+messageSends: ["rotateByDegrees:", "redraw"]}),
+smalltalk.AthensMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "rotateByRadians:",
+fn: function (aNumber){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+_st(self["@transformation"])._rotateByRadians_(aNumber);
+self._redraw();
+return self}, function($ctx1) {$ctx1.fill(self,"rotateByRadians:",{aNumber:aNumber},smalltalk.AthensMorph)})},
+messageSends: ["rotateByRadians:", "redraw"]}),
+smalltalk.AthensMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "scaleByX:Y:",
 fn: function (x,y){
 var self=this;
@@ -1356,7 +1380,7 @@ var self=this;
 var shape,currentFillColor;
 return smalltalk.withContext(function($ctx1) { 
 var $1,$2,$3;
-shape=_st((0).__at((0)))._corner_(_st(self["@width"]).__at(self["@height"]));
+shape=_st((0).__at((0)))._corner_(_st(self._width()).__at(self["@height"]));
 $1=self["@hasMouseFocus"];
 if(smalltalk.assert($1)){
 currentFillColor=self["@mouseFocusFillColor"];
@@ -1384,7 +1408,7 @@ _st(canvas)._drawShape_(shape);
 };
 self._outerShape_(shape);
 return self}, function($ctx1) {$ctx1.fill(self,"drawOn:",{canvas:canvas,shape:shape,currentFillColor:currentFillColor},smalltalk.AthensRectangleMorph)})},
-messageSends: ["corner:", "@", "ifTrue:ifFalse:", "ifTrue:", "setPaint:", "drawShape:", "-", "setStrokePaint:", "outerShape:"]}),
+messageSends: ["corner:", "@", "width", "ifTrue:ifFalse:", "ifTrue:", "setPaint:", "drawShape:", "-", "setStrokePaint:", "outerShape:"]}),
 smalltalk.AthensRectangleMorph);
 
 smalltalk.addMethod(
@@ -1636,7 +1660,77 @@ smalltalk.AthensButtonMorph);
 
 
 
+smalltalk.addClass('AthensIconButtonMorph', smalltalk.AthensButtonMorph, ['iconMorph'], 'Athens-Core-Morphic');
+smalltalk.addMethod(
+smalltalk.method({
+selector: "icon:",
+fn: function (anIconMorph){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self["@iconMorph"];
+if(($receiver = $1) == nil || $receiver == undefined){
+$1;
+} else {
+_st(self["@iconMorph"])._delete();
+};
+self["@iconMorph"]=anIconMorph;
+_st(self["@iconMorph"])._fontColor_(_st(self["@textMorph"])._fontColor());
+self._addMorph_(self["@iconMorph"]);
+self._layoutChanged();
+return self}, function($ctx1) {$ctx1.fill(self,"icon:",{anIconMorph:anIconMorph},smalltalk.AthensIconButtonMorph)})},
+messageSends: ["ifNotNil:", "delete", "fontColor:", "fontColor", "addMorph:", "layoutChanged"]}),
+smalltalk.AthensIconButtonMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "layoutChanged",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2,$3;
+smalltalk.AthensButtonMorph.fn.prototype._layoutChanged.apply(_st(self), []);
+$1=self["@iconMorph"];
+if(($receiver = $1) == nil || $receiver == undefined){
+$1;
+} else {
+_st(self["@textMorph"])._translateByX_Y_(_st(_st(_st(self["@iconMorph"])._width()).__slash((2))).__plus((2.5)),(0));
+$2=self["@iconMorph"];
+_st($2)._resetTransformation();
+$3=_st($2)._translateByX_Y_(_st(_st(_st(_st(self["@width"]).__minus(_st(self["@textMorph"])._width())).__minus(_st(self["@iconMorph"])._width())).__slash((2))).__minus((2.5)),_st(_st(_st(self["@height"]).__minus(_st(self["@textMorph"])._height())).__slash((2))).__minus((1)));
+$3;
+};
+return self}, function($ctx1) {$ctx1.fill(self,"layoutChanged",{},smalltalk.AthensIconButtonMorph)})},
+messageSends: ["layoutChanged", "ifNotNil:", "translateByX:Y:", "+", "/", "width", "resetTransformation", "-", "height"]}),
+smalltalk.AthensIconButtonMorph);
+
+
+
 smalltalk.addClass('AthensTextMorph', smalltalk.AthensRectangleMorph, ['text', 'font', 'fontColor', 'highlightFontColor'], 'Athens-Core-Morphic');
+smalltalk.addMethod(
+smalltalk.method({
+selector: "calculateWidth",
+fn: function (){
+var self=this;
+var surface;
+function $AthensHTMLSurface(){return smalltalk.AthensHTMLSurface||(typeof AthensHTMLSurface=="undefined"?nil:AthensHTMLSurface)}
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+var $early={};
+try {
+surface=_st($AthensHTMLSurface())._extent_((0).__at((0)));
+_st(surface)._drawDuring_((function(canvas){
+return smalltalk.withContext(function($ctx2) {
+_st(canvas)._setFont_(self["@font"]);
+$1=_st(canvas)._measureStringWidth_(self["@text"]);
+throw $early=[$1];
+}, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
+return self}
+catch(e) {if(e===$early)return e[0]; throw e}
+}, function($ctx1) {$ctx1.fill(self,"calculateWidth",{surface:surface},smalltalk.AthensTextMorph)})},
+messageSends: ["extent:", "@", "drawDuring:", "setFont:", "measureStringWidth:"]}),
+smalltalk.AthensTextMorph);
+
 smalltalk.addMethod(
 smalltalk.method({
 selector: "drawOn:",
@@ -1671,6 +1765,19 @@ self["@height"]=_st(_st(self["@font"])._pointSize()).__star((1.25));
 self._redraw();
 return self}, function($ctx1) {$ctx1.fill(self,"font:",{aFont:aFont},smalltalk.AthensTextMorph)})},
 messageSends: ["*", "pointSize", "redraw"]}),
+smalltalk.AthensTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "fontColor",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self["@fontColor"];
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"fontColor",{},smalltalk.AthensTextMorph)})},
+messageSends: []}),
 smalltalk.AthensTextMorph);
 
 smalltalk.addMethod(
@@ -1763,9 +1870,30 @@ fn: function (aString){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 self["@text"]=aString;
+self["@width"]=nil;
 self._redraw();
 return self}, function($ctx1) {$ctx1.fill(self,"text:",{aString:aString},smalltalk.AthensTextMorph)})},
 messageSends: ["redraw"]}),
+smalltalk.AthensTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "width",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2;
+$1=self["@width"];
+if(($receiver = $1) == nil || $receiver == undefined){
+self["@width"]=self._calculateWidth();
+self["@width"];
+} else {
+$1;
+};
+$2=self["@width"];
+return $2;
+}, function($ctx1) {$ctx1.fill(self,"width",{},smalltalk.AthensTextMorph)})},
+messageSends: ["ifNil:", "calculateWidth"]}),
 smalltalk.AthensTextMorph);
 
 
@@ -1821,6 +1949,70 @@ $3=_st($2)._yourself();
 $1=$3;
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"remove",{},smalltalk.AthensIconMorph.klass)})},
+messageSends: ["text:", "new", "yourself"]}),
+smalltalk.AthensIconMorph.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "resizeFull",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $2,$3,$1;
+$2=self._new();
+_st($2)._text_("");
+$3=_st($2)._yourself();
+$1=$3;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"resizeFull",{},smalltalk.AthensIconMorph.klass)})},
+messageSends: ["text:", "new", "yourself"]}),
+smalltalk.AthensIconMorph.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "resizeSmall",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $2,$3,$1;
+$2=self._new();
+_st($2)._text_("");
+$3=_st($2)._yourself();
+$1=$3;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"resizeSmall",{},smalltalk.AthensIconMorph.klass)})},
+messageSends: ["text:", "new", "yourself"]}),
+smalltalk.AthensIconMorph.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "rotateCcw",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $2,$3,$1;
+$2=self._new();
+_st($2)._text_("");
+$3=_st($2)._yourself();
+$1=$3;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"rotateCcw",{},smalltalk.AthensIconMorph.klass)})},
+messageSends: ["text:", "new", "yourself"]}),
+smalltalk.AthensIconMorph.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "rotateCw",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $2,$3,$1;
+$2=self._new();
+_st($2)._text_("");
+$3=_st($2)._yourself();
+$1=$3;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"rotateCw",{},smalltalk.AthensIconMorph.klass)})},
 messageSends: ["text:", "new", "yourself"]}),
 smalltalk.AthensIconMorph.klass);
 
