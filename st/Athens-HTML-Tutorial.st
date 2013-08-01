@@ -104,14 +104,15 @@ surface drawDuring: [:canvas |  | m |
 	canvas setShape: (0@0 corner: 100@100).
 	canvas setPaint: (Color blue).
 
-	canvas pathTransform
+	m := AthensAffineTransform new
 		scaleBy: 4;
 		translateX: 50 Y: 50;
 		rotateByDegrees: 35;
-		translateX: -50 Y: -50.
+		translateX: -50 Y: -50;
+		yourself.
 	
-	"obtaining a current transformation matrix"
-	m := canvas pathTransform getMatrix.	
+	"loading a transformation"
+	canvas pathTransform loadAffineTransform: m.	
 		
 	canvas draw.
 
@@ -1222,48 +1223,7 @@ step33
 !
 
 step34
-	|path poly font|
-	"Step 34: Event handling"
-
-	font := LogicalFont familyName: 'Arial' pointSize: 20.
-	
-	surface drawDuring: [:canvas |  
-		
-		surface clear: Color gray.
-	
-		canvas setPaint: Color white.
-		canvas setFont: font.
-		canvas pathTransform translateX: 100 Y: 200.
-		canvas drawString: 'Move the mouse cursor.'.
-	
-		path := canvas createPath: [:builder |
-			
-			builder 
-				absolute;
-				lineTo: 15@ 50;
-				lineTo: 60@ 60;
-				lineTo: 150@50;
-				lineTo: 0@0
-			].
-	
-		poly := path asPolygon.
-	].
-
-	surface onMouseMove: [:e | surface drawDuring: [:canvas |
-		surface clear: Color gray.
-		canvas pathTransform translateX: 0 Y: 0.
-
-		canvas setShape: path.
-		(poly includesPoint: e offsetX @ e offsetY)
-			ifTrue: [canvas setPaint: Color blue]
-			ifFalse: [canvas setPaint: Color green].
-			
-		canvas draw.
-
-		canvas setFont: font.
-		canvas setPaint: Color red.
-		canvas pathTransform translateX: 100 Y: 20.
-		canvas drawString: '(', e offsetX asString, ', ', e offsetY asString, ')']].
+	"Step 34: Event handling. Outdated and not working anymore. I'm working on a new example. See step37 for event handling with Morphs."
 !
 
 step35
