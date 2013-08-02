@@ -3161,7 +3161,7 @@ referencedClasses: []
 smalltalk.AthensWindowMorph.klass);
 
 
-smalltalk.addClass('AthensWorldMorph', smalltalk.AthensMorph, ['backgroundPaint', 'surface', 'morphsUnderHand', 'halos', 'globalEventCallbacks', 'handPosition'], 'Athens-Core-Morphic');
+smalltalk.addClass('AthensWorldMorph', smalltalk.AthensMorph, ['backgroundPaint', 'surface', 'morphsUnderHand', 'halos', 'globalEventCallbacks', 'handPosition', 'worldState'], 'Athens-Core-Morphic');
 smalltalk.addMethod(
 smalltalk.method({
 selector: "addHalosTo:",
@@ -3297,7 +3297,9 @@ selector: "initialize",
 category: 'initialization',
 fn: function (){
 var self=this;
+function $WorldState(){return smalltalk.WorldState||(typeof WorldState=="undefined"?nil:WorldState)}
 return smalltalk.withContext(function($ctx1) { 
+self["@worldState"]=_st($WorldState())._for_(self);
 smalltalk.AthensMorph.fn.prototype._initialize.apply(_st(self), []);
 self._initializeBackgroundPaint();
 self._initializeHalos();
@@ -3306,9 +3308,9 @@ self["@handPosition"]=(0).__at((0));
 self._initializeCallbacks();
 return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensWorldMorph)})},
 args: [],
-source: "initialize\x0a\x09super initialize.\x0a\x09self initializeBackgroundPaint.\x0a\x09self initializeHalos.\x0a\x09morphsUnderHand := {self}.\x0a\x09handPosition := 0@0.\x0a\x09self initializeCallbacks.",
-messageSends: ["initialize", "initializeBackgroundPaint", "initializeHalos", "@", "initializeCallbacks"],
-referencedClasses: []
+source: "initialize\x0a\x09worldState := WorldState for: self.\x0a\x09super initialize.\x0a\x09self initializeBackgroundPaint.\x0a\x09self initializeHalos.\x0a\x09morphsUnderHand := {self}.\x0a\x09handPosition := 0@0.\x0a\x09self initializeCallbacks.",
+messageSends: ["for:", "initialize", "initializeBackgroundPaint", "initializeHalos", "@", "initializeCallbacks"],
+referencedClasses: ["WorldState"]
 }),
 smalltalk.AthensWorldMorph);
 
@@ -3465,7 +3467,7 @@ smalltalk.AthensWorldMorph);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "redraw",
+selector: "privateRedraw",
 category: 'drawing',
 fn: function (){
 var self=this;
@@ -3475,10 +3477,26 @@ return smalltalk.withContext(function($ctx2) {
 self._redrawEverythingOn_(canvas);
 return self._redrawHalosOn_(canvas);
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
+return self}, function($ctx1) {$ctx1.fill(self,"privateRedraw",{},smalltalk.AthensWorldMorph)})},
+args: [],
+source: "privateRedraw\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09self redrawEverythingOn: canvas.\x0a\x09\x09self redrawHalosOn: canvas].",
+messageSends: ["drawDuring:", "redrawEverythingOn:", "redrawHalosOn:"],
+referencedClasses: []
+}),
+smalltalk.AthensWorldMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "redraw",
+category: 'drawing',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+_st(self["@worldState"])._damageWorld();
 return self}, function($ctx1) {$ctx1.fill(self,"redraw",{},smalltalk.AthensWorldMorph)})},
 args: [],
-source: "redraw\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09self redrawEverythingOn: canvas.\x0a\x09\x09self redrawHalosOn: canvas].",
-messageSends: ["drawDuring:", "redrawEverythingOn:", "redrawHalosOn:"],
+source: "redraw\x0a\x09worldState damageWorld.",
+messageSends: ["damageWorld"],
 referencedClasses: []
 }),
 smalltalk.AthensWorldMorph);
@@ -3696,5 +3714,99 @@ messageSends: ["ifNil:", "new"],
 referencedClasses: []
 }),
 smalltalk.AthensDummyWorldMorph.klass);
+
+
+smalltalk.addClass('WorldState', smalltalk.Object, ['needsRedraw', 'world'], 'Athens-Core-Morphic');
+smalltalk.addMethod(
+smalltalk.method({
+selector: "damageWorld",
+category: 'drawing',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self["@needsRedraw"]=true;
+return self}, function($ctx1) {$ctx1.fill(self,"damageWorld",{},smalltalk.WorldState)})},
+args: [],
+source: "damageWorld\x0a\x09needsRedraw := true.",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.WorldState);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "initialize",
+category: 'initialization',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self["@needsRedraw"]=false;
+return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.WorldState)})},
+args: [],
+source: "initialize\x0a\x09needsRedraw := false.",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.WorldState);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "initializeRenderLoop",
+category: 'initialization',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ setInterval(function() {
+		if (self['@needsRedraw']) {
+			self['@needsRedraw'] = false;
+			self['@world']._privateRedraw();
+		}
+	}, 0); ;
+return self}, function($ctx1) {$ctx1.fill(self,"initializeRenderLoop",{},smalltalk.WorldState)})},
+args: [],
+source: "initializeRenderLoop\x0a\x09< setInterval(function() {\x0a\x09\x09if (self['@needsRedraw']) {\x0a\x09\x09\x09self['@needsRedraw'] = false;\x0a\x09\x09\x09self['@world']._privateRedraw();\x0a\x09\x09}\x0a\x09}, 0); >",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.WorldState);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "world:",
+category: 'accessing',
+fn: function (aWorld){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self["@world"]=aWorld;
+self._initializeRenderLoop();
+return self}, function($ctx1) {$ctx1.fill(self,"world:",{aWorld:aWorld},smalltalk.WorldState)})},
+args: ["aWorld"],
+source: "world: aWorld\x0a\x09world := aWorld.\x0a\x09self initializeRenderLoop.",
+messageSends: ["initializeRenderLoop"],
+referencedClasses: []
+}),
+smalltalk.WorldState);
+
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "for:",
+category: 'instance creation',
+fn: function (aWorld){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $2,$3,$1;
+$2=self._new();
+_st($2)._world_(aWorld);
+$3=_st($2)._yourself();
+$1=$3;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"for:",{aWorld:aWorld},smalltalk.WorldState.klass)})},
+args: ["aWorld"],
+source: "for: aWorld\x0a\x09^ self new\x0a\x09\x09world: aWorld;\x0a\x09\x09yourself",
+messageSends: ["world:", "new", "yourself"],
+referencedClasses: []
+}),
+smalltalk.WorldState.klass);
 
 

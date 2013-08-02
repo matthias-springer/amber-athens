@@ -1121,7 +1121,7 @@ extent: aPoint
 ! !
 
 AthensMorph subclass: #AthensWorldMorph
-	instanceVariableNames: 'backgroundPaint surface morphsUnderHand halos globalEventCallbacks handPosition'
+	instanceVariableNames: 'backgroundPaint surface morphsUnderHand halos globalEventCallbacks handPosition worldState'
 	package: 'Athens-Core-Morphic'!
 
 !AthensWorldMorph methodsFor: 'accessing'!
@@ -1144,10 +1144,14 @@ drawOn: canvas
 	canvas drawShape: (0@0 corner: surface extent).
 !
 
-redraw
+privateRedraw
 	surface drawDuring: [:canvas |
 		self redrawEverythingOn: canvas.
 		self redrawHalosOn: canvas].
+!
+
+redraw
+	worldState damageWorld.
 !
 
 redrawHalosOn: canvas
@@ -1208,6 +1212,7 @@ hideHalos
 !AthensWorldMorph methodsFor: 'initialization'!
 
 initialize
+	worldState := WorldState for: self.
 	super initialize.
 	self initializeBackgroundPaint.
 	self initializeHalos.
@@ -1306,5 +1311,45 @@ AthensDummyWorldMorph class instanceVariableNames: 'instance'!
 instance
 	instance ifNil: [instance := self new].
 	^ instance
+! !
+
+Object subclass: #WorldState
+	instanceVariableNames: 'needsRedraw world'
+	package: 'Athens-Core-Morphic'!
+
+!WorldState methodsFor: 'accessing'!
+
+world: aWorld
+	world := aWorld.
+	self initializeRenderLoop.
+! !
+
+!WorldState methodsFor: 'drawing'!
+
+damageWorld
+	needsRedraw := true.
+! !
+
+!WorldState methodsFor: 'initialization'!
+
+initialize
+	needsRedraw := false.
+!
+
+initializeRenderLoop
+	< setInterval(function() {
+		if (self['@needsRedraw']) {
+			self['@needsRedraw'] = false;
+			self['@world']._privateRedraw();
+		}
+	}, 0); >
+! !
+
+!WorldState class methodsFor: 'instance creation'!
+
+for: aWorld
+	^ self new
+		world: aWorld;
+		yourself
 ! !
 
