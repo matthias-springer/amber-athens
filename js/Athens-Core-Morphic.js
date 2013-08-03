@@ -61,14 +61,15 @@ selector: "delete",
 category: 'morph handling',
 fn: function (){
 var self=this;
+function $AthensDummyWorldMorph(){return smalltalk.AthensDummyWorldMorph||(typeof AthensDummyWorldMorph=="undefined"?nil:AthensDummyWorldMorph)}
 return smalltalk.withContext(function($ctx1) { 
 _st(self["@owner"])._removeMorph_(self);
-self["@owner"]=nil;
+self["@owner"]=_st($AthensDummyWorldMorph())._instance();
 return self}, function($ctx1) {$ctx1.fill(self,"delete",{},smalltalk.AthensMorph)})},
 args: [],
-source: "delete\x0a\x09owner removeMorph: self.\x0a\x09owner := nil.",
-messageSends: ["removeMorph:"],
-referencedClasses: []
+source: "delete\x0a\x09owner removeMorph: self.\x0a\x09owner := AthensDummyWorldMorph instance.",
+messageSends: ["removeMorph:", "instance"],
+referencedClasses: ["AthensDummyWorldMorph"]
 }),
 smalltalk.AthensMorph);
 
@@ -755,6 +756,22 @@ return self}, function($ctx1) {$ctx1.fill(self,"rotateByRadians:",{aNumber:aNumb
 args: ["aNumber"],
 source: "rotateByRadians: aNumber\x0a\x09transformation rotateByRadians: aNumber.\x0a\x09self redraw.",
 messageSends: ["rotateByRadians:", "redraw"],
+referencedClasses: []
+}),
+smalltalk.AthensMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "scaleBy:",
+category: 'geometry',
+fn: function (aPoint){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self._scaleByX_Y_(_st(aPoint)._x(),_st(aPoint)._y());
+return self}, function($ctx1) {$ctx1.fill(self,"scaleBy:",{aPoint:aPoint},smalltalk.AthensMorph)})},
+args: ["aPoint"],
+source: "scaleBy: aPoint\x0a\x09self scaleByX: aPoint x Y: aPoint y.",
+messageSends: ["scaleByX:Y:", "x", "y"],
 referencedClasses: []
 }),
 smalltalk.AthensMorph);
@@ -3675,6 +3692,22 @@ smalltalk.AthensDummyWorldMorph);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "maxZIndex",
+category: 'morph handling',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+return (0);
+}, function($ctx1) {$ctx1.fill(self,"maxZIndex",{},smalltalk.AthensDummyWorldMorph)})},
+args: [],
+source: "maxZIndex\x0a\x09^ 0",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.AthensDummyWorldMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "redraw",
 category: 'drawing',
 fn: function (){
@@ -3683,6 +3716,21 @@ return smalltalk.withContext(function($ctx1) {
 return self}, function($ctx1) {$ctx1.fill(self,"redraw",{},smalltalk.AthensDummyWorldMorph)})},
 args: [],
 source: "redraw",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.AthensDummyWorldMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "submorphsZIndicesChanged",
+category: 'morph handling',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+return self}, function($ctx1) {$ctx1.fill(self,"submorphsZIndicesChanged",{},smalltalk.AthensDummyWorldMorph)})},
+args: [],
+source: "submorphsZIndicesChanged",
 messageSends: [],
 referencedClasses: []
 }),

@@ -45,11 +45,12 @@ smalltalk.method({
 selector: "delete",
 fn: function (){
 var self=this;
+function $AthensDummyWorldMorph(){return smalltalk.AthensDummyWorldMorph||(typeof AthensDummyWorldMorph=="undefined"?nil:AthensDummyWorldMorph)}
 return smalltalk.withContext(function($ctx1) { 
 _st(self["@owner"])._removeMorph_(self);
-self["@owner"]=nil;
+self["@owner"]=_st($AthensDummyWorldMorph())._instance();
 return self}, function($ctx1) {$ctx1.fill(self,"delete",{},smalltalk.AthensMorph)})},
-messageSends: ["removeMorph:"]}),
+messageSends: ["removeMorph:", "instance"]}),
 smalltalk.AthensMorph);
 
 smalltalk.addMethod(
@@ -567,6 +568,17 @@ _st(self["@transformation"])._rotateByRadians_(aNumber);
 self._redraw();
 return self}, function($ctx1) {$ctx1.fill(self,"rotateByRadians:",{aNumber:aNumber},smalltalk.AthensMorph)})},
 messageSends: ["rotateByRadians:", "redraw"]}),
+smalltalk.AthensMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "scaleBy:",
+fn: function (aPoint){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self._scaleByX_Y_(_st(aPoint)._x(),_st(aPoint)._y());
+return self}, function($ctx1) {$ctx1.fill(self,"scaleBy:",{aPoint:aPoint},smalltalk.AthensMorph)})},
+messageSends: ["scaleByX:Y:", "x", "y"]}),
 smalltalk.AthensMorph);
 
 smalltalk.addMethod(
@@ -2795,11 +2807,32 @@ smalltalk.AthensDummyWorldMorph);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "maxZIndex",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+return (0);
+}, function($ctx1) {$ctx1.fill(self,"maxZIndex",{},smalltalk.AthensDummyWorldMorph)})},
+messageSends: []}),
+smalltalk.AthensDummyWorldMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "redraw",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 return self}, function($ctx1) {$ctx1.fill(self,"redraw",{},smalltalk.AthensDummyWorldMorph)})},
+messageSends: []}),
+smalltalk.AthensDummyWorldMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "submorphsZIndicesChanged",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+return self}, function($ctx1) {$ctx1.fill(self,"submorphsZIndicesChanged",{},smalltalk.AthensDummyWorldMorph)})},
 messageSends: []}),
 smalltalk.AthensDummyWorldMorph);
 

@@ -202,6 +202,10 @@ rotateByRadians: aNumber
 	self redraw.
 !
 
+scaleBy: aPoint
+	self scaleByX: aPoint x Y: aPoint y.
+!
+
 scaleByX: x Y: y
 	transformation scaleX: x Y: y.
 	self redraw.
@@ -244,7 +248,7 @@ bringToFront
 
 delete
 	owner removeMorph: self.
-	owner := nil.
+	owner := AthensDummyWorldMorph instance.
 !
 
 hide
@@ -1302,6 +1306,15 @@ redraw
 
 initialize
 	globalPathTransform := AthensAffineTransform new.
+! !
+
+!AthensDummyWorldMorph methodsFor: 'morph handling'!
+
+maxZIndex
+	^ 0
+!
+
+submorphsZIndicesChanged
 ! !
 
 AthensDummyWorldMorph class instanceVariableNames: 'instance'!
