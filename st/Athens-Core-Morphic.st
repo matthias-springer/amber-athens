@@ -5,6 +5,10 @@ Object subclass: #AthensMorph
 
 !AthensMorph methodsFor: 'accessing'!
 
+bounds
+	^ outerPolygon boundingBox
+!
+
 color: aColor
 	color := aColor.
 	self redraw.
@@ -236,6 +240,7 @@ initialize
 	eventCallbacks := Dictionary new.
 	hasMouseFocus := isMouseDown := false.
 	zIndex := 0.
+	self outerShape: (0@0 corner: 200@200).
 ! !
 
 !AthensMorph methodsFor: 'morph handling'!
@@ -802,6 +807,117 @@ layoutChanged
 			translateByX: width - textMorph width - iconMorph width / 2 - 0.5 Y: height - textMorph height / 2 - 1].
 ! !
 
+AthensRectangleMorph subclass: #AthensScrollAreaMorph
+	instanceVariableNames: 'xScrollBar yScrollBar isXScrollBarVisible isYScrollBarVisible innerContainer outerContainer'
+	package: 'Athens-Core-Morphic'!
+
+!AthensScrollAreaMorph methodsFor: 'accessing'!
+
+valueX
+	^ xScrollBar value
+!
+
+valueX: aNumber
+	xScrollBar value: aNumber.
+!
+
+valueY
+	^ yScrollBar value
+!
+
+valueY: aNumber
+	yScrollBar value: aNumber.
+! !
+
+!AthensScrollAreaMorph methodsFor: 'events'!
+
+handleChangeX: evt
+	self updateVisibleArea.
+!
+
+handleChangeY: evt
+	self updateVisibleArea.
+!
+
+updateVisibleArea
+	innerContainer
+		resetTransformation;
+		translateByX: xScrollBar value * (outerContainer width - innerContainer width)
+			Y: yScrollBar value * (outerContainer height - innerContainer height).
+! !
+
+!AthensScrollAreaMorph methodsFor: 'initialization'!
+
+initialize
+	super initialize.
+	self initializeContainer.
+	self initializeScrollBars.
+	self layoutChanged.
+	self updateContentExtent.
+!
+
+initializeContainer
+	outerContainer := AthensRectangleMorph new
+		borderColor: Color transparent;
+		fillColor: Color transparent;
+		mouseDownFillColor: Color transparent;
+		mouseFocusFillColor: Color transparent.
+	super addMorph: outerContainer.
+	innerContainer := AthensRectangleMorph new
+		borderColor: Color transparent;
+		fillColor: Color transparent;
+		mouseDownFillColor: Color transparent;
+		mouseFocusFillColor: Color transparent.
+	outerContainer addMorph: innerContainer.
+!
+
+initializeScrollBars
+	yScrollBar := AthensScrollBarMorph new.
+	xScrollBar := AthensScrollBarMorph new.
+	yScrollBar onChange: [:evt | self handleChangeY: evt].
+	xScrollBar onChange: [:evt | self handleChangeX: evt].
+	super addMorph: yScrollBar.
+	super addMorph: xScrollBar.
+! !
+
+!AthensScrollAreaMorph methodsFor: 'morph handling'!
+
+addMorph: aMorph
+	innerContainer addMorph: aMorph.
+	self updateContentExtent.
+!
+
+layoutChanged
+	|barWidth|
+	barWidth := 10.
+	yScrollBar
+		resetTransformation;
+		height: height - barWidth;
+		width: barWidth;
+		translateByX:  width - barWidth Y: 0.
+	xScrollBar
+		resetTransformation;
+		height: width - barWidth;
+		width: barWidth;
+		translateByX: 0 Y: height;
+		rotateByDegrees: -90.
+	outerContainer
+		height: height - barWidth;
+		width: width - barWidth.
+!
+
+updateContentExtent
+	|maxX maxY|
+	maxX := maxY := 1.
+	innerContainer submorphs do: [:morph | 
+		maxX := maxX max: morph bounds width.
+		maxY := maxY max: morph bounds height].
+	innerContainer width: maxX.
+	innerContainer height: maxY.
+	xScrollBar sliderRange: outerContainer width / maxX.
+	yScrollBar sliderRange: outerContainer height / maxY.
+! !
+
 AthensRectangleMorph subclass: #AthensScrollBarMorph
 	instanceVariableNames: 'decreaseButton increaseButton sliderButton value sliderRange sliderMoveHandler sliderUpHandler buttonStepSize'
 	package: 'Athens-Core-Morphic'!
@@ -821,7 +937,9 @@ sliderRange
 !
 
 sliderRange: aNumber
-	sliderRange := aNumber.
+	|newRange|
+	newRange := (aNumber min: 1) max: 0.
+	sliderRange := newRange.
 	self layoutSliderButton.
 !
 
@@ -886,7 +1004,7 @@ initializeButtons
 		onMouseClick: [self handleIncrease];
 		yourself.
 	sliderButton := AthensIconButtonMorph new
-		icon: AthensIconMorph reorder;
+		icon: (AthensIconMorph reorder size: 9);
 		text: '';
 		yourself.
 	self addMorph: decreaseButton.
@@ -935,7 +1053,7 @@ layoutChanged
 
 layoutSliderButton
 	sliderButton
-		height: sliderRange * (height - 20);
+		height: (sliderRange * (height - 20) max: 7);
 		resetTransformation;
 		translateByX: 0 Y: (1 - sliderRange) * value * (height - 20) + 10.
 ! !
