@@ -2314,7 +2314,7 @@ smalltalk.AthensIconButtonMorph);
 
 
 
-smalltalk.addClass('AthensScrollAreaMorph', smalltalk.AthensRectangleMorph, ['xScrollBar', 'yScrollBar', 'isXScrollBarVisible', 'isYScrollBarVisible', 'innerContainer', 'outerContainer'], 'Athens-Core-Morphic');
+smalltalk.addClass('AthensScrollAreaMorph', smalltalk.AthensRectangleMorph, ['xScrollBar', 'yScrollBar', 'hasXScrollBar', 'hasYScrollBar', 'innerContainer', 'outerContainer'], 'Athens-Core-Morphic');
 smalltalk.addMethod(
 smalltalk.method({
 selector: "addMorph:",
@@ -2328,6 +2328,22 @@ return self}, function($ctx1) {$ctx1.fill(self,"addMorph:",{aMorph:aMorph},small
 args: ["aMorph"],
 source: "addMorph: aMorph\x0a\x09innerContainer addMorph: aMorph.\x0a\x09self updateContentExtent.",
 messageSends: ["addMorph:", "updateContentExtent"],
+referencedClasses: []
+}),
+smalltalk.AthensScrollAreaMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "drawOn:",
+category: 'events',
+fn: function (canvas){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+smalltalk.AthensRectangleMorph.fn.prototype._drawOn_.apply(_st(self), [canvas]);
+return self}, function($ctx1) {$ctx1.fill(self,"drawOn:",{canvas:canvas},smalltalk.AthensScrollAreaMorph)})},
+args: ["canvas"],
+source: "drawOn: canvas\x0a\x09super drawOn: canvas.",
+messageSends: ["drawOn:"],
 referencedClasses: []
 }),
 smalltalk.AthensScrollAreaMorph);
@@ -2366,19 +2382,97 @@ smalltalk.AthensScrollAreaMorph);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "hasXScrollBar",
+category: 'accessing',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self["@hasXScrollBar"];
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"hasXScrollBar",{},smalltalk.AthensScrollAreaMorph)})},
+args: [],
+source: "hasXScrollBar\x0a\x09^ hasXScrollBar",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.AthensScrollAreaMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "hasXScrollBar:",
+category: 'accessing',
+fn: function (aBoolean){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2;
+self["@hasXScrollBar"]=aBoolean;
+$1=self;
+_st($1)._layoutChanged();
+$2=_st($1)._updateVisibleArea();
+return self}, function($ctx1) {$ctx1.fill(self,"hasXScrollBar:",{aBoolean:aBoolean},smalltalk.AthensScrollAreaMorph)})},
+args: ["aBoolean"],
+source: "hasXScrollBar: aBoolean\x0a\x09hasXScrollBar := aBoolean.\x0a\x09self\x0a\x09\x09layoutChanged;\x0a\x09\x09updateVisibleArea.",
+messageSends: ["layoutChanged", "updateVisibleArea"],
+referencedClasses: []
+}),
+smalltalk.AthensScrollAreaMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "hasYScrollBar",
+category: 'accessing',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self["@hasYScrollBar"];
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"hasYScrollBar",{},smalltalk.AthensScrollAreaMorph)})},
+args: [],
+source: "hasYScrollBar\x0a\x09^ hasYScrollBar",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.AthensScrollAreaMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "hasYScrollBar:",
+category: 'accessing',
+fn: function (aBoolean){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2;
+self["@hasYScrollBar"]=aBoolean;
+$1=self;
+_st($1)._layoutChanged();
+$2=_st($1)._updateVisibleArea();
+return self}, function($ctx1) {$ctx1.fill(self,"hasYScrollBar:",{aBoolean:aBoolean},smalltalk.AthensScrollAreaMorph)})},
+args: ["aBoolean"],
+source: "hasYScrollBar: aBoolean\x0a\x09hasYScrollBar := aBoolean.\x0a\x09self\x0a\x09\x09layoutChanged;\x0a\x09\x09updateVisibleArea.",
+messageSends: ["layoutChanged", "updateVisibleArea"],
+referencedClasses: []
+}),
+smalltalk.AthensScrollAreaMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "initialize",
 category: 'initialization',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 smalltalk.AthensRectangleMorph.fn.prototype._initialize.apply(_st(self), []);
+self["@hasYScrollBar"]=true;
+self["@hasXScrollBar"]=self["@hasYScrollBar"];
 self._initializeContainer();
 self._initializeScrollBars();
 self._layoutChanged();
 self._updateContentExtent();
 return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensScrollAreaMorph)})},
 args: [],
-source: "initialize\x0a\x09super initialize.\x0a\x09self initializeContainer.\x0a\x09self initializeScrollBars.\x0a\x09self layoutChanged.\x0a\x09self updateContentExtent.",
+source: "initialize\x0a\x09super initialize.\x0a\x09hasXScrollBar := hasYScrollBar := true.\x0a\x09self initializeContainer.\x0a\x09self initializeScrollBars.\x0a\x09self layoutChanged.\x0a\x09self updateContentExtent.",
 messageSends: ["initialize", "initializeContainer", "initializeScrollBars", "layoutChanged", "updateContentExtent"],
 referencedClasses: []
 }),
@@ -2450,28 +2544,47 @@ selector: "layoutChanged",
 category: 'morph handling',
 fn: function (){
 var self=this;
-var barWidth;
+var barWidth,barHeight;
 return smalltalk.withContext(function($ctx1) { 
-var $1,$2,$3,$4,$5,$6;
+var $1,$2,$3,$4,$5,$6,$7,$8;
+$1=self["@hasXScrollBar"];
+if(smalltalk.assert($1)){
+barHeight=(10);
+barHeight;
+_st(self["@xScrollBar"])._show();
+} else {
+barHeight=(0);
+barHeight;
+_st(self["@xScrollBar"])._hide();
+};
+$2=self["@hasYScrollBar"];
+if(smalltalk.assert($2)){
 barWidth=(10);
-$1=self["@yScrollBar"];
-_st($1)._resetTransformation();
-_st($1)._height_(_st(self["@height"]).__minus(barWidth));
-_st($1)._width_(barWidth);
-$2=_st($1)._translateByX_Y_(_st(self["@width"]).__minus(barWidth),(0));
-$3=self["@xScrollBar"];
+barWidth;
+_st(self["@yScrollBar"])._show();
+} else {
+barWidth=(0);
+barWidth;
+_st(self["@yScrollBar"])._hide();
+};
+$3=self["@yScrollBar"];
 _st($3)._resetTransformation();
-_st($3)._height_(_st(self["@width"]).__minus(barWidth));
-_st($3)._width_(barWidth);
-_st($3)._translateByX_Y_((0),self["@height"]);
-$4=_st($3)._rotateByDegrees_((-90));
-$5=self["@outerContainer"];
-_st($5)._height_(_st(self["@height"]).__minus(barWidth));
-$6=_st($5)._width_(_st(self["@width"]).__minus(barWidth));
-return self}, function($ctx1) {$ctx1.fill(self,"layoutChanged",{barWidth:barWidth},smalltalk.AthensScrollAreaMorph)})},
+_st($3)._height_(_st(self["@height"]).__minus(barHeight));
+_st($3)._width_((10));
+$4=_st($3)._translateByX_Y_(_st(self["@width"]).__minus((10)),(0));
+$5=self["@xScrollBar"];
+_st($5)._resetTransformation();
+_st($5)._height_(_st(self["@width"]).__minus(barWidth));
+_st($5)._width_((10));
+_st($5)._translateByX_Y_((0),self["@height"]);
+$6=_st($5)._rotateByDegrees_((-90));
+$7=self["@outerContainer"];
+_st($7)._height_(_st(self["@height"]).__minus(barWidth));
+$8=_st($7)._width_(_st(self["@width"]).__minus(barWidth));
+return self}, function($ctx1) {$ctx1.fill(self,"layoutChanged",{barWidth:barWidth,barHeight:barHeight},smalltalk.AthensScrollAreaMorph)})},
 args: [],
-source: "layoutChanged\x0a\x09|barWidth|\x0a\x09barWidth := 10.\x0a\x09yScrollBar\x0a\x09\x09resetTransformation;\x0a\x09\x09height: height - barWidth;\x0a\x09\x09width: barWidth;\x0a\x09\x09translateByX:  width - barWidth Y: 0.\x0a\x09xScrollBar\x0a\x09\x09resetTransformation;\x0a\x09\x09height: width - barWidth;\x0a\x09\x09width: barWidth;\x0a\x09\x09translateByX: 0 Y: height;\x0a\x09\x09rotateByDegrees: -90.\x0a\x09outerContainer\x0a\x09\x09height: height - barWidth;\x0a\x09\x09width: width - barWidth.",
-messageSends: ["resetTransformation", "height:", "-", "width:", "translateByX:Y:", "rotateByDegrees:"],
+source: "layoutChanged\x0a\x09|barWidth barHeight|\x0a\x09hasXScrollBar \x0a\x09\x09ifTrue: [\x0a\x09\x09\x09barHeight := 10.\x0a\x09\x09\x09xScrollBar show]\x0a\x09\x09ifFalse: [\x0a\x09\x09\x09barHeight := 0.\x0a\x09\x09\x09xScrollBar hide].\x0a\x09hasYScrollBar \x0a\x09\x09ifTrue: [\x0a\x09\x09\x09barWidth := 10.\x0a\x09\x09\x09yScrollBar show]\x0a\x09\x09ifFalse: [\x0a\x09\x09\x09barWidth := 0.\x0a\x09\x09\x09yScrollBar hide].\x0a\x0a\x09yScrollBar\x0a\x09\x09resetTransformation;\x0a\x09\x09height: height - barHeight;\x0a\x09\x09width: 10;\x0a\x09\x09translateByX:  width - 10 Y: 0.\x0a\x09xScrollBar\x0a\x09\x09resetTransformation;\x0a\x09\x09height: width - barWidth;\x0a\x09\x09width: 10;\x0a\x09\x09translateByX: 0 Y: height;\x0a\x09\x09rotateByDegrees: -90.\x0a\x09outerContainer\x0a\x09\x09height: height - barWidth;\x0a\x09\x09width: width - barWidth.",
+messageSends: ["ifTrue:ifFalse:", "show", "hide", "resetTransformation", "height:", "-", "width:", "translateByX:Y:", "rotateByDegrees:"],
 referencedClasses: []
 }),
 smalltalk.AthensScrollAreaMorph);

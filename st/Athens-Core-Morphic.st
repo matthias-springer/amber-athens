@@ -808,10 +808,32 @@ layoutChanged
 ! !
 
 AthensRectangleMorph subclass: #AthensScrollAreaMorph
-	instanceVariableNames: 'xScrollBar yScrollBar isXScrollBarVisible isYScrollBarVisible innerContainer outerContainer'
+	instanceVariableNames: 'xScrollBar yScrollBar hasXScrollBar hasYScrollBar innerContainer outerContainer'
 	package: 'Athens-Core-Morphic'!
 
 !AthensScrollAreaMorph methodsFor: 'accessing'!
+
+hasXScrollBar
+	^ hasXScrollBar
+!
+
+hasXScrollBar: aBoolean
+	hasXScrollBar := aBoolean.
+	self
+		layoutChanged;
+		updateVisibleArea.
+!
+
+hasYScrollBar
+	^ hasYScrollBar
+!
+
+hasYScrollBar: aBoolean
+	hasYScrollBar := aBoolean.
+	self
+		layoutChanged;
+		updateVisibleArea.
+!
 
 valueX
 	^ xScrollBar value
@@ -830,6 +852,10 @@ valueY: aNumber
 ! !
 
 !AthensScrollAreaMorph methodsFor: 'events'!
+
+drawOn: canvas
+	super drawOn: canvas.
+!
 
 handleChangeX: evt
 	self updateVisibleArea.
@@ -850,6 +876,7 @@ updateVisibleArea
 
 initialize
 	super initialize.
+	hasXScrollBar := hasYScrollBar := true.
 	self initializeContainer.
 	self initializeScrollBars.
 	self layoutChanged.
@@ -888,17 +915,31 @@ addMorph: aMorph
 !
 
 layoutChanged
-	|barWidth|
-	barWidth := 10.
+	|barWidth barHeight|
+	hasXScrollBar 
+		ifTrue: [
+			barHeight := 10.
+			xScrollBar show]
+		ifFalse: [
+			barHeight := 0.
+			xScrollBar hide].
+	hasYScrollBar 
+		ifTrue: [
+			barWidth := 10.
+			yScrollBar show]
+		ifFalse: [
+			barWidth := 0.
+			yScrollBar hide].
+
 	yScrollBar
 		resetTransformation;
-		height: height - barWidth;
-		width: barWidth;
-		translateByX:  width - barWidth Y: 0.
+		height: height - barHeight;
+		width: 10;
+		translateByX:  width - 10 Y: 0.
 	xScrollBar
 		resetTransformation;
 		height: width - barWidth;
-		width: barWidth;
+		width: 10;
 		translateByX: 0 Y: height;
 		rotateByDegrees: -90.
 	outerContainer
