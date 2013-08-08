@@ -230,6 +230,17 @@ smalltalk.Color.klass);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "cosmoDarkPurple",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self._r_g_b_rgba_(0.38, 0.19, 0.48, 'rgba(97,48,121,1)'); ;
+return self}, function($ctx1) {$ctx1.fill(self,"cosmoDarkPurple",{},smalltalk.Color.klass)})},
+messageSends: []}),
+smalltalk.Color.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "cosmoGray",
 fn: function (){
 var self=this;
@@ -252,12 +263,45 @@ smalltalk.Color.klass);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "cosmoLightPurple",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self._r_g_b_rgba_(0.69, 0.48, 0.8, 'rgba(177,123,203,1)'); ;
+return self}, function($ctx1) {$ctx1.fill(self,"cosmoLightPurple",{},smalltalk.Color.klass)})},
+messageSends: []}),
+smalltalk.Color.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "cosmoMiddleBlue",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
  return self._r_g_b_rgba_(0, 0.45, 0.9, 'rgba(0,114,230,1)'); ;
 return self}, function($ctx1) {$ctx1.fill(self,"cosmoMiddleBlue",{},smalltalk.Color.klass)})},
+messageSends: []}),
+smalltalk.Color.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "cosmoMiddlePurple",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self._r_g_b_rgba_(0.55, 0.28, 0.69, 'rgba(141,70,176,1)'); ;
+return self}, function($ctx1) {$ctx1.fill(self,"cosmoMiddlePurple",{},smalltalk.Color.klass)})},
+messageSends: []}),
+smalltalk.Color.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "cosmoPurple",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self._r_g_b_rgba_(0.61, 0.35, 0.73, 'rgba(155,89,187,1)'); ;
+return self}, function($ctx1) {$ctx1.fill(self,"cosmoPurple",{},smalltalk.Color.klass)})},
 messageSends: []}),
 smalltalk.Color.klass);
 

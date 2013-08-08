@@ -315,6 +315,22 @@ smalltalk.Color.klass);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "cosmoDarkPurple",
+category: 'instance creation',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self._r_g_b_rgba_(0.38, 0.19, 0.48, 'rgba(97,48,121,1)'); ;
+return self}, function($ctx1) {$ctx1.fill(self,"cosmoDarkPurple",{},smalltalk.Color.klass)})},
+args: [],
+source: "cosmoDarkPurple\x0a\x09< return self._r_g_b_rgba_(0.38, 0.19, 0.48, 'rgba(97,48,121,1)'); >",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.Color.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "cosmoGray",
 category: 'instance creation',
 fn: function (){
@@ -347,6 +363,22 @@ smalltalk.Color.klass);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "cosmoLightPurple",
+category: 'instance creation',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self._r_g_b_rgba_(0.69, 0.48, 0.8, 'rgba(177,123,203,1)'); ;
+return self}, function($ctx1) {$ctx1.fill(self,"cosmoLightPurple",{},smalltalk.Color.klass)})},
+args: [],
+source: "cosmoLightPurple\x0a\x09< return self._r_g_b_rgba_(0.69, 0.48, 0.8, 'rgba(177,123,203,1)'); >",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.Color.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "cosmoMiddleBlue",
 category: 'instance creation',
 fn: function (){
@@ -356,6 +388,38 @@ return smalltalk.withContext(function($ctx1) {
 return self}, function($ctx1) {$ctx1.fill(self,"cosmoMiddleBlue",{},smalltalk.Color.klass)})},
 args: [],
 source: "cosmoMiddleBlue\x0a\x09< return self._r_g_b_rgba_(0, 0.45, 0.9, 'rgba(0,114,230,1)'); >",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.Color.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "cosmoMiddlePurple",
+category: 'instance creation',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self._r_g_b_rgba_(0.55, 0.28, 0.69, 'rgba(141,70,176,1)'); ;
+return self}, function($ctx1) {$ctx1.fill(self,"cosmoMiddlePurple",{},smalltalk.Color.klass)})},
+args: [],
+source: "cosmoMiddlePurple\x0a\x09< return self._r_g_b_rgba_(0.55, 0.28, 0.69, 'rgba(141,70,176,1)'); >",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.Color.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "cosmoPurple",
+category: 'instance creation',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self._r_g_b_rgba_(0.61, 0.35, 0.73, 'rgba(155,89,187,1)'); ;
+return self}, function($ctx1) {$ctx1.fill(self,"cosmoPurple",{},smalltalk.Color.klass)})},
+args: [],
+source: "cosmoPurple\x0a\x09< return self._r_g_b_rgba_(0.61, 0.35, 0.73, 'rgba(155,89,187,1)'); >",
 messageSends: [],
 referencedClasses: []
 }),

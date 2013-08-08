@@ -149,10 +149,13 @@ var self=this;
 return smalltalk.withContext(function($ctx1) { 
 _st(_st(self["@eventCallbacks"])._at_ifAbsent_("change",(function(){
 return smalltalk.withContext(function($ctx2) {
+return (function(ev){
+return smalltalk.withContext(function($ctx3) {
+}, function($ctx3) {$ctx3.fillBlock({ev:ev},$ctx2)})});
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1)})})))._value_(evt);
 return self}, function($ctx1) {$ctx1.fill(self,"handleChange:",{evt:evt},smalltalk.AthensMorph)})},
 args: ["evt"],
-source: "handleChange: evt\x0a\x09(eventCallbacks at: #change ifAbsent: []) value: evt.",
+source: "handleChange: evt\x0a\x09(eventCallbacks at: #change ifAbsent: [[:ev |]]) value: evt.",
 messageSends: ["value:", "at:ifAbsent:"],
 referencedClasses: []
 }),
@@ -461,6 +464,22 @@ catch(e) {if(e===$early)return e[0]; throw e}
 args: ["aPoint"],
 source: "morphsAtPosition: aPoint\x0a\x09(globalOuterPolygon includesPoint: aPoint)\x0a\x09\x09ifTrue: [submorphs reverseDo: [:morph |\x0a\x09\x09\x09morph isVisible ifTrue: [\x0a\x09\x09\x09\x09(morph morphsAtPosition: aPoint) ifNotNil: [:m | \x0a\x09\x09\x09\x09\x09^ m\x0a\x09\x09\x09\x09\x09\x09add: self;\x0a\x09\x09\x09\x09\x09\x09yourself]]]]\x0a\x09\x09ifFalse: [^ nil].\x0a\x09^ {self}",
 messageSends: ["ifTrue:ifFalse:", "reverseDo:", "ifTrue:", "ifNotNil:", "add:", "yourself", "morphsAtPosition:", "isVisible", "includesPoint:"],
+referencedClasses: []
+}),
+smalltalk.AthensMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "onChange:",
+category: 'events',
+fn: function (aBlock){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+_st(self["@eventCallbacks"])._at_put_("change",aBlock);
+return self}, function($ctx1) {$ctx1.fill(self,"onChange:",{aBlock:aBlock},smalltalk.AthensMorph)})},
+args: ["aBlock"],
+source: "onChange: aBlock\x0a\x09eventCallbacks at: #change put: aBlock.",
+messageSends: ["at:put:"],
 referencedClasses: []
 }),
 smalltalk.AthensMorph);
@@ -1142,22 +1161,6 @@ return $1;
 args: [],
 source: "isChecked\x0a\x09^ isChecked",
 messageSends: [],
-referencedClasses: []
-}),
-smalltalk.AthensBinaryStatusButtonMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "onChange:",
-category: 'events',
-fn: function (aBlock){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-_st(self["@eventCallbacks"])._at_put_("change",aBlock);
-return self}, function($ctx1) {$ctx1.fill(self,"onChange:",{aBlock:aBlock},smalltalk.AthensBinaryStatusButtonMorph)})},
-args: ["aBlock"],
-source: "onChange: aBlock\x0a\x09eventCallbacks at: #change put: aBlock.",
-messageSends: ["at:put:"],
 referencedClasses: []
 }),
 smalltalk.AthensBinaryStatusButtonMorph);
@@ -2276,19 +2279,362 @@ $1=self["@iconMorph"];
 if(($receiver = $1) == nil || $receiver == undefined){
 $1;
 } else {
-_st(self["@textMorph"])._translateByX_Y_(_st(_st(_st(self["@iconMorph"])._width()).__slash((2))).__plus((2.5)),(0));
+_st(self["@textMorph"])._translateByX_Y_(_st(_st(_st(self["@iconMorph"])._width()).__slash((2))).__plus((3.5)),(0));
 $2=self["@iconMorph"];
 _st($2)._resetTransformation();
-$3=_st($2)._translateByX_Y_(_st(_st(_st(_st(self["@width"]).__minus(_st(self["@textMorph"])._width())).__minus(_st(self["@iconMorph"])._width())).__slash((2))).__minus((2.5)),_st(_st(_st(self["@height"]).__minus(_st(self["@textMorph"])._height())).__slash((2))).__minus((1)));
+$3=_st($2)._translateByX_Y_(_st(_st(_st(_st(self["@width"]).__minus(_st(self["@textMorph"])._width())).__minus(_st(self["@iconMorph"])._width())).__slash((2))).__minus((0.5)),_st(_st(_st(self["@height"]).__minus(_st(self["@textMorph"])._height())).__slash((2))).__minus((1)));
 $3;
 };
 return self}, function($ctx1) {$ctx1.fill(self,"layoutChanged",{},smalltalk.AthensIconButtonMorph)})},
 args: [],
-source: "layoutChanged\x0a\x09super layoutChanged.\x0a\x09\x0a\x09iconMorph ifNotNil: [\x0a\x09\x09textMorph translateByX: iconMorph width / 2 + 2.5 Y: 0.\x0a\x09\x09iconMorph\x0a\x09\x09\x09resetTransformation;\x0a\x09\x09\x09translateByX: width - textMorph width - iconMorph width / 2 - 2.5 Y: height - textMorph height / 2 - 1].",
+source: "layoutChanged\x0a\x09super layoutChanged.\x0a\x09\x0a\x09iconMorph ifNotNil: [\x0a\x09\x09textMorph translateByX: iconMorph width / 2 + 3.5 Y: 0.\x0a\x09\x09iconMorph\x0a\x09\x09\x09resetTransformation;\x0a\x09\x09\x09translateByX: width - textMorph width - iconMorph width / 2 - 0.5 Y: height - textMorph height / 2 - 1].",
 messageSends: ["layoutChanged", "ifNotNil:", "translateByX:Y:", "+", "/", "width", "resetTransformation", "-", "height"],
 referencedClasses: []
 }),
 smalltalk.AthensIconButtonMorph);
+
+
+
+smalltalk.addClass('AthensScrollBarMorph', smalltalk.AthensRectangleMorph, ['decreaseButton', 'increaseButton', 'sliderButton', 'value', 'sliderRange', 'sliderMoveHandler', 'sliderUpHandler', 'buttonStepSize'], 'Athens-Core-Morphic');
+smalltalk.addMethod(
+smalltalk.method({
+selector: "buttonStepSize",
+category: 'accessing',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self["@buttonStepSize"];
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"buttonStepSize",{},smalltalk.AthensScrollBarMorph)})},
+args: [],
+source: "buttonStepSize\x0a\x09^ buttonStepSize",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.AthensScrollBarMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "buttonStepSize:",
+category: 'accessing',
+fn: function (aNumber){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self["@buttonStepSize"]=aNumber;
+return self}, function($ctx1) {$ctx1.fill(self,"buttonStepSize:",{aNumber:aNumber},smalltalk.AthensScrollBarMorph)})},
+args: ["aNumber"],
+source: "buttonStepSize: aNumber\x0a\x09buttonStepSize := aNumber.\x0a\x09",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.AthensScrollBarMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "handleDecrease",
+category: 'events',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self._value_(_st(self["@value"]).__minus(self["@buttonStepSize"]));
+return self}, function($ctx1) {$ctx1.fill(self,"handleDecrease",{},smalltalk.AthensScrollBarMorph)})},
+args: [],
+source: "handleDecrease\x0a\x09self value: value - buttonStepSize.",
+messageSends: ["value:", "-"],
+referencedClasses: []
+}),
+smalltalk.AthensScrollBarMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "handleIncrease",
+category: 'events',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self._value_(_st(self["@value"]).__plus(self["@buttonStepSize"]));
+return self}, function($ctx1) {$ctx1.fill(self,"handleIncrease",{},smalltalk.AthensScrollBarMorph)})},
+args: [],
+source: "handleIncrease\x0a\x09self value: value + buttonStepSize.",
+messageSends: ["value:", "+"],
+referencedClasses: []
+}),
+smalltalk.AthensScrollBarMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "initialize",
+category: 'initialization',
+fn: function (){
+var self=this;
+function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
+return smalltalk.withContext(function($ctx1) { 
+smalltalk.AthensRectangleMorph.fn.prototype._initialize.apply(_st(self), []);
+self["@borderColor"]=_st($Color())._cosmoDarkGray();
+self["@fillColor"]=_st($Color())._white();
+self["@mouseDownFillColor"]=_st($Color())._cosmoLightGray();
+self["@mouseFocusFillColor"]=_st($Color())._cosmoLightGray();
+self["@hasSharpBorder"]=true;
+self["@value"]=(0);
+self["@sliderRange"]=(0.2);
+self["@buttonStepSize"]=(0.1);
+self._initializeButtons();
+self._initializeEvents();
+self._layoutChanged();
+return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensScrollBarMorph)})},
+args: [],
+source: "initialize\x0a\x09super initialize.\x0a\x09borderColor := Color cosmoDarkGray.\x0a\x09fillColor := Color white.\x0a\x09mouseDownFillColor := Color cosmoLightGray.\x0a\x09mouseFocusFillColor := Color cosmoLightGray.\x0a\x09hasSharpBorder := true.\x0a\x09value := 0.\x0a\x09sliderRange := 0.2.\x0a\x09buttonStepSize := 0.1.\x0a\x09self initializeButtons.\x0a\x09self initializeEvents.\x0a\x09self layoutChanged.",
+messageSends: ["initialize", "cosmoDarkGray", "white", "cosmoLightGray", "initializeButtons", "initializeEvents", "layoutChanged"],
+referencedClasses: ["Color"]
+}),
+smalltalk.AthensScrollBarMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "initializeButtons",
+category: 'initialization',
+fn: function (){
+var self=this;
+function $AthensIconMorph(){return smalltalk.AthensIconMorph||(typeof AthensIconMorph=="undefined"?nil:AthensIconMorph)}
+function $AthensIconButtonMorph(){return smalltalk.AthensIconButtonMorph||(typeof AthensIconButtonMorph=="undefined"?nil:AthensIconButtonMorph)}
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2,$3,$4,$5,$6;
+$1=_st($AthensIconButtonMorph())._new();
+_st($1)._icon_(_st($AthensIconMorph())._arrowUp());
+_st($1)._text_("");
+_st($1)._onMouseClick_((function(){
+return smalltalk.withContext(function($ctx2) {
+return self._handleDecrease();
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
+$2=_st($1)._yourself();
+self["@decreaseButton"]=$2;
+$3=_st($AthensIconButtonMorph())._new();
+_st($3)._icon_(_st($AthensIconMorph())._arrowDown());
+_st($3)._text_("");
+_st($3)._onMouseClick_((function(){
+return smalltalk.withContext(function($ctx2) {
+return self._handleIncrease();
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
+$4=_st($3)._yourself();
+self["@increaseButton"]=$4;
+$5=_st($AthensIconButtonMorph())._new();
+_st($5)._icon_(_st($AthensIconMorph())._reorder());
+_st($5)._text_("");
+$6=_st($5)._yourself();
+self["@sliderButton"]=$6;
+self._addMorph_(self["@decreaseButton"]);
+self._addMorph_(self["@increaseButton"]);
+self._addMorph_(self["@sliderButton"]);
+return self}, function($ctx1) {$ctx1.fill(self,"initializeButtons",{},smalltalk.AthensScrollBarMorph)})},
+args: [],
+source: "initializeButtons\x0a\x09decreaseButton := AthensIconButtonMorph new\x0a\x09\x09icon: AthensIconMorph arrowUp;\x0a\x09\x09text: '';\x0a\x09\x09onMouseClick: [self handleDecrease];\x0a\x09\x09yourself.\x0a\x09increaseButton := AthensIconButtonMorph new\x0a\x09\x09icon: AthensIconMorph arrowDown;\x0a\x09\x09text: '';\x0a\x09\x09onMouseClick: [self handleIncrease];\x0a\x09\x09yourself.\x0a\x09sliderButton := AthensIconButtonMorph new\x0a\x09\x09icon: AthensIconMorph reorder;\x0a\x09\x09text: '';\x0a\x09\x09yourself.\x0a\x09self addMorph: decreaseButton.\x0a\x09self addMorph: increaseButton.\x0a\x09self addMorph: sliderButton.",
+messageSends: ["icon:", "arrowUp", "new", "text:", "onMouseClick:", "handleDecrease", "yourself", "arrowDown", "handleIncrease", "reorder", "addMorph:"],
+referencedClasses: ["AthensIconMorph", "AthensIconButtonMorph"]
+}),
+smalltalk.AthensScrollBarMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "initializeEvents",
+category: 'initialization',
+fn: function (){
+var self=this;
+var sliderDownHandler;
+return smalltalk.withContext(function($ctx1) { 
+self["@sliderMoveHandler"]=(function(evt){
+return smalltalk.withContext(function($ctx2) {
+return self._sliderMouseMove_(evt);
+}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})});
+self["@sliderUpHandler"]=(function(evt){
+return smalltalk.withContext(function($ctx2) {
+return self._sliderMouseUp_(evt);
+}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})});
+sliderDownHandler=(function(evt){
+return smalltalk.withContext(function($ctx2) {
+_st(self._world())._registerGlobalEvent_withCallback_("mouseMove",self["@sliderMoveHandler"]);
+return _st(self._world())._registerGlobalEvent_withCallback_("mouseUp",self["@sliderUpHandler"]);
+}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})});
+_st(self["@sliderButton"])._onMouseDown_(sliderDownHandler);
+return self}, function($ctx1) {$ctx1.fill(self,"initializeEvents",{sliderDownHandler:sliderDownHandler},smalltalk.AthensScrollBarMorph)})},
+args: [],
+source: "initializeEvents\x0a\x09|sliderDownHandler|\x0a\x09sliderMoveHandler := [:evt | self sliderMouseMove: evt].\x0a\x09sliderUpHandler := [:evt | self sliderMouseUp: evt].\x0a\x09sliderDownHandler := [:evt | \x0a\x09\x09self world registerGlobalEvent: #mouseMove withCallback: sliderMoveHandler.\x0a\x09\x09self world registerGlobalEvent: #mouseUp withCallback: sliderUpHandler].\x0a\x09sliderButton onMouseDown: sliderDownHandler.",
+messageSends: ["sliderMouseMove:", "sliderMouseUp:", "registerGlobalEvent:withCallback:", "world", "onMouseDown:"],
+referencedClasses: []
+}),
+smalltalk.AthensScrollBarMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "layoutChanged",
+category: 'morph handling',
+fn: function (){
+var self=this;
+function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2,$3,$4,$5,$6;
+$1=self["@decreaseButton"];
+_st($1)._width_(self["@width"]);
+_st($1)._height_((10));
+_st($1)._borderColor_(_st($Color())._cosmoDarkPurple());
+_st($1)._fillColor_(_st($Color())._cosmoPurple());
+_st($1)._mouseFocusFillColor_(_st($Color())._cosmoMiddlePurple());
+_st($1)._mouseDownFillColor_(_st($Color())._cosmoDarkPurple());
+$2=_st($1)._resetTransformation();
+$3=self["@increaseButton"];
+_st($3)._width_(self["@width"]);
+_st($3)._height_((10));
+_st($3)._borderColor_(_st($Color())._cosmoDarkPurple());
+_st($3)._fillColor_(_st($Color())._cosmoPurple());
+_st($3)._mouseFocusFillColor_(_st($Color())._cosmoMiddlePurple());
+_st($3)._mouseDownFillColor_(_st($Color())._cosmoDarkPurple());
+_st($3)._resetTransformation();
+$4=_st($3)._translateByX_Y_((0),_st(self["@height"]).__minus((10)));
+$5=self["@sliderButton"];
+_st($5)._width_(self["@width"]);
+_st($5)._borderColor_(_st($Color())._cosmoDarkPurple());
+_st($5)._fillColor_(_st($Color())._cosmoLightPurple());
+_st($5)._mouseFocusFillColor_(_st($Color())._cosmoMiddlePurple());
+$6=_st($5)._mouseDownFillColor_(_st($Color())._cosmoDarkPurple());
+self._layoutSliderButton();
+return self}, function($ctx1) {$ctx1.fill(self,"layoutChanged",{},smalltalk.AthensScrollBarMorph)})},
+args: [],
+source: "layoutChanged\x0a\x09decreaseButton\x0a\x09\x09width: width;\x0a\x09\x09height: 10;\x0a\x09\x09borderColor: Color cosmoDarkPurple;\x0a\x09\x09fillColor: Color cosmoPurple;\x0a\x09\x09mouseFocusFillColor: Color cosmoMiddlePurple;\x0a\x09\x09mouseDownFillColor: Color cosmoDarkPurple;\x0a\x09\x09resetTransformation.\x0a\x09increaseButton\x0a\x09\x09width: width;\x0a\x09\x09height: 10;\x0a\x09\x09borderColor: Color cosmoDarkPurple;\x0a\x09\x09fillColor: Color cosmoPurple;\x0a\x09\x09mouseFocusFillColor: Color cosmoMiddlePurple;\x0a\x09\x09mouseDownFillColor: Color cosmoDarkPurple;\x0a\x09\x09resetTransformation;\x0a\x09\x09translateByX: 0 Y: height - 10.\x0a\x09sliderButton\x0a\x09\x09width: width;\x0a\x09\x09borderColor: Color cosmoDarkPurple;\x0a\x09\x09fillColor: Color cosmoLightPurple;\x0a\x09\x09mouseFocusFillColor: Color cosmoMiddlePurple;\x0a\x09\x09mouseDownFillColor: Color cosmoDarkPurple.\x0a\x09self layoutSliderButton.",
+messageSends: ["width:", "height:", "borderColor:", "cosmoDarkPurple", "fillColor:", "cosmoPurple", "mouseFocusFillColor:", "cosmoMiddlePurple", "mouseDownFillColor:", "resetTransformation", "translateByX:Y:", "-", "cosmoLightPurple", "layoutSliderButton"],
+referencedClasses: ["Color"]
+}),
+smalltalk.AthensScrollBarMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "layoutSliderButton",
+category: 'morph handling',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2;
+$1=self["@sliderButton"];
+_st($1)._height_(_st(self["@sliderRange"]).__star(_st(self["@height"]).__minus((20))));
+_st($1)._resetTransformation();
+$2=_st($1)._translateByX_Y_((0),_st(_st(_st((1).__minus(self["@sliderRange"])).__star(self["@value"])).__star(_st(self["@height"]).__minus((20)))).__plus((10)));
+return self}, function($ctx1) {$ctx1.fill(self,"layoutSliderButton",{},smalltalk.AthensScrollBarMorph)})},
+args: [],
+source: "layoutSliderButton\x0a\x09sliderButton\x0a\x09\x09height: sliderRange * (height - 20);\x0a\x09\x09resetTransformation;\x0a\x09\x09translateByX: 0 Y: (1 - sliderRange) * value * (height - 20) + 10.",
+messageSends: ["height:", "*", "-", "resetTransformation", "translateByX:Y:", "+"],
+referencedClasses: []
+}),
+smalltalk.AthensScrollBarMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "sliderMouseMove:",
+category: 'events',
+fn: function (evt){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self._value_(_st(_st(_st(_st(self["@globalPathTransform"])._inverseTransform_(_st(evt)._position()))._y()).__minus((10))).__slash(_st(self["@height"]).__minus((20))));
+return self}, function($ctx1) {$ctx1.fill(self,"sliderMouseMove:",{evt:evt},smalltalk.AthensScrollBarMorph)})},
+args: ["evt"],
+source: "sliderMouseMove: evt\x0a\x09self value: (globalPathTransform inverseTransform: evt position) y - 10 / (height - 20).",
+messageSends: ["value:", "/", "-", "y", "inverseTransform:", "position"],
+referencedClasses: []
+}),
+smalltalk.AthensScrollBarMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "sliderMouseUp:",
+category: 'events',
+fn: function (evt){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+_st(self._world())._unregisterGlobalEvent_withCallback_("mouseMove",self["@sliderMoveHandler"]);
+_st(self._world())._unregisterGlobalEvent_withCallback_("mouseUp",self["@sliderUpHandler"]);
+return self}, function($ctx1) {$ctx1.fill(self,"sliderMouseUp:",{evt:evt},smalltalk.AthensScrollBarMorph)})},
+args: ["evt"],
+source: "sliderMouseUp: evt\x0a\x09self world unregisterGlobalEvent: #mouseMove withCallback: sliderMoveHandler.\x0a\x09self world unregisterGlobalEvent: #mouseUp withCallback: sliderUpHandler.",
+messageSends: ["unregisterGlobalEvent:withCallback:", "world"],
+referencedClasses: []
+}),
+smalltalk.AthensScrollBarMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "sliderRange",
+category: 'accessing',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self["@sliderRange"];
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"sliderRange",{},smalltalk.AthensScrollBarMorph)})},
+args: [],
+source: "sliderRange\x0a\x09^ sliderRange",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.AthensScrollBarMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "sliderRange:",
+category: 'accessing',
+fn: function (aNumber){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self["@sliderRange"]=aNumber;
+self._layoutSliderButton();
+return self}, function($ctx1) {$ctx1.fill(self,"sliderRange:",{aNumber:aNumber},smalltalk.AthensScrollBarMorph)})},
+args: ["aNumber"],
+source: "sliderRange: aNumber\x0a\x09sliderRange := aNumber.\x0a\x09self layoutSliderButton.",
+messageSends: ["layoutSliderButton"],
+referencedClasses: []
+}),
+smalltalk.AthensScrollBarMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "value",
+category: 'accessing',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self["@value"];
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"value",{},smalltalk.AthensScrollBarMorph)})},
+args: [],
+source: "value\x0a\x09^ value",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.AthensScrollBarMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "value:",
+category: 'accessing',
+fn: function (aNumber){
+var self=this;
+var changed,newNumber;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+newNumber=_st(_st(aNumber)._min_((1)))._max_((0));
+changed=_st(self["@value"]).__tild_tild(newNumber);
+self["@value"]=newNumber;
+self._layoutSliderButton();
+$1=changed;
+if(smalltalk.assert($1)){
+self._signalChange_(newNumber);
+};
+return self}, function($ctx1) {$ctx1.fill(self,"value:",{aNumber:aNumber,changed:changed,newNumber:newNumber},smalltalk.AthensScrollBarMorph)})},
+args: ["aNumber"],
+source: "value: aNumber\x0a\x09|changed newNumber|\x0a\x09newNumber := (aNumber min: 1) max: 0.\x0a\x09changed := value ~~ newNumber.\x0a\x09value := newNumber.\x0a\x09self layoutSliderButton.\x0a\x09changed ifTrue: [self signalChange: newNumber].",
+messageSends: ["max:", "min:", "~~", "layoutSliderButton", "ifTrue:", "signalChange:"],
+referencedClasses: []
+}),
+smalltalk.AthensScrollBarMorph);
 
 
 
@@ -2599,6 +2945,48 @@ smalltalk.AthensIconMorph);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "arrowDown",
+category: 'instance creation',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $2,$3,$1;
+$2=self._new();
+_st($2)._text_("");
+$3=_st($2)._yourself();
+$1=$3;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"arrowDown",{},smalltalk.AthensIconMorph.klass)})},
+args: [],
+source: "arrowDown\x0a\x09^ self new\x0a\x09\x09text: '';\x0a\x09\x09yourself",
+messageSends: ["text:", "new", "yourself"],
+referencedClasses: []
+}),
+smalltalk.AthensIconMorph.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "arrowUp",
+category: 'instance creation',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $2,$3,$1;
+$2=self._new();
+_st($2)._text_("");
+$3=_st($2)._yourself();
+$1=$3;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"arrowUp",{},smalltalk.AthensIconMorph.klass)})},
+args: [],
+source: "arrowUp\x0a\x09^ self new\x0a\x09\x09text: '';\x0a\x09\x09yourself",
+messageSends: ["text:", "new", "yourself"],
+referencedClasses: []
+}),
+smalltalk.AthensIconMorph.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "remove",
 category: 'instance creation',
 fn: function (){
@@ -2613,6 +3001,27 @@ return $1;
 }, function($ctx1) {$ctx1.fill(self,"remove",{},smalltalk.AthensIconMorph.klass)})},
 args: [],
 source: "remove\x0a\x09^ self new\x0a\x09\x09text: '';\x0a\x09\x09yourself",
+messageSends: ["text:", "new", "yourself"],
+referencedClasses: []
+}),
+smalltalk.AthensIconMorph.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "reorder",
+category: 'instance creation',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $2,$3,$1;
+$2=self._new();
+_st($2)._text_("");
+$3=_st($2)._yourself();
+$1=$3;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"reorder",{},smalltalk.AthensIconMorph.klass)})},
+args: [],
+source: "reorder\x0a\x09^ self new\x0a\x09\x09text: '';\x0a\x09\x09yourself",
 messageSends: ["text:", "new", "yourself"],
 referencedClasses: []
 }),

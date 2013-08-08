@@ -108,7 +108,7 @@ redrawEverythingOn: canvas
 !AthensMorph methodsFor: 'events'!
 
 handleChange: evt
-	(eventCallbacks at: #change ifAbsent: []) value: evt.
+	(eventCallbacks at: #change ifAbsent: [[:ev |]]) value: evt.
 !
 
 handleMouseClick: evt
@@ -150,6 +150,10 @@ morphsAtPosition: aPoint
 						yourself]]]]
 		ifFalse: [^ nil].
 	^ {self}
+!
+
+onChange: aBlock
+	eventCallbacks at: #change put: aBlock.
 !
 
 onMouseClick: aBlock
@@ -339,10 +343,6 @@ handleMouseLeave
 handleMouseUp: evt
 	super handleMouseUp: evt.
 	self redraw.
-!
-
-onChange: aBlock
-	eventCallbacks at: #change put: aBlock.
 ! !
 
 !AthensBinaryStatusButtonMorph methodsFor: 'initialization'!
@@ -796,10 +796,148 @@ layoutChanged
 	super layoutChanged.
 	
 	iconMorph ifNotNil: [
-		textMorph translateByX: iconMorph width / 2 + 2.5 Y: 0.
+		textMorph translateByX: iconMorph width / 2 + 3.5 Y: 0.
 		iconMorph
 			resetTransformation;
-			translateByX: width - textMorph width - iconMorph width / 2 - 2.5 Y: height - textMorph height / 2 - 1].
+			translateByX: width - textMorph width - iconMorph width / 2 - 0.5 Y: height - textMorph height / 2 - 1].
+! !
+
+AthensRectangleMorph subclass: #AthensScrollBarMorph
+	instanceVariableNames: 'decreaseButton increaseButton sliderButton value sliderRange sliderMoveHandler sliderUpHandler buttonStepSize'
+	package: 'Athens-Core-Morphic'!
+
+!AthensScrollBarMorph methodsFor: 'accessing'!
+
+buttonStepSize
+	^ buttonStepSize
+!
+
+buttonStepSize: aNumber
+	buttonStepSize := aNumber.
+!
+
+sliderRange
+	^ sliderRange
+!
+
+sliderRange: aNumber
+	sliderRange := aNumber.
+	self layoutSliderButton.
+!
+
+value
+	^ value
+!
+
+value: aNumber
+	|changed newNumber|
+	newNumber := (aNumber min: 1) max: 0.
+	changed := value ~~ newNumber.
+	value := newNumber.
+	self layoutSliderButton.
+	changed ifTrue: [self signalChange: newNumber].
+! !
+
+!AthensScrollBarMorph methodsFor: 'events'!
+
+handleDecrease
+	self value: value - buttonStepSize.
+!
+
+handleIncrease
+	self value: value + buttonStepSize.
+!
+
+sliderMouseMove: evt
+	self value: (globalPathTransform inverseTransform: evt position) y - 10 / (height - 20).
+!
+
+sliderMouseUp: evt
+	self world unregisterGlobalEvent: #mouseMove withCallback: sliderMoveHandler.
+	self world unregisterGlobalEvent: #mouseUp withCallback: sliderUpHandler.
+! !
+
+!AthensScrollBarMorph methodsFor: 'initialization'!
+
+initialize
+	super initialize.
+	borderColor := Color cosmoDarkGray.
+	fillColor := Color white.
+	mouseDownFillColor := Color cosmoLightGray.
+	mouseFocusFillColor := Color cosmoLightGray.
+	hasSharpBorder := true.
+	value := 0.
+	sliderRange := 0.2.
+	buttonStepSize := 0.1.
+	self initializeButtons.
+	self initializeEvents.
+	self layoutChanged.
+!
+
+initializeButtons
+	decreaseButton := AthensIconButtonMorph new
+		icon: AthensIconMorph arrowUp;
+		text: '';
+		onMouseClick: [self handleDecrease];
+		yourself.
+	increaseButton := AthensIconButtonMorph new
+		icon: AthensIconMorph arrowDown;
+		text: '';
+		onMouseClick: [self handleIncrease];
+		yourself.
+	sliderButton := AthensIconButtonMorph new
+		icon: AthensIconMorph reorder;
+		text: '';
+		yourself.
+	self addMorph: decreaseButton.
+	self addMorph: increaseButton.
+	self addMorph: sliderButton.
+!
+
+initializeEvents
+	|sliderDownHandler|
+	sliderMoveHandler := [:evt | self sliderMouseMove: evt].
+	sliderUpHandler := [:evt | self sliderMouseUp: evt].
+	sliderDownHandler := [:evt | 
+		self world registerGlobalEvent: #mouseMove withCallback: sliderMoveHandler.
+		self world registerGlobalEvent: #mouseUp withCallback: sliderUpHandler].
+	sliderButton onMouseDown: sliderDownHandler.
+! !
+
+!AthensScrollBarMorph methodsFor: 'morph handling'!
+
+layoutChanged
+	decreaseButton
+		width: width;
+		height: 10;
+		borderColor: Color cosmoDarkPurple;
+		fillColor: Color cosmoPurple;
+		mouseFocusFillColor: Color cosmoMiddlePurple;
+		mouseDownFillColor: Color cosmoDarkPurple;
+		resetTransformation.
+	increaseButton
+		width: width;
+		height: 10;
+		borderColor: Color cosmoDarkPurple;
+		fillColor: Color cosmoPurple;
+		mouseFocusFillColor: Color cosmoMiddlePurple;
+		mouseDownFillColor: Color cosmoDarkPurple;
+		resetTransformation;
+		translateByX: 0 Y: height - 10.
+	sliderButton
+		width: width;
+		borderColor: Color cosmoDarkPurple;
+		fillColor: Color cosmoLightPurple;
+		mouseFocusFillColor: Color cosmoMiddlePurple;
+		mouseDownFillColor: Color cosmoDarkPurple.
+	self layoutSliderButton.
+!
+
+layoutSliderButton
+	sliderButton
+		height: sliderRange * (height - 20);
+		resetTransformation;
+		translateByX: 0 Y: (1 - sliderRange) * value * (height - 20) + 10.
 ! !
 
 AthensRectangleMorph subclass: #AthensTextMorph
@@ -913,9 +1051,27 @@ initialize
 
 !AthensIconMorph class methodsFor: 'instance creation'!
 
+arrowDown
+	^ self new
+		text: '';
+		yourself
+!
+
+arrowUp
+	^ self new
+		text: '';
+		yourself
+!
+
 remove
 	^ self new
 		text: '';
+		yourself
+!
+
+reorder
+	^ self new
+		text: '';
 		yourself
 !
 

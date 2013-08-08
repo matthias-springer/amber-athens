@@ -100,6 +100,10 @@ cosmoDarkGray
 	< return self._r_g_b_rgba_(0.33, 0.33, 0.33, 'rgba(85,85,85,1)'); >
 !
 
+cosmoDarkPurple
+	< return self._r_g_b_rgba_(0.38, 0.19, 0.48, 'rgba(97,48,121,1)'); >
+!
+
 cosmoGray
 	< return self._r_g_b_rgba_(0.6, 0.6, 0.6, 'rgba(153,153,153,1)'); >
 !
@@ -108,8 +112,20 @@ cosmoLightGray
 	< return self._r_g_b_rgba_(0.87, 0.87, 0.87, 'rgba(223,223,223,1)'); >
 !
 
+cosmoLightPurple
+	< return self._r_g_b_rgba_(0.69, 0.48, 0.8, 'rgba(177,123,203,1)'); >
+!
+
 cosmoMiddleBlue
 	< return self._r_g_b_rgba_(0, 0.45, 0.9, 'rgba(0,114,230,1)'); >
+!
+
+cosmoMiddlePurple
+	< return self._r_g_b_rgba_(0.55, 0.28, 0.69, 'rgba(141,70,176,1)'); >
+!
+
+cosmoPurple
+	< return self._r_g_b_rgba_(0.61, 0.35, 0.73, 'rgba(155,89,187,1)'); >
 !
 
 gray
