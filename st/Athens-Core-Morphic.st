@@ -5,35 +5,9 @@ Object subclass: #AthensMorph
 
 !AthensMorph methodsFor: 'accessing'!
 
-bounds
-	^ outerPolygon boundingBox
-!
-
 color: aColor
 	color := aColor.
 	self redraw.
-!
-
-globalBounds
-	^ globalOuterPolygon boundingBox
-!
-
-globalPathTransform
-	^ globalPathTransform
-!
-
-maxZIndex
-	|index|
-	index := 0.
-	submorphs do: [:morph | index := index max: morph zIndex].
-	^ index
-!
-
-outerShape: aShape
-	outerShape := aShape.
-	outerPolygon := aShape asPolygon.
-	globalOuterPolygon := outerPolygon deepCopy.
-	globalOuterPolygon multiplyBy: globalPathTransform.
 !
 
 owner
@@ -46,17 +20,6 @@ owner: aMorph
 
 submorphs
 	^ submorphs
-!
-
-transformation
-	^ transformation
-!
-
-world
-	|m|
-	m := self.
-	[m isWorldMorph] whileFalse: [m := m owner].
-	^ m
 !
 
 zIndex
@@ -241,6 +204,50 @@ initialize
 	hasMouseFocus := isMouseDown := false.
 	zIndex := 0.
 	self outerShape: (0@0 corner: 200@200).
+! !
+
+!AthensMorph methodsFor: 'internals'!
+
+bounds
+	^ outerPolygon boundingBox
+!
+
+globalBounds
+	^ globalOuterPolygon boundingBox
+!
+
+globalPathTransform
+	^ globalPathTransform
+!
+
+maxZIndex
+	|index|
+	index := 0.
+	submorphs do: [:morph | index := index max: morph zIndex].
+	^ index
+!
+
+outerShape: aShape
+	outerShape := aShape.
+	outerPolygon := aShape asPolygon.
+	globalOuterPolygon := outerPolygon deepCopy.
+	globalOuterPolygon multiplyBy: globalPathTransform.
+!
+
+transformation
+	^ transformation
+!
+
+transformedBounds
+	^  (outerPolygon deepCopy
+		multiplyBy: transformation) boundingBox
+!
+
+world
+	|m|
+	m := self.
+	[m isWorldMorph] whileFalse: [m := m owner].
+	^ m
 ! !
 
 !AthensMorph methodsFor: 'morph handling'!
@@ -649,6 +656,7 @@ height
 
 height: aNumber
 	height := aNumber.
+	self outerShape: (0@0 corner: self width@height).
 	self layoutChanged.
 	self redraw.
 !
@@ -667,6 +675,7 @@ width
 
 width: aNumber
 	width := aNumber.
+	self outerShape: (0@0 corner: self width@height).
 	self layoutChanged.
 	self redraw.
 ! !
@@ -805,6 +814,45 @@ layoutChanged
 		iconMorph
 			resetTransformation;
 			translateByX: width - textMorph width - iconMorph width / 2 - 0.5 Y: height - textMorph height / 2 - 1].
+! !
+
+AthensRectangleMorph subclass: #AthensListItemMorph
+	instanceVariableNames: 'textMorph item'
+	package: 'Athens-Core-Morphic'!
+
+!AthensListItemMorph methodsFor: 'accessing'!
+
+item
+	^ item
+!
+
+item: anItem
+	item := anItem.
+	textMorph text: anItem asString.
+! !
+
+!AthensListItemMorph methodsFor: 'initialization'!
+
+initialize
+	super initialize.
+	self initializeTextMorph.
+	self height: 20.
+	hasSharpBorder := true.
+	mouseFocusFillColor := Color cosmoLightGray.
+	mouseDownFillColor := Color cosmoGray.
+!
+
+initializeTextMorph
+	textMorph := AthensTextMorph new.
+	self addMorph: textMorph.
+! !
+
+!AthensListItemMorph class methodsFor: 'instance creation'!
+
+for: anObject
+	^ self new
+		item: anObject;
+		yourself
 ! !
 
 AthensRectangleMorph subclass: #AthensScrollAreaMorph
@@ -954,14 +1002,46 @@ layoutChanged
 updateContentExtent
 	|maxX maxY|
 	maxX := maxY := 1.
-	innerContainer submorphs do: [:morph | 
-		maxX := maxX max: morph bounds width.
-		maxY := maxY max: morph bounds height].
+	innerContainer submorphs do: [:morph | |bounds|
+		bounds := morph transformedBounds.
+		maxX := maxX max: bounds width + bounds origin x.
+		maxY := maxY max: bounds height + bounds origin y].
 	innerContainer width: maxX.
 	innerContainer height: maxY.
 	xScrollBar sliderRange: outerContainer width / maxX.
 	yScrollBar sliderRange: outerContainer height / maxY.
 	needsContentExtentUpdate := false.
+! !
+
+AthensScrollAreaMorph subclass: #AthensListBoxMorph
+	instanceVariableNames: 'nextPositionY'
+	package: 'Athens-Core-Morphic'!
+
+!AthensListBoxMorph methodsFor: 'accessing'!
+
+width: aNumber
+	super width: aNumber.
+	innerContainer submorphs do: [:morph | morph width: outerContainer width].
+! !
+
+!AthensListBoxMorph methodsFor: 'initialization'!
+
+initialize
+	super initialize.
+	nextPositionY := 0.
+	hasSharpBorder := true.
+! !
+
+!AthensListBoxMorph methodsFor: 'item handling'!
+
+addItem: anObject
+	|itemMorph|
+	itemMorph := AthensListItemMorph for: anObject.
+	itemMorph 
+		translateByX: 0 Y: nextPositionY;
+		width: outerContainer width.
+	self addMorph: itemMorph.
+	nextPositionY := nextPositionY + itemMorph height - 1.
 ! !
 
 AthensRectangleMorph subclass: #AthensScrollBarMorph
