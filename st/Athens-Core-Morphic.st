@@ -835,16 +835,37 @@ item: anItem
 
 initialize
 	super initialize.
+	hasSharpBorder := true.
 	self initializeTextMorph.
 	self height: 20.
-	hasSharpBorder := true.
-	mouseFocusFillColor := Color cosmoLightGray.
-	mouseDownFillColor := Color cosmoGray.
+	self unselect.
 !
 
 initializeTextMorph
-	textMorph := AthensTextMorph new.
+	textMorph := AthensTextMorph new
+		translateByX: 5 Y: 0;
+		yourself.
 	self addMorph: textMorph.
+! !
+
+!AthensListItemMorph methodsFor: 'item handling'!
+
+select
+	mouseFocusFillColor := Color cosmoMiddleBlue.
+	mouseDownFillColor := Color cosmoDarkBlue.
+	fillColor := Color cosmoDarkBlue.
+	borderColor := Color cosmoDarkGray.
+	textMorph fontColor: Color white.
+	self redraw.
+!
+
+unselect
+	mouseFocusFillColor := Color cosmoLightGray.
+	mouseDownFillColor := Color cosmoGray.
+	fillColor := Color white.
+	borderColor := Color cosmoDarkGray.
+	textMorph fontColor: Color black.
+	self redraw.
 ! !
 
 !AthensListItemMorph class methodsFor: 'instance creation'!
@@ -1014,7 +1035,7 @@ updateContentExtent
 ! !
 
 AthensScrollAreaMorph subclass: #AthensListBoxMorph
-	instanceVariableNames: 'nextPositionY'
+	instanceVariableNames: 'nextPositionY selectedItem'
 	package: 'Athens-Core-Morphic'!
 
 !AthensListBoxMorph methodsFor: 'accessing'!
@@ -1039,9 +1060,21 @@ addItem: anObject
 	itemMorph := AthensListItemMorph for: anObject.
 	itemMorph 
 		translateByX: 0 Y: nextPositionY;
-		width: outerContainer width.
+		width: outerContainer width;
+		onMouseClick: [self selectedItem: itemMorph].
 	self addMorph: itemMorph.
 	nextPositionY := nextPositionY + itemMorph height - 1.
+!
+
+selectedItem
+	^ selectedItem
+!
+
+selectedItem: anItem
+	selectedItem ifNotNil: [selectedItem unselect].
+	selectedItem := anItem.
+	selectedItem select.
+	self signalChange: selectedItem item.
 ! !
 
 AthensRectangleMorph subclass: #AthensScrollBarMorph

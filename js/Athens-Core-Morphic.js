@@ -2341,19 +2341,17 @@ selector: "initialize",
 category: 'initialization',
 fn: function (){
 var self=this;
-function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
 return smalltalk.withContext(function($ctx1) { 
 smalltalk.AthensRectangleMorph.fn.prototype._initialize.apply(_st(self), []);
+self["@hasSharpBorder"]=true;
 self._initializeTextMorph();
 self._height_((20));
-self["@hasSharpBorder"]=true;
-self["@mouseFocusFillColor"]=_st($Color())._cosmoLightGray();
-self["@mouseDownFillColor"]=_st($Color())._cosmoGray();
+self._unselect();
 return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensListItemMorph)})},
 args: [],
-source: "initialize\x0a\x09super initialize.\x0a\x09self initializeTextMorph.\x0a\x09self height: 20.\x0a\x09hasSharpBorder := true.\x0a\x09mouseFocusFillColor := Color cosmoLightGray.\x0a\x09mouseDownFillColor := Color cosmoGray.",
-messageSends: ["initialize", "initializeTextMorph", "height:", "cosmoLightGray", "cosmoGray"],
-referencedClasses: ["Color"]
+source: "initialize\x0a\x09super initialize.\x0a\x09hasSharpBorder := true.\x0a\x09self initializeTextMorph.\x0a\x09self height: 20.\x0a\x09self unselect.",
+messageSends: ["initialize", "initializeTextMorph", "height:", "unselect"],
+referencedClasses: []
 }),
 smalltalk.AthensListItemMorph);
 
@@ -2365,12 +2363,16 @@ fn: function (){
 var self=this;
 function $AthensTextMorph(){return smalltalk.AthensTextMorph||(typeof AthensTextMorph=="undefined"?nil:AthensTextMorph)}
 return smalltalk.withContext(function($ctx1) { 
-self["@textMorph"]=_st($AthensTextMorph())._new();
+var $1,$2;
+$1=_st($AthensTextMorph())._new();
+_st($1)._translateByX_Y_((5),(0));
+$2=_st($1)._yourself();
+self["@textMorph"]=$2;
 self._addMorph_(self["@textMorph"]);
 return self}, function($ctx1) {$ctx1.fill(self,"initializeTextMorph",{},smalltalk.AthensListItemMorph)})},
 args: [],
-source: "initializeTextMorph\x0a\x09textMorph := AthensTextMorph new.\x0a\x09self addMorph: textMorph.",
-messageSends: ["new", "addMorph:"],
+source: "initializeTextMorph\x0a\x09textMorph := AthensTextMorph new\x0a\x09\x09translateByX: 5 Y: 0;\x0a\x09\x09yourself.\x0a\x09self addMorph: textMorph.",
+messageSends: ["translateByX:Y:", "new", "yourself", "addMorph:"],
 referencedClasses: ["AthensTextMorph"]
 }),
 smalltalk.AthensListItemMorph);
@@ -2407,6 +2409,50 @@ args: ["anItem"],
 source: "item: anItem\x0a\x09item := anItem.\x0a\x09textMorph text: anItem asString.",
 messageSends: ["text:", "asString"],
 referencedClasses: []
+}),
+smalltalk.AthensListItemMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "select",
+category: 'item handling',
+fn: function (){
+var self=this;
+function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
+return smalltalk.withContext(function($ctx1) { 
+self["@mouseFocusFillColor"]=_st($Color())._cosmoMiddleBlue();
+self["@mouseDownFillColor"]=_st($Color())._cosmoDarkBlue();
+self["@fillColor"]=_st($Color())._cosmoDarkBlue();
+self["@borderColor"]=_st($Color())._cosmoDarkGray();
+_st(self["@textMorph"])._fontColor_(_st($Color())._white());
+self._redraw();
+return self}, function($ctx1) {$ctx1.fill(self,"select",{},smalltalk.AthensListItemMorph)})},
+args: [],
+source: "select\x0a\x09mouseFocusFillColor := Color cosmoMiddleBlue.\x0a\x09mouseDownFillColor := Color cosmoDarkBlue.\x0a\x09fillColor := Color cosmoDarkBlue.\x0a\x09borderColor := Color cosmoDarkGray.\x0a\x09textMorph fontColor: Color white.\x0a\x09self redraw.",
+messageSends: ["cosmoMiddleBlue", "cosmoDarkBlue", "cosmoDarkGray", "fontColor:", "white", "redraw"],
+referencedClasses: ["Color"]
+}),
+smalltalk.AthensListItemMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "unselect",
+category: 'item handling',
+fn: function (){
+var self=this;
+function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
+return smalltalk.withContext(function($ctx1) { 
+self["@mouseFocusFillColor"]=_st($Color())._cosmoLightGray();
+self["@mouseDownFillColor"]=_st($Color())._cosmoGray();
+self["@fillColor"]=_st($Color())._white();
+self["@borderColor"]=_st($Color())._cosmoDarkGray();
+_st(self["@textMorph"])._fontColor_(_st($Color())._black());
+self._redraw();
+return self}, function($ctx1) {$ctx1.fill(self,"unselect",{},smalltalk.AthensListItemMorph)})},
+args: [],
+source: "unselect\x0a\x09mouseFocusFillColor := Color cosmoLightGray.\x0a\x09mouseDownFillColor := Color cosmoGray.\x0a\x09fillColor := Color white.\x0a\x09borderColor := Color cosmoDarkGray.\x0a\x09textMorph fontColor: Color black.\x0a\x09self redraw.",
+messageSends: ["cosmoLightGray", "cosmoGray", "white", "cosmoDarkGray", "fontColor:", "black", "redraw"],
+referencedClasses: ["Color"]
 }),
 smalltalk.AthensListItemMorph);
 
@@ -2836,7 +2882,7 @@ smalltalk.AthensScrollAreaMorph);
 
 
 
-smalltalk.addClass('AthensListBoxMorph', smalltalk.AthensScrollAreaMorph, ['nextPositionY'], 'Athens-Core-Morphic');
+smalltalk.addClass('AthensListBoxMorph', smalltalk.AthensScrollAreaMorph, ['nextPositionY', 'selectedItem'], 'Athens-Core-Morphic');
 smalltalk.addMethod(
 smalltalk.method({
 selector: "addItem:",
@@ -2850,13 +2896,17 @@ var $1,$2;
 itemMorph=_st($AthensListItemMorph())._for_(anObject);
 $1=itemMorph;
 _st($1)._translateByX_Y_((0),self["@nextPositionY"]);
-$2=_st($1)._width_(_st(self["@outerContainer"])._width());
+_st($1)._width_(_st(self["@outerContainer"])._width());
+$2=_st($1)._onMouseClick_((function(){
+return smalltalk.withContext(function($ctx2) {
+return self._selectedItem_(itemMorph);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
 self._addMorph_(itemMorph);
 self["@nextPositionY"]=_st(_st(self["@nextPositionY"]).__plus(_st(itemMorph)._height())).__minus((1));
 return self}, function($ctx1) {$ctx1.fill(self,"addItem:",{anObject:anObject,itemMorph:itemMorph},smalltalk.AthensListBoxMorph)})},
 args: ["anObject"],
-source: "addItem: anObject\x0a\x09|itemMorph|\x0a\x09itemMorph := AthensListItemMorph for: anObject.\x0a\x09itemMorph \x0a\x09\x09translateByX: 0 Y: nextPositionY;\x0a\x09\x09width: outerContainer width.\x0a\x09self addMorph: itemMorph.\x0a\x09nextPositionY := nextPositionY + itemMorph height - 1.",
-messageSends: ["for:", "translateByX:Y:", "width:", "width", "addMorph:", "-", "+", "height"],
+source: "addItem: anObject\x0a\x09|itemMorph|\x0a\x09itemMorph := AthensListItemMorph for: anObject.\x0a\x09itemMorph \x0a\x09\x09translateByX: 0 Y: nextPositionY;\x0a\x09\x09width: outerContainer width;\x0a\x09\x09onMouseClick: [self selectedItem: itemMorph].\x0a\x09self addMorph: itemMorph.\x0a\x09nextPositionY := nextPositionY + itemMorph height - 1.",
+messageSends: ["for:", "translateByX:Y:", "width:", "width", "onMouseClick:", "selectedItem:", "addMorph:", "-", "+", "height"],
 referencedClasses: ["AthensListItemMorph"]
 }),
 smalltalk.AthensListBoxMorph);
@@ -2875,6 +2925,49 @@ return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensL
 args: [],
 source: "initialize\x0a\x09super initialize.\x0a\x09nextPositionY := 0.\x0a\x09hasSharpBorder := true.",
 messageSends: ["initialize"],
+referencedClasses: []
+}),
+smalltalk.AthensListBoxMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "selectedItem",
+category: 'item handling',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self["@selectedItem"];
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"selectedItem",{},smalltalk.AthensListBoxMorph)})},
+args: [],
+source: "selectedItem\x0a\x09^ selectedItem",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.AthensListBoxMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "selectedItem:",
+category: 'item handling',
+fn: function (anItem){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self["@selectedItem"];
+if(($receiver = $1) == nil || $receiver == undefined){
+$1;
+} else {
+_st(self["@selectedItem"])._unselect();
+};
+self["@selectedItem"]=anItem;
+_st(self["@selectedItem"])._select();
+self._signalChange_(_st(self["@selectedItem"])._item());
+return self}, function($ctx1) {$ctx1.fill(self,"selectedItem:",{anItem:anItem},smalltalk.AthensListBoxMorph)})},
+args: ["anItem"],
+source: "selectedItem: anItem\x0a\x09selectedItem ifNotNil: [selectedItem unselect].\x0a\x09selectedItem := anItem.\x0a\x09selectedItem select.\x0a\x09self signalChange: selectedItem item.",
+messageSends: ["ifNotNil:", "unselect", "select", "signalChange:", "item"],
 referencedClasses: []
 }),
 smalltalk.AthensListBoxMorph);
