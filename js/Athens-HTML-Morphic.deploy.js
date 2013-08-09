@@ -26,24 +26,33 @@ selector: "bindEvents",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
+_st(_st(self["@canvasTag"])._asJQuery())._bind_do_("dblclick",(function(evt){
+return smalltalk.withContext(function($ctx2) {
+_st(self["@world"])._handleEvent_with_("mouseDoubleClick",evt);
+return _st(evt)._preventDefault();
+}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
 _st(_st(self["@canvasTag"])._asJQuery())._bind_do_("click",(function(evt){
 return smalltalk.withContext(function($ctx2) {
-return _st(self["@world"])._handleEvent_with_("mouseClick",evt);
+_st(self["@world"])._handleEvent_with_("mouseClick",evt);
+return _st(evt)._preventDefault();
 }, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
 _st(_st(self["@canvasTag"])._asJQuery())._bind_do_("mousedown",(function(evt){
 return smalltalk.withContext(function($ctx2) {
-return _st(self["@world"])._handleEvent_with_("mouseDown",evt);
+_st(self["@world"])._handleEvent_with_("mouseDown",evt);
+return _st(evt)._preventDefault();
 }, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
 _st(_st(self["@canvasTag"])._asJQuery())._bind_do_("mousemove",(function(evt){
 return smalltalk.withContext(function($ctx2) {
-return _st(self["@world"])._handleEvent_with_("mouseMove",evt);
+_st(self["@world"])._handleEvent_with_("mouseMove",evt);
+return _st(evt)._preventDefault();
 }, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
 _st(_st(self["@canvasTag"])._asJQuery())._bind_do_("mouseup",(function(evt){
 return smalltalk.withContext(function($ctx2) {
-return _st(self["@world"])._handleEvent_with_("mouseUp",evt);
+_st(self["@world"])._handleEvent_with_("mouseUp",evt);
+return _st(evt)._preventDefault();
 }, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"bindEvents",{},smalltalk.AthensHTMLMorphicSurface)})},
-messageSends: ["bind:do:", "handleEvent:with:", "asJQuery"]}),
+messageSends: ["bind:do:", "handleEvent:with:", "preventDefault", "asJQuery"]}),
 smalltalk.AthensHTMLMorphicSurface);
 
 smalltalk.addMethod(

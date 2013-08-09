@@ -32,26 +32,35 @@ category: 'events',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
+_st(_st(self["@canvasTag"])._asJQuery())._bind_do_("dblclick",(function(evt){
+return smalltalk.withContext(function($ctx2) {
+_st(self["@world"])._handleEvent_with_("mouseDoubleClick",evt);
+return _st(evt)._preventDefault();
+}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
 _st(_st(self["@canvasTag"])._asJQuery())._bind_do_("click",(function(evt){
 return smalltalk.withContext(function($ctx2) {
-return _st(self["@world"])._handleEvent_with_("mouseClick",evt);
+_st(self["@world"])._handleEvent_with_("mouseClick",evt);
+return _st(evt)._preventDefault();
 }, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
 _st(_st(self["@canvasTag"])._asJQuery())._bind_do_("mousedown",(function(evt){
 return smalltalk.withContext(function($ctx2) {
-return _st(self["@world"])._handleEvent_with_("mouseDown",evt);
+_st(self["@world"])._handleEvent_with_("mouseDown",evt);
+return _st(evt)._preventDefault();
 }, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
 _st(_st(self["@canvasTag"])._asJQuery())._bind_do_("mousemove",(function(evt){
 return smalltalk.withContext(function($ctx2) {
-return _st(self["@world"])._handleEvent_with_("mouseMove",evt);
+_st(self["@world"])._handleEvent_with_("mouseMove",evt);
+return _st(evt)._preventDefault();
 }, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
 _st(_st(self["@canvasTag"])._asJQuery())._bind_do_("mouseup",(function(evt){
 return smalltalk.withContext(function($ctx2) {
-return _st(self["@world"])._handleEvent_with_("mouseUp",evt);
+_st(self["@world"])._handleEvent_with_("mouseUp",evt);
+return _st(evt)._preventDefault();
 }, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"bindEvents",{},smalltalk.AthensHTMLMorphicSurface)})},
 args: [],
-source: "bindEvents\x0a\x09canvasTag asJQuery \x0a\x09\x09bind: 'click' \x0a\x09\x09do: [:evt | world handleEvent: #mouseClick with: evt].\x0a\x09canvasTag asJQuery \x0a\x09\x09bind: 'mousedown' \x0a\x09\x09do: [:evt | world handleEvent: #mouseDown with: evt].\x0a\x09canvasTag asJQuery \x0a\x09\x09bind: 'mousemove' \x0a\x09\x09do: [:evt | world handleEvent: #mouseMove with: evt].\x0a\x09canvasTag asJQuery \x0a\x09\x09bind: 'mouseup' \x0a\x09\x09do: [:evt | world handleEvent: #mouseUp with: evt].",
-messageSends: ["bind:do:", "handleEvent:with:", "asJQuery"],
+source: "bindEvents\x0a\x09canvasTag asJQuery \x0a\x09\x09bind: 'dblclick' \x0a\x09\x09do: [:evt | world handleEvent: #mouseDoubleClick with: evt. evt preventDefault].\x0a\x09canvasTag asJQuery \x0a\x09\x09bind: 'click' \x0a\x09\x09do: [:evt | world handleEvent: #mouseClick with: evt. evt preventDefault].\x0a\x09canvasTag asJQuery \x0a\x09\x09bind: 'mousedown' \x0a\x09\x09do: [:evt | world handleEvent: #mouseDown with: evt. evt preventDefault].\x0a\x09canvasTag asJQuery \x0a\x09\x09bind: 'mousemove' \x0a\x09\x09do: [:evt | world handleEvent: #mouseMove with: evt. evt preventDefault].\x0a\x09canvasTag asJQuery \x0a\x09\x09bind: 'mouseup' \x0a\x09\x09do: [:evt | world handleEvent: #mouseUp with: evt. evt preventDefault].",
+messageSends: ["bind:do:", "handleEvent:with:", "preventDefault", "asJQuery"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLMorphicSurface);

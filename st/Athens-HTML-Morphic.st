@@ -26,17 +26,20 @@ world
 
 bindEvents
 	canvasTag asJQuery 
+		bind: 'dblclick' 
+		do: [:evt | world handleEvent: #mouseDoubleClick with: evt. evt preventDefault].
+	canvasTag asJQuery 
 		bind: 'click' 
-		do: [:evt | world handleEvent: #mouseClick with: evt].
+		do: [:evt | world handleEvent: #mouseClick with: evt. evt preventDefault].
 	canvasTag asJQuery 
 		bind: 'mousedown' 
-		do: [:evt | world handleEvent: #mouseDown with: evt].
+		do: [:evt | world handleEvent: #mouseDown with: evt. evt preventDefault].
 	canvasTag asJQuery 
 		bind: 'mousemove' 
-		do: [:evt | world handleEvent: #mouseMove with: evt].
+		do: [:evt | world handleEvent: #mouseMove with: evt. evt preventDefault].
 	canvasTag asJQuery 
 		bind: 'mouseup' 
-		do: [:evt | world handleEvent: #mouseUp with: evt].
+		do: [:evt | world handleEvent: #mouseUp with: evt. evt preventDefault].
 ! !
 
 !AthensHTMLMorphicSurface methodsFor: 'initialization'!
