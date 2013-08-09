@@ -808,7 +808,7 @@ layoutChanged
 ! !
 
 AthensRectangleMorph subclass: #AthensScrollAreaMorph
-	instanceVariableNames: 'xScrollBar yScrollBar hasXScrollBar hasYScrollBar innerContainer outerContainer'
+	instanceVariableNames: 'xScrollBar yScrollBar hasXScrollBar hasYScrollBar innerContainer outerContainer needsContentExtentUpdate'
 	package: 'Athens-Core-Morphic'!
 
 !AthensScrollAreaMorph methodsFor: 'accessing'!
@@ -851,11 +851,14 @@ valueY: aNumber
 	yScrollBar value: aNumber.
 ! !
 
-!AthensScrollAreaMorph methodsFor: 'events'!
+!AthensScrollAreaMorph methodsFor: 'drawing'!
 
-drawOn: canvas
-	super drawOn: canvas.
-!
+redrawEverythingOn: canvas
+	super redrawEverythingOn: canvas.
+	needsContentExtentUpdate ifTrue: [self updateContentExtent].
+! !
+
+!AthensScrollAreaMorph methodsFor: 'events'!
 
 handleChangeX: evt
 	self updateVisibleArea.
@@ -912,6 +915,7 @@ initializeScrollBars
 addMorph: aMorph
 	innerContainer addMorph: aMorph.
 	self updateContentExtent.
+	needsContentExtentUpdate := true.
 !
 
 layoutChanged
@@ -957,6 +961,7 @@ updateContentExtent
 	innerContainer height: maxY.
 	xScrollBar sliderRange: outerContainer width / maxX.
 	yScrollBar sliderRange: outerContainer height / maxY.
+	needsContentExtentUpdate := false.
 ! !
 
 AthensRectangleMorph subclass: #AthensScrollBarMorph

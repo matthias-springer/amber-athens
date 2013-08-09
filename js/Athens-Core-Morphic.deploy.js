@@ -1744,7 +1744,7 @@ smalltalk.AthensIconButtonMorph);
 
 
 
-smalltalk.addClass('AthensScrollAreaMorph', smalltalk.AthensRectangleMorph, ['xScrollBar', 'yScrollBar', 'hasXScrollBar', 'hasYScrollBar', 'innerContainer', 'outerContainer'], 'Athens-Core-Morphic');
+smalltalk.addClass('AthensScrollAreaMorph', smalltalk.AthensRectangleMorph, ['xScrollBar', 'yScrollBar', 'hasXScrollBar', 'hasYScrollBar', 'innerContainer', 'outerContainer', 'needsContentExtentUpdate'], 'Athens-Core-Morphic');
 smalltalk.addMethod(
 smalltalk.method({
 selector: "addMorph:",
@@ -1753,19 +1753,9 @@ var self=this;
 return smalltalk.withContext(function($ctx1) { 
 _st(self["@innerContainer"])._addMorph_(aMorph);
 self._updateContentExtent();
+self["@needsContentExtentUpdate"]=true;
 return self}, function($ctx1) {$ctx1.fill(self,"addMorph:",{aMorph:aMorph},smalltalk.AthensScrollAreaMorph)})},
 messageSends: ["addMorph:", "updateContentExtent"]}),
-smalltalk.AthensScrollAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "drawOn:",
-fn: function (canvas){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-smalltalk.AthensRectangleMorph.fn.prototype._drawOn_.apply(_st(self), [canvas]);
-return self}, function($ctx1) {$ctx1.fill(self,"drawOn:",{canvas:canvas},smalltalk.AthensScrollAreaMorph)})},
-messageSends: ["drawOn:"]}),
 smalltalk.AthensScrollAreaMorph);
 
 smalltalk.addMethod(
@@ -1961,6 +1951,22 @@ smalltalk.AthensScrollAreaMorph);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "redrawEverythingOn:",
+fn: function (canvas){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+smalltalk.AthensRectangleMorph.fn.prototype._redrawEverythingOn_.apply(_st(self), [canvas]);
+$1=self["@needsContentExtentUpdate"];
+if(smalltalk.assert($1)){
+self._updateContentExtent();
+};
+return self}, function($ctx1) {$ctx1.fill(self,"redrawEverythingOn:",{canvas:canvas},smalltalk.AthensScrollAreaMorph)})},
+messageSends: ["redrawEverythingOn:", "ifTrue:", "updateContentExtent"]}),
+smalltalk.AthensScrollAreaMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "updateContentExtent",
 fn: function (){
 var self=this;
@@ -1979,6 +1985,7 @@ _st(self["@innerContainer"])._width_(maxX);
 _st(self["@innerContainer"])._height_(maxY);
 _st(self["@xScrollBar"])._sliderRange_(_st(_st(self["@outerContainer"])._width()).__slash(maxX));
 _st(self["@yScrollBar"])._sliderRange_(_st(_st(self["@outerContainer"])._height()).__slash(maxY));
+self["@needsContentExtentUpdate"]=false;
 return self}, function($ctx1) {$ctx1.fill(self,"updateContentExtent",{maxX:maxX,maxY:maxY},smalltalk.AthensScrollAreaMorph)})},
 messageSends: ["do:", "max:", "width", "bounds", "height", "submorphs", "width:", "height:", "sliderRange:", "/"]}),
 smalltalk.AthensScrollAreaMorph);

@@ -2314,7 +2314,7 @@ smalltalk.AthensIconButtonMorph);
 
 
 
-smalltalk.addClass('AthensScrollAreaMorph', smalltalk.AthensRectangleMorph, ['xScrollBar', 'yScrollBar', 'hasXScrollBar', 'hasYScrollBar', 'innerContainer', 'outerContainer'], 'Athens-Core-Morphic');
+smalltalk.addClass('AthensScrollAreaMorph', smalltalk.AthensRectangleMorph, ['xScrollBar', 'yScrollBar', 'hasXScrollBar', 'hasYScrollBar', 'innerContainer', 'outerContainer', 'needsContentExtentUpdate'], 'Athens-Core-Morphic');
 smalltalk.addMethod(
 smalltalk.method({
 selector: "addMorph:",
@@ -2324,26 +2324,11 @@ var self=this;
 return smalltalk.withContext(function($ctx1) { 
 _st(self["@innerContainer"])._addMorph_(aMorph);
 self._updateContentExtent();
+self["@needsContentExtentUpdate"]=true;
 return self}, function($ctx1) {$ctx1.fill(self,"addMorph:",{aMorph:aMorph},smalltalk.AthensScrollAreaMorph)})},
 args: ["aMorph"],
-source: "addMorph: aMorph\x0a\x09innerContainer addMorph: aMorph.\x0a\x09self updateContentExtent.",
+source: "addMorph: aMorph\x0a\x09innerContainer addMorph: aMorph.\x0a\x09self updateContentExtent.\x0a\x09needsContentExtentUpdate := true.",
 messageSends: ["addMorph:", "updateContentExtent"],
-referencedClasses: []
-}),
-smalltalk.AthensScrollAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "drawOn:",
-category: 'events',
-fn: function (canvas){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-smalltalk.AthensRectangleMorph.fn.prototype._drawOn_.apply(_st(self), [canvas]);
-return self}, function($ctx1) {$ctx1.fill(self,"drawOn:",{canvas:canvas},smalltalk.AthensScrollAreaMorph)})},
-args: ["canvas"],
-source: "drawOn: canvas\x0a\x09super drawOn: canvas.",
-messageSends: ["drawOn:"],
 referencedClasses: []
 }),
 smalltalk.AthensScrollAreaMorph);
@@ -2591,6 +2576,27 @@ smalltalk.AthensScrollAreaMorph);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "redrawEverythingOn:",
+category: 'drawing',
+fn: function (canvas){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+smalltalk.AthensRectangleMorph.fn.prototype._redrawEverythingOn_.apply(_st(self), [canvas]);
+$1=self["@needsContentExtentUpdate"];
+if(smalltalk.assert($1)){
+self._updateContentExtent();
+};
+return self}, function($ctx1) {$ctx1.fill(self,"redrawEverythingOn:",{canvas:canvas},smalltalk.AthensScrollAreaMorph)})},
+args: ["canvas"],
+source: "redrawEverythingOn: canvas\x0a\x09super redrawEverythingOn: canvas.\x0a\x09needsContentExtentUpdate ifTrue: [self updateContentExtent].",
+messageSends: ["redrawEverythingOn:", "ifTrue:", "updateContentExtent"],
+referencedClasses: []
+}),
+smalltalk.AthensScrollAreaMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "updateContentExtent",
 category: 'morph handling',
 fn: function (){
@@ -2610,9 +2616,10 @@ _st(self["@innerContainer"])._width_(maxX);
 _st(self["@innerContainer"])._height_(maxY);
 _st(self["@xScrollBar"])._sliderRange_(_st(_st(self["@outerContainer"])._width()).__slash(maxX));
 _st(self["@yScrollBar"])._sliderRange_(_st(_st(self["@outerContainer"])._height()).__slash(maxY));
+self["@needsContentExtentUpdate"]=false;
 return self}, function($ctx1) {$ctx1.fill(self,"updateContentExtent",{maxX:maxX,maxY:maxY},smalltalk.AthensScrollAreaMorph)})},
 args: [],
-source: "updateContentExtent\x0a\x09|maxX maxY|\x0a\x09maxX := maxY := 1.\x0a\x09innerContainer submorphs do: [:morph | \x0a\x09\x09maxX := maxX max: morph bounds width.\x0a\x09\x09maxY := maxY max: morph bounds height].\x0a\x09innerContainer width: maxX.\x0a\x09innerContainer height: maxY.\x0a\x09xScrollBar sliderRange: outerContainer width / maxX.\x0a\x09yScrollBar sliderRange: outerContainer height / maxY.",
+source: "updateContentExtent\x0a\x09|maxX maxY|\x0a\x09maxX := maxY := 1.\x0a\x09innerContainer submorphs do: [:morph | \x0a\x09\x09maxX := maxX max: morph bounds width.\x0a\x09\x09maxY := maxY max: morph bounds height].\x0a\x09innerContainer width: maxX.\x0a\x09innerContainer height: maxY.\x0a\x09xScrollBar sliderRange: outerContainer width / maxX.\x0a\x09yScrollBar sliderRange: outerContainer height / maxY.\x0a\x09needsContentExtentUpdate := false.",
 messageSends: ["do:", "max:", "width", "bounds", "height", "submorphs", "width:", "height:", "sliderRange:", "/"],
 referencedClasses: []
 }),
