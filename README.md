@@ -3,7 +3,7 @@ Amber-Athens
 
 Athens is a vector graphics library for Pharo. This is a port of Athens for Amber. It is implemented with HTML Canvas.
 
-**[Interactive Athens tutorial](http://matthias-springer.github.io/amber-athens/)**
+**[Interactive Athens tutorial](http://amber-athens.m-sp.org/)**
 
 *Note:* You have to run step2 before any you can run other steps since it creates the surface.
 
