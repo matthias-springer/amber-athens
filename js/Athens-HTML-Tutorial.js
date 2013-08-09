@@ -1470,6 +1470,54 @@ smalltalk.AthensTutorial);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "step39",
+category: 'steps',
+fn: function (){
+var self=this;
+var window,textMorph,listBox;
+function $AthensWindowMorph(){return smalltalk.AthensWindowMorph||(typeof AthensWindowMorph=="undefined"?nil:AthensWindowMorph)}
+function $AthensListBoxMorph(){return smalltalk.AthensListBoxMorph||(typeof AthensListBoxMorph=="undefined"?nil:AthensListBoxMorph)}
+function $Object(){return smalltalk.Object||(typeof Object=="undefined"?nil:Object)}
+function $AthensTextMorph(){return smalltalk.AthensTextMorph||(typeof AthensTextMorph=="undefined"?nil:AthensTextMorph)}
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2,$3,$4;
+window=_st($AthensWindowMorph())._new();
+_st(window)._title_("List Box Example");
+$1=_st($AthensListBoxMorph())._new();
+_st($1)._addItem_("First Item");
+_st($1)._addItem_("Another Item");
+_st($1)._addItem_((42));
+_st($1)._addItem_(_st($Object())._new());
+_st($1)._addItem_("Last Item");
+_st($1)._width_((150));
+_st($1)._height_((75));
+_st($1)._translateByX_Y_((25),(50));
+$2=_st($1)._yourself();
+listBox=$2;
+_st(window)._addMorph_(listBox);
+$3=_st($AthensTextMorph())._new();
+_st($3)._text_("(Nothing selected)");
+_st($3)._width_((150));
+_st($3)._height_((20));
+_st($3)._translateByX_Y_((25),(140));
+$4=_st($3)._yourself();
+textMorph=$4;
+_st(listBox)._onChange_((function(selection){
+return smalltalk.withContext(function($ctx2) {
+return _st(textMorph)._text_(_st(_st(_st(_st(selection)._asString()).__comma(" (")).__comma(_st(_st(selection)._class())._asString())).__comma(")"));
+}, function($ctx2) {$ctx2.fillBlock({selection:selection},$ctx1)})}));
+_st(window)._addMorph_(textMorph);
+_st(_st(self["@surface"])._world())._addMorph_(window);
+return self}, function($ctx1) {$ctx1.fill(self,"step39",{window:window,textMorph:textMorph,listBox:listBox},smalltalk.AthensTutorial)})},
+args: [],
+source: "step39\x0a\x09|window textMorph listBox|\x0a\x09\x22Step 39: [Morphic Demo] ListBoxMorph.\x22\x0a\x09\x0a\x09window := AthensWindowMorph new.\x0a\x09window title: 'List Box Example'.\x0a\x0a\x09listBox := AthensListBoxMorph new\x0a\x09\x09addItem: 'First Item';\x0a\x09\x09addItem: 'Another Item';\x0a\x09\x09addItem: 42;\x0a\x09\x09addItem: Object new;\x09\x22ListBoxMorph displays anItem asString\x22\x0a\x09\x09addItem: 'Last Item';\x0a\x09\x09width: 150;\x0a\x09\x09height: 75;\x0a\x09\x09translateByX: 25 Y: 50;\x0a\x09\x09yourself.\x0a\x0a\x09window addMorph: listBox.\x0a\x09\x09\x0a\x09textMorph := AthensTextMorph new\x0a\x09\x09text: '(Nothing selected)';\x0a\x09\x09width: 150; height: 20;\x0a\x09\x09translateByX: 25 Y: 140;\x0a\x09\x09yourself.\x0a\x0a\x09\x22When the selection changes, the change event is triggered.\x22\x0a\x09listBox onChange: [:selection | \x0a\x09\x09textMorph text: selection asString, ' (', selection class asString, ')'].\x0a\x0a\x09window addMorph: textMorph.\x0a\x0a\x09surface world addMorph: window.",
+messageSends: ["new", "title:", "addItem:", "width:", "height:", "translateByX:Y:", "yourself", "addMorph:", "text:", "onChange:", ",", "asString", "class", "world"],
+referencedClasses: ["AthensWindowMorph", "AthensListBoxMorph", "Object", "AthensTextMorph"]
+}),
+smalltalk.AthensTutorial);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "step4",
 category: 'steps',
 fn: function (){
@@ -1690,15 +1738,15 @@ var self=this;
 return smalltalk.withContext(function($ctx1) { 
 var $1;
 self["@step"]=_st(self["@step"]).__plus((1));
-$1=_st(self["@step"]).__gt((38));
+$1=_st(self["@step"]).__gt((39));
 if(smalltalk.assert($1)){
-self["@step"]=(38);
+self["@step"]=(39);
 self["@step"];
 };
 self._showStep_(self["@step"]);
 return self}, function($ctx1) {$ctx1.fill(self,"nextStep",{},smalltalk.AthensTutorialWidget)})},
 args: [],
-source: "nextStep\x0a\x09step := step + 1.\x0a\x09step > 38\x0a\x09\x09ifTrue: [step := 38].\x0a\x09self showStep: step.",
+source: "nextStep\x0a\x09step := step + 1.\x0a\x09step > 39\x0a\x09\x09ifTrue: [step := 39].\x0a\x09self showStep: step.",
 messageSends: ["+", "ifTrue:", ">", "showStep:"],
 referencedClasses: []
 }),

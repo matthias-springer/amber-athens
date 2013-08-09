@@ -2642,7 +2642,8 @@ $1=_st($AthensRectangleMorph())._new();
 _st($1)._borderColor_(_st($Color())._transparent());
 _st($1)._fillColor_(_st($Color())._transparent());
 _st($1)._mouseDownFillColor_(_st($Color())._transparent());
-$2=_st($1)._mouseFocusFillColor_(_st($Color())._transparent());
+_st($1)._mouseFocusFillColor_(_st($Color())._transparent());
+$2=_st($1)._translateByX_Y_((1),(1));
 self["@outerContainer"]=$2;
 smalltalk.AthensRectangleMorph.fn.prototype._addMorph_.apply(_st(self), [self["@outerContainer"]]);
 $3=_st($AthensRectangleMorph())._new();
@@ -2654,8 +2655,8 @@ self["@innerContainer"]=$4;
 _st(self["@outerContainer"])._addMorph_(self["@innerContainer"]);
 return self}, function($ctx1) {$ctx1.fill(self,"initializeContainer",{},smalltalk.AthensScrollAreaMorph)})},
 args: [],
-source: "initializeContainer\x0a\x09outerContainer := AthensRectangleMorph new\x0a\x09\x09borderColor: Color transparent;\x0a\x09\x09fillColor: Color transparent;\x0a\x09\x09mouseDownFillColor: Color transparent;\x0a\x09\x09mouseFocusFillColor: Color transparent.\x0a\x09super addMorph: outerContainer.\x0a\x09innerContainer := AthensRectangleMorph new\x0a\x09\x09borderColor: Color transparent;\x0a\x09\x09fillColor: Color transparent;\x0a\x09\x09mouseDownFillColor: Color transparent;\x0a\x09\x09mouseFocusFillColor: Color transparent.\x0a\x09outerContainer addMorph: innerContainer.",
-messageSends: ["borderColor:", "transparent", "new", "fillColor:", "mouseDownFillColor:", "mouseFocusFillColor:", "addMorph:"],
+source: "initializeContainer\x0a\x09outerContainer := AthensRectangleMorph new\x0a\x09\x09borderColor: Color transparent;\x0a\x09\x09fillColor: Color transparent;\x0a\x09\x09mouseDownFillColor: Color transparent;\x0a\x09\x09mouseFocusFillColor: Color transparent;\x0a\x09\x09translateByX: 1 Y: 1.\x09\x09\x22ensure that upper and left border is always visible\x22\x0a\x09super addMorph: outerContainer.\x0a\x09innerContainer := AthensRectangleMorph new\x0a\x09\x09borderColor: Color transparent;\x0a\x09\x09fillColor: Color transparent;\x0a\x09\x09mouseDownFillColor: Color transparent;\x0a\x09\x09mouseFocusFillColor: Color transparent.\x0a\x09outerContainer addMorph: innerContainer.",
+messageSends: ["borderColor:", "transparent", "new", "fillColor:", "mouseDownFillColor:", "mouseFocusFillColor:", "translateByX:Y:", "addMorph:"],
 referencedClasses: ["Color", "AthensRectangleMorph"]
 }),
 smalltalk.AthensScrollAreaMorph);
@@ -2895,8 +2896,8 @@ return smalltalk.withContext(function($ctx1) {
 var $1,$2;
 itemMorph=_st($AthensListItemMorph())._for_(anObject);
 $1=itemMorph;
-_st($1)._translateByX_Y_((0),self["@nextPositionY"]);
-_st($1)._width_(_st(self["@outerContainer"])._width());
+_st($1)._translateByX_Y_((-1),self["@nextPositionY"]);
+_st($1)._width_(_st(_st(self["@outerContainer"])._width()).__plus((1)));
 $2=_st($1)._onMouseClick_((function(){
 return smalltalk.withContext(function($ctx2) {
 return self._selectedItem_(itemMorph);
@@ -2905,8 +2906,8 @@ self._addMorph_(itemMorph);
 self["@nextPositionY"]=_st(_st(self["@nextPositionY"]).__plus(_st(itemMorph)._height())).__minus((1));
 return self}, function($ctx1) {$ctx1.fill(self,"addItem:",{anObject:anObject,itemMorph:itemMorph},smalltalk.AthensListBoxMorph)})},
 args: ["anObject"],
-source: "addItem: anObject\x0a\x09|itemMorph|\x0a\x09itemMorph := AthensListItemMorph for: anObject.\x0a\x09itemMorph \x0a\x09\x09translateByX: 0 Y: nextPositionY;\x0a\x09\x09width: outerContainer width;\x0a\x09\x09onMouseClick: [self selectedItem: itemMorph].\x0a\x09self addMorph: itemMorph.\x0a\x09nextPositionY := nextPositionY + itemMorph height - 1.",
-messageSends: ["for:", "translateByX:Y:", "width:", "width", "onMouseClick:", "selectedItem:", "addMorph:", "-", "+", "height"],
+source: "addItem: anObject\x0a\x09|itemMorph|\x0a\x09itemMorph := AthensListItemMorph for: anObject.\x0a\x09itemMorph \x0a\x09\x09translateByX: -1 Y: nextPositionY;\x09\x22avoid double border\x22\x0a\x09\x09width: outerContainer width + 1;\x0a\x09\x09onMouseClick: [self selectedItem: itemMorph].\x0a\x09self addMorph: itemMorph.\x0a\x09nextPositionY := nextPositionY + itemMorph height - 1.",
+messageSends: ["for:", "translateByX:Y:", "width:", "+", "width", "onMouseClick:", "selectedItem:", "addMorph:", "-", "height"],
 referencedClasses: ["AthensListItemMorph"]
 }),
 smalltalk.AthensListBoxMorph);
@@ -2919,11 +2920,11 @@ fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 smalltalk.AthensScrollAreaMorph.fn.prototype._initialize.apply(_st(self), []);
-self["@nextPositionY"]=(0);
+self["@nextPositionY"]=(-1);
 self["@hasSharpBorder"]=true;
 return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensListBoxMorph)})},
 args: [],
-source: "initialize\x0a\x09super initialize.\x0a\x09nextPositionY := 0.\x0a\x09hasSharpBorder := true.",
+source: "initialize\x0a\x09super initialize.\x0a\x09nextPositionY := -1.\x09\x09\x22avoid double border\x22\x0a\x09hasSharpBorder := true.",
 messageSends: ["initialize"],
 referencedClasses: []
 }),
@@ -2982,12 +2983,12 @@ return smalltalk.withContext(function($ctx1) {
 smalltalk.AthensScrollAreaMorph.fn.prototype._width_.apply(_st(self), [aNumber]);
 _st(_st(self["@innerContainer"])._submorphs())._do_((function(morph){
 return smalltalk.withContext(function($ctx2) {
-return _st(morph)._width_(_st(self["@outerContainer"])._width());
+return _st(morph)._width_(_st(_st(self["@outerContainer"])._width()).__plus((1)));
 }, function($ctx2) {$ctx2.fillBlock({morph:morph},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"width:",{aNumber:aNumber},smalltalk.AthensListBoxMorph)})},
 args: ["aNumber"],
-source: "width: aNumber\x0a\x09super width: aNumber.\x0a\x09innerContainer submorphs do: [:morph | morph width: outerContainer width].",
-messageSends: ["width:", "do:", "width", "submorphs"],
+source: "width: aNumber\x0a\x09super width: aNumber.\x0a\x09innerContainer submorphs do: [:morph | morph width: outerContainer width + 1].",
+messageSends: ["width:", "do:", "+", "width", "submorphs"],
 referencedClasses: []
 }),
 smalltalk.AthensListBoxMorph);

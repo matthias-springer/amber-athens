@@ -1991,7 +1991,8 @@ $1=_st($AthensRectangleMorph())._new();
 _st($1)._borderColor_(_st($Color())._transparent());
 _st($1)._fillColor_(_st($Color())._transparent());
 _st($1)._mouseDownFillColor_(_st($Color())._transparent());
-$2=_st($1)._mouseFocusFillColor_(_st($Color())._transparent());
+_st($1)._mouseFocusFillColor_(_st($Color())._transparent());
+$2=_st($1)._translateByX_Y_((1),(1));
 self["@outerContainer"]=$2;
 smalltalk.AthensRectangleMorph.fn.prototype._addMorph_.apply(_st(self), [self["@outerContainer"]]);
 $3=_st($AthensRectangleMorph())._new();
@@ -2002,7 +2003,7 @@ $4=_st($3)._mouseFocusFillColor_(_st($Color())._transparent());
 self["@innerContainer"]=$4;
 _st(self["@outerContainer"])._addMorph_(self["@innerContainer"]);
 return self}, function($ctx1) {$ctx1.fill(self,"initializeContainer",{},smalltalk.AthensScrollAreaMorph)})},
-messageSends: ["borderColor:", "transparent", "new", "fillColor:", "mouseDownFillColor:", "mouseFocusFillColor:", "addMorph:"]}),
+messageSends: ["borderColor:", "transparent", "new", "fillColor:", "mouseDownFillColor:", "mouseFocusFillColor:", "translateByX:Y:", "addMorph:"]}),
 smalltalk.AthensScrollAreaMorph);
 
 smalltalk.addMethod(
@@ -2194,8 +2195,8 @@ return smalltalk.withContext(function($ctx1) {
 var $1,$2;
 itemMorph=_st($AthensListItemMorph())._for_(anObject);
 $1=itemMorph;
-_st($1)._translateByX_Y_((0),self["@nextPositionY"]);
-_st($1)._width_(_st(self["@outerContainer"])._width());
+_st($1)._translateByX_Y_((-1),self["@nextPositionY"]);
+_st($1)._width_(_st(_st(self["@outerContainer"])._width()).__plus((1)));
 $2=_st($1)._onMouseClick_((function(){
 return smalltalk.withContext(function($ctx2) {
 return self._selectedItem_(itemMorph);
@@ -2203,7 +2204,7 @@ return self._selectedItem_(itemMorph);
 self._addMorph_(itemMorph);
 self["@nextPositionY"]=_st(_st(self["@nextPositionY"]).__plus(_st(itemMorph)._height())).__minus((1));
 return self}, function($ctx1) {$ctx1.fill(self,"addItem:",{anObject:anObject,itemMorph:itemMorph},smalltalk.AthensListBoxMorph)})},
-messageSends: ["for:", "translateByX:Y:", "width:", "width", "onMouseClick:", "selectedItem:", "addMorph:", "-", "+", "height"]}),
+messageSends: ["for:", "translateByX:Y:", "width:", "+", "width", "onMouseClick:", "selectedItem:", "addMorph:", "-", "height"]}),
 smalltalk.AthensListBoxMorph);
 
 smalltalk.addMethod(
@@ -2213,7 +2214,7 @@ fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 smalltalk.AthensScrollAreaMorph.fn.prototype._initialize.apply(_st(self), []);
-self["@nextPositionY"]=(0);
+self["@nextPositionY"]=(-1);
 self["@hasSharpBorder"]=true;
 return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensListBoxMorph)})},
 messageSends: ["initialize"]}),
@@ -2261,10 +2262,10 @@ return smalltalk.withContext(function($ctx1) {
 smalltalk.AthensScrollAreaMorph.fn.prototype._width_.apply(_st(self), [aNumber]);
 _st(_st(self["@innerContainer"])._submorphs())._do_((function(morph){
 return smalltalk.withContext(function($ctx2) {
-return _st(morph)._width_(_st(self["@outerContainer"])._width());
+return _st(morph)._width_(_st(_st(self["@outerContainer"])._width()).__plus((1)));
 }, function($ctx2) {$ctx2.fillBlock({morph:morph},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"width:",{aNumber:aNumber},smalltalk.AthensListBoxMorph)})},
-messageSends: ["width:", "do:", "width", "submorphs"]}),
+messageSends: ["width:", "do:", "+", "width", "submorphs"]}),
 smalltalk.AthensListBoxMorph);
 
 

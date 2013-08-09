@@ -1348,6 +1348,41 @@ step38
 	surface world addMorph: window.
 !
 
+step39
+	|window textMorph listBox|
+	"Step 39: [Morphic Demo] ListBoxMorph."
+	
+	window := AthensWindowMorph new.
+	window title: 'List Box Example'.
+
+	listBox := AthensListBoxMorph new
+		addItem: 'First Item';
+		addItem: 'Another Item';
+		addItem: 42;
+		addItem: Object new;	"ListBoxMorph displays anItem asString"
+		addItem: 'Last Item';
+		width: 150;
+		height: 75;
+		translateByX: 25 Y: 50;
+		yourself.
+
+	window addMorph: listBox.
+		
+	textMorph := AthensTextMorph new
+		text: '(Nothing selected)';
+		width: 150; height: 20;
+		translateByX: 25 Y: 140;
+		yourself.
+
+	"When the selection changes, the change event is triggered."
+	listBox onChange: [:selection | 
+		textMorph text: selection asString, ' (', selection class asString, ')'].
+
+	window addMorph: textMorph.
+
+	surface world addMorph: window.
+!
+
 step4
 "Step 4: Shapes and paints.
 
@@ -1582,8 +1617,8 @@ initialize
 
 nextStep
 	step := step + 1.
-	step > 38
-		ifTrue: [step := 38].
+	step > 39
+		ifTrue: [step := 39].
 	self showStep: step.
 !
 

@@ -960,7 +960,8 @@ initializeContainer
 		borderColor: Color transparent;
 		fillColor: Color transparent;
 		mouseDownFillColor: Color transparent;
-		mouseFocusFillColor: Color transparent.
+		mouseFocusFillColor: Color transparent;
+		translateByX: 1 Y: 1.		"ensure that upper and left border is always visible"
 	super addMorph: outerContainer.
 	innerContainer := AthensRectangleMorph new
 		borderColor: Color transparent;
@@ -1042,14 +1043,14 @@ AthensScrollAreaMorph subclass: #AthensListBoxMorph
 
 width: aNumber
 	super width: aNumber.
-	innerContainer submorphs do: [:morph | morph width: outerContainer width].
+	innerContainer submorphs do: [:morph | morph width: outerContainer width + 1].
 ! !
 
 !AthensListBoxMorph methodsFor: 'initialization'!
 
 initialize
 	super initialize.
-	nextPositionY := 0.
+	nextPositionY := -1.		"avoid double border"
 	hasSharpBorder := true.
 ! !
 
@@ -1059,8 +1060,8 @@ addItem: anObject
 	|itemMorph|
 	itemMorph := AthensListItemMorph for: anObject.
 	itemMorph 
-		translateByX: 0 Y: nextPositionY;
-		width: outerContainer width;
+		translateByX: -1 Y: nextPositionY;	"avoid double border"
+		width: outerContainer width + 1;
 		onMouseClick: [self selectedItem: itemMorph].
 	self addMorph: itemMorph.
 	nextPositionY := nextPositionY + itemMorph height - 1.

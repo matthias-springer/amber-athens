@@ -1220,6 +1220,49 @@ smalltalk.AthensTutorial);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "step39",
+fn: function (){
+var self=this;
+var window,textMorph,listBox;
+function $AthensWindowMorph(){return smalltalk.AthensWindowMorph||(typeof AthensWindowMorph=="undefined"?nil:AthensWindowMorph)}
+function $AthensListBoxMorph(){return smalltalk.AthensListBoxMorph||(typeof AthensListBoxMorph=="undefined"?nil:AthensListBoxMorph)}
+function $Object(){return smalltalk.Object||(typeof Object=="undefined"?nil:Object)}
+function $AthensTextMorph(){return smalltalk.AthensTextMorph||(typeof AthensTextMorph=="undefined"?nil:AthensTextMorph)}
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2,$3,$4;
+window=_st($AthensWindowMorph())._new();
+_st(window)._title_("List Box Example");
+$1=_st($AthensListBoxMorph())._new();
+_st($1)._addItem_("First Item");
+_st($1)._addItem_("Another Item");
+_st($1)._addItem_((42));
+_st($1)._addItem_(_st($Object())._new());
+_st($1)._addItem_("Last Item");
+_st($1)._width_((150));
+_st($1)._height_((75));
+_st($1)._translateByX_Y_((25),(50));
+$2=_st($1)._yourself();
+listBox=$2;
+_st(window)._addMorph_(listBox);
+$3=_st($AthensTextMorph())._new();
+_st($3)._text_("(Nothing selected)");
+_st($3)._width_((150));
+_st($3)._height_((20));
+_st($3)._translateByX_Y_((25),(140));
+$4=_st($3)._yourself();
+textMorph=$4;
+_st(listBox)._onChange_((function(selection){
+return smalltalk.withContext(function($ctx2) {
+return _st(textMorph)._text_(_st(_st(_st(_st(selection)._asString()).__comma(" (")).__comma(_st(_st(selection)._class())._asString())).__comma(")"));
+}, function($ctx2) {$ctx2.fillBlock({selection:selection},$ctx1)})}));
+_st(window)._addMorph_(textMorph);
+_st(_st(self["@surface"])._world())._addMorph_(window);
+return self}, function($ctx1) {$ctx1.fill(self,"step39",{window:window,textMorph:textMorph,listBox:listBox},smalltalk.AthensTutorial)})},
+messageSends: ["new", "title:", "addItem:", "width:", "height:", "translateByX:Y:", "yourself", "addMorph:", "text:", "onChange:", ",", "asString", "class", "world"]}),
+smalltalk.AthensTutorial);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "step4",
 fn: function (){
 var self=this;
@@ -1399,9 +1442,9 @@ var self=this;
 return smalltalk.withContext(function($ctx1) { 
 var $1;
 self["@step"]=_st(self["@step"]).__plus((1));
-$1=_st(self["@step"]).__gt((38));
+$1=_st(self["@step"]).__gt((39));
 if(smalltalk.assert($1)){
-self["@step"]=(38);
+self["@step"]=(39);
 self["@step"];
 };
 self._showStep_(self["@step"]);
