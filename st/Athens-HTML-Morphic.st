@@ -40,6 +40,15 @@ bindEvents
 	canvasTag asJQuery 
 		bind: 'mouseup' 
 		do: [:evt | world handleEvent: #mouseUp with: evt. evt preventDefault].
+	canvasTag asJQuery
+		bind: 'mousewheel DOMMouseScroll'
+		do: [:evt | world handleEvent: #mouseWheel with: (self wheelDeltaFrom: evt). evt preventDefault].
+!
+
+wheelDeltaFrom: evt
+	"This probably works only in Chrome."
+	(evt originalEvent at: #wheelDeltaX)
+		ifNotNil: [^ evt originalEvent wheelDeltaX/30 @ (evt originalEvent wheelDeltaY/30)].
 ! !
 
 !AthensHTMLMorphicSurface methodsFor: 'initialization'!

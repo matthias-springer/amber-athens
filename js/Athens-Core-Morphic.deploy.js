@@ -231,6 +231,22 @@ smalltalk.AthensMorph);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "handleMouseWheel:",
+fn: function (evt){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+_st(_st(self["@eventCallbacks"])._at_ifAbsent_("mouseWheel",(function(){
+return smalltalk.withContext(function($ctx2) {
+return (function(ev){
+return smalltalk.withContext(function($ctx3) {
+}, function($ctx3) {$ctx3.fillBlock({ev:ev},$ctx2)})});
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})})))._value_(evt);
+return self}, function($ctx1) {$ctx1.fill(self,"handleMouseWheel:",{evt:evt},smalltalk.AthensMorph)})},
+messageSends: ["value:", "at:ifAbsent:"]}),
+smalltalk.AthensMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "hide",
 fn: function (){
 var self=this;
@@ -446,6 +462,17 @@ var self=this;
 return smalltalk.withContext(function($ctx1) { 
 _st(self["@eventCallbacks"])._at_put_("mouseUp",aBlock);
 return self}, function($ctx1) {$ctx1.fill(self,"onMouseUp:",{aBlock:aBlock},smalltalk.AthensMorph)})},
+messageSends: ["at:put:"]}),
+smalltalk.AthensMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "onMouseWheel:",
+fn: function (aBlock){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+_st(self["@eventCallbacks"])._at_put_("mouseWheel",aBlock);
+return self}, function($ctx1) {$ctx1.fill(self,"onMouseWheel:",{aBlock:aBlock},smalltalk.AthensMorph)})},
 messageSends: ["at:put:"]}),
 smalltalk.AthensMorph);
 
@@ -1907,6 +1934,19 @@ smalltalk.AthensScrollAreaMorph);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "handleMouseWheel:",
+fn: function (evt){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+_st(self["@xScrollBar"])._value_(_st(_st(_st(self["@xScrollBar"])._buttonStepSize()).__star(_st(evt)._x())).__plus(_st(self["@xScrollBar"])._value()));
+_st(self["@yScrollBar"])._value_(_st(_st(_st(self["@yScrollBar"])._buttonStepSize()).__star(_st(evt)._y())).__plus(_st(self["@yScrollBar"])._value()));
+smalltalk.AthensRectangleMorph.fn.prototype._handleMouseWheel_.apply(_st(self), [evt]);
+return self}, function($ctx1) {$ctx1.fill(self,"handleMouseWheel:",{evt:evt},smalltalk.AthensScrollAreaMorph)})},
+messageSends: ["value:", "+", "value", "*", "x", "buttonStepSize", "y", "handleMouseWheel:"]}),
+smalltalk.AthensScrollAreaMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "hasXScrollBar",
 fn: function (){
 var self=this;
@@ -3218,7 +3258,7 @@ selector: "delegateEvent:with:",
 fn: function (aSymbol,evt){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1,$2,$3,$4,$5,$6;
+var $1,$2,$3,$4,$5,$6,$7;
 _st(self["@morphsUnderHand"])._do_((function(morph){
 return smalltalk.withContext(function($ctx2) {
 $1=_st(morph).__eq_eq(_st(self["@morphsUnderHand"])._last());
@@ -3246,11 +3286,15 @@ _st(morph)._handleMouseDown_(evt);
 };
 $6=_st(aSymbol).__eq_eq("mouseUp");
 if(smalltalk.assert($6)){
-return _st(morph)._handleMouseUp_(evt);
+_st(morph)._handleMouseUp_(evt);
+};
+$7=_st(aSymbol).__eq_eq("mouseWheel");
+if(smalltalk.assert($7)){
+return _st(morph)._handleMouseWheel_(evt);
 };
 }, function($ctx2) {$ctx2.fillBlock({morph:morph},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"delegateEvent:with:",{aSymbol:aSymbol,evt:evt},smalltalk.AthensWorldMorph)})},
-messageSends: ["do:", "ifTrue:ifFalse:", "basicAt:put:", "==", "last", "ifTrue:", "at:put:", "inverseTransform:", "globalPathTransform", "|", "handleMouseClick:", "handleMouseMove:", "handleMouseDown:", "handleMouseUp:"]}),
+messageSends: ["do:", "ifTrue:ifFalse:", "basicAt:put:", "==", "last", "ifTrue:", "at:put:", "inverseTransform:", "globalPathTransform", "|", "handleMouseClick:", "handleMouseMove:", "handleMouseDown:", "handleMouseUp:", "handleMouseWheel:"]}),
 smalltalk.AthensWorldMorph);
 
 smalltalk.addMethod(
@@ -3350,7 +3394,7 @@ self._updateMorphsUnderHandAt_(_st(_st(evt)._offsetX()).__at(_st(evt)._offsetY()
 self["@handPosition"]=_st(_st(evt)._offsetX()).__at(_st(evt)._offsetY());
 return self["@handPosition"];
 }, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
-_st(["mouseMove","mouseDown","mouseUp","mouseClick"])._do_((function(sym){
+_st(["mouseMove","mouseDown","mouseUp","mouseClick","mouseWheel"])._do_((function(sym){
 return smalltalk.withContext(function($ctx2) {
 return self._registerGlobalEvent_withCallback_(sym,(function(evt){
 return smalltalk.withContext(function($ctx3) {

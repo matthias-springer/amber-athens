@@ -107,6 +107,10 @@ handleMouseUp: evt
 	(eventCallbacks at: #mouseUp ifAbsent: [[:ev |]]) value: evt.
 !
 
+handleMouseWheel: evt
+	(eventCallbacks at: #mouseWheel ifAbsent: [[:ev | ]]) value: evt.
+!
+
 morphsAtPosition: aPoint
 	(globalOuterPolygon includesPoint: aPoint)
 		ifTrue: [submorphs reverseDo: [:morph |
@@ -145,6 +149,10 @@ onMouseMove: aBlock
 
 onMouseUp: aBlock
 	eventCallbacks at: #mouseUp put: aBlock.
+!
+
+onMouseWheel: aBlock
+	eventCallbacks at: #mouseWheel put: aBlock.
 !
 
 signalChange: evt
@@ -937,6 +945,12 @@ handleChangeY: evt
 	self updateVisibleArea.
 !
 
+handleMouseWheel: evt
+	xScrollBar value: xScrollBar buttonStepSize * evt x + xScrollBar value.
+	yScrollBar value: yScrollBar buttonStepSize * evt y + yScrollBar value.
+	super handleMouseWheel: evt.
+!
+
 updateVisibleArea
 	innerContainer
 		resetTransformation;
@@ -1580,7 +1594,8 @@ delegateEvent: aSymbol with: evt
 		aSymbol == #mouseClick ifTrue: [morph handleMouseClick: evt].
 		aSymbol == #mouseMove ifTrue: [morph handleMouseMove: evt].
 		aSymbol == #mouseDown ifTrue: [morph handleMouseDown: evt].
-		aSymbol == #mouseUp ifTrue: [morph handleMouseUp: evt]].
+		aSymbol == #mouseUp ifTrue: [morph handleMouseUp: evt].
+		aSymbol == #mouseWheel ifTrue: [morph handleMouseWheel: evt]].
 !
 
 handleEvent: aSymbol with: evt
@@ -1644,7 +1659,7 @@ initializeCallbacks
 	self registerGlobalEvent: #mouseMove withCallback: [:evt | 
 		self updateMorphsUnderHandAt: evt offsetX @ evt offsetY.
 		handPosition := evt offsetX @ evt offsetY].
-	{#mouseMove. #mouseDown. #mouseUp. #mouseClick} do: [:sym |
+	{#mouseMove. #mouseDown. #mouseUp. #mouseClick. #mouseWheel} do: [:sym |
 		self registerGlobalEvent: sym withCallback: [:evt | self delegateEvent: sym with: evt]].
 	"self registerGlobalEvent: #mouseClick withCallback: [:evt | self addHalosTo: morphBelowHand]."
 !
