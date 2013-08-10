@@ -1421,53 +1421,20 @@ initialize
 	globalUpHandler := [:evt | self processMouseUp: evt].
 ! !
 
-AthensMorph subclass: #AthensWindowMorph
-	instanceVariableNames: 'width height title font titleBarMorph titleTextMorph resizeMorph windowMoveHandler windowMoveOffset windowUpHandler closeButton'
+AthensRectangleMorph subclass: #AthensWindowMorph
+	instanceVariableNames: 'title titleBarMorph titleTextMorph resizeMorph windowMoveHandler windowMoveOffset windowUpHandler closeButton'
 	package: 'Athens-Core-Morphic'!
 
 !AthensWindowMorph methodsFor: 'accessing'!
 
-height
-	^ height
-!
-
-height: aNumber
-	height := aNumber.
-	self layoutChanged.
-	self redraw.
+title
+	^ title
 !
 
 title: aString
 	title := aString.
 	titleTextMorph text: aString.
 	self redraw.
-!
-
-width
-	^ width
-!
-
-width: aNumber
-	width := aNumber.
-	self layoutChanged.
-	self redraw.
-! !
-
-!AthensWindowMorph methodsFor: 'drawing'!
-
-drawOn: canvas
-	|shape|
-	shape := 0@0 corner: width@height.
-	canvas setPaint: Color white.
-	canvas drawShape: shape.
-	canvas setStrokePaint: Color black.
-	canvas drawShape: shape.
-	self outerShape: shape.
-!
-
-redraw
-	titleBarMorph width: width - 10.
-	super redraw.
 ! !
 
 !AthensWindowMorph methodsFor: 'events'!
@@ -1497,10 +1464,10 @@ windowMouseUp: evt
 initialize
 	super initialize.
 	width := height := 200.
+	hasSharpBorder := true.
 	self initializeTitleBar.
 	self initializeEvents.
 	self initializeResizeIcon.
-	font := LogicalFont familyName: 'Arial' pointSize: '14'.
 !
 
 initializeEvents
@@ -1543,6 +1510,7 @@ initializeTitleBar
 
 layoutChanged
 	submorphs do: [:morph | morph layoutChanged].
+	titleBarMorph width: width - 10.
 	closeButton resetTransformation.
 	closeButton translateByX: width - 25 Y: 2.
 	resizeMorph resetTransformation.
