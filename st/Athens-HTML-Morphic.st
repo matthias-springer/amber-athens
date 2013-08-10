@@ -13,7 +13,7 @@ surface: anHTMLSurface
 ! !
 
 AthensHTMLSurface subclass: #AthensHTMLMorphicSurface
-	instanceVariableNames: 'world morphBelowHand'
+	instanceVariableNames: 'world morphBelowHand isMouseDown'
 	package: 'Athens-HTML-Morphic'!
 
 !AthensHTMLMorphicSurface methodsFor: 'accessing'!
@@ -33,7 +33,7 @@ bindEvents
 		do: [:evt | world handleEvent: #mouseClick with: evt. evt preventDefault].
 	canvasTag asJQuery 
 		bind: 'mousedown' 
-		do: [:evt | world handleEvent: #mouseDown with: evt. evt preventDefault].
+		do: [:evt | isMouseDown := true. world handleEvent: #mouseDown with: evt. evt preventDefault].
 	canvasTag asJQuery 
 		bind: 'mousemove' 
 		do: [:evt | world handleEvent: #mouseMove with: evt. evt preventDefault].
@@ -43,6 +43,16 @@ bindEvents
 	canvasTag asJQuery
 		bind: 'mousewheel DOMMouseScroll'
 		do: [:evt | world handleEvent: #mouseWheel with: (self wheelDeltaFrom: evt). evt preventDefault].
+	canvasTag asJQuery
+		bind: 'mouseleave'
+		do: [:evt | self handleMouseLeave: evt].
+!
+
+handleMouseLeave: evt
+	"Trigger mouse up if canvas loses mouse focus."
+	isMouseDown ifTrue: [
+		world handleEvent: #mouseUp with: evt.
+		isMouseDown := false].
 !
 
 wheelDeltaFrom: evt
@@ -56,6 +66,7 @@ wheelDeltaFrom: evt
 initialize
 	super initialize.
 	world := AthensWorldMorph forSurface: self.
+	isMouseDown := true.
 	self bindEvents.
 ! !
 

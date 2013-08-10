@@ -19,7 +19,7 @@ smalltalk.AthensHTMLMorphicCanvas);
 
 
 
-smalltalk.addClass('AthensHTMLMorphicSurface', smalltalk.AthensHTMLSurface, ['world', 'morphBelowHand'], 'Athens-HTML-Morphic');
+smalltalk.addClass('AthensHTMLMorphicSurface', smalltalk.AthensHTMLSurface, ['world', 'morphBelowHand', 'isMouseDown'], 'Athens-HTML-Morphic');
 smalltalk.addMethod(
 smalltalk.method({
 selector: "bindEvents",
@@ -38,6 +38,8 @@ return _st(evt)._preventDefault();
 }, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
 _st(_st(self["@canvasTag"])._asJQuery())._bind_do_("mousedown",(function(evt){
 return smalltalk.withContext(function($ctx2) {
+self["@isMouseDown"]=true;
+self["@isMouseDown"];
 _st(self["@world"])._handleEvent_with_("mouseDown",evt);
 return _st(evt)._preventDefault();
 }, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
@@ -56,8 +58,29 @@ return smalltalk.withContext(function($ctx2) {
 _st(self["@world"])._handleEvent_with_("mouseWheel",self._wheelDeltaFrom_(evt));
 return _st(evt)._preventDefault();
 }, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
+_st(_st(self["@canvasTag"])._asJQuery())._bind_do_("mouseleave",(function(evt){
+return smalltalk.withContext(function($ctx2) {
+return self._handleMouseLeave_(evt);
+}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"bindEvents",{},smalltalk.AthensHTMLMorphicSurface)})},
-messageSends: ["bind:do:", "handleEvent:with:", "preventDefault", "asJQuery", "wheelDeltaFrom:"]}),
+messageSends: ["bind:do:", "handleEvent:with:", "preventDefault", "asJQuery", "wheelDeltaFrom:", "handleMouseLeave:"]}),
+smalltalk.AthensHTMLMorphicSurface);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "handleMouseLeave:",
+fn: function (evt){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self["@isMouseDown"];
+if(smalltalk.assert($1)){
+_st(self["@world"])._handleEvent_with_("mouseUp",evt);
+self["@isMouseDown"]=false;
+self["@isMouseDown"];
+};
+return self}, function($ctx1) {$ctx1.fill(self,"handleMouseLeave:",{evt:evt},smalltalk.AthensHTMLMorphicSurface)})},
+messageSends: ["ifTrue:", "handleEvent:with:"]}),
 smalltalk.AthensHTMLMorphicSurface);
 
 smalltalk.addMethod(
@@ -69,6 +92,7 @@ function $AthensWorldMorph(){return smalltalk.AthensWorldMorph||(typeof AthensWo
 return smalltalk.withContext(function($ctx1) { 
 smalltalk.AthensHTMLSurface.fn.prototype._initialize.apply(_st(self), []);
 self["@world"]=_st($AthensWorldMorph())._forSurface_(self);
+self["@isMouseDown"]=true;
 self._bindEvents();
 return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensHTMLMorphicSurface)})},
 messageSends: ["initialize", "forSurface:", "bindEvents"]}),
