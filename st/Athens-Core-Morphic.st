@@ -79,7 +79,11 @@ handleChange: evt
 !
 
 handleMouseClick: evt
-	(eventCallbacks at: #mouseClick ifAbsent: [[:ev | ]]) value: evt.
+	evt ctrlKeyPressed & (evt topMost)
+		ifTrue: [self world addHalosTo: self]
+		ifFalse: [(eventCallbacks at: #mouseClick ifAbsent: [[:ev | ]]) value: evt].
+	evt ctrlKeyPressed not & evt topMost
+		ifTrue: [self world hideHalos].
 !
 
 handleMouseDown: evt
@@ -946,8 +950,8 @@ handleChangeY: evt
 !
 
 handleMouseWheel: evt
-	xScrollBar value: xScrollBar buttonStepSize * evt x + xScrollBar value.
-	yScrollBar value: yScrollBar buttonStepSize * evt y + yScrollBar value.
+	xScrollBar value: xScrollBar buttonStepSize * (evt at: #wheelDelta) x + xScrollBar value.
+	yScrollBar value: yScrollBar buttonStepSize * (evt at: #wheelDelta) y + yScrollBar value.
 	super handleMouseWheel: evt.
 !
 
@@ -1141,7 +1145,7 @@ handleIncrease
 !
 
 sliderMouseMove: evt
-	self value: (globalPathTransform inverseTransform: evt position) y - 10 / (height - 20).
+	self value: (globalPathTransform inverseTransform: (evt at: #position)) y - 10 / (height - 20).
 !
 
 sliderMouseUp: evt
@@ -1459,13 +1463,13 @@ handleMouseClick: evt
 !
 
 handleMouseDown: evt
-	windowMoveOffset := evt position.
+	windowMoveOffset := evt at: #position.
 	self bringToFront.
 	super handleMouseDown: evt.
 !
 
 windowMouseMove: evt
-	self translateBy: (globalPathTransform inverseTransform: evt offsetX @ evt offsetY) - windowMoveOffset.
+	self translateBy: (globalPathTransform inverseTransform: (evt at: #globalPosition)) - windowMoveOffset.
 !
 
 windowMouseUp: evt
@@ -1582,9 +1586,9 @@ redrawHalosOn: canvas
 
 delegateEvent: aSymbol with: evt
 	morphsUnderHand do: [:morph |
-		morph == morphsUnderHand last
-			ifTrue: [evt basicAt: #topMost put: true]
-			ifFalse: [evt basicAt: #topMost put: false].
+		morph == morphsUnderHand first
+			ifTrue: [evt at: #topMost put: true]
+			ifFalse: [evt at: #topMost put: false].
 				
 		aSymbol == #mouseMove | (aSymbol == #mouseClick) | (aSymbol == #mouseDown) | (aSymbol == #mouseUp)
 			ifTrue: [
@@ -1657,11 +1661,10 @@ initializeBackgroundPaint
 initializeCallbacks
 	globalEventCallbacks := Dictionary new.
 	self registerGlobalEvent: #mouseMove withCallback: [:evt | 
-		self updateMorphsUnderHandAt: evt offsetX @ evt offsetY.
-		handPosition := evt offsetX @ evt offsetY].
+		handPosition := evt at: #globalPosition.
+		self updateMorphsUnderHandAt: handPosition].
 	{#mouseMove. #mouseDown. #mouseUp. #mouseClick. #mouseWheel} do: [:sym |
 		self registerGlobalEvent: sym withCallback: [:evt | self delegateEvent: sym with: evt]].
-	"self registerGlobalEvent: #mouseClick withCallback: [:evt | self addHalosTo: morphBelowHand]."
 !
 
 initializeHalos
@@ -1727,6 +1730,9 @@ initialize
 
 !AthensDummyWorldMorph methodsFor: 'morph handling'!
 
+addHalosTo: aMorph
+!
+
 maxZIndex
 	^ 0
 !
@@ -1741,6 +1747,16 @@ AthensDummyWorldMorph class instanceVariableNames: 'instance'!
 instance
 	instance ifNil: [instance := self new].
 	^ instance
+! !
+
+Dictionary subclass: #AthensMorphicEvent
+	instanceVariableNames: ''
+	package: 'Athens-Core-Morphic'!
+
+!AthensMorphicEvent methodsFor: 'method wrapper'!
+
+doesNotUnderstand: aMessage
+	^ self at: aMessage selector
 ! !
 
 Object subclass: #WorldState

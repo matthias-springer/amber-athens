@@ -28,34 +28,34 @@ var self=this;
 return smalltalk.withContext(function($ctx1) { 
 _st(_st(self["@canvasTag"])._asJQuery())._bind_do_("dblclick",(function(evt){
 return smalltalk.withContext(function($ctx2) {
-_st(self["@world"])._handleEvent_with_("mouseDoubleClick",evt);
+_st(self["@world"])._handleEvent_with_("mouseDoubleClick",self._mouseDoubleClickEventDataFor_(evt));
 return _st(evt)._preventDefault();
 }, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
 _st(_st(self["@canvasTag"])._asJQuery())._bind_do_("click",(function(evt){
 return smalltalk.withContext(function($ctx2) {
-_st(self["@world"])._handleEvent_with_("mouseClick",evt);
+_st(self["@world"])._handleEvent_with_("mouseClick",self._mouseClickEventDataFor_(evt));
 return _st(evt)._preventDefault();
 }, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
 _st(_st(self["@canvasTag"])._asJQuery())._bind_do_("mousedown",(function(evt){
 return smalltalk.withContext(function($ctx2) {
 self["@isMouseDown"]=true;
 self["@isMouseDown"];
-_st(self["@world"])._handleEvent_with_("mouseDown",evt);
+_st(self["@world"])._handleEvent_with_("mouseDown",self._mouseDownEventDataFor_(evt));
 return _st(evt)._preventDefault();
 }, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
 _st(_st(self["@canvasTag"])._asJQuery())._bind_do_("mousemove",(function(evt){
 return smalltalk.withContext(function($ctx2) {
-_st(self["@world"])._handleEvent_with_("mouseMove",evt);
+_st(self["@world"])._handleEvent_with_("mouseMove",self._mouseMoveEventDataFor_(evt));
 return _st(evt)._preventDefault();
 }, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
 _st(_st(self["@canvasTag"])._asJQuery())._bind_do_("mouseup",(function(evt){
 return smalltalk.withContext(function($ctx2) {
-_st(self["@world"])._handleEvent_with_("mouseUp",evt);
+_st(self["@world"])._handleEvent_with_("mouseUp",self._mouseUpEventDataFor_(evt));
 return _st(evt)._preventDefault();
 }, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
 _st(_st(self["@canvasTag"])._asJQuery())._bind_do_("mousewheel DOMMouseScroll",(function(evt){
 return smalltalk.withContext(function($ctx2) {
-_st(self["@world"])._handleEvent_with_("mouseWheel",self._wheelDeltaFrom_(evt));
+_st(self["@world"])._handleEvent_with_("mouseWheel",self._mouseWheelEventDataFor_(evt));
 return _st(evt)._preventDefault();
 }, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
 _st(_st(self["@canvasTag"])._asJQuery())._bind_do_("mouseleave",(function(evt){
@@ -63,7 +63,7 @@ return smalltalk.withContext(function($ctx2) {
 return self._handleMouseLeave_(evt);
 }, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"bindEvents",{},smalltalk.AthensHTMLMorphicSurface)})},
-messageSends: ["bind:do:", "handleEvent:with:", "preventDefault", "asJQuery", "wheelDeltaFrom:", "handleMouseLeave:"]}),
+messageSends: ["bind:do:", "handleEvent:with:", "mouseDoubleClickEventDataFor:", "preventDefault", "asJQuery", "mouseClickEventDataFor:", "mouseDownEventDataFor:", "mouseMoveEventDataFor:", "mouseUpEventDataFor:", "mouseWheelEventDataFor:", "handleMouseLeave:"]}),
 smalltalk.AthensHTMLMorphicSurface);
 
 smalltalk.addMethod(
@@ -100,6 +100,99 @@ smalltalk.AthensHTMLMorphicSurface);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "mouseClickEventDataFor:",
+fn: function (evt){
+var self=this;
+function $AthensMorphicEvent(){return smalltalk.AthensMorphicEvent||(typeof AthensMorphicEvent=="undefined"?nil:AthensMorphicEvent)}
+return smalltalk.withContext(function($ctx1) { 
+var $2,$3,$1;
+$2=_st($AthensMorphicEvent())._new();
+_st($2)._at_put_("ctrlKeyPressed",_st(evt)._ctrlKey());
+$3=_st($2)._yourself();
+$1=$3;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"mouseClickEventDataFor:",{evt:evt},smalltalk.AthensHTMLMorphicSurface)})},
+messageSends: ["at:put:", "ctrlKey", "new", "yourself"]}),
+smalltalk.AthensHTMLMorphicSurface);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "mouseDoubleClickEventDataFor:",
+fn: function (evt){
+var self=this;
+function $AthensMorphicEvent(){return smalltalk.AthensMorphicEvent||(typeof AthensMorphicEvent=="undefined"?nil:AthensMorphicEvent)}
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st($AthensMorphicEvent())._new();
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"mouseDoubleClickEventDataFor:",{evt:evt},smalltalk.AthensHTMLMorphicSurface)})},
+messageSends: ["new"]}),
+smalltalk.AthensHTMLMorphicSurface);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "mouseDownEventDataFor:",
+fn: function (evt){
+var self=this;
+function $AthensMorphicEvent(){return smalltalk.AthensMorphicEvent||(typeof AthensMorphicEvent=="undefined"?nil:AthensMorphicEvent)}
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st($AthensMorphicEvent())._new();
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"mouseDownEventDataFor:",{evt:evt},smalltalk.AthensHTMLMorphicSurface)})},
+messageSends: ["new"]}),
+smalltalk.AthensHTMLMorphicSurface);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "mouseMoveEventDataFor:",
+fn: function (evt){
+var self=this;
+function $AthensMorphicEvent(){return smalltalk.AthensMorphicEvent||(typeof AthensMorphicEvent=="undefined"?nil:AthensMorphicEvent)}
+return smalltalk.withContext(function($ctx1) { 
+var $2,$3,$1;
+$2=_st($AthensMorphicEvent())._new();
+_st($2)._at_put_("globalPosition",_st(_st(evt)._offsetX()).__at(_st(evt)._offsetY()));
+$3=_st($2)._yourself();
+$1=$3;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"mouseMoveEventDataFor:",{evt:evt},smalltalk.AthensHTMLMorphicSurface)})},
+messageSends: ["at:put:", "@", "offsetY", "offsetX", "new", "yourself"]}),
+smalltalk.AthensHTMLMorphicSurface);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "mouseUpEventDataFor:",
+fn: function (evt){
+var self=this;
+function $AthensMorphicEvent(){return smalltalk.AthensMorphicEvent||(typeof AthensMorphicEvent=="undefined"?nil:AthensMorphicEvent)}
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st($AthensMorphicEvent())._new();
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"mouseUpEventDataFor:",{evt:evt},smalltalk.AthensHTMLMorphicSurface)})},
+messageSends: ["new"]}),
+smalltalk.AthensHTMLMorphicSurface);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "mouseWheelEventDataFor:",
+fn: function (evt){
+var self=this;
+var evtData;
+function $AthensMorphicEvent(){return smalltalk.AthensMorphicEvent||(typeof AthensMorphicEvent=="undefined"?nil:AthensMorphicEvent)}
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+evtData=_st($AthensMorphicEvent())._new();
+_st(evtData)._at_put_("wheelDelta",_st(_st(_st(_st(evt)._originalEvent())._wheelDeltaX()).__slash((30))).__at(_st(_st(_st(evt)._originalEvent())._wheelDeltaY()).__slash((30))));
+$1=evtData;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"mouseWheelEventDataFor:",{evt:evt,evtData:evtData},smalltalk.AthensHTMLMorphicSurface)})},
+messageSends: ["new", "at:put:", "@", "/", "wheelDeltaY", "originalEvent", "wheelDeltaX"]}),
+smalltalk.AthensHTMLMorphicSurface);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "newCanvas",
 fn: function (){
 var self=this;
@@ -122,24 +215,6 @@ smalltalk.AthensHTMLSurface.fn.prototype._renderOn_.apply(_st(self), [html]);
 _st(self["@world"])._redraw();
 return self}, function($ctx1) {$ctx1.fill(self,"renderOn:",{html:html},smalltalk.AthensHTMLMorphicSurface)})},
 messageSends: ["renderOn:", "redraw"]}),
-smalltalk.AthensHTMLMorphicSurface);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "wheelDeltaFrom:",
-fn: function (evt){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-var $1,$2;
-$1=_st(_st(evt)._originalEvent())._at_("wheelDeltaX");
-if(($receiver = $1) == nil || $receiver == undefined){
-$1;
-} else {
-$2=_st(_st(_st(_st(evt)._originalEvent())._wheelDeltaX()).__slash((30))).__at(_st(_st(_st(evt)._originalEvent())._wheelDeltaY()).__slash((30)));
-return $2;
-};
-return self}, function($ctx1) {$ctx1.fill(self,"wheelDeltaFrom:",{evt:evt},smalltalk.AthensHTMLMorphicSurface)})},
-messageSends: ["ifNotNil:", "@", "/", "wheelDeltaY", "originalEvent", "wheelDeltaX", "at:"]}),
 smalltalk.AthensHTMLMorphicSurface);
 
 smalltalk.addMethod(

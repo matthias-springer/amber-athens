@@ -27,22 +27,22 @@ world
 bindEvents
 	canvasTag asJQuery 
 		bind: 'dblclick' 
-		do: [:evt | world handleEvent: #mouseDoubleClick with: evt. evt preventDefault].
+		do: [:evt | world handleEvent: #mouseDoubleClick with: (self mouseDoubleClickEventDataFor: evt). evt preventDefault].
 	canvasTag asJQuery 
 		bind: 'click' 
-		do: [:evt | world handleEvent: #mouseClick with: evt. evt preventDefault].
+		do: [:evt | world handleEvent: #mouseClick with: (self mouseClickEventDataFor: evt). evt preventDefault].
 	canvasTag asJQuery 
 		bind: 'mousedown' 
-		do: [:evt | isMouseDown := true. world handleEvent: #mouseDown with: evt. evt preventDefault].
+		do: [:evt | isMouseDown := true. world handleEvent: #mouseDown with: (self mouseDownEventDataFor: evt). evt preventDefault].
 	canvasTag asJQuery 
 		bind: 'mousemove' 
-		do: [:evt | world handleEvent: #mouseMove with: evt. evt preventDefault].
+		do: [:evt | world handleEvent: #mouseMove with: (self mouseMoveEventDataFor: evt). evt preventDefault].
 	canvasTag asJQuery 
 		bind: 'mouseup' 
-		do: [:evt | world handleEvent: #mouseUp with: evt. evt preventDefault].
+		do: [:evt | world handleEvent: #mouseUp with: (self mouseUpEventDataFor: evt). evt preventDefault].
 	canvasTag asJQuery
 		bind: 'mousewheel DOMMouseScroll'
-		do: [:evt | world handleEvent: #mouseWheel with: (self wheelDeltaFrom: evt). evt preventDefault].
+		do: [:evt | world handleEvent: #mouseWheel with: (self mouseWheelEventDataFor: evt). evt preventDefault].
 	canvasTag asJQuery
 		bind: 'mouseleave'
 		do: [:evt | self handleMouseLeave: evt].
@@ -55,10 +55,37 @@ handleMouseLeave: evt
 		isMouseDown := false].
 !
 
-wheelDeltaFrom: evt
+mouseClickEventDataFor: evt
+	^ AthensMorphicEvent new
+		at: #ctrlKeyPressed put: evt ctrlKey;
+		yourself.
+!
+
+mouseDoubleClickEventDataFor: evt
+	^ AthensMorphicEvent new
+!
+
+mouseDownEventDataFor: evt
+	^ AthensMorphicEvent new
+!
+
+mouseMoveEventDataFor: evt
+	^ AthensMorphicEvent new
+		at: #globalPosition put: evt offsetX @ evt offsetY;
+		yourself
+!
+
+mouseUpEventDataFor: evt
+	^ AthensMorphicEvent new
+!
+
+mouseWheelEventDataFor: evt
+	|evtData|
+	evtData := AthensMorphicEvent new.
+	
 	"This probably works only in Chrome."
-	(evt originalEvent at: #wheelDeltaX)
-		ifNotNil: [^ evt originalEvent wheelDeltaX/30 @ (evt originalEvent wheelDeltaY/30)].
+	evtData at: #wheelDelta put: evt originalEvent wheelDeltaX/30 @ (evt originalEvent wheelDeltaY/30).
+	^ evtData
 ! !
 
 !AthensHTMLMorphicSurface methodsFor: 'initialization'!

@@ -140,14 +140,24 @@ selector: "handleMouseClick:",
 fn: function (evt){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
+var $1,$2;
+$1=_st(_st(evt)._ctrlKeyPressed()).__and(_st(evt)._topMost());
+if(smalltalk.assert($1)){
+_st(self._world())._addHalosTo_(self);
+} else {
 _st(_st(self["@eventCallbacks"])._at_ifAbsent_("mouseClick",(function(){
 return smalltalk.withContext(function($ctx2) {
 return (function(ev){
 return smalltalk.withContext(function($ctx3) {
 }, function($ctx3) {$ctx3.fillBlock({ev:ev},$ctx2)})});
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1)})})))._value_(evt);
+};
+$2=_st(_st(_st(evt)._ctrlKeyPressed())._not()).__and(_st(evt)._topMost());
+if(smalltalk.assert($2)){
+_st(self._world())._hideHalos();
+};
 return self}, function($ctx1) {$ctx1.fill(self,"handleMouseClick:",{evt:evt},smalltalk.AthensMorph)})},
-messageSends: ["value:", "at:ifAbsent:"]}),
+messageSends: ["ifTrue:ifFalse:", "addHalosTo:", "world", "value:", "at:ifAbsent:", "&", "topMost", "ctrlKeyPressed", "ifTrue:", "hideHalos", "not"]}),
 smalltalk.AthensMorph);
 
 smalltalk.addMethod(
@@ -1938,11 +1948,11 @@ selector: "handleMouseWheel:",
 fn: function (evt){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-_st(self["@xScrollBar"])._value_(_st(_st(_st(self["@xScrollBar"])._buttonStepSize()).__star(_st(evt)._x())).__plus(_st(self["@xScrollBar"])._value()));
-_st(self["@yScrollBar"])._value_(_st(_st(_st(self["@yScrollBar"])._buttonStepSize()).__star(_st(evt)._y())).__plus(_st(self["@yScrollBar"])._value()));
+_st(self["@xScrollBar"])._value_(_st(_st(_st(self["@xScrollBar"])._buttonStepSize()).__star(_st(_st(evt)._at_("wheelDelta"))._x())).__plus(_st(self["@xScrollBar"])._value()));
+_st(self["@yScrollBar"])._value_(_st(_st(_st(self["@yScrollBar"])._buttonStepSize()).__star(_st(_st(evt)._at_("wheelDelta"))._y())).__plus(_st(self["@yScrollBar"])._value()));
 smalltalk.AthensRectangleMorph.fn.prototype._handleMouseWheel_.apply(_st(self), [evt]);
 return self}, function($ctx1) {$ctx1.fill(self,"handleMouseWheel:",{evt:evt},smalltalk.AthensScrollAreaMorph)})},
-messageSends: ["value:", "+", "value", "*", "x", "buttonStepSize", "y", "handleMouseWheel:"]}),
+messageSends: ["value:", "+", "value", "*", "x", "at:", "buttonStepSize", "y", "handleMouseWheel:"]}),
 smalltalk.AthensScrollAreaMorph);
 
 smalltalk.addMethod(
@@ -2501,9 +2511,9 @@ selector: "sliderMouseMove:",
 fn: function (evt){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self._value_(_st(_st(_st(_st(self["@globalPathTransform"])._inverseTransform_(_st(evt)._position()))._y()).__minus((10))).__slash(_st(self["@height"]).__minus((20))));
+self._value_(_st(_st(_st(_st(self["@globalPathTransform"])._inverseTransform_(_st(evt)._at_("position")))._y()).__minus((10))).__slash(_st(self["@height"]).__minus((20))));
 return self}, function($ctx1) {$ctx1.fill(self,"sliderMouseMove:",{evt:evt},smalltalk.AthensScrollBarMorph)})},
-messageSends: ["value:", "/", "-", "y", "inverseTransform:", "position"]}),
+messageSends: ["value:", "/", "-", "y", "inverseTransform:", "at:"]}),
 smalltalk.AthensScrollBarMorph);
 
 smalltalk.addMethod(
@@ -3046,11 +3056,11 @@ selector: "handleMouseDown:",
 fn: function (evt){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self["@windowMoveOffset"]=_st(evt)._position();
+self["@windowMoveOffset"]=_st(evt)._at_("position");
 self._bringToFront();
 smalltalk.AthensRectangleMorph.fn.prototype._handleMouseDown_.apply(_st(self), [evt]);
 return self}, function($ctx1) {$ctx1.fill(self,"handleMouseDown:",{evt:evt},smalltalk.AthensWindowMorph)})},
-messageSends: ["position", "bringToFront", "handleMouseDown:"]}),
+messageSends: ["at:", "bringToFront", "handleMouseDown:"]}),
 smalltalk.AthensWindowMorph);
 
 smalltalk.addMethod(
@@ -3194,9 +3204,9 @@ selector: "windowMouseMove:",
 fn: function (evt){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self._translateBy_(_st(_st(self["@globalPathTransform"])._inverseTransform_(_st(_st(evt)._offsetX()).__at(_st(evt)._offsetY()))).__minus(self["@windowMoveOffset"]));
+self._translateBy_(_st(_st(self["@globalPathTransform"])._inverseTransform_(_st(evt)._at_("globalPosition"))).__minus(self["@windowMoveOffset"]));
 return self}, function($ctx1) {$ctx1.fill(self,"windowMouseMove:",{evt:evt},smalltalk.AthensWindowMorph)})},
-messageSends: ["translateBy:", "-", "inverseTransform:", "@", "offsetY", "offsetX"]}),
+messageSends: ["translateBy:", "-", "inverseTransform:", "at:"]}),
 smalltalk.AthensWindowMorph);
 
 smalltalk.addMethod(
@@ -3261,11 +3271,11 @@ return smalltalk.withContext(function($ctx1) {
 var $1,$2,$3,$4,$5,$6,$7;
 _st(self["@morphsUnderHand"])._do_((function(morph){
 return smalltalk.withContext(function($ctx2) {
-$1=_st(morph).__eq_eq(_st(self["@morphsUnderHand"])._last());
+$1=_st(morph).__eq_eq(_st(self["@morphsUnderHand"])._first());
 if(smalltalk.assert($1)){
-_st(evt)._basicAt_put_("topMost",true);
+_st(evt)._at_put_("topMost",true);
 } else {
-_st(evt)._basicAt_put_("topMost",false);
+_st(evt)._at_put_("topMost",false);
 };
 $2=_st(_st(_st(_st(aSymbol).__eq_eq("mouseMove")).__or(_st(aSymbol).__eq_eq("mouseClick"))).__or(_st(aSymbol).__eq_eq("mouseDown"))).__or(_st(aSymbol).__eq_eq("mouseUp"));
 if(smalltalk.assert($2)){
@@ -3294,7 +3304,7 @@ return _st(morph)._handleMouseWheel_(evt);
 };
 }, function($ctx2) {$ctx2.fillBlock({morph:morph},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"delegateEvent:with:",{aSymbol:aSymbol,evt:evt},smalltalk.AthensWorldMorph)})},
-messageSends: ["do:", "ifTrue:ifFalse:", "basicAt:put:", "==", "last", "ifTrue:", "at:put:", "inverseTransform:", "globalPathTransform", "|", "handleMouseClick:", "handleMouseMove:", "handleMouseDown:", "handleMouseUp:", "handleMouseWheel:"]}),
+messageSends: ["do:", "ifTrue:ifFalse:", "at:put:", "==", "first", "ifTrue:", "inverseTransform:", "globalPathTransform", "|", "handleMouseClick:", "handleMouseMove:", "handleMouseDown:", "handleMouseUp:", "handleMouseWheel:"]}),
 smalltalk.AthensWorldMorph);
 
 smalltalk.addMethod(
@@ -3390,9 +3400,9 @@ return smalltalk.withContext(function($ctx1) {
 self["@globalEventCallbacks"]=_st($Dictionary())._new();
 self._registerGlobalEvent_withCallback_("mouseMove",(function(evt){
 return smalltalk.withContext(function($ctx2) {
-self._updateMorphsUnderHandAt_(_st(_st(evt)._offsetX()).__at(_st(evt)._offsetY()));
-self["@handPosition"]=_st(_st(evt)._offsetX()).__at(_st(evt)._offsetY());
-return self["@handPosition"];
+self["@handPosition"]=_st(evt)._at_("globalPosition");
+self["@handPosition"];
+return self._updateMorphsUnderHandAt_(self["@handPosition"]);
 }, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
 _st(["mouseMove","mouseDown","mouseUp","mouseClick","mouseWheel"])._do_((function(sym){
 return smalltalk.withContext(function($ctx2) {
@@ -3402,7 +3412,7 @@ return self._delegateEvent_with_(sym,evt);
 }, function($ctx3) {$ctx3.fillBlock({evt:evt},$ctx2)})}));
 }, function($ctx2) {$ctx2.fillBlock({sym:sym},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"initializeCallbacks",{},smalltalk.AthensWorldMorph)})},
-messageSends: ["new", "registerGlobalEvent:withCallback:", "updateMorphsUnderHandAt:", "@", "offsetY", "offsetX", "do:", "delegateEvent:with:"]}),
+messageSends: ["new", "registerGlobalEvent:withCallback:", "at:", "updateMorphsUnderHandAt:", "do:", "delegateEvent:with:"]}),
 smalltalk.AthensWorldMorph);
 
 smalltalk.addMethod(
@@ -3631,6 +3641,16 @@ smalltalk.AthensWorldMorph.klass);
 smalltalk.addClass('AthensDummyWorldMorph', smalltalk.AthensWorldMorph, [], 'Athens-Core-Morphic');
 smalltalk.addMethod(
 smalltalk.method({
+selector: "addHalosTo:",
+fn: function (aMorph){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+return self}, function($ctx1) {$ctx1.fill(self,"addHalosTo:",{aMorph:aMorph},smalltalk.AthensDummyWorldMorph)})},
+messageSends: []}),
+smalltalk.AthensDummyWorldMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "initialize",
 fn: function (){
 var self=this;
@@ -3693,6 +3713,22 @@ return $2;
 }, function($ctx1) {$ctx1.fill(self,"instance",{},smalltalk.AthensDummyWorldMorph.klass)})},
 messageSends: ["ifNil:", "new"]}),
 smalltalk.AthensDummyWorldMorph.klass);
+
+
+smalltalk.addClass('AthensMorphicEvent', smalltalk.Dictionary, [], 'Athens-Core-Morphic');
+smalltalk.addMethod(
+smalltalk.method({
+selector: "doesNotUnderstand:",
+fn: function (aMessage){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self._at_(_st(aMessage)._selector());
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"doesNotUnderstand:",{aMessage:aMessage},smalltalk.AthensMorphicEvent)})},
+messageSends: ["at:", "selector"]}),
+smalltalk.AthensMorphicEvent);
+
 
 
 smalltalk.addClass('WorldState', smalltalk.Object, ['needsRedraw', 'world'], 'Athens-Core-Morphic');
