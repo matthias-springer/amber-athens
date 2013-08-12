@@ -181,6 +181,48 @@ smalltalk.AthensMorph);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "handleKeyDown:",
+category: 'events',
+fn: function (evt){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+_st(_st(self["@eventCallbacks"])._at_ifAbsent_("keyDown",(function(){
+return smalltalk.withContext(function($ctx2) {
+return (function(ev){
+return smalltalk.withContext(function($ctx3) {
+}, function($ctx3) {$ctx3.fillBlock({ev:ev},$ctx2)})});
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})})))._value_(evt);
+return self}, function($ctx1) {$ctx1.fill(self,"handleKeyDown:",{evt:evt},smalltalk.AthensMorph)})},
+args: ["evt"],
+source: "handleKeyDown: evt\x0a\x09(eventCallbacks at: #keyDown ifAbsent: [[:ev | ]]) value: evt.",
+messageSends: ["value:", "at:ifAbsent:"],
+referencedClasses: []
+}),
+smalltalk.AthensMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "handleKeyUp:",
+category: 'events',
+fn: function (evt){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+_st(_st(self["@eventCallbacks"])._at_ifAbsent_("keyUp",(function(){
+return smalltalk.withContext(function($ctx2) {
+return (function(ev){
+return smalltalk.withContext(function($ctx3) {
+}, function($ctx3) {$ctx3.fillBlock({ev:ev},$ctx2)})});
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})})))._value_(evt);
+return self}, function($ctx1) {$ctx1.fill(self,"handleKeyUp:",{evt:evt},smalltalk.AthensMorph)})},
+args: ["evt"],
+source: "handleKeyUp: evt\x0a\x09(eventCallbacks at: #keyUp ifAbsent: [[:ev | ]]) value: evt.",
+messageSends: ["value:", "at:ifAbsent:"],
+referencedClasses: []
+}),
+smalltalk.AthensMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "handleMouseClick:",
 category: 'events',
 fn: function (evt){
@@ -529,6 +571,38 @@ _st(self["@eventCallbacks"])._at_put_("change",aBlock);
 return self}, function($ctx1) {$ctx1.fill(self,"onChange:",{aBlock:aBlock},smalltalk.AthensMorph)})},
 args: ["aBlock"],
 source: "onChange: aBlock\x0a\x09eventCallbacks at: #change put: aBlock.",
+messageSends: ["at:put:"],
+referencedClasses: []
+}),
+smalltalk.AthensMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "onKeyDown:",
+category: 'events',
+fn: function (aBlock){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+_st(self["@eventCallbacks"])._at_put_("keyDown",aBlock);
+return self}, function($ctx1) {$ctx1.fill(self,"onKeyDown:",{aBlock:aBlock},smalltalk.AthensMorph)})},
+args: ["aBlock"],
+source: "onKeyDown: aBlock\x0a\x09eventCallbacks at: #keyDown put: aBlock.",
+messageSends: ["at:put:"],
+referencedClasses: []
+}),
+smalltalk.AthensMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "onKeyUp:",
+category: 'events',
+fn: function (aBlock){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+_st(self["@eventCallbacks"])._at_put_("keyUp",aBlock);
+return self}, function($ctx1) {$ctx1.fill(self,"onKeyUp:",{aBlock:aBlock},smalltalk.AthensMorph)})},
+args: ["aBlock"],
+source: "onKeyUp: aBlock\x0a\x09eventCallbacks at: #keyUp put: aBlock.",
 messageSends: ["at:put:"],
 referencedClasses: []
 }),
@@ -1438,6 +1512,25 @@ smalltalk.AthensHaloMorph);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "basicColor",
+category: 'halo',
+fn: function (){
+var self=this;
+function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st($Color())._black();
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"basicColor",{},smalltalk.AthensHaloMorph)})},
+args: [],
+source: "basicColor\x0a\x09^ Color black",
+messageSends: ["black"],
+referencedClasses: ["Color"]
+}),
+smalltalk.AthensHaloMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "drawOn:",
 category: 'drawing',
 fn: function (canvas){
@@ -1537,6 +1630,25 @@ smalltalk.AthensHaloMorph);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "highlightColor",
+category: 'halo',
+fn: function (){
+var self=this;
+function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st($Color())._cosmoDarkGray();
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"highlightColor",{},smalltalk.AthensHaloMorph)})},
+args: [],
+source: "highlightColor\x0a\x09^ Color cosmoDarkGray",
+messageSends: ["cosmoDarkGray"],
+referencedClasses: ["Color"]
+}),
+smalltalk.AthensHaloMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "initialize",
 category: 'initialization',
 fn: function (){
@@ -1574,25 +1686,6 @@ smalltalk.AthensHaloMorph);
 
 
 smalltalk.addClass('AthensCloseHaloMorph', smalltalk.AthensHaloMorph, [], 'Athens-Core-Morphic');
-smalltalk.addMethod(
-smalltalk.method({
-selector: "basicColor",
-category: 'halo',
-fn: function (){
-var self=this;
-function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
-return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st($Color())._r_g_b_((0.6),(0.13),(0.47));
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"basicColor",{},smalltalk.AthensCloseHaloMorph)})},
-args: [],
-source: "basicColor\x0a\x09^ Color r: 0.6 g: 0.13 b: 0.47",
-messageSends: ["r:g:b:"],
-referencedClasses: ["Color"]
-}),
-smalltalk.AthensCloseHaloMorph);
-
 smalltalk.addMethod(
 smalltalk.method({
 selector: "haloPosition",
@@ -1644,47 +1737,9 @@ referencedClasses: []
 }),
 smalltalk.AthensCloseHaloMorph);
 
-smalltalk.addMethod(
-smalltalk.method({
-selector: "highlightColor",
-category: 'halo',
-fn: function (){
-var self=this;
-function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
-return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st($Color())._r_g_b_((0.2),(0),(0.14));
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"highlightColor",{},smalltalk.AthensCloseHaloMorph)})},
-args: [],
-source: "highlightColor\x0a\x09^ Color r: 0.2 g: 0 b: 0.14",
-messageSends: ["r:g:b:"],
-referencedClasses: ["Color"]
-}),
-smalltalk.AthensCloseHaloMorph);
-
 
 
 smalltalk.addClass('AthensInspectHaloMorph', smalltalk.AthensHaloMorph, [], 'Athens-Core-Morphic');
-smalltalk.addMethod(
-smalltalk.method({
-selector: "basicColor",
-category: 'halo',
-fn: function (){
-var self=this;
-function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
-return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st($Color())._r_g_b_((0),(0.9),(0.19));
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"basicColor",{},smalltalk.AthensInspectHaloMorph)})},
-args: [],
-source: "basicColor\x0a\x09^ Color r: 0 g: 0.9 b: 0.19",
-messageSends: ["r:g:b:"],
-referencedClasses: ["Color"]
-}),
-smalltalk.AthensInspectHaloMorph);
-
 smalltalk.addMethod(
 smalltalk.method({
 selector: "haloPosition",
@@ -1736,47 +1791,9 @@ referencedClasses: []
 }),
 smalltalk.AthensInspectHaloMorph);
 
-smalltalk.addMethod(
-smalltalk.method({
-selector: "highlightColor",
-category: 'halo',
-fn: function (){
-var self=this;
-function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
-return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st($Color())._r_g_b_((0),(0.2),(0.04));
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"highlightColor",{},smalltalk.AthensInspectHaloMorph)})},
-args: [],
-source: "highlightColor\x0a\x09^ Color r: 0 g: 0.2 b: 0.04",
-messageSends: ["r:g:b:"],
-referencedClasses: ["Color"]
-}),
-smalltalk.AthensInspectHaloMorph);
-
 
 
 smalltalk.addClass('AthensMoveHaloMorph', smalltalk.AthensHaloMorph, ['globalMoveHandler', 'globalUpHandler', 'globalDownHandler'], 'Athens-Core-Morphic');
-smalltalk.addMethod(
-smalltalk.method({
-selector: "basicColor",
-category: 'halo',
-fn: function (){
-var self=this;
-function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
-return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st($Color())._r_g_b_((0.6),(0.13),(0.47));
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"basicColor",{},smalltalk.AthensMoveHaloMorph)})},
-args: [],
-source: "basicColor\x0a\x09^ Color r: 0.6 g: 0.13 b: 0.47",
-messageSends: ["r:g:b:"],
-referencedClasses: ["Color"]
-}),
-smalltalk.AthensMoveHaloMorph);
-
 smalltalk.addMethod(
 smalltalk.method({
 selector: "haloPosition",
@@ -1847,25 +1864,6 @@ smalltalk.AthensMoveHaloMorph);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "highlightColor",
-category: 'halo',
-fn: function (){
-var self=this;
-function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
-return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st($Color())._r_g_b_((0),(0.2),(0.04));
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"highlightColor",{},smalltalk.AthensMoveHaloMorph)})},
-args: [],
-source: "highlightColor\x0a\x09^ Color r: 0 g: 0.2 b: 0.04",
-messageSends: ["r:g:b:"],
-referencedClasses: ["Color"]
-}),
-smalltalk.AthensMoveHaloMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
 selector: "initialize",
 category: 'initialization',
 fn: function (){
@@ -1895,11 +1893,12 @@ category: 'events',
 fn: function (evt){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-_st(self["@attachedTo"])._translateBy_(_st(_st(self["@attachedTo"])._globalPathTransform())._inverseTransform_(_st(_st(evt)._offsetX()).__at(_st(evt)._offsetY())));
+_st(self["@attachedTo"])._translateBy_(_st(_st(self["@attachedTo"])._globalPathTransform())._inverseTransform_(_st(evt)._globalPosition()));
+_st(self._world())._addHalosTo_(self["@attachedTo"]);
 return self}, function($ctx1) {$ctx1.fill(self,"processMouseMove:",{evt:evt},smalltalk.AthensMoveHaloMorph)})},
 args: ["evt"],
-source: "processMouseMove: evt\x0a\x09attachedTo translateBy: (attachedTo globalPathTransform inverseTransform: evt offsetX @ evt offsetY).",
-messageSends: ["translateBy:", "inverseTransform:", "@", "offsetY", "offsetX", "globalPathTransform"],
+source: "processMouseMove: evt\x0a\x09attachedTo translateBy: (attachedTo globalPathTransform inverseTransform: evt globalPosition).\x0a\x09self world addHalosTo: attachedTo.\x09\x22causes halos to move as well\x22",
+messageSends: ["translateBy:", "inverseTransform:", "globalPosition", "globalPathTransform", "addHalosTo:", "world"],
 referencedClasses: []
 }),
 smalltalk.AthensMoveHaloMorph);
@@ -3405,6 +3404,210 @@ smalltalk.AthensScrollBarMorph);
 
 
 
+smalltalk.addClass('AthensTextAreaMorph', smalltalk.AthensRectangleMorph, ['text', 'lines', 'selectionStart', 'selectionStop', 'font', 'virtualLines', 'virtualSurface', 'virtualCanvas', 'maxWidth'], 'Athens-Core-Morphic');
+smalltalk.addMethod(
+smalltalk.method({
+selector: "drawOn:",
+category: 'drawing',
+fn: function (canvas){
+var self=this;
+function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
+return smalltalk.withContext(function($ctx1) { 
+_st(canvas)._setFont_(self["@font"]);
+_st(canvas)._setPaint_(_st($Color())._black());
+_st(self["@virtualLines"])._do_((function(line){
+return smalltalk.withContext(function($ctx2) {
+_st(canvas)._drawString_(line);
+return _st(_st(canvas)._pathTransform())._translateX_Y_((0),(15));
+}, function($ctx2) {$ctx2.fillBlock({line:line},$ctx1)})}));
+return self}, function($ctx1) {$ctx1.fill(self,"drawOn:",{canvas:canvas},smalltalk.AthensTextAreaMorph)})},
+args: ["canvas"],
+source: "drawOn: canvas\x0a\x09canvas setFont: font.\x0a\x09canvas setPaint: Color black.\x0a\x09virtualLines do: [:line |\x0a\x09\x09canvas drawString: line.\x0a\x09\x09canvas pathTransform translateX: 0 Y: 15].",
+messageSends: ["setFont:", "setPaint:", "black", "do:", "drawString:", "translateX:Y:", "pathTransform"],
+referencedClasses: ["Color"]
+}),
+smalltalk.AthensTextAreaMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "generateVirtualLines",
+category: 'text layout',
+fn: function (){
+var self=this;
+function $OrderedCollection(){return smalltalk.OrderedCollection||(typeof OrderedCollection=="undefined"?nil:OrderedCollection)}
+return smalltalk.withContext(function($ctx1) { 
+self["@virtualLines"]=_st($OrderedCollection())._new();
+_st(self["@lines"])._do_((function(line){
+return smalltalk.withContext(function($ctx2) {
+return _st(self["@virtualLines"])._addAll_(self._virtualLinesFor_(line));
+}, function($ctx2) {$ctx2.fillBlock({line:line},$ctx1)})}));
+return self}, function($ctx1) {$ctx1.fill(self,"generateVirtualLines",{},smalltalk.AthensTextAreaMorph)})},
+args: [],
+source: "generateVirtualLines\x0a\x09virtualLines := OrderedCollection new.\x0a\x09lines do: [:line |\x0a\x09\x09virtualLines addAll: (self virtualLinesFor: line)].",
+messageSends: ["new", "do:", "addAll:", "virtualLinesFor:"],
+referencedClasses: ["OrderedCollection"]
+}),
+smalltalk.AthensTextAreaMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "initialize",
+category: 'initialization',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+smalltalk.AthensRectangleMorph.fn.prototype._initialize.apply(_st(self), []);
+self._initializeVariables();
+self._initializeVirtualSurface();
+return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensTextAreaMorph)})},
+args: [],
+source: "initialize\x0a\x09super initialize.\x0a\x09self initializeVariables.\x0a\x09self initializeVirtualSurface.",
+messageSends: ["initialize", "initializeVariables", "initializeVirtualSurface"],
+referencedClasses: []
+}),
+smalltalk.AthensTextAreaMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "initializeVariables",
+category: 'initialization',
+fn: function (){
+var self=this;
+function $LogicalFont(){return smalltalk.LogicalFont||(typeof LogicalFont=="undefined"?nil:LogicalFont)}
+function $OrderedCollection(){return smalltalk.OrderedCollection||(typeof OrderedCollection=="undefined"?nil:OrderedCollection)}
+return smalltalk.withContext(function($ctx1) { 
+self["@font"]=_st($LogicalFont())._familyName_pointSize_("Arial",(15));
+self["@text"]="";
+self["@lines"]=_st($OrderedCollection())._new();
+self["@virtualLines"]=_st($OrderedCollection())._new();
+self["@maxWidth"]=(50);
+return self}, function($ctx1) {$ctx1.fill(self,"initializeVariables",{},smalltalk.AthensTextAreaMorph)})},
+args: [],
+source: "initializeVariables\x0a\x09font := LogicalFont familyName: 'Arial' pointSize: 15.\x0a\x09text := ''.\x0a\x09lines := OrderedCollection new.\x0a\x09virtualLines := OrderedCollection new.\x0a\x09maxWidth := 50.",
+messageSends: ["familyName:pointSize:", "new"],
+referencedClasses: ["LogicalFont", "OrderedCollection"]
+}),
+smalltalk.AthensTextAreaMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "initializeVirtualSurface",
+category: 'initialization',
+fn: function (){
+var self=this;
+function $AthensHTMLSurface(){return smalltalk.AthensHTMLSurface||(typeof AthensHTMLSurface=="undefined"?nil:AthensHTMLSurface)}
+return smalltalk.withContext(function($ctx1) { 
+self["@virtualSurface"]=_st($AthensHTMLSurface())._extent_((0).__at((0)));
+_st(self["@virtualSurface"])._drawDuring_((function(canvas){
+return smalltalk.withContext(function($ctx2) {
+self["@virtualCanvas"]=canvas;
+self["@virtualCanvas"];
+return _st(canvas)._setFont_(self["@font"]);
+}, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
+return self}, function($ctx1) {$ctx1.fill(self,"initializeVirtualSurface",{},smalltalk.AthensTextAreaMorph)})},
+args: [],
+source: "initializeVirtualSurface\x0a\x09virtualSurface := AthensHTMLSurface extent: 0@0.\x0a\x09virtualSurface drawDuring: [:canvas | \x0a\x09\x09virtualCanvas := canvas.\x0a\x09\x09canvas setFont: font].",
+messageSends: ["extent:", "@", "drawDuring:", "setFont:"],
+referencedClasses: ["AthensHTMLSurface"]
+}),
+smalltalk.AthensTextAreaMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "measureStringWidth:",
+category: 'text layout',
+fn: function (aString){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(self["@virtualCanvas"])._measureStringWidth_(aString);
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"measureStringWidth:",{aString:aString},smalltalk.AthensTextAreaMorph)})},
+args: ["aString"],
+source: "measureStringWidth: aString\x0a\x09^ virtualCanvas measureStringWidth: aString",
+messageSends: ["measureStringWidth:"],
+referencedClasses: []
+}),
+smalltalk.AthensTextAreaMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "text",
+category: 'accessing',
+fn: function (){
+var self=this;
+function $String(){return smalltalk.String||(typeof String=="undefined"?nil:String)}
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(self["@lines"])._join_(_st($String())._fromCharCode_((13)));
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"text",{},smalltalk.AthensTextAreaMorph)})},
+args: [],
+source: "text\x0a\x09^ lines join: (String fromCharCode: 13)",
+messageSends: ["join:", "fromCharCode:"],
+referencedClasses: ["String"]
+}),
+smalltalk.AthensTextAreaMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "text:",
+category: 'accessing',
+fn: function (aString){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self["@lines"]=_st(aString)._lines();
+self._generateVirtualLines();
+return self}, function($ctx1) {$ctx1.fill(self,"text:",{aString:aString},smalltalk.AthensTextAreaMorph)})},
+args: ["aString"],
+source: "text: aString\x0a\x09lines := aString lines.\x0a\x09self generateVirtualLines.",
+messageSends: ["lines", "generateVirtualLines"],
+referencedClasses: []
+}),
+smalltalk.AthensTextAreaMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "virtualLinesFor:",
+category: 'text layout',
+fn: function (aString){
+var self=this;
+function $OrderedCollection(){return smalltalk.OrderedCollection||(typeof OrderedCollection=="undefined"?nil:OrderedCollection)}
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2,$4,$5,$3;
+$1=_st(self._measureStringWidth_(aString)).__lt_eq(self["@maxWidth"]);
+if(smalltalk.assert($1)){
+$2=[aString];
+return $2;
+} else {
+var stringLen;
+stringLen=(1);
+stringLen;
+_st((function(){
+return smalltalk.withContext(function($ctx2) {
+return _st(self._measureStringWidth_(_st(aString)._copyFrom_to_((1),stringLen))).__lt(self["@maxWidth"]);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}))._whileTrue_((function(){
+return smalltalk.withContext(function($ctx2) {
+stringLen=_st(stringLen).__plus((1));
+return stringLen;
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
+$4=_st($OrderedCollection())._new();
+_st($4)._add_(_st(aString)._copyFrom_to_((1),_st(stringLen).__minus((1))));
+_st($4)._addAll_(self._virtualLinesFor_(_st(aString)._copyFrom_to_(stringLen,_st(aString)._size())));
+$5=_st($4)._yourself();
+$3=$5;
+return $3;
+};
+return self}, function($ctx1) {$ctx1.fill(self,"virtualLinesFor:",{aString:aString},smalltalk.AthensTextAreaMorph)})},
+args: ["aString"],
+source: "virtualLinesFor: aString\x0a\x09(self measureStringWidth: aString) <= maxWidth\x0a\x09\x09ifTrue: [^ {aString}]\x0a\x09\x09ifFalse: [|stringLen|\x0a\x09\x09\x09stringLen := 1.\x0a\x09\x09\x09[(self measureStringWidth: (aString copyFrom: 1 to: stringLen)) < maxWidth] \x0a\x09\x09\x09\x09whileTrue: [stringLen := stringLen + 1].\x0a\x09\x09\x09^ OrderedCollection new\x0a\x09\x09\x09\x09add: (aString copyFrom: 1 to: stringLen - 1);\x0a\x09\x09\x09\x09addAll: (self virtualLinesFor: (aString copyFrom: stringLen to: aString size));\x0a\x09\x09\x09\x09yourself] .",
+messageSends: ["ifTrue:ifFalse:", "whileTrue:", "+", "<", "measureStringWidth:", "copyFrom:to:", "add:", "-", "new", "addAll:", "virtualLinesFor:", "size", "yourself", "<="],
+referencedClasses: ["OrderedCollection"]
+}),
+smalltalk.AthensTextAreaMorph);
+
+
+
 smalltalk.addClass('AthensTextMorph', smalltalk.AthensRectangleMorph, ['text', 'font', 'fontColor', 'highlightFontColor'], 'Athens-Core-Morphic');
 smalltalk.addMethod(
 smalltalk.method({
@@ -4294,7 +4497,7 @@ category: 'events',
 fn: function (aSymbol,evt){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1,$2,$3,$4,$5,$6,$7;
+var $1,$2,$3,$4,$5,$6,$7,$8,$9;
 _st(self["@morphsUnderHand"])._do_((function(morph){
 return smalltalk.withContext(function($ctx2) {
 $1=_st(morph).__eq_eq(_st(self["@morphsUnderHand"])._first());
@@ -4326,13 +4529,21 @@ _st(morph)._handleMouseUp_(evt);
 };
 $7=_st(aSymbol).__eq_eq("mouseWheel");
 if(smalltalk.assert($7)){
-return _st(morph)._handleMouseWheel_(evt);
+_st(morph)._handleMouseWheel_(evt);
+};
+$8=_st(aSymbol).__eq_eq("keyDown");
+if(smalltalk.assert($8)){
+_st(morph)._handleKeyDown_(evt);
+};
+$9=_st(aSymbol).__eq_eq("keyUp");
+if(smalltalk.assert($9)){
+return _st(morph)._handleKeyUp_(evt);
 };
 }, function($ctx2) {$ctx2.fillBlock({morph:morph},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"delegateEvent:with:",{aSymbol:aSymbol,evt:evt},smalltalk.AthensWorldMorph)})},
 args: ["aSymbol", "evt"],
-source: "delegateEvent: aSymbol with: evt\x0a\x09morphsUnderHand do: [:morph |\x0a\x09\x09morph == morphsUnderHand first\x0a\x09\x09\x09ifTrue: [evt at: #topMost put: true]\x0a\x09\x09\x09ifFalse: [evt at: #topMost put: false].\x0a\x09\x09\x09\x09\x0a\x09\x09aSymbol == #mouseMove | (aSymbol == #mouseClick) | (aSymbol == #mouseDown) | (aSymbol == #mouseUp)\x0a\x09\x09\x09ifTrue: [\x0a\x09\x09\x09\x09evt at: #position put: (morph globalPathTransform inverseTransform: handPosition).\x0a\x09\x09\x09\x09evt at: #globalPosition put: handPosition].\x0a\x09\x09\x0a\x09\x09aSymbol == #mouseClick ifTrue: [morph handleMouseClick: evt].\x0a\x09\x09aSymbol == #mouseMove ifTrue: [morph handleMouseMove: evt].\x0a\x09\x09aSymbol == #mouseDown ifTrue: [morph handleMouseDown: evt].\x0a\x09\x09aSymbol == #mouseUp ifTrue: [morph handleMouseUp: evt].\x0a\x09\x09aSymbol == #mouseWheel ifTrue: [morph handleMouseWheel: evt]].",
-messageSends: ["do:", "ifTrue:ifFalse:", "at:put:", "==", "first", "ifTrue:", "inverseTransform:", "globalPathTransform", "|", "handleMouseClick:", "handleMouseMove:", "handleMouseDown:", "handleMouseUp:", "handleMouseWheel:"],
+source: "delegateEvent: aSymbol with: evt\x0a\x09morphsUnderHand do: [:morph |\x0a\x09\x09morph == morphsUnderHand first\x0a\x09\x09\x09ifTrue: [evt at: #topMost put: true]\x0a\x09\x09\x09ifFalse: [evt at: #topMost put: false].\x0a\x09\x09\x09\x09\x0a\x09\x09aSymbol == #mouseMove | (aSymbol == #mouseClick) | (aSymbol == #mouseDown) | (aSymbol == #mouseUp)\x0a\x09\x09\x09ifTrue: [\x0a\x09\x09\x09\x09evt at: #position put: (morph globalPathTransform inverseTransform: handPosition).\x0a\x09\x09\x09\x09evt at: #globalPosition put: handPosition].\x0a\x09\x09\x0a\x09\x09aSymbol == #mouseClick ifTrue: [morph handleMouseClick: evt].\x0a\x09\x09aSymbol == #mouseMove ifTrue: [morph handleMouseMove: evt].\x0a\x09\x09aSymbol == #mouseDown ifTrue: [morph handleMouseDown: evt].\x0a\x09\x09aSymbol == #mouseUp ifTrue: [morph handleMouseUp: evt].\x0a\x09\x09aSymbol == #mouseWheel ifTrue: [morph handleMouseWheel: evt].\x0a\x09\x09aSymbol == #keyDown ifTrue: [morph handleKeyDown: evt].\x0a\x09\x09aSymbol == #keyUp ifTrue: [morph handleKeyUp: evt]].",
+messageSends: ["do:", "ifTrue:ifFalse:", "at:put:", "==", "first", "ifTrue:", "inverseTransform:", "globalPathTransform", "|", "handleMouseClick:", "handleMouseMove:", "handleMouseDown:", "handleMouseUp:", "handleMouseWheel:", "handleKeyDown:", "handleKeyUp:"],
 referencedClasses: []
 }),
 smalltalk.AthensWorldMorph);
@@ -4460,7 +4671,7 @@ self["@handPosition"]=_st(evt)._at_("globalPosition");
 self["@handPosition"];
 return self._updateMorphsUnderHandAt_(self["@handPosition"]);
 }, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
-_st(["mouseMove","mouseDown","mouseUp","mouseClick","mouseWheel"])._do_((function(sym){
+_st(["mouseMove","mouseDown","mouseUp","mouseClick","mouseWheel","keyDown","keyUp"])._do_((function(sym){
 return smalltalk.withContext(function($ctx2) {
 return self._registerGlobalEvent_withCallback_(sym,(function(evt){
 return smalltalk.withContext(function($ctx3) {
@@ -4469,7 +4680,7 @@ return self._delegateEvent_with_(sym,evt);
 }, function($ctx2) {$ctx2.fillBlock({sym:sym},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"initializeCallbacks",{},smalltalk.AthensWorldMorph)})},
 args: [],
-source: "initializeCallbacks\x0a\x09globalEventCallbacks := Dictionary new.\x0a\x09self registerGlobalEvent: #mouseMove withCallback: [:evt | \x0a\x09\x09handPosition := evt at: #globalPosition.\x0a\x09\x09self updateMorphsUnderHandAt: handPosition].\x0a\x09{#mouseMove. #mouseDown. #mouseUp. #mouseClick. #mouseWheel} do: [:sym |\x0a\x09\x09self registerGlobalEvent: sym withCallback: [:evt | self delegateEvent: sym with: evt]].",
+source: "initializeCallbacks\x0a\x09globalEventCallbacks := Dictionary new.\x0a\x09self registerGlobalEvent: #mouseMove withCallback: [:evt | \x0a\x09\x09handPosition := evt at: #globalPosition.\x0a\x09\x09self updateMorphsUnderHandAt: handPosition].\x0a\x09{#mouseMove. #mouseDown. #mouseUp. #mouseClick. #mouseWheel. #keyDown. #keyUp} do: [:sym |\x0a\x09\x09self registerGlobalEvent: sym withCallback: [:evt | self delegateEvent: sym with: evt]].",
 messageSends: ["new", "registerGlobalEvent:withCallback:", "at:", "updateMorphsUnderHandAt:", "do:", "delegateEvent:with:"],
 referencedClasses: ["Dictionary"]
 }),

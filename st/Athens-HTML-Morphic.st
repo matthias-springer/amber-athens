@@ -33,7 +33,7 @@ bindEvents
 		do: [:evt | world handleEvent: #mouseClick with: (self mouseClickEventDataFor: evt). evt preventDefault].
 	canvasTag asJQuery 
 		bind: 'mousedown' 
-		do: [:evt | isMouseDown := true. world handleEvent: #mouseDown with: (self mouseDownEventDataFor: evt). evt preventDefault].
+		do: [:evt | isMouseDown := true. world handleEvent: #mouseDown with: (self mouseDownEventDataFor: evt)].
 	canvasTag asJQuery 
 		bind: 'mousemove' 
 		do: [:evt | world handleEvent: #mouseMove with: (self mouseMoveEventDataFor: evt). evt preventDefault].
@@ -44,8 +44,24 @@ bindEvents
 		bind: 'mousewheel DOMMouseScroll'
 		do: [:evt | world handleEvent: #mouseWheel with: (self mouseWheelEventDataFor: evt). evt preventDefault].
 	canvasTag asJQuery
+		bind: 'mouseenter'
+		do: [:evt | self handleMouseEnter: evt].
+	canvasTag asJQuery
 		bind: 'mouseleave'
 		do: [:evt | self handleMouseLeave: evt].
+	document 
+		addEventListener: 'keydown'
+		do: [:evt |  world handleEvent: #keyDown with: (self keyDownEventDataFor: evt)]
+		initiateCapture: false.
+	document 
+		addEventListener: 'keyup'
+		do: [:evt | world handleEvent: #keyUp with: (self keyUpEventDataFor: evt)]
+		initiateCapture: false.
+!
+
+handleMouseEnter: evt
+	"Fix this"
+	canvasTag focus.
 !
 
 handleMouseLeave: evt
@@ -53,6 +69,18 @@ handleMouseLeave: evt
 	isMouseDown ifTrue: [
 		world handleEvent: #mouseUp with: evt.
 		isMouseDown := false].
+!
+
+keyDownEventDataFor: evt
+	^ AthensMorphicEvent new
+		at: #keyCode put: evt keyCode;
+		yourself
+!
+
+keyUpEventDataFor: evt
+	^ AthensMorphicEvent new
+		at: #keyCode put: evt keyCode;
+		yourself
 !
 
 mouseClickEventDataFor: evt

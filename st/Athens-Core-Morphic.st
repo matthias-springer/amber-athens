@@ -78,6 +78,14 @@ handleChange: evt
 	(eventCallbacks at: #change ifAbsent: [[:ev |]]) value: evt.
 !
 
+handleKeyDown: evt
+	(eventCallbacks at: #keyDown ifAbsent: [[:ev | ]]) value: evt.
+!
+
+handleKeyUp: evt
+	(eventCallbacks at: #keyUp ifAbsent: [[:ev | ]]) value: evt.
+!
+
 handleMouseClick: evt
 	evt ctrlKeyPressed & (evt topMost)
 		ifTrue: [self world addHalosTo: self]
@@ -129,6 +137,14 @@ morphsAtPosition: aPoint
 
 onChange: aBlock
 	eventCallbacks at: #change put: aBlock.
+!
+
+onKeyDown: aBlock
+	eventCallbacks at: #keyDown put: aBlock.
+!
+
+onKeyUp: aBlock
+	eventCallbacks at: #keyUp put: aBlock.
 !
 
 onMouseClick: aBlock
@@ -523,6 +539,16 @@ handleMouseLeave
 	self color: self basicColor.
 ! !
 
+!AthensHaloMorph methodsFor: 'halo'!
+
+basicColor
+	^ Color black
+!
+
+highlightColor
+	^ Color cosmoDarkGray
+! !
+
 !AthensHaloMorph methodsFor: 'initialization'!
 
 initialize
@@ -551,20 +577,12 @@ handleMouseClick: evt
 
 !AthensCloseHaloMorph methodsFor: 'halo'!
 
-basicColor
-	^ Color r: 0.6 g: 0.13 b: 0.47
-!
-
 haloPosition
 	^ -20 @ 0
 !
 
 haloText
 	^ ''
-!
-
-highlightColor
-	^ Color r: 0.2 g: 0 b: 0.14
 ! !
 
 AthensHaloMorph subclass: #AthensInspectHaloMorph
@@ -580,20 +598,12 @@ handleMouseClick: evt
 
 !AthensInspectHaloMorph methodsFor: 'halo'!
 
-basicColor
-	^ Color r: 0 g: 0.9 b: 0.19
-!
-
 haloPosition
 	^ -20 @ 20
 !
 
 haloText
 	^ ''
-!
-
-highlightColor
-	^ Color r: 0 g: 0.2 b: 0.04
 ! !
 
 AthensHaloMorph subclass: #AthensMoveHaloMorph
@@ -613,7 +623,8 @@ handleMouseUp: evt
 !
 
 processMouseMove: evt
-	attachedTo translateBy: (attachedTo globalPathTransform inverseTransform: evt offsetX @ evt offsetY).
+	attachedTo translateBy: (attachedTo globalPathTransform inverseTransform: evt globalPosition).
+	self world addHalosTo: attachedTo.	"causes halos to move as well"
 !
 
 processMouseUp: evt
@@ -622,20 +633,12 @@ processMouseUp: evt
 
 !AthensMoveHaloMorph methodsFor: 'halo'!
 
-basicColor
-	^ Color r: 0.6 g: 0.13 b: 0.47
-!
-
 haloPosition
 	^ -20 @ 40
 !
 
 haloText
 	^ ''
-!
-
-highlightColor
-	^ Color r: 0 g: 0.2 b: 0.04
 ! !
 
 !AthensMoveHaloMorph methodsFor: 'initialization'!
@@ -1236,6 +1239,79 @@ layoutSliderButton
 		translateByX: 0 Y: (1 - sliderRange) * value * (height - 20) + 10.
 ! !
 
+AthensRectangleMorph subclass: #AthensTextAreaMorph
+	instanceVariableNames: 'text lines selectionStart selectionStop font virtualLines virtualSurface virtualCanvas maxWidth'
+	package: 'Athens-Core-Morphic'!
+
+!AthensTextAreaMorph methodsFor: 'accessing'!
+
+text
+	^ lines join: (String fromCharCode: 13)
+!
+
+text: aString
+	lines := aString lines.
+	self generateVirtualLines.
+! !
+
+!AthensTextAreaMorph methodsFor: 'drawing'!
+
+drawOn: canvas
+	canvas setFont: font.
+	canvas setPaint: Color black.
+	virtualLines do: [:line |
+		canvas drawString: line.
+		canvas pathTransform translateX: 0 Y: 15].
+! !
+
+!AthensTextAreaMorph methodsFor: 'initialization'!
+
+initialize
+	super initialize.
+	self initializeVariables.
+	self initializeVirtualSurface.
+!
+
+initializeVariables
+	font := LogicalFont familyName: 'Arial' pointSize: 15.
+	text := ''.
+	lines := OrderedCollection new.
+	virtualLines := OrderedCollection new.
+	maxWidth := 50.
+!
+
+initializeVirtualSurface
+	virtualSurface := AthensHTMLSurface extent: 0@0.
+	virtualSurface drawDuring: [:canvas | 
+		virtualCanvas := canvas.
+		canvas setFont: font].
+! !
+
+!AthensTextAreaMorph methodsFor: 'text layout'!
+
+generateVirtualLines
+	virtualLines := OrderedCollection new.
+	lines do: [:line |
+		virtualLines addAll: (self virtualLinesFor: line)].
+!
+
+measureStringWidth: aString
+	^ virtualCanvas measureStringWidth: aString
+!
+
+virtualLinesFor: aString
+	(self measureStringWidth: aString) <= maxWidth
+		ifTrue: [^ {aString}]
+		ifFalse: [|stringLen|
+			stringLen := 1.
+			[(self measureStringWidth: (aString copyFrom: 1 to: stringLen)) < maxWidth] 
+				whileTrue: [stringLen := stringLen + 1].
+			^ OrderedCollection new
+				add: (aString copyFrom: 1 to: stringLen - 1);
+				addAll: (self virtualLinesFor: (aString copyFrom: stringLen to: aString size));
+				yourself] .
+! !
+
 AthensRectangleMorph subclass: #AthensTextMorph
 	instanceVariableNames: 'text font fontColor highlightFontColor'
 	package: 'Athens-Core-Morphic'!
@@ -1599,7 +1675,9 @@ delegateEvent: aSymbol with: evt
 		aSymbol == #mouseMove ifTrue: [morph handleMouseMove: evt].
 		aSymbol == #mouseDown ifTrue: [morph handleMouseDown: evt].
 		aSymbol == #mouseUp ifTrue: [morph handleMouseUp: evt].
-		aSymbol == #mouseWheel ifTrue: [morph handleMouseWheel: evt]].
+		aSymbol == #mouseWheel ifTrue: [morph handleMouseWheel: evt].
+		aSymbol == #keyDown ifTrue: [morph handleKeyDown: evt].
+		aSymbol == #keyUp ifTrue: [morph handleKeyUp: evt]].
 !
 
 handleEvent: aSymbol with: evt
@@ -1663,7 +1741,7 @@ initializeCallbacks
 	self registerGlobalEvent: #mouseMove withCallback: [:evt | 
 		handPosition := evt at: #globalPosition.
 		self updateMorphsUnderHandAt: handPosition].
-	{#mouseMove. #mouseDown. #mouseUp. #mouseClick. #mouseWheel} do: [:sym |
+	{#mouseMove. #mouseDown. #mouseUp. #mouseClick. #mouseWheel. #keyDown. #keyUp} do: [:sym |
 		self registerGlobalEvent: sym withCallback: [:evt | self delegateEvent: sym with: evt]].
 !
 
