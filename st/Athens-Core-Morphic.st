@@ -1262,6 +1262,7 @@ drawOn: canvas
 	virtualLines do: [:line |
 		canvas drawString: line.
 		canvas pathTransform translateX: 0 Y: 15].
+	self outerShape: (0@0 corner: maxWidth @ (15* virtualLines size)).
 ! !
 
 !AthensTextAreaMorph methodsFor: 'initialization'!

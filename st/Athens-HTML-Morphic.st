@@ -33,7 +33,7 @@ bindEvents
 		do: [:evt | world handleEvent: #mouseClick with: (self mouseClickEventDataFor: evt). evt preventDefault].
 	canvasTag asJQuery 
 		bind: 'mousedown' 
-		do: [:evt | isMouseDown := true. world handleEvent: #mouseDown with: (self mouseDownEventDataFor: evt)].
+		do: [:evt | isMouseDown := true. world handleEvent: #mouseDown with: (self mouseDownEventDataFor: evt). evt preventDefault].
 	canvasTag asJQuery 
 		bind: 'mousemove' 
 		do: [:evt | world handleEvent: #mouseMove with: (self mouseMoveEventDataFor: evt). evt preventDefault].
@@ -60,7 +60,7 @@ bindEvents
 !
 
 handleMouseEnter: evt
-	"Fix this"
+	canvasTag asJQuery attr: 'tabindex' data: 0.
 	canvasTag focus.
 !
 

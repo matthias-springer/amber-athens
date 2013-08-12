@@ -2604,8 +2604,9 @@ return smalltalk.withContext(function($ctx2) {
 _st(canvas)._drawString_(line);
 return _st(_st(canvas)._pathTransform())._translateX_Y_((0),(15));
 }, function($ctx2) {$ctx2.fillBlock({line:line},$ctx1)})}));
+self._outerShape_(_st((0).__at((0)))._corner_(_st(self["@maxWidth"]).__at((15).__star(_st(self["@virtualLines"])._size()))));
 return self}, function($ctx1) {$ctx1.fill(self,"drawOn:",{canvas:canvas},smalltalk.AthensTextAreaMorph)})},
-messageSends: ["setFont:", "setPaint:", "black", "do:", "drawString:", "translateX:Y:", "pathTransform"]}),
+messageSends: ["setFont:", "setPaint:", "black", "do:", "drawString:", "translateX:Y:", "pathTransform", "outerShape:", "corner:", "@", "*", "size"]}),
 smalltalk.AthensTextAreaMorph);
 
 smalltalk.addMethod(

@@ -3420,10 +3420,11 @@ return smalltalk.withContext(function($ctx2) {
 _st(canvas)._drawString_(line);
 return _st(_st(canvas)._pathTransform())._translateX_Y_((0),(15));
 }, function($ctx2) {$ctx2.fillBlock({line:line},$ctx1)})}));
+self._outerShape_(_st((0).__at((0)))._corner_(_st(self["@maxWidth"]).__at((15).__star(_st(self["@virtualLines"])._size()))));
 return self}, function($ctx1) {$ctx1.fill(self,"drawOn:",{canvas:canvas},smalltalk.AthensTextAreaMorph)})},
 args: ["canvas"],
-source: "drawOn: canvas\x0a\x09canvas setFont: font.\x0a\x09canvas setPaint: Color black.\x0a\x09virtualLines do: [:line |\x0a\x09\x09canvas drawString: line.\x0a\x09\x09canvas pathTransform translateX: 0 Y: 15].",
-messageSends: ["setFont:", "setPaint:", "black", "do:", "drawString:", "translateX:Y:", "pathTransform"],
+source: "drawOn: canvas\x0a\x09canvas setFont: font.\x0a\x09canvas setPaint: Color black.\x0a\x09virtualLines do: [:line |\x0a\x09\x09canvas drawString: line.\x0a\x09\x09canvas pathTransform translateX: 0 Y: 15].\x0a\x09self outerShape: (0@0 corner: maxWidth @ (15* virtualLines size)).",
+messageSends: ["setFont:", "setPaint:", "black", "do:", "drawString:", "translateX:Y:", "pathTransform", "outerShape:", "corner:", "@", "*", "size"],
 referencedClasses: ["Color"]
 }),
 smalltalk.AthensTextAreaMorph);

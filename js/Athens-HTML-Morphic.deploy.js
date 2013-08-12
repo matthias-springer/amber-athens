@@ -40,7 +40,8 @@ _st(_st(self["@canvasTag"])._asJQuery())._bind_do_("mousedown",(function(evt){
 return smalltalk.withContext(function($ctx2) {
 self["@isMouseDown"]=true;
 self["@isMouseDown"];
-return _st(self["@world"])._handleEvent_with_("mouseDown",self._mouseDownEventDataFor_(evt));
+_st(self["@world"])._handleEvent_with_("mouseDown",self._mouseDownEventDataFor_(evt));
+return _st(evt)._preventDefault();
 }, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
 _st(_st(self["@canvasTag"])._asJQuery())._bind_do_("mousemove",(function(evt){
 return smalltalk.withContext(function($ctx2) {
@@ -83,9 +84,10 @@ selector: "handleMouseEnter:",
 fn: function (evt){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
+_st(_st(self["@canvasTag"])._asJQuery())._attr_data_("tabindex",(0));
 _st(self["@canvasTag"])._focus();
 return self}, function($ctx1) {$ctx1.fill(self,"handleMouseEnter:",{evt:evt},smalltalk.AthensHTMLMorphicSurface)})},
-messageSends: ["focus"]}),
+messageSends: ["attr:data:", "asJQuery", "focus"]}),
 smalltalk.AthensHTMLMorphicSurface);
 
 smalltalk.addMethod(
