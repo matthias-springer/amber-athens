@@ -2540,6 +2540,17 @@ smalltalk.Number);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "ceiling",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+return Math.ceil(self);;
+return self}, function($ctx1) {$ctx1.fill(self,"ceiling",{},smalltalk.Number)})},
+messageSends: []}),
+smalltalk.Number);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "copy",
 fn: function (){
 var self=this;
@@ -2575,6 +2586,17 @@ $1=(0).__eq(self.__backslash_backslash((2)));
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"even",{},smalltalk.Number)})},
 messageSends: ["=", "\x5c\x5c"]}),
+smalltalk.Number);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "floor",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+return Math.floor(self);;
+return self}, function($ctx1) {$ctx1.fill(self,"floor",{},smalltalk.Number)})},
+messageSends: []}),
 smalltalk.Number);
 
 smalltalk.addMethod(

@@ -202,13 +202,14 @@ return smalltalk.withContext(function($ctx1) {
 var $2,$3,$1;
 $2=_st($AthensMorphicEvent())._new();
 _st($2)._at_put_("ctrlKeyPressed",_st(evt)._ctrlKey());
+_st($2)._at_put_("globalPosition",_st(_st(evt)._offsetX()).__at(_st(evt)._offsetY()));
 $3=_st($2)._yourself();
 $1=$3;
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"mouseClickEventDataFor:",{evt:evt},smalltalk.AthensHTMLMorphicSurface)})},
 args: ["evt"],
-source: "mouseClickEventDataFor: evt\x0a\x09^ AthensMorphicEvent new\x0a\x09\x09at: #ctrlKeyPressed put: evt ctrlKey;\x0a\x09\x09yourself.",
-messageSends: ["at:put:", "ctrlKey", "new", "yourself"],
+source: "mouseClickEventDataFor: evt\x0a\x09^ AthensMorphicEvent new\x0a\x09\x09at: #ctrlKeyPressed put: evt ctrlKey;\x0a\x09\x09at: #globalPosition put: evt offsetX @ evt offsetY;\x0a\x09\x09yourself.",
+messageSends: ["at:put:", "ctrlKey", "new", "@", "offsetY", "offsetX", "yourself"],
 referencedClasses: ["AthensMorphicEvent"]
 }),
 smalltalk.AthensHTMLMorphicSurface);
@@ -397,7 +398,7 @@ fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 self._loadAffineTransform_(self["@relativeIdentity"]);
-return self}, function($ctx1) {$ctx1.fill(self,"loadIdentity",{},smalltalk.AthensHTMLMorphicMatrix)})},
+return self}, function($ctx1) {$ctx1.fill(self,"loadIdentity",{},smalltalk.AthensHTMLMorphicTransformation)})},
 args: [],
 source: "loadIdentity\x0a\x09self loadAffineTransform: relativeIdentity.",
 messageSends: ["loadAffineTransform:"],
@@ -407,15 +408,15 @@ smalltalk.AthensHTMLMorphicTransformation);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "setIdentity",
+selector: "setIdentity:",
 category: 'initialization',
-fn: function (){
+fn: function (aMatrix){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-_st(self["@relativeIdentity"])._loadAffineTransform_(self);
-return self}, function($ctx1) {$ctx1.fill(self,"setIdentity",{},smalltalk.AthensHTMLMorphicMatrix)})},
-args: [],
-source: "setIdentity\x0a\x09relativeIdentity loadAffineTransform: self.",
+_st(self["@relativeIdentity"])._loadAffineTransform_(aMatrix);
+return self}, function($ctx1) {$ctx1.fill(self,"setIdentity:",{aMatrix:aMatrix},smalltalk.AthensHTMLMorphicTransformation)})},
+args: ["aMatrix"],
+source: "setIdentity: aMatrix\x0a\x09relativeIdentity loadAffineTransform: aMatrix.",
 messageSends: ["loadAffineTransform:"],
 referencedClasses: []
 }),

@@ -59,17 +59,17 @@ redrawEverythingOn: canvas
 	globalPathTransform loadAffineTransform: owner globalPathTransform.
 	globalPathTransform multiplyBy: transformation.
 	visible ifTrue: [
-		canvas pathTransform restoreAfter: [
-			canvas pathTransform multiplyBy: transformation.
-			canvas pathTransform setIdentity.
-
+		"canvas pathTransform restoreAfter: ["
+			canvas pathTransform setIdentity: globalPathTransform.
+			canvas pathTransform loadIdentity.
+			
 			canvas pathTransform restoreAfter: [
 				self drawOn: canvas].
 				
 			outerShape ifNil: [self outerShape: (0@0 corner: 50@50)].
 			
 			canvas clipBy: outerShape during: [
-				submorphs do: [:morph | morph redrawEverythingOn: canvas]]]].
+				submorphs do: [:morph | morph redrawEverythingOn: canvas]]"]"].
 ! !
 
 !AthensMorph methodsFor: 'events'!
@@ -1240,7 +1240,7 @@ layoutSliderButton
 ! !
 
 AthensRectangleMorph subclass: #AthensTextAreaMorph
-	instanceVariableNames: 'text lines selectionStart selectionStop font virtualLines virtualSurface virtualCanvas maxWidth'
+	instanceVariableNames: 'text lines selectionStart selectionLength font virtualLines virtualSurface virtualCanvas maxWidth isInSelectionMode selectionStartOffset lineHeight selectionStop'
 	package: 'Athens-Core-Morphic'!
 
 !AthensTextAreaMorph methodsFor: 'accessing'!
@@ -1252,17 +1252,104 @@ text
 text: aString
 	lines := aString lines.
 	self generateVirtualLines.
+!
+
+width: aNumber
+	super width: aNumber.
+	maxWidth := aNumber.
+	self redraw.
 ! !
 
 !AthensTextAreaMorph methodsFor: 'drawing'!
 
+drawCursorOn: canvas
+	selectionStart = selectionStop ifTrue: [|shape xOffset|
+		canvas pathTransform loadIdentity.
+		canvas setPaint: Color black.
+		xOffset := self pixelFromChar: selectionStart  - (1@0).
+		shape := xOffset @ (selectionStart y - 1 * 15) corner: xOffset + 1 @ (selectionStart y * 15).
+		canvas drawShape: shape].
+!
+
 drawOn: canvas
+	super drawOn: canvas.
+	self drawSelectionOn: canvas.
+
 	canvas setFont: font.
 	canvas setPaint: Color black.
+	
 	virtualLines do: [:line |
-		canvas drawString: line.
-		canvas pathTransform translateX: 0 Y: 15].
-	self outerShape: (0@0 corner: maxWidth @ (15* virtualLines size)).
+		canvas pathTransform translateX: 0 Y: lineHeight.
+		canvas drawString: line].
+		
+	self drawCursorOn: canvas.
+	self outerShape: (0@0 corner: maxWidth @ (lineHeight * virtualLines size)).
+!
+
+drawSelectionBoxOn: canvas fromOffset: start toOffset: stop inLine: lineIndex
+	|shape absoluteStop|
+	"absoluteStop := stop == -1
+		ifTrue: [(virtualLines at: lineIndex) size]
+		ifFalse: [stop].
+	canvas setPaint: Color cosmoBlue.
+	shape := (self pixelXFromCharX: start - 1 andCharY: lineIndex) @ (lineIndex - 1 * lineHeight)
+		corner: (self pixelXFromCharX: absoluteStop andCharY: lineIndex) @ (lineIndex * lineHeight).
+	canvas drawShape: shape."
+!
+
+drawSelectionOn: canvas
+	selectionStart y == selectionStop y
+		ifTrue: [self drawSelectionBoxOn: canvas fromOffset: selectionStart x toOffset: selectionStop x inLine: selectionStart y]
+		ifFalse: [
+			self drawSelectionBoxOn: canvas fromOffset: selectionStart x toOffset: -1 inLine: selectionStart y.
+			selectionStart y + 1 to: selectionStop y - 1 do: [:lineIndex |
+				self drawSelectionBoxOn: canvas fromOffset: 1 toOffset: -1 inLine: lineIndex].
+			self drawSelectionBoxOn: canvas fromOffset: 1 toOffset: selectionStop x inLine: selectionStop y].
+! !
+
+!AthensTextAreaMorph methodsFor: 'events'!
+
+handleKeyDown: evt
+	|content cursorPosition|
+	super handleKeyDown: evt.
+	content := self text.
+	cursorPosition := self stringOffsetFromChar: selectionStart.
+	self text: (content copyFrom: 1 to: cursorPosition - 1), 
+		(String fromCharCode: evt keyCode),
+		(content copyFrom: cursorPosition to: content size).
+	self redraw.
+!
+
+handleMouseClick: evt
+	super handleMouseClick: evt.
+	selectionStart := selectionStop := self charFromPixel: evt position.
+	self redraw.
+!
+
+handleMouseDown: evt
+	super handleMouseDown: evt.
+	isInSelectionMode := true.
+	selectionStartOffset := evt position.
+!
+
+handleMouseLeave
+	super handleMouseLeave.
+	self handleMouseUp: AthensMorphicEvent new.
+!
+
+handleMouseMove: evt
+	super handleMouseMove: evt.
+	isInSelectionMode 
+		ifTrue: [
+			(selectionStartOffset y > evt position y or: [selectionStartOffset y == evt position y and: [
+				selectionStartOffset x > evt position x]])
+					ifTrue: [self selectFromOffset: evt position toOffset: selectionStartOffset]
+					ifFalse: [self selectFromOffset: selectionStartOffset toOffset: evt position]].
+!
+
+handleMouseUp: evt
+	super handleMouseUp: evt.
+	isInSelectionMode := false.
 ! !
 
 !AthensTextAreaMorph methodsFor: 'initialization'!
@@ -1278,7 +1365,11 @@ initializeVariables
 	text := ''.
 	lines := OrderedCollection new.
 	virtualLines := OrderedCollection new.
-	maxWidth := 50.
+	maxWidth := 100.
+	lineHeight := 15.
+	isInSelectionMode := false.
+	hasSharpBorder := true.
+	selectionStart := selectionStop := 1 @ 1.
 !
 
 initializeVirtualSurface
@@ -1290,6 +1381,29 @@ initializeVirtualSurface
 
 !AthensTextAreaMorph methodsFor: 'text layout'!
 
+charFromPixel: aPoint
+	|line|
+	line := self charYFromPixelY: aPoint y.
+	^ (self charXFromPixelX: aPoint x andCharY: line) @ line
+!
+
+charXFromPixelX: pixelOffset andCharY: virtualLineNumber
+	|line lastOffset|
+	line := virtualLines at: virtualLineNumber.
+	lastOffset := 0.
+	(1 to: line size) do: [:charIndex | |offset midChar|
+		offset := (self measureStringWidth: (line copyFrom: 1 to: charIndex)).
+		midChar := offset - (offset - lastOffset / 2).
+		lastOffset := offset.
+		pixelOffset < midChar 
+			ifTrue: [^ charIndex]].
+	^ line size + 1
+!
+
+charYFromPixelY: aNumber
+	^ (aNumber / lineHeight) floor + 1 min: virtualLines size
+!
+
 generateVirtualLines
 	virtualLines := OrderedCollection new.
 	lines do: [:line |
@@ -1298,6 +1412,30 @@ generateVirtualLines
 
 measureStringWidth: aString
 	^ virtualCanvas measureStringWidth: aString
+!
+
+pixelFromChar: aPosition
+	^ self pixelXFromCharX: aPosition x andCharY: aPosition y
+!
+
+pixelXFromCharX: charOffset andCharY: virtualLineNumber
+	|line|
+	line := virtualLines at: virtualLineNumber.
+	^ self measureStringWidth: (line copyFrom: 1 to: charOffset)
+!
+
+selectFromOffset: startPoint toOffset: stopPoint
+	selectionStart := self charFromPixel: startPoint.
+	selectionStop := self charFromPixel: stopPoint.
+	self redraw.
+!
+
+stringOffsetFromChar: aPoint
+	|offset|
+	offset := 0.
+	(1 to: aPoint y - 1) do: [:lineIndex |
+		offset := offset + (virtualLines at: lineIndex) size].
+	^ offset + aPoint x
 !
 
 virtualLinesFor: aString

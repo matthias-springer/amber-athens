@@ -166,11 +166,12 @@ return smalltalk.withContext(function($ctx1) {
 var $2,$3,$1;
 $2=_st($AthensMorphicEvent())._new();
 _st($2)._at_put_("ctrlKeyPressed",_st(evt)._ctrlKey());
+_st($2)._at_put_("globalPosition",_st(_st(evt)._offsetX()).__at(_st(evt)._offsetY()));
 $3=_st($2)._yourself();
 $1=$3;
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"mouseClickEventDataFor:",{evt:evt},smalltalk.AthensHTMLMorphicSurface)})},
-messageSends: ["at:put:", "ctrlKey", "new", "yourself"]}),
+messageSends: ["at:put:", "ctrlKey", "new", "@", "offsetY", "offsetX", "yourself"]}),
 smalltalk.AthensHTMLMorphicSurface);
 
 smalltalk.addMethod(
@@ -311,18 +312,18 @@ fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 self._loadAffineTransform_(self["@relativeIdentity"]);
-return self}, function($ctx1) {$ctx1.fill(self,"loadIdentity",{},smalltalk.AthensHTMLMorphicMatrix)})},
+return self}, function($ctx1) {$ctx1.fill(self,"loadIdentity",{},smalltalk.AthensHTMLMorphicTransformation)})},
 messageSends: ["loadAffineTransform:"]}),
 smalltalk.AthensHTMLMorphicTransformation);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "setIdentity",
-fn: function (){
+selector: "setIdentity:",
+fn: function (aMatrix){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-_st(self["@relativeIdentity"])._loadAffineTransform_(self);
-return self}, function($ctx1) {$ctx1.fill(self,"setIdentity",{},smalltalk.AthensHTMLMorphicMatrix)})},
+_st(self["@relativeIdentity"])._loadAffineTransform_(aMatrix);
+return self}, function($ctx1) {$ctx1.fill(self,"setIdentity:",{aMatrix:aMatrix},smalltalk.AthensHTMLMorphicTransformation)})},
 messageSends: ["loadAffineTransform:"]}),
 smalltalk.AthensHTMLMorphicTransformation);
 

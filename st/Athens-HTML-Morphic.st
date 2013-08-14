@@ -86,6 +86,7 @@ keyUpEventDataFor: evt
 mouseClickEventDataFor: evt
 	^ AthensMorphicEvent new
 		at: #ctrlKeyPressed put: evt ctrlKey;
+		at: #globalPosition put: evt offsetX @ evt offsetY;
 		yourself.
 !
 
@@ -153,7 +154,7 @@ loadIdentity
 	self loadAffineTransform: relativeIdentity.
 !
 
-setIdentity
-	relativeIdentity loadAffineTransform: self.
+setIdentity: aMatrix
+	relativeIdentity loadAffineTransform: aMatrix.
 ! !
 
