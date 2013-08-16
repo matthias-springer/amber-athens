@@ -1240,18 +1240,28 @@ layoutSliderButton
 ! !
 
 AthensRectangleMorph subclass: #AthensTextAreaMorph
-	instanceVariableNames: 'text lines selectionStart selectionLength font virtualLines virtualSurface virtualCanvas maxWidth isInSelectionMode selectionStartOffset lineHeight selectionStop'
+	instanceVariableNames: 'lines selectionStart selectionLength keyHandlers font virtualLines virtualSurface virtualCanvas maxWidth isInSelectionMode selectionStartOffset lineHeight'
 	package: 'Athens-Core-Morphic'!
 
 !AthensTextAreaMorph methodsFor: 'accessing'!
 
+maxWidth
+	^ maxWidth
+!
+
 text
-	^ lines join: (String fromCharCode: 13)
+	|text|
+	text := ''.
+	virtualLines do: [:line | text := text , line text].
+	^ text
 !
 
 text: aString
-	lines := aString lines.
-	self generateVirtualLines.
+	self generateVirtualLines: aString.
+!
+
+virtualCanvas
+	^ virtualCanvas
 !
 
 width: aNumber
@@ -1263,12 +1273,12 @@ width: aNumber
 !AthensTextAreaMorph methodsFor: 'drawing'!
 
 drawCursorOn: canvas
-	selectionStart = selectionStop ifTrue: [|shape xOffset|
-		canvas pathTransform loadIdentity.
-		canvas setPaint: Color black.
-		xOffset := self pixelFromChar: selectionStart  - (1@0).
-		shape := xOffset @ (selectionStart y - 1 * 15) corner: xOffset + 1 @ (selectionStart y * 15).
-		canvas drawShape: shape].
+	|shape pixelPosition|
+	canvas pathTransform loadIdentity.
+	canvas setPaint: Color black.
+	pixelPosition := self pixelBeforePosition: selectionStart + selectionLength.
+	shape := pixelPosition corner: pixelPosition + (1 @ lineHeight).
+	canvas drawShape: shape.
 !
 
 drawOn: canvas
@@ -1280,7 +1290,7 @@ drawOn: canvas
 	
 	virtualLines do: [:line |
 		canvas pathTransform translateX: 0 Y: lineHeight.
-		canvas drawString: line].
+		canvas drawString: line text].
 		
 	self drawCursorOn: canvas.
 	self outerShape: (0@0 corner: maxWidth @ (lineHeight * virtualLines size)).
@@ -1298,31 +1308,54 @@ drawSelectionBoxOn: canvas fromOffset: start toOffset: stop inLine: lineIndex
 !
 
 drawSelectionOn: canvas
-	selectionStart y == selectionStop y
-		ifTrue: [self drawSelectionBoxOn: canvas fromOffset: selectionStart x toOffset: selectionStop x inLine: selectionStart y]
-		ifFalse: [
-			self drawSelectionBoxOn: canvas fromOffset: selectionStart x toOffset: -1 inLine: selectionStart y.
-			selectionStart y + 1 to: selectionStop y - 1 do: [:lineIndex |
-				self drawSelectionBoxOn: canvas fromOffset: 1 toOffset: -1 inLine: lineIndex].
-			self drawSelectionBoxOn: canvas fromOffset: 1 toOffset: selectionStop x inLine: selectionStop y].
 ! !
 
 !AthensTextAreaMorph methodsFor: 'events'!
 
-handleKeyDown: evt
-	|content cursorPosition|
-	super handleKeyDown: evt.
-	content := self text.
+handleKeyBackspace: evt
+	|cursorPosition|
 	cursorPosition := self stringOffsetFromChar: selectionStart.
-	self text: (content copyFrom: 1 to: cursorPosition - 1), 
-		(String fromCharCode: evt keyCode),
-		(content copyFrom: cursorPosition to: content size).
+	self removeCharAt: cursorPosition - 1.
+	self moveCursorBy: -1.
+	self redraw.
+!
+
+handleKeyDelete: evt
+	|cursorPosition|
+	cursorPosition := self stringOffsetFromChar: selectionStart.
+	self removeCharAt: cursorPosition.
+	self redraw.
+!
+
+handleKeyDown: evt
+	|handler|
+	super handleKeyDown: evt.
+	handler := keyHandlers at: evt keyCode ifAbsent: [[:ev | self handleKeyOther: ev]].
+	handler value: evt.
+!
+
+handleKeyLeft: evt
+	self moveCursorBy: -1.
+	self redraw.
+!
+
+handleKeyOther: evt
+	|cursorPosition|
+	cursorPosition := self stringOffsetFromChar: selectionStart.
+	self insertString: (String fromCharCode: evt keyCode) at: cursorPosition.
+	self moveCursorBy: 1.
+	self redraw.
+!
+
+handleKeyRight: evt
+	self moveCursorBy: 1.
 	self redraw.
 !
 
 handleMouseClick: evt
 	super handleMouseClick: evt.
-	selectionStart := selectionStop := self charFromPixel: evt position.
+	selectionStart := self positionForPixel: evt position.
+	selectionLength := 0.
 	self redraw.
 !
 
@@ -1354,22 +1387,34 @@ handleMouseUp: evt
 
 !AthensTextAreaMorph methodsFor: 'initialization'!
 
+bindKeyHandlers
+	keyHandlers := Dictionary new
+		at: 8 put: [:evt | self handleKeyBackspace: evt];
+		at: 46 put: [:evt | self handleKeyDelete: evt];
+		at: 37 put: [:evt | self handleKeyLeft: evt];
+		at: 38 put: [:evt | self handleKeyUp: evt];
+		at: 39 put: [:evt | self handleKeyRight: evt];
+		at: 40 put: [:evt | self handleKeyDown: evt];
+		yourself
+!
+
 initialize
 	super initialize.
 	self initializeVariables.
 	self initializeVirtualSurface.
+	self bindKeyHandlers.
 !
 
 initializeVariables
 	font := LogicalFont familyName: 'Arial' pointSize: 15.
 	text := ''.
-	lines := OrderedCollection new.
 	virtualLines := OrderedCollection new.
 	maxWidth := 100.
 	lineHeight := 15.
 	isInSelectionMode := false.
 	hasSharpBorder := true.
-	selectionStart := selectionStop := 1 @ 1.
+	selectionStart := 1.
+	selectionLength := 0.
 !
 
 initializeVirtualSurface
@@ -1379,76 +1424,87 @@ initializeVirtualSurface
 		canvas setFont: font].
 ! !
 
-!AthensTextAreaMorph methodsFor: 'text layout'!
+!AthensTextAreaMorph methodsFor: 'text manipulation'!
 
-charFromPixel: aPoint
-	|line|
-	line := self charYFromPixelY: aPoint y.
-	^ (self charXFromPixelX: aPoint x andCharY: line) @ line
+generateVirtualLines: aString
+	|text|
+	virtualLines := OrderedCollection new.
+	text := aString.
+	text lines do: [:lineText | |line remainingText|
+		remainingText := lineText.
+		[remainingText size > 0] whileTrue: [
+			line := AthensVirtualTextAreaLine forTextAreaMorph: self.
+			remainingText := remainingText copyFrom: (line populateWith: remainingText) + 1 to: remainingText size.
+			virtualLines size > 0 ifTrue: [
+				virtualLines last nextLine: line].
+			virtualLines add: line].
+		virtualLines last hasLineBreak: true].
 !
 
-charXFromPixelX: pixelOffset andCharY: virtualLineNumber
-	|line lastOffset|
-	line := virtualLines at: virtualLineNumber.
-	lastOffset := 0.
-	(1 to: line size) do: [:charIndex | |offset midChar|
-		offset := (self measureStringWidth: (line copyFrom: 1 to: charIndex)).
-		midChar := offset - (offset - lastOffset / 2).
-		lastOffset := offset.
-		pixelOffset < midChar 
-			ifTrue: [^ charIndex]].
-	^ line size + 1
+insertString: aString at: position
+	|content|
+	content := self text.
+	self text: (content copyFrom: 1 to: position - 1), 
+		aString,
+		(content copyFrom: position to: content size).
 !
 
-charYFromPixelY: aNumber
+removeCharAt: position
+	|content|
+	content := self text.
+	self text: (content copyFrom: 1 to: position - 1),
+		(content copyFrom: position + 1 to: content size).
+! !
+
+!AthensTextAreaMorph methodsFor: 'text positioning'!
+
+charsBeforeLine: aNumber
+	|sum|
+	sum := 0.
+	(1 to: aNumber - 1) do: [:lineIndex |
+		sum := sum + (virtualLines at: lineIndex) size].
+	^ sum
+!
+
+lineForPixelOffset: aNumber
 	^ (aNumber / lineHeight) floor + 1 min: virtualLines size
 !
 
-generateVirtualLines
-	virtualLines := OrderedCollection new.
-	lines do: [:line |
-		virtualLines addAll: (self virtualLinesFor: line)].
+pixelAfterPosition: aNumber
+	|currentPosition|
+	"TODO: create index for line offsets"
+	currentPosition := 0.
+	virtualLines do: [:line | |previousLine|
+		currentPosition > aNumber ifTrue: [
+			^ previousLine pixelOffsetAfter: aNumber - currentPosition + line size].
+		currentPosition := currentPosition + line size.
+		previousLine := line.
+	].
 !
 
-measureStringWidth: aString
-	^ virtualCanvas measureStringWidth: aString
+pixelBeforePosition: aNumber
+	|currentPosition|
+	"TODO: create index for line offsets"
+	currentPosition := 0.
+	(1 to: virtualLines size) do: [:lineIndex | |line|
+		line := virtualLines at: lineIndex.
+		currentPosition + line size > aNumber ifTrue: [
+			^ (line pixelOffsetBefore: aNumber - currentPosition) @ (self pixelOffsetForLine: lineIndex)].
+		currentPosition := currentPosition + line size].
+	self error: 'pixel not found'.
 !
 
-pixelFromChar: aPosition
-	^ self pixelXFromCharX: aPosition x andCharY: aPosition y
+pixelForPosition: aNumber
 !
 
-pixelXFromCharX: charOffset andCharY: virtualLineNumber
-	|line|
-	line := virtualLines at: virtualLineNumber.
-	^ self measureStringWidth: (line copyFrom: 1 to: charOffset)
+pixelOffsetForLine: aNumber
+	^ (aNumber - 1) * lineHeight
 !
 
-selectFromOffset: startPoint toOffset: stopPoint
-	selectionStart := self charFromPixel: startPoint.
-	selectionStop := self charFromPixel: stopPoint.
-	self redraw.
-!
-
-stringOffsetFromChar: aPoint
-	|offset|
-	offset := 0.
-	(1 to: aPoint y - 1) do: [:lineIndex |
-		offset := offset + (virtualLines at: lineIndex) size].
-	^ offset + aPoint x
-!
-
-virtualLinesFor: aString
-	(self measureStringWidth: aString) <= maxWidth
-		ifTrue: [^ {aString}]
-		ifFalse: [|stringLen|
-			stringLen := 1.
-			[(self measureStringWidth: (aString copyFrom: 1 to: stringLen)) < maxWidth] 
-				whileTrue: [stringLen := stringLen + 1].
-			^ OrderedCollection new
-				add: (aString copyFrom: 1 to: stringLen - 1);
-				addAll: (self virtualLinesFor: (aString copyFrom: stringLen to: aString size));
-				yourself] .
+positionForPixel: aPoint
+	|lineIndex|
+	lineIndex := self lineForPixelOffset: aPoint y.
+	^ ((virtualLines at: lineIndex) positionForPixelOffset: aPoint x) + (self charsBeforeLine: lineIndex).
 ! !
 
 AthensRectangleMorph subclass: #AthensTextMorph
@@ -1974,6 +2030,110 @@ Dictionary subclass: #AthensMorphicEvent
 
 doesNotUnderstand: aMessage
 	^ self at: aMessage selector
+! !
+
+Object subclass: #AthensVirtualTextAreaLine
+	instanceVariableNames: 'morph text hasLineBreak nextLine'
+	package: 'Athens-Core-Morphic'!
+
+!AthensVirtualTextAreaLine methodsFor: 'accessing'!
+
+hasLineBreak
+	^ hasLineBreak
+!
+
+hasLineBreak: aBoolean
+	hasLineBreak := aBoolean.
+!
+
+morph: aMorph
+	morph := aMorph
+!
+
+nextLine: aLine
+	nextLine := aLine.
+!
+
+size
+	hasLineBreak
+		ifTrue: [^ text size + 1]
+		ifFalse: [^ text size].
+!
+
+text
+	hasLineBreak 
+		ifTrue: [^ text, (String fromCharCode: 13)]
+		ifFalse: [^ text].
+! !
+
+!AthensVirtualTextAreaLine methodsFor: 'initialization'!
+
+assert: aBoolean
+	aBoolean ifFalse: [aBoolean halt].
+!
+
+initialize
+	hasLineBreak := false.
+! !
+
+!AthensVirtualTextAreaLine methodsFor: 'text layout'!
+
+measureStringWidth: aString
+	^ morph virtualCanvas measureStringWidth: aString
+! !
+
+!AthensVirtualTextAreaLine methodsFor: 'text manipulation'!
+
+populateWith: aString
+	|maxWidth|
+	maxWidth := morph maxWidth.
+	(self measureStringWidth: aString) <= maxWidth
+		ifTrue: [text := aString. ^ aString size]
+		ifFalse: [|stringLen|
+			stringLen := 1.
+			[(self measureStringWidth: (aString copyFrom: 1 to: stringLen)) < maxWidth] 
+				whileTrue: [stringLen := stringLen + 1].
+			text := aString copyFrom: 1 to: stringLen - 1.
+			^ stringLen] .
+! !
+
+!AthensVirtualTextAreaLine methodsFor: 'text positioning'!
+
+pixelOffsetAfter: anOffset
+	"ASSERTION"
+	self assert: anOffset > 0.
+	self assert: anOffset <=  self size.
+	^ self measureStringWidth: (text copyFrom: 1 to: anOffset)
+!
+
+pixelOffsetBefore: anOffset
+	"ASSERTION"
+	self assert: anOffset > 0.
+	anOffset == 1
+		ifTrue: [^ 0]
+		ifFalse: [^ self pixelOffsetAfter: anOffset - 1].
+!
+
+positionForPixelOffset: aNumber
+	|lastOffset|
+	lastOffset := 0.
+	(1 to: text size) do: [:charIndex | |offset midChar|
+		offset := self measureStringWidth: (text copyFrom: 1 to: charIndex).
+		midChar := offset - (offset - lastOffset / 2).
+		lastOffset := offset.
+		aNumber < midChar 
+			ifTrue: [^ charIndex]].
+	hasLineBreak
+		ifTrue: [^ self size]
+		ifFalse: ["outside -> position 1 in next line" ^ -1].
+! !
+
+!AthensVirtualTextAreaLine class methodsFor: 'instance creation'!
+
+forTextAreaMorph: aMorph
+	^ self new
+		morph: aMorph;
+		yourself
 ! !
 
 Object subclass: #WorldState
