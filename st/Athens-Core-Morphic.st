@@ -82,6 +82,10 @@ handleKeyDown: evt
 	(eventCallbacks at: #keyDown ifAbsent: [[:ev | ]]) value: evt.
 !
 
+handleKeyPress: evt
+	(eventCallbacks at: #keyPress ifAbsent: [[:ev | ]]) value: evt.
+!
+
 handleKeyUp: evt
 	(eventCallbacks at: #keyUp ifAbsent: [[:ev | ]]) value: evt.
 !
@@ -141,6 +145,10 @@ onChange: aBlock
 
 onKeyDown: aBlock
 	eventCallbacks at: #keyDown put: aBlock.
+!
+
+onKeyPress: aBlock
+	eventCallbacks at: #keyPress put: aBlock.
 !
 
 onKeyUp: aBlock
@@ -1249,6 +1257,10 @@ maxWidth
 	^ maxWidth
 !
 
+size
+	^ self text size
+!
+
 text
 	|text|
 	text := ''.
@@ -1257,6 +1269,7 @@ text
 !
 
 text: aString
+	Transcript show: aString.
 	self generateVirtualLines: aString.
 !
 
@@ -1313,43 +1326,40 @@ drawSelectionOn: canvas
 !AthensTextAreaMorph methodsFor: 'events'!
 
 handleKeyBackspace: evt
-	|cursorPosition|
-	cursorPosition := self stringOffsetFromChar: selectionStart.
-	self removeCharAt: cursorPosition - 1.
+	self removeCharAt: selectionStart - 1.
 	self moveCursorBy: -1.
 	self redraw.
 !
 
 handleKeyDelete: evt
-	|cursorPosition|
-	cursorPosition := self stringOffsetFromChar: selectionStart.
-	self removeCharAt: cursorPosition.
+	self removeCharAt: selectionStart.
 	self redraw.
 !
 
 handleKeyDown: evt
 	|handler|
 	super handleKeyDown: evt.
-	handler := keyHandlers at: evt keyCode ifAbsent: [[:ev | self handleKeyOther: ev]].
+	handler := keyHandlers at: evt keyCode ifAbsent: [[:ev | "self handleKeyOther: ev"]].
 	handler value: evt.
 !
 
-handleKeyLeft: evt
-	self moveCursorBy: -1.
+handleKeyInput: evt
+	self insertString: (String fromCharCode: evt keyCode) at: selectionStart.
+	self moveCursorBy: 1.
 	self redraw.
 !
 
-handleKeyOther: evt
-	|cursorPosition|
-	cursorPosition := self stringOffsetFromChar: selectionStart.
-	self insertString: (String fromCharCode: evt keyCode) at: cursorPosition.
-	self moveCursorBy: 1.
-	self redraw.
+handleKeyLeft: evt
+	self select: selectionStart - 1.
+!
+
+handleKeyPress: evt
+	super handleKeyPress: evt.
+	self handleKeyInput: evt.
 !
 
 handleKeyRight: evt
-	self moveCursorBy: 1.
-	self redraw.
+	self select: selectionStart + selectionLength + 1.
 !
 
 handleMouseClick: evt
@@ -1430,14 +1440,21 @@ generateVirtualLines: aString
 	|text|
 	virtualLines := OrderedCollection new.
 	text := aString.
-	text lines do: [:lineText | |line remainingText|
+	text lines do: [:lineText | |line remainingText emptyLine|
 		remainingText := lineText.
-		[remainingText size > 0] whileTrue: [
+		emptyLine := lineText size == 0. "run loop at least once even if line is empty"
+		[remainingText size > 0 | emptyLine] whileTrue: [
 			line := AthensVirtualTextAreaLine forTextAreaMorph: self.
 			remainingText := remainingText copyFrom: (line populateWith: remainingText) + 1 to: remainingText size.
 			virtualLines size > 0 ifTrue: [
 				virtualLines last nextLine: line].
-			virtualLines add: line].
+			virtualLines add: line.
+			emptyLine := false].
+		virtualLines ifEmpty: [virtualLines add: (AthensVirtualTextAreaLine forTextAreaMorph: self)].
+		virtualLines last hasLineBreak: true].
+	"Last virtual line must have line break."
+	virtualLines ifEmpty: [
+		virtualLines add: (AthensVirtualTextAreaLine forTextAreaMorph: self).
 		virtualLines last hasLineBreak: true].
 !
 
@@ -1488,7 +1505,7 @@ pixelBeforePosition: aNumber
 	currentPosition := 0.
 	(1 to: virtualLines size) do: [:lineIndex | |line|
 		line := virtualLines at: lineIndex.
-		currentPosition + line size > aNumber ifTrue: [
+		currentPosition + line size + 1 > aNumber ifTrue: [
 			^ (line pixelOffsetBefore: aNumber - currentPosition) @ (self pixelOffsetForLine: lineIndex)].
 		currentPosition := currentPosition + line size].
 	self error: 'pixel not found'.
@@ -1502,9 +1519,26 @@ pixelOffsetForLine: aNumber
 !
 
 positionForPixel: aPoint
-	|lineIndex|
+	|lineIndex lineOffset|
 	lineIndex := self lineForPixelOffset: aPoint y.
-	^ ((virtualLines at: lineIndex) positionForPixelOffset: aPoint x) + (self charsBeforeLine: lineIndex).
+	lineOffset := (virtualLines at: lineIndex) positionForPixelOffset: aPoint x.
+	lineOffset == -1
+		ifTrue: ["outside line (right border)" ^ (self charsBeforeLine: lineIndex + 1) + 1]
+		ifFalse: [^ lineOffset + (self charsBeforeLine: lineIndex)].
+! !
+
+!AthensTextAreaMorph methodsFor: 'text selection'!
+
+moveCursorBy: aNumber
+	selectionStart := ((selectionStart + aNumber) max: 1) min: self size.
+	selectionLength := 0.
+	self redraw.
+!
+
+select: aNumber
+	selectionStart := (aNumber max: 1) min: self size.
+	selectionLength := 0.
+	self redraw.
 ! !
 
 AthensRectangleMorph subclass: #AthensTextMorph
@@ -1872,7 +1906,8 @@ delegateEvent: aSymbol with: evt
 		aSymbol == #mouseUp ifTrue: [morph handleMouseUp: evt].
 		aSymbol == #mouseWheel ifTrue: [morph handleMouseWheel: evt].
 		aSymbol == #keyDown ifTrue: [morph handleKeyDown: evt].
-		aSymbol == #keyUp ifTrue: [morph handleKeyUp: evt]].
+		aSymbol == #keyUp ifTrue: [morph handleKeyUp: evt].
+		aSymbol == #keyPress ifTrue: [morph handleKeyPress: evt]].
 !
 
 handleEvent: aSymbol with: evt
@@ -1936,7 +1971,7 @@ initializeCallbacks
 	self registerGlobalEvent: #mouseMove withCallback: [:evt | 
 		handPosition := evt at: #globalPosition.
 		self updateMorphsUnderHandAt: handPosition].
-	{#mouseMove. #mouseDown. #mouseUp. #mouseClick. #mouseWheel. #keyDown. #keyUp} do: [:sym |
+	{#mouseMove. #mouseDown. #mouseUp. #mouseClick. #mouseWheel. #keyDown. #keyUp. #keyPress} do: [:sym |
 		self registerGlobalEvent: sym withCallback: [:evt | self delegateEvent: sym with: evt]].
 !
 
@@ -2074,6 +2109,7 @@ assert: aBoolean
 
 initialize
 	hasLineBreak := false.
+	text := ''.
 ! !
 
 !AthensVirtualTextAreaLine methodsFor: 'text layout'!
@@ -2094,7 +2130,7 @@ populateWith: aString
 			[(self measureStringWidth: (aString copyFrom: 1 to: stringLen)) < maxWidth] 
 				whileTrue: [stringLen := stringLen + 1].
 			text := aString copyFrom: 1 to: stringLen - 1.
-			^ stringLen] .
+			^ stringLen - 1].
 ! !
 
 !AthensVirtualTextAreaLine methodsFor: 'text positioning'!
@@ -2121,7 +2157,7 @@ positionForPixelOffset: aNumber
 		offset := self measureStringWidth: (text copyFrom: 1 to: charIndex).
 		midChar := offset - (offset - lastOffset / 2).
 		lastOffset := offset.
-		aNumber < midChar 
+		aNumber <= midChar 
 			ifTrue: [^ charIndex]].
 	hasLineBreak
 		ifTrue: [^ self size]

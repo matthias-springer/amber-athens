@@ -74,8 +74,12 @@ _st(document)._addEventListener_do_initiateCapture_("keyup",(function(evt){
 return smalltalk.withContext(function($ctx2) {
 return _st(self["@world"])._handleEvent_with_("keyUp",self._keyUpEventDataFor_(evt));
 }, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}),false);
+_st(document)._addEventListener_do_initiateCapture_("keypress",(function(evt){
+return smalltalk.withContext(function($ctx2) {
+return _st(self["@world"])._handleEvent_with_("keyPress",self._keyPressEventDataFor_(evt));
+}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}),false);
 return self}, function($ctx1) {$ctx1.fill(self,"bindEvents",{},smalltalk.AthensHTMLMorphicSurface)})},
-messageSends: ["bind:do:", "handleEvent:with:", "mouseDoubleClickEventDataFor:", "preventDefault", "asJQuery", "mouseClickEventDataFor:", "mouseDownEventDataFor:", "mouseMoveEventDataFor:", "mouseUpEventDataFor:", "mouseWheelEventDataFor:", "handleMouseEnter:", "handleMouseLeave:", "addEventListener:do:initiateCapture:", "keyDownEventDataFor:", "keyUpEventDataFor:"]}),
+messageSends: ["bind:do:", "handleEvent:with:", "mouseDoubleClickEventDataFor:", "preventDefault", "asJQuery", "mouseClickEventDataFor:", "mouseDownEventDataFor:", "mouseMoveEventDataFor:", "mouseUpEventDataFor:", "mouseWheelEventDataFor:", "handleMouseEnter:", "handleMouseLeave:", "addEventListener:do:initiateCapture:", "keyDownEventDataFor:", "keyUpEventDataFor:", "keyPressEventDataFor:"]}),
 smalltalk.AthensHTMLMorphicSurface);
 
 smalltalk.addMethod(
@@ -136,6 +140,23 @@ $3=_st($2)._yourself();
 $1=$3;
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"keyDownEventDataFor:",{evt:evt},smalltalk.AthensHTMLMorphicSurface)})},
+messageSends: ["at:put:", "keyCode", "new", "yourself"]}),
+smalltalk.AthensHTMLMorphicSurface);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "keyPressEventDataFor:",
+fn: function (evt){
+var self=this;
+function $AthensMorphicEvent(){return smalltalk.AthensMorphicEvent||(typeof AthensMorphicEvent=="undefined"?nil:AthensMorphicEvent)}
+return smalltalk.withContext(function($ctx1) { 
+var $2,$3,$1;
+$2=_st($AthensMorphicEvent())._new();
+_st($2)._at_put_("keyCode",_st(evt)._keyCode());
+$3=_st($2)._yourself();
+$1=$3;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"keyPressEventDataFor:",{evt:evt},smalltalk.AthensHTMLMorphicSurface)})},
 messageSends: ["at:put:", "keyCode", "new", "yourself"]}),
 smalltalk.AthensHTMLMorphicSurface);
 

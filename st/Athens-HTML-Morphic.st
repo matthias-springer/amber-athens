@@ -51,11 +51,15 @@ bindEvents
 		do: [:evt | self handleMouseLeave: evt].
 	document 
 		addEventListener: 'keydown'
-		do: [:evt |  world handleEvent: #keyDown with: (self keyDownEventDataFor: evt)]
+		do: [:evt | world handleEvent: #keyDown with: (self keyDownEventDataFor: evt)]
 		initiateCapture: false.
 	document 
 		addEventListener: 'keyup'
 		do: [:evt | world handleEvent: #keyUp with: (self keyUpEventDataFor: evt)]
+		initiateCapture: false.
+	document 
+		addEventListener: 'keypress'
+		do: [:evt | world handleEvent: #keyPress with: (self keyPressEventDataFor: evt)]
 		initiateCapture: false.
 !
 
@@ -72,6 +76,12 @@ handleMouseLeave: evt
 !
 
 keyDownEventDataFor: evt
+	^ AthensMorphicEvent new
+		at: #keyCode put: evt keyCode;
+		yourself
+!
+
+keyPressEventDataFor: evt
 	^ AthensMorphicEvent new
 		at: #keyCode put: evt keyCode;
 		yourself
