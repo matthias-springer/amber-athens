@@ -1470,7 +1470,7 @@ smalltalk.AthensMoveHaloMorph);
 
 
 
-smalltalk.addClass('AthensRectangleMorph', smalltalk.AthensMorph, ['width', 'height', 'borderColor', 'fillColor', 'mouseDownFillColor', 'mouseFocusFillColor', 'hasSharpBorder'], 'Athens-Core-Morphic');
+smalltalk.addClass('AthensRectangleMorph', smalltalk.AthensMorph, ['width', 'height', 'borderColor', 'mouseDownBorderColor', 'mouseFocusBorderColor', 'fillColor', 'mouseDownFillColor', 'mouseFocusFillColor', 'hasSharpBorder'], 'Athens-Core-Morphic');
 smalltalk.addMethod(
 smalltalk.method({
 selector: "borderColor:",
@@ -1488,11 +1488,11 @@ smalltalk.method({
 selector: "drawOn:",
 fn: function (canvas){
 var self=this;
-var shape,currentFillColor;
+var shape,currentFillColor,currentBorderColor;
 return smalltalk.withContext(function($ctx1) { 
-var $1,$2,$3;
+var $1,$2,$3,$4,$5;
 shape=_st((0).__at((0)))._corner_(_st(self._width()).__at(self["@height"]));
-$1=self["@hasMouseFocus"];
+$1=_st(self["@hasMouseFocus"]).__and(_st(self["@mouseFocusFillColor"])._notNil());
 if(smalltalk.assert($1)){
 currentFillColor=self["@mouseFocusFillColor"];
 currentFillColor;
@@ -1500,26 +1500,39 @@ currentFillColor;
 currentFillColor=self["@fillColor"];
 currentFillColor;
 };
-$2=self["@isMouseDown"];
+$2=_st(self["@isMouseDown"]).__and(_st(self["@mouseDownFillColor"])._notNil());
 if(smalltalk.assert($2)){
 currentFillColor=self["@mouseDownFillColor"];
 currentFillColor;
 };
-$3=self["@hasSharpBorder"];
+$3=_st(self["@hasMouseFocus"]).__and(_st(self["@mouseFocusBorderColor"])._notNil());
 if(smalltalk.assert($3)){
-_st(canvas)._setPaint_(self["@borderColor"]);
+currentBorderColor=self["@mouseFocusBorderColor"];
+currentBorderColor;
+} else {
+currentBorderColor=self["@borderColor"];
+currentBorderColor;
+};
+$4=_st(self["@isMouseDown"]).__and(_st(self["@mouseDownBorderColor"])._notNil());
+if(smalltalk.assert($4)){
+currentBorderColor=self["@mouseDownBorderColor"];
+currentBorderColor;
+};
+$5=self["@hasSharpBorder"];
+if(smalltalk.assert($5)){
+_st(canvas)._setPaint_(currentBorderColor);
 _st(canvas)._drawShape_(shape);
 _st(canvas)._setPaint_(currentFillColor);
 _st(canvas)._drawShape_(_st((1).__at((1)))._corner_(_st(_st(self["@width"]).__minus((1))).__at(_st(self["@height"]).__minus((1)))));
 } else {
 _st(canvas)._setPaint_(currentFillColor);
 _st(canvas)._drawShape_(shape);
-_st(canvas)._setStrokePaint_(self["@borderColor"]);
+_st(canvas)._setStrokePaint_(currentBorderColor);
 _st(canvas)._drawShape_(shape);
 };
 self._outerShape_(shape);
-return self}, function($ctx1) {$ctx1.fill(self,"drawOn:",{canvas:canvas,shape:shape,currentFillColor:currentFillColor},smalltalk.AthensRectangleMorph)})},
-messageSends: ["corner:", "@", "width", "ifTrue:ifFalse:", "ifTrue:", "setPaint:", "drawShape:", "-", "setStrokePaint:", "outerShape:"]}),
+return self}, function($ctx1) {$ctx1.fill(self,"drawOn:",{canvas:canvas,shape:shape,currentFillColor:currentFillColor,currentBorderColor:currentBorderColor},smalltalk.AthensRectangleMorph)})},
+messageSends: ["corner:", "@", "width", "ifTrue:ifFalse:", "&", "notNil", "ifTrue:", "setPaint:", "drawShape:", "-", "setStrokePaint:", "outerShape:"]}),
 smalltalk.AthensRectangleMorph);
 
 smalltalk.addMethod(
@@ -1528,9 +1541,7 @@ selector: "fillColor:",
 fn: function (aColor){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self["@mouseFocusFillColor"]=aColor;
-self["@mouseDownFillColor"]=self["@mouseFocusFillColor"];
-self["@fillColor"]=self["@mouseDownFillColor"];
+self["@fillColor"]=aColor;
 self._redraw();
 return self}, function($ctx1) {$ctx1.fill(self,"fillColor:",{aColor:aColor},smalltalk.AthensRectangleMorph)})},
 messageSends: ["redraw"]}),
@@ -1622,12 +1633,21 @@ smalltalk.AthensMorph.fn.prototype._initialize.apply(_st(self), []);
 self["@height"]=(50);
 self["@width"]=self["@height"];
 self["@borderColor"]=_st($Color())._black();
-self["@mouseFocusFillColor"]=_st($Color())._white();
-self["@mouseDownFillColor"]=self["@mouseFocusFillColor"];
-self["@fillColor"]=self["@mouseDownFillColor"];
+self["@fillColor"]=_st($Color())._white();
 self["@hasSharpBorder"]=false;
 return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensRectangleMorph)})},
 messageSends: ["initialize", "black", "white"]}),
+smalltalk.AthensRectangleMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "mouseDownBorderColor:",
+fn: function (aColor){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self["@mouseDownBorderColor"]=aColor;
+return self}, function($ctx1) {$ctx1.fill(self,"mouseDownBorderColor:",{aColor:aColor},smalltalk.AthensRectangleMorph)})},
+messageSends: []}),
 smalltalk.AthensRectangleMorph);
 
 smalltalk.addMethod(
@@ -1638,6 +1658,17 @@ var self=this;
 return smalltalk.withContext(function($ctx1) { 
 self["@mouseDownFillColor"]=aColor;
 return self}, function($ctx1) {$ctx1.fill(self,"mouseDownFillColor:",{aColor:aColor},smalltalk.AthensRectangleMorph)})},
+messageSends: []}),
+smalltalk.AthensRectangleMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "mouseFocusBorderColor:",
+fn: function (aColor){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self["@mouseFocusBorderColor"]=aColor;
+return self}, function($ctx1) {$ctx1.fill(self,"mouseFocusBorderColor:",{aColor:aColor},smalltalk.AthensRectangleMorph)})},
 messageSends: []}),
 smalltalk.AthensRectangleMorph);
 
@@ -1816,6 +1847,727 @@ $3;
 return self}, function($ctx1) {$ctx1.fill(self,"layoutChanged",{},smalltalk.AthensIconButtonMorph)})},
 messageSends: ["layoutChanged", "ifNotNil:", "translateByX:Y:", "+", "/", "width", "resetTransformation", "-", "height"]}),
 smalltalk.AthensIconButtonMorph);
+
+
+
+smalltalk.addClass('AthensEditableTextMorph', smalltalk.AthensRectangleMorph, ['lines', 'selectionStart', 'selectionLength', 'keyHandlers', 'font', 'virtualLines', 'virtualSurface', 'virtualCanvas', 'maxWidth', 'isInSelectionMode', 'selectionStartOffset', 'lineHeight'], 'Athens-Core-Morphic');
+smalltalk.addMethod(
+smalltalk.method({
+selector: "bindKeyHandlers",
+fn: function (){
+var self=this;
+function $Dictionary(){return smalltalk.Dictionary||(typeof Dictionary=="undefined"?nil:Dictionary)}
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2;
+$1=_st($Dictionary())._new();
+_st($1)._at_put_((8),(function(evt){
+return smalltalk.withContext(function($ctx2) {
+return self._handleKeyBackspace_(evt);
+}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
+_st($1)._at_put_((46),(function(evt){
+return smalltalk.withContext(function($ctx2) {
+return self._handleKeyDelete_(evt);
+}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
+_st($1)._at_put_((37),(function(evt){
+return smalltalk.withContext(function($ctx2) {
+return self._handleKeyLeft_(evt);
+}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
+_st($1)._at_put_((38),(function(evt){
+return smalltalk.withContext(function($ctx2) {
+return self._handleKeyUp_(evt);
+}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
+_st($1)._at_put_((39),(function(evt){
+return smalltalk.withContext(function($ctx2) {
+return self._handleKeyRight_(evt);
+}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
+_st($1)._at_put_((40),(function(evt){
+return smalltalk.withContext(function($ctx2) {
+return self._handleKeyDown_(evt);
+}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
+$2=_st($1)._yourself();
+self["@keyHandlers"]=$2;
+return self}, function($ctx1) {$ctx1.fill(self,"bindKeyHandlers",{},smalltalk.AthensTextAreaMorph)})},
+messageSends: ["at:put:", "handleKeyBackspace:", "new", "handleKeyDelete:", "handleKeyLeft:", "handleKeyUp:", "handleKeyRight:", "handleKeyDown:", "yourself"]}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "charsBeforeLine:",
+fn: function (aNumber){
+var self=this;
+var sum;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+sum=(0);
+_st((1)._to_(_st(aNumber).__minus((1))))._do_((function(lineIndex){
+return smalltalk.withContext(function($ctx2) {
+sum=_st(sum).__plus(_st(_st(self["@virtualLines"])._at_(lineIndex))._size());
+return sum;
+}, function($ctx2) {$ctx2.fillBlock({lineIndex:lineIndex},$ctx1)})}));
+$1=sum;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"charsBeforeLine:",{aNumber:aNumber,sum:sum},smalltalk.AthensTextAreaMorph)})},
+messageSends: ["do:", "+", "size", "at:", "to:", "-"]}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "drawCursorOn:",
+fn: function (canvas){
+var self=this;
+var shape,pixelPosition;
+function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
+return smalltalk.withContext(function($ctx1) { 
+_st(_st(canvas)._pathTransform())._loadIdentity();
+_st(canvas)._setPaint_(_st($Color())._black());
+pixelPosition=self._pixelBeforePosition_(_st(self["@selectionStart"]).__plus(self["@selectionLength"]));
+shape=_st(pixelPosition)._corner_(_st(pixelPosition).__plus((1).__at(self["@lineHeight"])));
+_st(canvas)._drawShape_(shape);
+return self}, function($ctx1) {$ctx1.fill(self,"drawCursorOn:",{canvas:canvas,shape:shape,pixelPosition:pixelPosition},smalltalk.AthensTextAreaMorph)})},
+messageSends: ["loadIdentity", "pathTransform", "setPaint:", "black", "pixelBeforePosition:", "+", "corner:", "@", "drawShape:"]}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "drawOn:",
+fn: function (canvas){
+var self=this;
+function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
+return smalltalk.withContext(function($ctx1) { 
+smalltalk.AthensRectangleMorph.fn.prototype._drawOn_.apply(_st(self), [canvas]);
+self._drawSelectionOn_(canvas);
+_st(canvas)._setFont_(self["@font"]);
+_st(canvas)._setPaint_(_st($Color())._black());
+_st(self["@virtualLines"])._do_((function(line){
+return smalltalk.withContext(function($ctx2) {
+_st(_st(canvas)._pathTransform())._translateX_Y_((0),self["@lineHeight"]);
+return _st(canvas)._drawString_(_st(line)._text());
+}, function($ctx2) {$ctx2.fillBlock({line:line},$ctx1)})}));
+self._drawCursorOn_(canvas);
+return self}, function($ctx1) {$ctx1.fill(self,"drawOn:",{canvas:canvas},smalltalk.AthensTextAreaMorph)})},
+messageSends: ["drawOn:", "drawSelectionOn:", "setFont:", "setPaint:", "black", "do:", "translateX:Y:", "pathTransform", "drawString:", "text", "drawCursorOn:"]}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "drawSelectionOn:",
+fn: function (canvas){
+var self=this;
+var x,y,selOffsets,selStart,selStop;
+return smalltalk.withContext(function($ctx1) { 
+selOffsets=self._selectionStartStop();
+selStart=_st(selOffsets)._first();
+selStop=_st(selOffsets)._last();
+x=_st(selStart)._x();
+y=_st(selStart)._y();
+_st((function(){
+return smalltalk.withContext(function($ctx2) {
+return _st(y).__eq_eq(_st(selStop)._y());
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}))._whileFalse_((function(){
+return smalltalk.withContext(function($ctx2) {
+self._drawSelectionOn_from_to_in_(canvas,x,self["@maxWidth"],y);
+y=_st(y).__plus(self["@lineHeight"]);
+y;
+x=(0);
+return x;
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
+self._drawSelectionOn_from_to_in_(canvas,x,_st(selStop)._x(),y);
+return self}, function($ctx1) {$ctx1.fill(self,"drawSelectionOn:",{canvas:canvas,x:x,y:y,selOffsets:selOffsets,selStart:selStart,selStop:selStop},smalltalk.AthensEditableTextMorph)})},
+messageSends: ["selectionStartStop", "first", "last", "x", "y", "whileFalse:", "drawSelectionOn:from:to:in:", "+", "=="]}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "drawSelectionOn:from:to:in:",
+fn: function (canvas,x1,x2,y){
+var self=this;
+function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
+return smalltalk.withContext(function($ctx1) { 
+_st(canvas)._setPaint_(_st($Color())._cosmoBlue());
+_st(canvas)._drawShape_(_st(_st(x1).__at(y))._corner_(_st(x2).__at(_st(y).__plus(self["@lineHeight"]))));
+return self}, function($ctx1) {$ctx1.fill(self,"drawSelectionOn:from:to:in:",{canvas:canvas,x1:x1,x2:x2,y:y},smalltalk.AthensEditableTextMorph)})},
+messageSends: ["setPaint:", "cosmoBlue", "drawShape:", "corner:", "@", "+"]}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "generateVirtualLines:",
+fn: function (aString){
+var self=this;
+var text;
+function $OrderedCollection(){return smalltalk.OrderedCollection||(typeof OrderedCollection=="undefined"?nil:OrderedCollection)}
+function $AthensVirtualTextAreaLine(){return smalltalk.AthensVirtualTextAreaLine||(typeof AthensVirtualTextAreaLine=="undefined"?nil:AthensVirtualTextAreaLine)}
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+self["@virtualLines"]=_st($OrderedCollection())._new();
+text=aString;
+_st(_st(text)._lines())._do_((function(lineText){
+var line,remainingText,emptyLine;
+return smalltalk.withContext(function($ctx2) {
+remainingText=lineText;
+remainingText;
+emptyLine=_st(_st(lineText)._size()).__eq_eq((0));
+emptyLine;
+_st((function(){
+return smalltalk.withContext(function($ctx3) {
+return _st(_st(_st(remainingText)._size()).__gt((0))).__or(emptyLine);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2)})}))._whileTrue_((function(){
+return smalltalk.withContext(function($ctx3) {
+line=_st($AthensVirtualTextAreaLine())._forTextAreaMorph_(self);
+line;
+remainingText=_st(remainingText)._copyFrom_to_(_st(_st(line)._populateWith_(remainingText)).__plus((1)),_st(remainingText)._size());
+remainingText;
+$1=_st(_st(self["@virtualLines"])._size()).__gt((0));
+if(smalltalk.assert($1)){
+_st(_st(self["@virtualLines"])._last())._nextLine_(line);
+};
+_st(self["@virtualLines"])._add_(line);
+emptyLine=false;
+return emptyLine;
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2)})}));
+_st(self["@virtualLines"])._ifEmpty_((function(){
+return smalltalk.withContext(function($ctx3) {
+return _st(self["@virtualLines"])._add_(_st($AthensVirtualTextAreaLine())._forTextAreaMorph_(self));
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2)})}));
+return _st(_st(self["@virtualLines"])._last())._hasLineBreak_(true);
+}, function($ctx2) {$ctx2.fillBlock({lineText:lineText,line:line,remainingText:remainingText,emptyLine:emptyLine},$ctx1)})}));
+_st(self["@virtualLines"])._ifEmpty_((function(){
+return smalltalk.withContext(function($ctx2) {
+_st(self["@virtualLines"])._add_(_st($AthensVirtualTextAreaLine())._forTextAreaMorph_(self));
+return _st(_st(self["@virtualLines"])._last())._hasLineBreak_(true);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
+return self}, function($ctx1) {$ctx1.fill(self,"generateVirtualLines:",{aString:aString,text:text},smalltalk.AthensTextAreaMorph)})},
+messageSends: ["new", "do:", "==", "size", "whileTrue:", "forTextAreaMorph:", "copyFrom:to:", "+", "populateWith:", "ifTrue:", "nextLine:", "last", ">", "add:", "|", "ifEmpty:", "hasLineBreak:", "lines"]}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "handleKeyBackspace:",
+fn: function (evt){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(self["@selectionLength"]).__eq_eq((0));
+if(smalltalk.assert($1)){
+self._removeCharAt_(_st(self["@selectionStart"]).__minus((1)));
+self._moveCursorBy_((-1));
+} else {
+self._removeSelection();
+};
+self._redraw();
+return self}, function($ctx1) {$ctx1.fill(self,"handleKeyBackspace:",{evt:evt},smalltalk.AthensEditableTextMorph)})},
+messageSends: ["ifTrue:ifFalse:", "removeCharAt:", "-", "moveCursorBy:", "removeSelection", "==", "redraw"]}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "handleKeyDelete:",
+fn: function (evt){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(self["@selectionLength"]).__eq_eq((0));
+if(smalltalk.assert($1)){
+self._removeCharAt_(self["@selectionStart"]);
+} else {
+self._removeSelection();
+};
+self._redraw();
+return self}, function($ctx1) {$ctx1.fill(self,"handleKeyDelete:",{evt:evt},smalltalk.AthensEditableTextMorph)})},
+messageSends: ["ifTrue:ifFalse:", "removeCharAt:", "removeSelection", "==", "redraw"]}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "handleKeyDown:",
+fn: function (evt){
+var self=this;
+var handler;
+return smalltalk.withContext(function($ctx1) { 
+smalltalk.AthensRectangleMorph.fn.prototype._handleKeyDown_.apply(_st(self), [evt]);
+handler=_st(self["@keyHandlers"])._at_ifAbsent_(_st(evt)._keyCode(),(function(){
+return smalltalk.withContext(function($ctx2) {
+return (function(ev){
+return smalltalk.withContext(function($ctx3) {
+}, function($ctx3) {$ctx3.fillBlock({ev:ev},$ctx2)})});
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
+_st(handler)._value_(evt);
+return self}, function($ctx1) {$ctx1.fill(self,"handleKeyDown:",{evt:evt,handler:handler},smalltalk.AthensTextAreaMorph)})},
+messageSends: ["handleKeyDown:", "at:ifAbsent:", "keyCode", "value:"]}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "handleKeyInput:",
+fn: function (evt){
+var self=this;
+function $String(){return smalltalk.String||(typeof String=="undefined"?nil:String)}
+return smalltalk.withContext(function($ctx1) { 
+self._insertString_at_(_st($String())._fromCharCode_(_st(evt)._keyCode()),self["@selectionStart"]);
+self._moveCursorBy_((1));
+self._redraw();
+return self}, function($ctx1) {$ctx1.fill(self,"handleKeyInput:",{evt:evt},smalltalk.AthensTextAreaMorph)})},
+messageSends: ["insertString:at:", "fromCharCode:", "keyCode", "moveCursorBy:", "redraw"]}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "handleKeyLeft:",
+fn: function (evt){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self._select_(_st(self["@selectionStart"]).__minus((1)));
+return self}, function($ctx1) {$ctx1.fill(self,"handleKeyLeft:",{evt:evt},smalltalk.AthensTextAreaMorph)})},
+messageSends: ["select:", "-"]}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "handleKeyPress:",
+fn: function (evt){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+smalltalk.AthensRectangleMorph.fn.prototype._handleKeyPress_.apply(_st(self), [evt]);
+self._handleKeyInput_(evt);
+return self}, function($ctx1) {$ctx1.fill(self,"handleKeyPress:",{evt:evt},smalltalk.AthensTextAreaMorph)})},
+messageSends: ["handleKeyPress:", "handleKeyInput:"]}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "handleKeyRight:",
+fn: function (evt){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self._select_(_st(_st(self["@selectionStart"]).__plus(self["@selectionLength"])).__plus((1)));
+return self}, function($ctx1) {$ctx1.fill(self,"handleKeyRight:",{evt:evt},smalltalk.AthensTextAreaMorph)})},
+messageSends: ["select:", "+"]}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "handleMouseDown:",
+fn: function (evt){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+smalltalk.AthensRectangleMorph.fn.prototype._handleMouseDown_.apply(_st(self), [evt]);
+self["@isInSelectionMode"]=true;
+self["@selectionStart"]=self._positionForPixel_(_st(evt)._position());
+self["@selectionLength"]=(0);
+self._redraw();
+return self}, function($ctx1) {$ctx1.fill(self,"handleMouseDown:",{evt:evt},smalltalk.AthensEditableTextMorph)})},
+messageSends: ["handleMouseDown:", "positionForPixel:", "position", "redraw"]}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "handleMouseLeave",
+fn: function (){
+var self=this;
+function $AthensMorphicEvent(){return smalltalk.AthensMorphicEvent||(typeof AthensMorphicEvent=="undefined"?nil:AthensMorphicEvent)}
+return smalltalk.withContext(function($ctx1) { 
+smalltalk.AthensRectangleMorph.fn.prototype._handleMouseLeave.apply(_st(self), []);
+self._handleMouseUp_(_st($AthensMorphicEvent())._new());
+return self}, function($ctx1) {$ctx1.fill(self,"handleMouseLeave",{},smalltalk.AthensTextAreaMorph)})},
+messageSends: ["handleMouseLeave", "handleMouseUp:", "new"]}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "handleMouseMove:",
+fn: function (evt){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+smalltalk.AthensRectangleMorph.fn.prototype._handleMouseMove_.apply(_st(self), [evt]);
+$1=self["@isInSelectionMode"];
+if(smalltalk.assert($1)){
+var selectionStop;
+selectionStop=self._positionForPixel_(_st(evt)._position());
+selectionStop;
+self["@selectionLength"]=_st(selectionStop).__minus(self["@selectionStart"]);
+self["@selectionLength"];
+self._redraw();
+};
+return self}, function($ctx1) {$ctx1.fill(self,"handleMouseMove:",{evt:evt},smalltalk.AthensEditableTextMorph)})},
+messageSends: ["handleMouseMove:", "ifTrue:", "positionForPixel:", "position", "-", "redraw"]}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "handleMouseUp:",
+fn: function (evt){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+smalltalk.AthensRectangleMorph.fn.prototype._handleMouseUp_.apply(_st(self), [evt]);
+self["@isInSelectionMode"]=false;
+return self}, function($ctx1) {$ctx1.fill(self,"handleMouseUp:",{evt:evt},smalltalk.AthensTextAreaMorph)})},
+messageSends: ["handleMouseUp:"]}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "initialize",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+smalltalk.AthensRectangleMorph.fn.prototype._initialize.apply(_st(self), []);
+self._initializeVariables();
+self._initializeVirtualSurface();
+self._bindKeyHandlers();
+return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensTextAreaMorph)})},
+messageSends: ["initialize", "initializeVariables", "initializeVirtualSurface", "bindKeyHandlers"]}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "initializeVariables",
+fn: function (){
+var self=this;
+function $LogicalFont(){return smalltalk.LogicalFont||(typeof LogicalFont=="undefined"?nil:LogicalFont)}
+function $OrderedCollection(){return smalltalk.OrderedCollection||(typeof OrderedCollection=="undefined"?nil:OrderedCollection)}
+function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
+return smalltalk.withContext(function($ctx1) { 
+self["@font"]=_st($LogicalFont())._familyName_pointSize_("Arial",(15));
+self["@virtualLines"]=_st($OrderedCollection())._new();
+self["@maxWidth"]=(100);
+self["@lineHeight"]=(15);
+self["@isInSelectionMode"]=false;
+self["@hasSharpBorder"]=true;
+self["@fillColor"]=_st($Color())._transparent();
+self["@borderColor"]=self["@fillColor"];
+self["@selectionStart"]=(1);
+self["@selectionLength"]=(0);
+return self}, function($ctx1) {$ctx1.fill(self,"initializeVariables",{},smalltalk.AthensEditableTextMorph)})},
+messageSends: ["familyName:pointSize:", "new", "transparent"]}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "initializeVirtualSurface",
+fn: function (){
+var self=this;
+function $AthensHTMLSurface(){return smalltalk.AthensHTMLSurface||(typeof AthensHTMLSurface=="undefined"?nil:AthensHTMLSurface)}
+return smalltalk.withContext(function($ctx1) { 
+self["@virtualSurface"]=_st($AthensHTMLSurface())._extent_((0).__at((0)));
+_st(self["@virtualSurface"])._drawDuring_((function(canvas){
+return smalltalk.withContext(function($ctx2) {
+self["@virtualCanvas"]=canvas;
+self["@virtualCanvas"];
+return _st(canvas)._setFont_(self["@font"]);
+}, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
+return self}, function($ctx1) {$ctx1.fill(self,"initializeVirtualSurface",{},smalltalk.AthensTextAreaMorph)})},
+messageSends: ["extent:", "@", "drawDuring:", "setFont:"]}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "insertString:at:",
+fn: function (aString,position){
+var self=this;
+var content;
+return smalltalk.withContext(function($ctx1) { 
+content=self._text();
+self._text_(_st(_st(_st(content)._copyFrom_to_((1),_st(position).__minus((1)))).__comma(aString)).__comma(_st(content)._copyFrom_to_(position,_st(content)._size())));
+return self}, function($ctx1) {$ctx1.fill(self,"insertString:at:",{aString:aString,position:position,content:content},smalltalk.AthensTextAreaMorph)})},
+messageSends: ["text", "text:", ",", "copyFrom:to:", "size", "-"]}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "lineForPixelOffset:",
+fn: function (aNumber){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(_st(_st(_st(aNumber).__slash(self["@lineHeight"]))._floor()).__plus((1)))._min_(_st(self["@virtualLines"])._size());
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"lineForPixelOffset:",{aNumber:aNumber},smalltalk.AthensTextAreaMorph)})},
+messageSends: ["min:", "size", "+", "floor", "/"]}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "maxWidth",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self["@maxWidth"];
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"maxWidth",{},smalltalk.AthensTextAreaMorph)})},
+messageSends: []}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "moveCursorBy:",
+fn: function (aNumber){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self["@selectionStart"]=_st(_st(_st(self["@selectionStart"]).__plus(aNumber))._max_((1)))._min_(self._size());
+self["@selectionLength"]=(0);
+self._redraw();
+return self}, function($ctx1) {$ctx1.fill(self,"moveCursorBy:",{aNumber:aNumber},smalltalk.AthensTextAreaMorph)})},
+messageSends: ["min:", "size", "max:", "+", "redraw"]}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "pixelAfterPosition:",
+fn: function (aNumber){
+var self=this;
+var currentPosition;
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2;
+var $early={};
+try {
+currentPosition=(0);
+_st(self["@virtualLines"])._do_((function(line){
+var previousLine;
+return smalltalk.withContext(function($ctx2) {
+$1=_st(currentPosition).__gt(aNumber);
+if(smalltalk.assert($1)){
+$2=_st(previousLine)._pixelOffsetAfter_(_st(_st(aNumber).__minus(currentPosition)).__plus(_st(line)._size()));
+throw $early=[$2];
+};
+currentPosition=_st(currentPosition).__plus(_st(line)._size());
+currentPosition;
+previousLine=line;
+return previousLine;
+}, function($ctx2) {$ctx2.fillBlock({line:line,previousLine:previousLine},$ctx1)})}));
+return self}
+catch(e) {if(e===$early)return e[0]; throw e}
+}, function($ctx1) {$ctx1.fill(self,"pixelAfterPosition:",{aNumber:aNumber,currentPosition:currentPosition},smalltalk.AthensTextAreaMorph)})},
+messageSends: ["do:", "ifTrue:", "pixelOffsetAfter:", "+", "size", "-", ">"]}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "pixelBeforePosition:",
+fn: function (aNumber){
+var self=this;
+var currentPosition;
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2;
+var $early={};
+try {
+currentPosition=(0);
+_st((1)._to_(_st(self["@virtualLines"])._size()))._do_((function(lineIndex){
+var line;
+return smalltalk.withContext(function($ctx2) {
+line=_st(self["@virtualLines"])._at_(lineIndex);
+line;
+$1=_st(_st(_st(currentPosition).__plus(_st(line)._size())).__plus((1))).__gt(aNumber);
+if(smalltalk.assert($1)){
+$2=_st(_st(line)._pixelOffsetBefore_(_st(aNumber).__minus(currentPosition))).__at(self._pixelOffsetForLine_(lineIndex));
+throw $early=[$2];
+};
+currentPosition=_st(currentPosition).__plus(_st(line)._size());
+return currentPosition;
+}, function($ctx2) {$ctx2.fillBlock({lineIndex:lineIndex,line:line},$ctx1)})}));
+self._error_("pixel not found");
+return self}
+catch(e) {if(e===$early)return e[0]; throw e}
+}, function($ctx1) {$ctx1.fill(self,"pixelBeforePosition:",{aNumber:aNumber,currentPosition:currentPosition},smalltalk.AthensTextAreaMorph)})},
+messageSends: ["do:", "at:", "ifTrue:", "@", "pixelOffsetForLine:", "pixelOffsetBefore:", "-", ">", "+", "size", "to:", "error:"]}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "pixelOffsetForLine:",
+fn: function (aNumber){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(_st(aNumber).__minus((1))).__star(self["@lineHeight"]);
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"pixelOffsetForLine:",{aNumber:aNumber},smalltalk.AthensTextAreaMorph)})},
+messageSends: ["*", "-"]}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "positionForPixel:",
+fn: function (aPoint){
+var self=this;
+var lineIndex,lineOffset;
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2,$3;
+lineIndex=self._lineForPixelOffset_(_st(aPoint)._y());
+lineOffset=_st(_st(self["@virtualLines"])._at_(lineIndex))._positionForPixelOffset_(_st(aPoint)._x());
+$1=_st(lineOffset).__eq_eq((-1));
+if(smalltalk.assert($1)){
+$2=_st(self._charsBeforeLine_(_st(lineIndex).__plus((1)))).__plus((1));
+return $2;
+} else {
+$3=_st(lineOffset).__plus(self._charsBeforeLine_(lineIndex));
+return $3;
+};
+return self}, function($ctx1) {$ctx1.fill(self,"positionForPixel:",{aPoint:aPoint,lineIndex:lineIndex,lineOffset:lineOffset},smalltalk.AthensTextAreaMorph)})},
+messageSends: ["lineForPixelOffset:", "y", "positionForPixelOffset:", "x", "at:", "ifTrue:ifFalse:", "+", "charsBeforeLine:", "=="]}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "removeCharAt:",
+fn: function (position){
+var self=this;
+var content;
+return smalltalk.withContext(function($ctx1) { 
+content=self._text();
+self._text_(_st(_st(content)._copyFrom_to_((1),_st(position).__minus((1)))).__comma(_st(content)._copyFrom_to_(_st(position).__plus((1)),_st(content)._size())));
+return self}, function($ctx1) {$ctx1.fill(self,"removeCharAt:",{position:position,content:content},smalltalk.AthensTextAreaMorph)})},
+messageSends: ["text", "text:", ",", "copyFrom:to:", "+", "size", "-"]}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "removeFrom:to:",
+fn: function (start,stop){
+var self=this;
+var content;
+return smalltalk.withContext(function($ctx1) { 
+content=self._text();
+self._text_(_st(_st(content)._copyFrom_to_((1),_st(start).__minus((1)))).__comma(_st(content)._copyFrom_to_(_st(stop).__plus((1)),_st(content)._size())));
+return self}, function($ctx1) {$ctx1.fill(self,"removeFrom:to:",{start:start,stop:stop,content:content},smalltalk.AthensEditableTextMorph)})},
+messageSends: ["text", "text:", ",", "copyFrom:to:", "+", "size", "-"]}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "removeSelection",
+fn: function (){
+var self=this;
+var selStart,selStop;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(self["@selectionLength"]).__gt((0));
+if(smalltalk.assert($1)){
+selStart=self["@selectionStart"];
+selStart;
+selStop=_st(_st(self["@selectionStart"]).__plus(self["@selectionLength"])).__minus((1));
+selStop;
+} else {
+selStart=_st(self["@selectionStart"]).__plus(self["@selectionLength"]);
+selStart;
+selStop=_st(self["@selectionStart"]).__minus((1));
+selStop;
+};
+self._removeFrom_to_(selStart,selStop);
+self._select_(selStart);
+return self}, function($ctx1) {$ctx1.fill(self,"removeSelection",{selStart:selStart,selStop:selStop},smalltalk.AthensEditableTextMorph)})},
+messageSends: ["ifTrue:ifFalse:", "-", "+", ">", "removeFrom:to:", "select:"]}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "select:",
+fn: function (aNumber){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self["@selectionStart"]=_st(_st(aNumber)._max_((1)))._min_(self._size());
+self["@selectionLength"]=(0);
+self._redraw();
+return self}, function($ctx1) {$ctx1.fill(self,"select:",{aNumber:aNumber},smalltalk.AthensTextAreaMorph)})},
+messageSends: ["min:", "size", "max:", "redraw"]}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "selectionStartStop",
+fn: function (){
+var self=this;
+var selStart,selStop;
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2;
+selStart=self._pixelBeforePosition_(self["@selectionStart"]);
+selStop=self._pixelBeforePosition_(_st(self["@selectionStart"]).__plus(self["@selectionLength"]));
+$1=_st(self["@selectionLength"]).__lt((0));
+if(smalltalk.assert($1)){
+var tmp;
+tmp=selStart;
+tmp;
+selStart=selStop;
+selStart;
+selStop=tmp;
+selStop;
+};
+$2=[selStart,selStop];
+return $2;
+}, function($ctx1) {$ctx1.fill(self,"selectionStartStop",{selStart:selStart,selStop:selStop},smalltalk.AthensEditableTextMorph)})},
+messageSends: ["pixelBeforePosition:", "+", "ifTrue:", "<"]}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "size",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(self._text())._size();
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"size",{},smalltalk.AthensTextAreaMorph)})},
+messageSends: ["size", "text"]}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "text",
+fn: function (){
+var self=this;
+var text;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+text="";
+_st(self["@virtualLines"])._do_((function(line){
+return smalltalk.withContext(function($ctx2) {
+text=_st(text).__comma(_st(line)._text());
+return text;
+}, function($ctx2) {$ctx2.fillBlock({line:line},$ctx1)})}));
+$1=text;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"text",{text:text},smalltalk.AthensTextAreaMorph)})},
+messageSends: ["do:", ",", "text"]}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "text:",
+fn: function (aString){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self._generateVirtualLines_(aString);
+return self}, function($ctx1) {$ctx1.fill(self,"text:",{aString:aString},smalltalk.AthensEditableTextMorph)})},
+messageSends: ["generateVirtualLines:"]}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "virtualCanvas",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self["@virtualCanvas"];
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"virtualCanvas",{},smalltalk.AthensTextAreaMorph)})},
+messageSends: []}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "width:",
+fn: function (aNumber){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+smalltalk.AthensRectangleMorph.fn.prototype._width_.apply(_st(self), [aNumber]);
+self["@maxWidth"]=aNumber;
+self._redraw();
+return self}, function($ctx1) {$ctx1.fill(self,"width:",{aNumber:aNumber},smalltalk.AthensTextAreaMorph)})},
+messageSends: ["width:", "redraw"]}),
+smalltalk.AthensEditableTextMorph);
 
 
 
@@ -2613,346 +3365,16 @@ smalltalk.AthensScrollBarMorph);
 
 
 
-smalltalk.addClass('AthensTextAreaMorph', smalltalk.AthensRectangleMorph, ['lines', 'selectionStart', 'selectionLength', 'keyHandlers', 'font', 'virtualLines', 'virtualSurface', 'virtualCanvas', 'maxWidth', 'isInSelectionMode', 'selectionStartOffset', 'lineHeight'], 'Athens-Core-Morphic');
+smalltalk.addClass('AthensTextAreaMorph', smalltalk.AthensRectangleMorph, ['textMorph'], 'Athens-Core-Morphic');
 smalltalk.addMethod(
 smalltalk.method({
-selector: "bindKeyHandlers",
-fn: function (){
-var self=this;
-function $Dictionary(){return smalltalk.Dictionary||(typeof Dictionary=="undefined"?nil:Dictionary)}
-return smalltalk.withContext(function($ctx1) { 
-var $1,$2;
-$1=_st($Dictionary())._new();
-_st($1)._at_put_((8),(function(evt){
-return smalltalk.withContext(function($ctx2) {
-return self._handleKeyBackspace_(evt);
-}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
-_st($1)._at_put_((46),(function(evt){
-return smalltalk.withContext(function($ctx2) {
-return self._handleKeyDelete_(evt);
-}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
-_st($1)._at_put_((37),(function(evt){
-return smalltalk.withContext(function($ctx2) {
-return self._handleKeyLeft_(evt);
-}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
-_st($1)._at_put_((38),(function(evt){
-return smalltalk.withContext(function($ctx2) {
-return self._handleKeyUp_(evt);
-}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
-_st($1)._at_put_((39),(function(evt){
-return smalltalk.withContext(function($ctx2) {
-return self._handleKeyRight_(evt);
-}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
-_st($1)._at_put_((40),(function(evt){
-return smalltalk.withContext(function($ctx2) {
-return self._handleKeyDown_(evt);
-}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
-$2=_st($1)._yourself();
-self["@keyHandlers"]=$2;
-return self}, function($ctx1) {$ctx1.fill(self,"bindKeyHandlers",{},smalltalk.AthensTextAreaMorph)})},
-messageSends: ["at:put:", "handleKeyBackspace:", "new", "handleKeyDelete:", "handleKeyLeft:", "handleKeyUp:", "handleKeyRight:", "handleKeyDown:", "yourself"]}),
-smalltalk.AthensTextAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "charsBeforeLine:",
-fn: function (aNumber){
-var self=this;
-var sum;
-return smalltalk.withContext(function($ctx1) { 
-var $1;
-sum=(0);
-_st((1)._to_(_st(aNumber).__minus((1))))._do_((function(lineIndex){
-return smalltalk.withContext(function($ctx2) {
-sum=_st(sum).__plus(_st(_st(self["@virtualLines"])._at_(lineIndex))._size());
-return sum;
-}, function($ctx2) {$ctx2.fillBlock({lineIndex:lineIndex},$ctx1)})}));
-$1=sum;
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"charsBeforeLine:",{aNumber:aNumber,sum:sum},smalltalk.AthensTextAreaMorph)})},
-messageSends: ["do:", "+", "size", "at:", "to:", "-"]}),
-smalltalk.AthensTextAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "drawCursorOn:",
-fn: function (canvas){
-var self=this;
-var shape,pixelPosition;
-function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
-return smalltalk.withContext(function($ctx1) { 
-_st(_st(canvas)._pathTransform())._loadIdentity();
-_st(canvas)._setPaint_(_st($Color())._black());
-pixelPosition=self._pixelBeforePosition_(_st(self["@selectionStart"]).__plus(self["@selectionLength"]));
-shape=_st(pixelPosition)._corner_(_st(pixelPosition).__plus((1).__at(self["@lineHeight"])));
-_st(canvas)._drawShape_(shape);
-return self}, function($ctx1) {$ctx1.fill(self,"drawCursorOn:",{canvas:canvas,shape:shape,pixelPosition:pixelPosition},smalltalk.AthensTextAreaMorph)})},
-messageSends: ["loadIdentity", "pathTransform", "setPaint:", "black", "pixelBeforePosition:", "+", "corner:", "@", "drawShape:"]}),
-smalltalk.AthensTextAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "drawOn:",
-fn: function (canvas){
-var self=this;
-function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
-return smalltalk.withContext(function($ctx1) { 
-smalltalk.AthensRectangleMorph.fn.prototype._drawOn_.apply(_st(self), [canvas]);
-self._drawSelectionOn_(canvas);
-_st(canvas)._setFont_(self["@font"]);
-_st(canvas)._setPaint_(_st($Color())._black());
-_st(self["@virtualLines"])._do_((function(line){
-return smalltalk.withContext(function($ctx2) {
-_st(_st(canvas)._pathTransform())._translateX_Y_((0),self["@lineHeight"]);
-return _st(canvas)._drawString_(_st(line)._text());
-}, function($ctx2) {$ctx2.fillBlock({line:line},$ctx1)})}));
-self._drawCursorOn_(canvas);
-self._outerShape_(_st((0).__at((0)))._corner_(_st(self["@maxWidth"]).__at(_st(self["@lineHeight"]).__star(_st(self["@virtualLines"])._size()))));
-return self}, function($ctx1) {$ctx1.fill(self,"drawOn:",{canvas:canvas},smalltalk.AthensTextAreaMorph)})},
-messageSends: ["drawOn:", "drawSelectionOn:", "setFont:", "setPaint:", "black", "do:", "translateX:Y:", "pathTransform", "drawString:", "text", "drawCursorOn:", "outerShape:", "corner:", "@", "*", "size"]}),
-smalltalk.AthensTextAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "drawSelectionBoxOn:fromOffset:toOffset:inLine:",
-fn: function (canvas,start,stop,lineIndex){
-var self=this;
-var shape,absoluteStop;
-return smalltalk.withContext(function($ctx1) { 
-return self}, function($ctx1) {$ctx1.fill(self,"drawSelectionBoxOn:fromOffset:toOffset:inLine:",{canvas:canvas,start:start,stop:stop,lineIndex:lineIndex,shape:shape,absoluteStop:absoluteStop},smalltalk.AthensTextAreaMorph)})},
-messageSends: []}),
-smalltalk.AthensTextAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "drawSelectionOn:",
-fn: function (canvas){
+selector: "doesNotUnderstand:",
+fn: function (aMessage){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-return self}, function($ctx1) {$ctx1.fill(self,"drawSelectionOn:",{canvas:canvas},smalltalk.AthensTextAreaMorph)})},
-messageSends: []}),
-smalltalk.AthensTextAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "generateVirtualLines:",
-fn: function (aString){
-var self=this;
-var text;
-function $OrderedCollection(){return smalltalk.OrderedCollection||(typeof OrderedCollection=="undefined"?nil:OrderedCollection)}
-function $AthensVirtualTextAreaLine(){return smalltalk.AthensVirtualTextAreaLine||(typeof AthensVirtualTextAreaLine=="undefined"?nil:AthensVirtualTextAreaLine)}
-return smalltalk.withContext(function($ctx1) { 
-var $1;
-self["@virtualLines"]=_st($OrderedCollection())._new();
-text=aString;
-_st(_st(text)._lines())._do_((function(lineText){
-var line,remainingText,emptyLine;
-return smalltalk.withContext(function($ctx2) {
-remainingText=lineText;
-remainingText;
-emptyLine=_st(_st(lineText)._size()).__eq_eq((0));
-emptyLine;
-_st((function(){
-return smalltalk.withContext(function($ctx3) {
-return _st(_st(_st(remainingText)._size()).__gt((0))).__or(emptyLine);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2)})}))._whileTrue_((function(){
-return smalltalk.withContext(function($ctx3) {
-line=_st($AthensVirtualTextAreaLine())._forTextAreaMorph_(self);
-line;
-remainingText=_st(remainingText)._copyFrom_to_(_st(_st(line)._populateWith_(remainingText)).__plus((1)),_st(remainingText)._size());
-remainingText;
-$1=_st(_st(self["@virtualLines"])._size()).__gt((0));
-if(smalltalk.assert($1)){
-_st(_st(self["@virtualLines"])._last())._nextLine_(line);
-};
-_st(self["@virtualLines"])._add_(line);
-emptyLine=false;
-return emptyLine;
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2)})}));
-_st(self["@virtualLines"])._ifEmpty_((function(){
-return smalltalk.withContext(function($ctx3) {
-return _st(self["@virtualLines"])._add_(_st($AthensVirtualTextAreaLine())._forTextAreaMorph_(self));
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2)})}));
-return _st(_st(self["@virtualLines"])._last())._hasLineBreak_(true);
-}, function($ctx2) {$ctx2.fillBlock({lineText:lineText,line:line,remainingText:remainingText,emptyLine:emptyLine},$ctx1)})}));
-_st(self["@virtualLines"])._ifEmpty_((function(){
-return smalltalk.withContext(function($ctx2) {
-_st(self["@virtualLines"])._add_(_st($AthensVirtualTextAreaLine())._forTextAreaMorph_(self));
-return _st(_st(self["@virtualLines"])._last())._hasLineBreak_(true);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
-return self}, function($ctx1) {$ctx1.fill(self,"generateVirtualLines:",{aString:aString,text:text},smalltalk.AthensTextAreaMorph)})},
-messageSends: ["new", "do:", "==", "size", "whileTrue:", "forTextAreaMorph:", "copyFrom:to:", "+", "populateWith:", "ifTrue:", "nextLine:", "last", ">", "add:", "|", "ifEmpty:", "hasLineBreak:", "lines"]}),
-smalltalk.AthensTextAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "handleKeyBackspace:",
-fn: function (evt){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-self._removeCharAt_(_st(self["@selectionStart"]).__minus((1)));
-self._moveCursorBy_((-1));
-self._redraw();
-return self}, function($ctx1) {$ctx1.fill(self,"handleKeyBackspace:",{evt:evt},smalltalk.AthensTextAreaMorph)})},
-messageSends: ["removeCharAt:", "-", "moveCursorBy:", "redraw"]}),
-smalltalk.AthensTextAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "handleKeyDelete:",
-fn: function (evt){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-self._removeCharAt_(self["@selectionStart"]);
-self._redraw();
-return self}, function($ctx1) {$ctx1.fill(self,"handleKeyDelete:",{evt:evt},smalltalk.AthensTextAreaMorph)})},
-messageSends: ["removeCharAt:", "redraw"]}),
-smalltalk.AthensTextAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "handleKeyDown:",
-fn: function (evt){
-var self=this;
-var handler;
-return smalltalk.withContext(function($ctx1) { 
-smalltalk.AthensRectangleMorph.fn.prototype._handleKeyDown_.apply(_st(self), [evt]);
-handler=_st(self["@keyHandlers"])._at_ifAbsent_(_st(evt)._keyCode(),(function(){
-return smalltalk.withContext(function($ctx2) {
-return (function(ev){
-return smalltalk.withContext(function($ctx3) {
-}, function($ctx3) {$ctx3.fillBlock({ev:ev},$ctx2)})});
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
-_st(handler)._value_(evt);
-return self}, function($ctx1) {$ctx1.fill(self,"handleKeyDown:",{evt:evt,handler:handler},smalltalk.AthensTextAreaMorph)})},
-messageSends: ["handleKeyDown:", "at:ifAbsent:", "keyCode", "value:"]}),
-smalltalk.AthensTextAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "handleKeyInput:",
-fn: function (evt){
-var self=this;
-function $String(){return smalltalk.String||(typeof String=="undefined"?nil:String)}
-return smalltalk.withContext(function($ctx1) { 
-self._insertString_at_(_st($String())._fromCharCode_(_st(evt)._keyCode()),self["@selectionStart"]);
-self._moveCursorBy_((1));
-self._redraw();
-return self}, function($ctx1) {$ctx1.fill(self,"handleKeyInput:",{evt:evt},smalltalk.AthensTextAreaMorph)})},
-messageSends: ["insertString:at:", "fromCharCode:", "keyCode", "moveCursorBy:", "redraw"]}),
-smalltalk.AthensTextAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "handleKeyLeft:",
-fn: function (evt){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-self._select_(_st(self["@selectionStart"]).__minus((1)));
-return self}, function($ctx1) {$ctx1.fill(self,"handleKeyLeft:",{evt:evt},smalltalk.AthensTextAreaMorph)})},
-messageSends: ["select:", "-"]}),
-smalltalk.AthensTextAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "handleKeyPress:",
-fn: function (evt){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-smalltalk.AthensRectangleMorph.fn.prototype._handleKeyPress_.apply(_st(self), [evt]);
-self._handleKeyInput_(evt);
-return self}, function($ctx1) {$ctx1.fill(self,"handleKeyPress:",{evt:evt},smalltalk.AthensTextAreaMorph)})},
-messageSends: ["handleKeyPress:", "handleKeyInput:"]}),
-smalltalk.AthensTextAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "handleKeyRight:",
-fn: function (evt){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-self._select_(_st(_st(self["@selectionStart"]).__plus(self["@selectionLength"])).__plus((1)));
-return self}, function($ctx1) {$ctx1.fill(self,"handleKeyRight:",{evt:evt},smalltalk.AthensTextAreaMorph)})},
-messageSends: ["select:", "+"]}),
-smalltalk.AthensTextAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "handleMouseClick:",
-fn: function (evt){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-smalltalk.AthensRectangleMorph.fn.prototype._handleMouseClick_.apply(_st(self), [evt]);
-self["@selectionStart"]=self._positionForPixel_(_st(evt)._position());
-self["@selectionLength"]=(0);
-self._redraw();
-return self}, function($ctx1) {$ctx1.fill(self,"handleMouseClick:",{evt:evt},smalltalk.AthensTextAreaMorph)})},
-messageSends: ["handleMouseClick:", "positionForPixel:", "position", "redraw"]}),
-smalltalk.AthensTextAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "handleMouseDown:",
-fn: function (evt){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-smalltalk.AthensRectangleMorph.fn.prototype._handleMouseDown_.apply(_st(self), [evt]);
-self["@isInSelectionMode"]=true;
-self["@selectionStartOffset"]=_st(evt)._position();
-return self}, function($ctx1) {$ctx1.fill(self,"handleMouseDown:",{evt:evt},smalltalk.AthensTextAreaMorph)})},
-messageSends: ["handleMouseDown:", "position"]}),
-smalltalk.AthensTextAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "handleMouseLeave",
-fn: function (){
-var self=this;
-function $AthensMorphicEvent(){return smalltalk.AthensMorphicEvent||(typeof AthensMorphicEvent=="undefined"?nil:AthensMorphicEvent)}
-return smalltalk.withContext(function($ctx1) { 
-smalltalk.AthensRectangleMorph.fn.prototype._handleMouseLeave.apply(_st(self), []);
-self._handleMouseUp_(_st($AthensMorphicEvent())._new());
-return self}, function($ctx1) {$ctx1.fill(self,"handleMouseLeave",{},smalltalk.AthensTextAreaMorph)})},
-messageSends: ["handleMouseLeave", "handleMouseUp:", "new"]}),
-smalltalk.AthensTextAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "handleMouseMove:",
-fn: function (evt){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-var $1,$2;
-smalltalk.AthensRectangleMorph.fn.prototype._handleMouseMove_.apply(_st(self), [evt]);
-$1=self["@isInSelectionMode"];
-if(smalltalk.assert($1)){
-$2=_st(_st(_st(self["@selectionStartOffset"])._y()).__gt(_st(_st(evt)._position())._y()))._or_((function(){
-return smalltalk.withContext(function($ctx2) {
-return _st(_st(_st(self["@selectionStartOffset"])._y()).__eq_eq(_st(_st(evt)._position())._y()))._and_((function(){
-return smalltalk.withContext(function($ctx3) {
-return _st(_st(self["@selectionStartOffset"])._x()).__gt(_st(_st(evt)._position())._x());
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2)})}));
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
-if(smalltalk.assert($2)){
-self._selectFromOffset_toOffset_(_st(evt)._position(),self["@selectionStartOffset"]);
-} else {
-self._selectFromOffset_toOffset_(self["@selectionStartOffset"],_st(evt)._position());
-};
-};
-return self}, function($ctx1) {$ctx1.fill(self,"handleMouseMove:",{evt:evt},smalltalk.AthensTextAreaMorph)})},
-messageSends: ["handleMouseMove:", "ifTrue:", "ifTrue:ifFalse:", "selectFromOffset:toOffset:", "position", "or:", "and:", ">", "x", "==", "y"]}),
-smalltalk.AthensTextAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "handleMouseUp:",
-fn: function (evt){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-smalltalk.AthensRectangleMorph.fn.prototype._handleMouseUp_.apply(_st(self), [evt]);
-self["@isInSelectionMode"]=false;
-return self}, function($ctx1) {$ctx1.fill(self,"handleMouseUp:",{evt:evt},smalltalk.AthensTextAreaMorph)})},
-messageSends: ["handleMouseUp:"]}),
+_st(self["@textMorph"])._perform_withArguments_(_st(aMessage)._selector(),_st(aMessage)._arguments());
+return self}, function($ctx1) {$ctx1.fill(self,"doesNotUnderstand:",{aMessage:aMessage},smalltalk.AthensTextAreaMorph)})},
+messageSends: ["perform:withArguments:", "selector", "arguments"]}),
 smalltalk.AthensTextAreaMorph);
 
 smalltalk.addMethod(
@@ -2960,308 +3382,36 @@ smalltalk.method({
 selector: "initialize",
 fn: function (){
 var self=this;
+function $AthensEditableTextMorph(){return smalltalk.AthensEditableTextMorph||(typeof AthensEditableTextMorph=="undefined"?nil:AthensEditableTextMorph)}
+function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
 return smalltalk.withContext(function($ctx1) { 
 smalltalk.AthensRectangleMorph.fn.prototype._initialize.apply(_st(self), []);
-self._initializeVariables();
-self._initializeVirtualSurface();
-self._bindKeyHandlers();
-return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensTextAreaMorph)})},
-messageSends: ["initialize", "initializeVariables", "initializeVirtualSurface", "bindKeyHandlers"]}),
-smalltalk.AthensTextAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "initializeVariables",
-fn: function (){
-var self=this;
-function $LogicalFont(){return smalltalk.LogicalFont||(typeof LogicalFont=="undefined"?nil:LogicalFont)}
-function $OrderedCollection(){return smalltalk.OrderedCollection||(typeof OrderedCollection=="undefined"?nil:OrderedCollection)}
-return smalltalk.withContext(function($ctx1) { 
-self["@font"]=_st($LogicalFont())._familyName_pointSize_("Arial",(15));
-self["@text"]="";
-self["@virtualLines"]=_st($OrderedCollection())._new();
-self["@maxWidth"]=(100);
-self["@lineHeight"]=(15);
-self["@isInSelectionMode"]=false;
+self["@textMorph"]=_st($AthensEditableTextMorph())._new();
 self["@hasSharpBorder"]=true;
-self["@selectionStart"]=(1);
-self["@selectionLength"]=(0);
-return self}, function($ctx1) {$ctx1.fill(self,"initializeVariables",{},smalltalk.AthensTextAreaMorph)})},
-messageSends: ["familyName:pointSize:", "new"]}),
+self["@borderColor"]=_st($Color())._cosmoGray();
+self["@mouseFocusFillColor"]=_st($Color())._cosmoLightGray();
+self["@mouseDownBorderColor"]=_st($Color())._cosmoDarkGray();
+self._addMorph_(self["@textMorph"]);
+self._layoutChanged();
+return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensTextAreaMorph)})},
+messageSends: ["initialize", "new", "cosmoGray", "cosmoLightGray", "cosmoDarkGray", "addMorph:", "layoutChanged"]}),
 smalltalk.AthensTextAreaMorph);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "initializeVirtualSurface",
+selector: "layoutChanged",
 fn: function (){
 var self=this;
-function $AthensHTMLSurface(){return smalltalk.AthensHTMLSurface||(typeof AthensHTMLSurface=="undefined"?nil:AthensHTMLSurface)}
-return smalltalk.withContext(function($ctx1) { 
-self["@virtualSurface"]=_st($AthensHTMLSurface())._extent_((0).__at((0)));
-_st(self["@virtualSurface"])._drawDuring_((function(canvas){
-return smalltalk.withContext(function($ctx2) {
-self["@virtualCanvas"]=canvas;
-self["@virtualCanvas"];
-return _st(canvas)._setFont_(self["@font"]);
-}, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
-return self}, function($ctx1) {$ctx1.fill(self,"initializeVirtualSurface",{},smalltalk.AthensTextAreaMorph)})},
-messageSends: ["extent:", "@", "drawDuring:", "setFont:"]}),
-smalltalk.AthensTextAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "insertString:at:",
-fn: function (aString,position){
-var self=this;
-var content;
-return smalltalk.withContext(function($ctx1) { 
-content=self._text();
-self._text_(_st(_st(_st(content)._copyFrom_to_((1),_st(position).__minus((1)))).__comma(aString)).__comma(_st(content)._copyFrom_to_(position,_st(content)._size())));
-return self}, function($ctx1) {$ctx1.fill(self,"insertString:at:",{aString:aString,position:position,content:content},smalltalk.AthensTextAreaMorph)})},
-messageSends: ["text", "text:", ",", "copyFrom:to:", "size", "-"]}),
-smalltalk.AthensTextAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "lineForPixelOffset:",
-fn: function (aNumber){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st(_st(_st(_st(aNumber).__slash(self["@lineHeight"]))._floor()).__plus((1)))._min_(_st(self["@virtualLines"])._size());
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"lineForPixelOffset:",{aNumber:aNumber},smalltalk.AthensTextAreaMorph)})},
-messageSends: ["min:", "size", "+", "floor", "/"]}),
-smalltalk.AthensTextAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "maxWidth",
-fn: function (){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=self["@maxWidth"];
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"maxWidth",{},smalltalk.AthensTextAreaMorph)})},
-messageSends: []}),
-smalltalk.AthensTextAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "moveCursorBy:",
-fn: function (aNumber){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-self["@selectionStart"]=_st(_st(_st(self["@selectionStart"]).__plus(aNumber))._max_((1)))._min_(self._size());
-self["@selectionLength"]=(0);
-self._redraw();
-return self}, function($ctx1) {$ctx1.fill(self,"moveCursorBy:",{aNumber:aNumber},smalltalk.AthensTextAreaMorph)})},
-messageSends: ["min:", "size", "max:", "+", "redraw"]}),
-smalltalk.AthensTextAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "pixelAfterPosition:",
-fn: function (aNumber){
-var self=this;
-var currentPosition;
 return smalltalk.withContext(function($ctx1) { 
 var $1,$2;
-var $early={};
-try {
-currentPosition=(0);
-_st(self["@virtualLines"])._do_((function(line){
-var previousLine;
-return smalltalk.withContext(function($ctx2) {
-$1=_st(currentPosition).__gt(aNumber);
-if(smalltalk.assert($1)){
-$2=_st(previousLine)._pixelOffsetAfter_(_st(_st(aNumber).__minus(currentPosition)).__plus(_st(line)._size()));
-throw $early=[$2];
-};
-currentPosition=_st(currentPosition).__plus(_st(line)._size());
-currentPosition;
-previousLine=line;
-return previousLine;
-}, function($ctx2) {$ctx2.fillBlock({line:line,previousLine:previousLine},$ctx1)})}));
-return self}
-catch(e) {if(e===$early)return e[0]; throw e}
-}, function($ctx1) {$ctx1.fill(self,"pixelAfterPosition:",{aNumber:aNumber,currentPosition:currentPosition},smalltalk.AthensTextAreaMorph)})},
-messageSends: ["do:", "ifTrue:", "pixelOffsetAfter:", "+", "size", "-", ">"]}),
-smalltalk.AthensTextAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "pixelBeforePosition:",
-fn: function (aNumber){
-var self=this;
-var currentPosition;
-return smalltalk.withContext(function($ctx1) { 
-var $1,$2;
-var $early={};
-try {
-currentPosition=(0);
-_st((1)._to_(_st(self["@virtualLines"])._size()))._do_((function(lineIndex){
-var line;
-return smalltalk.withContext(function($ctx2) {
-line=_st(self["@virtualLines"])._at_(lineIndex);
-line;
-$1=_st(_st(_st(currentPosition).__plus(_st(line)._size())).__plus((1))).__gt(aNumber);
-if(smalltalk.assert($1)){
-$2=_st(_st(line)._pixelOffsetBefore_(_st(aNumber).__minus(currentPosition))).__at(self._pixelOffsetForLine_(lineIndex));
-throw $early=[$2];
-};
-currentPosition=_st(currentPosition).__plus(_st(line)._size());
-return currentPosition;
-}, function($ctx2) {$ctx2.fillBlock({lineIndex:lineIndex,line:line},$ctx1)})}));
-self._error_("pixel not found");
-return self}
-catch(e) {if(e===$early)return e[0]; throw e}
-}, function($ctx1) {$ctx1.fill(self,"pixelBeforePosition:",{aNumber:aNumber,currentPosition:currentPosition},smalltalk.AthensTextAreaMorph)})},
-messageSends: ["do:", "at:", "ifTrue:", "@", "pixelOffsetForLine:", "pixelOffsetBefore:", "-", ">", "+", "size", "to:", "error:"]}),
-smalltalk.AthensTextAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "pixelForPosition:",
-fn: function (aNumber){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-return self}, function($ctx1) {$ctx1.fill(self,"pixelForPosition:",{aNumber:aNumber},smalltalk.AthensTextAreaMorph)})},
-messageSends: []}),
-smalltalk.AthensTextAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "pixelOffsetForLine:",
-fn: function (aNumber){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st(_st(aNumber).__minus((1))).__star(self["@lineHeight"]);
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"pixelOffsetForLine:",{aNumber:aNumber},smalltalk.AthensTextAreaMorph)})},
-messageSends: ["*", "-"]}),
-smalltalk.AthensTextAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "positionForPixel:",
-fn: function (aPoint){
-var self=this;
-var lineIndex,lineOffset;
-return smalltalk.withContext(function($ctx1) { 
-var $1,$2,$3;
-lineIndex=self._lineForPixelOffset_(_st(aPoint)._y());
-lineOffset=_st(_st(self["@virtualLines"])._at_(lineIndex))._positionForPixelOffset_(_st(aPoint)._x());
-$1=_st(lineOffset).__eq_eq((-1));
-if(smalltalk.assert($1)){
-$2=_st(self._charsBeforeLine_(_st(lineIndex).__plus((1)))).__plus((1));
-return $2;
-} else {
-$3=_st(lineOffset).__plus(self._charsBeforeLine_(lineIndex));
-return $3;
-};
-return self}, function($ctx1) {$ctx1.fill(self,"positionForPixel:",{aPoint:aPoint,lineIndex:lineIndex,lineOffset:lineOffset},smalltalk.AthensTextAreaMorph)})},
-messageSends: ["lineForPixelOffset:", "y", "positionForPixelOffset:", "x", "at:", "ifTrue:ifFalse:", "+", "charsBeforeLine:", "=="]}),
-smalltalk.AthensTextAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "removeCharAt:",
-fn: function (position){
-var self=this;
-var content;
-return smalltalk.withContext(function($ctx1) { 
-content=self._text();
-self._text_(_st(_st(content)._copyFrom_to_((1),_st(position).__minus((1)))).__comma(_st(content)._copyFrom_to_(_st(position).__plus((1)),_st(content)._size())));
-return self}, function($ctx1) {$ctx1.fill(self,"removeCharAt:",{position:position,content:content},smalltalk.AthensTextAreaMorph)})},
-messageSends: ["text", "text:", ",", "copyFrom:to:", "+", "size", "-"]}),
-smalltalk.AthensTextAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "select:",
-fn: function (aNumber){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-self["@selectionStart"]=_st(_st(aNumber)._max_((1)))._min_(self._size());
-self["@selectionLength"]=(0);
-self._redraw();
-return self}, function($ctx1) {$ctx1.fill(self,"select:",{aNumber:aNumber},smalltalk.AthensTextAreaMorph)})},
-messageSends: ["min:", "size", "max:", "redraw"]}),
-smalltalk.AthensTextAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "size",
-fn: function (){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st(self._text())._size();
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"size",{},smalltalk.AthensTextAreaMorph)})},
-messageSends: ["size", "text"]}),
-smalltalk.AthensTextAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "text",
-fn: function (){
-var self=this;
-var text;
-return smalltalk.withContext(function($ctx1) { 
-var $1;
-text="";
-_st(self["@virtualLines"])._do_((function(line){
-return smalltalk.withContext(function($ctx2) {
-text=_st(text).__comma(_st(line)._text());
-return text;
-}, function($ctx2) {$ctx2.fillBlock({line:line},$ctx1)})}));
-$1=text;
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"text",{text:text},smalltalk.AthensTextAreaMorph)})},
-messageSends: ["do:", ",", "text"]}),
-smalltalk.AthensTextAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "text:",
-fn: function (aString){
-var self=this;
-function $Transcript(){return smalltalk.Transcript||(typeof Transcript=="undefined"?nil:Transcript)}
-return smalltalk.withContext(function($ctx1) { 
-_st($Transcript())._show_(aString);
-self._generateVirtualLines_(aString);
-return self}, function($ctx1) {$ctx1.fill(self,"text:",{aString:aString},smalltalk.AthensTextAreaMorph)})},
-messageSends: ["show:", "generateVirtualLines:"]}),
-smalltalk.AthensTextAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "virtualCanvas",
-fn: function (){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=self["@virtualCanvas"];
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"virtualCanvas",{},smalltalk.AthensTextAreaMorph)})},
-messageSends: []}),
-smalltalk.AthensTextAreaMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "width:",
-fn: function (aNumber){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-smalltalk.AthensRectangleMorph.fn.prototype._width_.apply(_st(self), [aNumber]);
-self["@maxWidth"]=aNumber;
-self._redraw();
-return self}, function($ctx1) {$ctx1.fill(self,"width:",{aNumber:aNumber},smalltalk.AthensTextAreaMorph)})},
-messageSends: ["width:", "redraw"]}),
+smalltalk.AthensRectangleMorph.fn.prototype._layoutChanged.apply(_st(self), []);
+$1=self["@textMorph"];
+_st($1)._resetTransformation();
+_st($1)._translateByX_Y_((3),(3));
+_st($1)._height_(_st(self["@height"]).__minus((6)));
+$2=_st($1)._width_(_st(self["@width"]).__minus((6)));
+return self}, function($ctx1) {$ctx1.fill(self,"layoutChanged",{},smalltalk.AthensTextAreaMorph)})},
+messageSends: ["layoutChanged", "resetTransformation", "translateByX:Y:", "height:", "-", "width:"]}),
 smalltalk.AthensTextAreaMorph);
 
 

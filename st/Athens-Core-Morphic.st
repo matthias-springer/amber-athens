@@ -658,7 +658,7 @@ initialize
 ! !
 
 AthensMorph subclass: #AthensRectangleMorph
-	instanceVariableNames: 'width height borderColor fillColor mouseDownFillColor mouseFocusFillColor hasSharpBorder'
+	instanceVariableNames: 'width height borderColor mouseDownBorderColor mouseFocusBorderColor fillColor mouseDownFillColor mouseFocusFillColor hasSharpBorder'
 	package: 'Athens-Core-Morphic'!
 
 !AthensRectangleMorph methodsFor: 'accessing'!
@@ -669,7 +669,7 @@ borderColor: aColor
 !
 
 fillColor: aColor
-	fillColor := mouseDownFillColor := mouseFocusFillColor := aColor.
+	fillColor := aColor.
 	self redraw.
 !
 
@@ -684,8 +684,16 @@ height: aNumber
 	self redraw.
 !
 
+mouseDownBorderColor: aColor
+	mouseDownBorderColor := aColor.
+!
+
 mouseDownFillColor: aColor
 	mouseDownFillColor := aColor.
+!
+
+mouseFocusBorderColor: aColor
+	mouseFocusBorderColor := aColor.
 !
 
 mouseFocusFillColor: aColor
@@ -706,24 +714,29 @@ width: aNumber
 !AthensRectangleMorph methodsFor: 'drawing'!
 
 drawOn: canvas
-	|shape currentFillColor|
+	|shape currentFillColor currentBorderColor|
 	"Use method width instead of instance variable to ensure that width is calculated."
 	shape := 0@0 corner: self width@height.
-	hasMouseFocus 
+	hasMouseFocus & mouseFocusFillColor notNil
 		ifTrue: [currentFillColor := mouseFocusFillColor]
 		ifFalse: [currentFillColor := fillColor].
-	isMouseDown ifTrue: [currentFillColor := mouseDownFillColor].
+	isMouseDown & mouseDownFillColor notNil ifTrue: [currentFillColor := mouseDownFillColor].
+	
+	hasMouseFocus & mouseFocusBorderColor notNil
+		ifTrue: [currentBorderColor := mouseFocusBorderColor]
+		ifFalse: [currentBorderColor := borderColor].
+	isMouseDown & mouseDownBorderColor notNil ifTrue: [currentBorderColor := mouseDownBorderColor].
 	
 	hasSharpBorder
 		ifTrue: [
-			canvas setPaint: borderColor.
+			canvas setPaint: currentBorderColor.
 			canvas drawShape: shape.
 			canvas setPaint: currentFillColor.
 			canvas drawShape: (1@1 corner: width - 1 @ (height - 1))]
 		ifFalse: [
 			canvas setPaint: currentFillColor.
 			canvas drawShape: shape.
-			canvas setStrokePaint: borderColor.
+			canvas setStrokePaint: currentBorderColor.
 			canvas drawShape: shape].
 			
 	self outerShape: shape.
@@ -757,7 +770,7 @@ initialize
 	super initialize.
 	width := height := 50.
 	borderColor := Color black.
-	fillColor := mouseDownFillColor := mouseFocusFillColor := Color white.
+	fillColor := Color white.
 	hasSharpBorder := false.
 ! !
 
@@ -837,6 +850,327 @@ layoutChanged
 		iconMorph
 			resetTransformation;
 			translateByX: width - textMorph width - iconMorph width / 2 - 0.5 Y: height - textMorph height / 2 - 1].
+! !
+
+AthensRectangleMorph subclass: #AthensEditableTextMorph
+	instanceVariableNames: 'lines selectionStart selectionLength keyHandlers font virtualLines virtualSurface virtualCanvas maxWidth isInSelectionMode selectionStartOffset lineHeight'
+	package: 'Athens-Core-Morphic'!
+
+!AthensEditableTextMorph methodsFor: 'accessing'!
+
+maxWidth
+	^ maxWidth
+!
+
+size
+	^ self text size
+!
+
+text
+	|text|
+	text := ''.
+	virtualLines do: [:line | text := text , line text].
+	^ text
+!
+
+text: aString
+	self generateVirtualLines: aString.
+!
+
+virtualCanvas
+	^ virtualCanvas
+!
+
+width: aNumber
+	super width: aNumber.
+	maxWidth := aNumber.
+	self redraw.
+! !
+
+!AthensEditableTextMorph methodsFor: 'drawing'!
+
+drawCursorOn: canvas
+	|shape pixelPosition|
+	canvas pathTransform loadIdentity.
+	canvas setPaint: Color black.
+	pixelPosition := self pixelBeforePosition: selectionStart + selectionLength.
+	shape := pixelPosition corner: pixelPosition + (1 @ lineHeight).
+	canvas drawShape: shape.
+!
+
+drawOn: canvas
+	super drawOn: canvas.
+	self drawSelectionOn: canvas.
+
+	canvas setFont: font.
+	canvas setPaint: Color black.
+	
+	virtualLines do: [:line |
+		canvas pathTransform translateX: 0 Y: lineHeight.
+		canvas drawString: line text].
+		
+	self drawCursorOn: canvas.
+!
+
+drawSelectionOn: canvas
+	|x y selOffsets selStart selStop|
+	selOffsets := self selectionStartStop.
+	selStart := selOffsets first. selStop := selOffsets last.
+	x := selStart x. y := selStart y.
+	[y == selStop y] whileFalse: [
+		self drawSelectionOn: canvas from: x to: maxWidth in: y.
+		y := y + lineHeight.
+		x := 0].
+	self drawSelectionOn: canvas from: x to: selStop x in: y.
+!
+
+drawSelectionOn: canvas from: x1 to: x2 in: y
+	canvas setPaint: Color cosmoBlue.
+	canvas drawShape: (x1 @ y corner: x2 @ (y + lineHeight)).
+! !
+
+!AthensEditableTextMorph methodsFor: 'events'!
+
+handleKeyBackspace: evt
+	selectionLength == 0
+		ifTrue: [
+			self removeCharAt: selectionStart - 1.
+			self moveCursorBy: -1]
+		ifFalse: [self removeSelection].
+	self redraw.
+!
+
+handleKeyDelete: evt
+	selectionLength == 0
+		ifTrue: [self removeCharAt: selectionStart]
+		ifFalse: [self removeSelection].
+	self redraw.
+!
+
+handleKeyDown: evt
+	|handler|
+	super handleKeyDown: evt.
+	handler := keyHandlers at: evt keyCode ifAbsent: [[:ev | "self handleKeyOther: ev"]].
+	handler value: evt.
+!
+
+handleKeyInput: evt
+	self insertString: (String fromCharCode: evt keyCode) at: selectionStart.
+	self moveCursorBy: 1.
+	self redraw.
+!
+
+handleKeyLeft: evt
+	self select: selectionStart - 1.
+!
+
+handleKeyPress: evt
+	super handleKeyPress: evt.
+	self handleKeyInput: evt.
+!
+
+handleKeyRight: evt
+	self select: selectionStart + selectionLength + 1.
+!
+
+handleMouseDown: evt
+	super handleMouseDown: evt.
+	isInSelectionMode := true.
+	selectionStart := self positionForPixel: evt position.
+	selectionLength := 0.
+	self redraw.
+!
+
+handleMouseLeave
+	super handleMouseLeave.
+	self handleMouseUp: AthensMorphicEvent new.
+!
+
+handleMouseMove: evt
+	super handleMouseMove: evt.
+	isInSelectionMode ifTrue: [|selectionStop|
+		selectionStop := self positionForPixel: evt position.
+		selectionLength := selectionStop - selectionStart.
+		self redraw].
+!
+
+handleMouseUp: evt
+	super handleMouseUp: evt.
+	isInSelectionMode := false.
+! !
+
+!AthensEditableTextMorph methodsFor: 'initialization'!
+
+bindKeyHandlers
+	keyHandlers := Dictionary new
+		at: 8 put: [:evt | self handleKeyBackspace: evt];
+		at: 46 put: [:evt | self handleKeyDelete: evt];
+		at: 37 put: [:evt | self handleKeyLeft: evt];
+		at: 38 put: [:evt | self handleKeyUp: evt];
+		at: 39 put: [:evt | self handleKeyRight: evt];
+		at: 40 put: [:evt | self handleKeyDown: evt];
+		yourself
+!
+
+initialize
+	super initialize.
+	self initializeVariables.
+	self initializeVirtualSurface.
+	self bindKeyHandlers.
+!
+
+initializeVariables
+	font := LogicalFont familyName: 'Arial' pointSize: 15.
+	virtualLines := OrderedCollection new.
+	maxWidth := 100.
+	lineHeight := 15.
+	isInSelectionMode := false.
+	hasSharpBorder := true.
+	borderColor := fillColor := Color transparent.
+	selectionStart := 1.
+	selectionLength := 0.
+!
+
+initializeVirtualSurface
+	virtualSurface := AthensHTMLSurface extent: 0@0.
+	virtualSurface drawDuring: [:canvas | 
+		virtualCanvas := canvas.
+		canvas setFont: font].
+! !
+
+!AthensEditableTextMorph methodsFor: 'text manipulation'!
+
+generateVirtualLines: aString
+	|text|
+	virtualLines := OrderedCollection new.
+	text := aString.
+	text lines do: [:lineText | |line remainingText emptyLine|
+		remainingText := lineText.
+		emptyLine := lineText size == 0. "run loop at least once even if line is empty"
+		[remainingText size > 0 | emptyLine] whileTrue: [
+			line := AthensVirtualTextAreaLine forTextAreaMorph: self.
+			remainingText := remainingText copyFrom: (line populateWith: remainingText) + 1 to: remainingText size.
+			virtualLines size > 0 ifTrue: [
+				virtualLines last nextLine: line].
+			virtualLines add: line.
+			emptyLine := false].
+		virtualLines ifEmpty: [virtualLines add: (AthensVirtualTextAreaLine forTextAreaMorph: self)].
+		virtualLines last hasLineBreak: true].
+	"Last virtual line must have line break."
+	virtualLines ifEmpty: [
+		virtualLines add: (AthensVirtualTextAreaLine forTextAreaMorph: self).
+		virtualLines last hasLineBreak: true].
+!
+
+insertString: aString at: position
+	|content|
+	content := self text.
+	self text: (content copyFrom: 1 to: position - 1), 
+		aString,
+		(content copyFrom: position to: content size).
+!
+
+removeCharAt: position
+	|content|
+	content := self text.
+	self text: (content copyFrom: 1 to: position - 1),
+		(content copyFrom: position + 1 to: content size).
+!
+
+removeFrom: start to: stop
+	|content|
+	content := self text.
+	self text: (content copyFrom: 1 to: start - 1),
+		(content copyFrom: stop + 1 to: content size).
+!
+
+removeSelection
+	|selStart selStop|
+	selectionLength > 0
+		ifTrue: [
+			selStart := selectionStart.
+			selStop := selectionStart + selectionLength - 1]
+		ifFalse: [
+			selStart := selectionStart + selectionLength.
+			selStop := selectionStart - 1].
+	self removeFrom: selStart to: selStop.
+	self select: selStart.
+! !
+
+!AthensEditableTextMorph methodsFor: 'text positioning'!
+
+charsBeforeLine: aNumber
+	|sum|
+	sum := 0.
+	(1 to: aNumber - 1) do: [:lineIndex |
+		sum := sum + (virtualLines at: lineIndex) size].
+	^ sum
+!
+
+lineForPixelOffset: aNumber
+	^ (aNumber / lineHeight) floor + 1 min: virtualLines size
+!
+
+pixelAfterPosition: aNumber
+	|currentPosition|
+	"TODO: create index for line offsets"
+	currentPosition := 0.
+	virtualLines do: [:line | |previousLine|
+		currentPosition > aNumber ifTrue: [
+			^ previousLine pixelOffsetAfter: aNumber - currentPosition + line size].
+		currentPosition := currentPosition + line size.
+		previousLine := line.
+	].
+!
+
+pixelBeforePosition: aNumber
+	|currentPosition|
+	"TODO: create index for line offsets"
+	currentPosition := 0.
+	(1 to: virtualLines size) do: [:lineIndex | |line|
+		line := virtualLines at: lineIndex.
+		currentPosition + line size + 1 > aNumber ifTrue: [
+			^ (line pixelOffsetBefore: aNumber - currentPosition) @ (self pixelOffsetForLine: lineIndex)].
+		currentPosition := currentPosition + line size].
+	self error: 'pixel not found'.
+!
+
+pixelOffsetForLine: aNumber
+	^ (aNumber - 1) * lineHeight
+!
+
+positionForPixel: aPoint
+	|lineIndex lineOffset|
+	lineIndex := self lineForPixelOffset: aPoint y.
+	lineOffset := (virtualLines at: lineIndex) positionForPixelOffset: aPoint x.
+	lineOffset == -1
+		ifTrue: ["outside line (right border)" ^ (self charsBeforeLine: lineIndex + 1) + 1]
+		ifFalse: [^ lineOffset + (self charsBeforeLine: lineIndex)].
+! !
+
+!AthensEditableTextMorph methodsFor: 'text selection'!
+
+moveCursorBy: aNumber
+	selectionStart := ((selectionStart + aNumber) max: 1) min: self size.
+	selectionLength := 0.
+	self redraw.
+!
+
+select: aNumber
+	selectionStart := (aNumber max: 1) min: self size.
+	selectionLength := 0.
+	self redraw.
+!
+
+selectionStartStop
+	|selStart selStop|
+	selStart := self pixelBeforePosition: selectionStart.
+	selStop := self pixelBeforePosition: selectionStart + selectionLength.
+	selectionLength < 0	ifTrue: [|tmp|
+		tmp := selStart.
+		selStart := selStop.
+		selStop := tmp].
+	^ {selStart. selStop}
 ! !
 
 AthensRectangleMorph subclass: #AthensListItemMorph
@@ -1248,297 +1582,37 @@ layoutSliderButton
 ! !
 
 AthensRectangleMorph subclass: #AthensTextAreaMorph
-	instanceVariableNames: 'lines selectionStart selectionLength keyHandlers font virtualLines virtualSurface virtualCanvas maxWidth isInSelectionMode selectionStartOffset lineHeight'
+	instanceVariableNames: 'textMorph'
 	package: 'Athens-Core-Morphic'!
 
-!AthensTextAreaMorph methodsFor: 'accessing'!
+!AthensTextAreaMorph methodsFor: 'decorator'!
 
-maxWidth
-	^ maxWidth
-!
-
-size
-	^ self text size
-!
-
-text
-	|text|
-	text := ''.
-	virtualLines do: [:line | text := text , line text].
-	^ text
-!
-
-text: aString
-	Transcript show: aString.
-	self generateVirtualLines: aString.
-!
-
-virtualCanvas
-	^ virtualCanvas
-!
-
-width: aNumber
-	super width: aNumber.
-	maxWidth := aNumber.
-	self redraw.
-! !
-
-!AthensTextAreaMorph methodsFor: 'drawing'!
-
-drawCursorOn: canvas
-	|shape pixelPosition|
-	canvas pathTransform loadIdentity.
-	canvas setPaint: Color black.
-	pixelPosition := self pixelBeforePosition: selectionStart + selectionLength.
-	shape := pixelPosition corner: pixelPosition + (1 @ lineHeight).
-	canvas drawShape: shape.
-!
-
-drawOn: canvas
-	super drawOn: canvas.
-	self drawSelectionOn: canvas.
-
-	canvas setFont: font.
-	canvas setPaint: Color black.
-	
-	virtualLines do: [:line |
-		canvas pathTransform translateX: 0 Y: lineHeight.
-		canvas drawString: line text].
-		
-	self drawCursorOn: canvas.
-	self outerShape: (0@0 corner: maxWidth @ (lineHeight * virtualLines size)).
-!
-
-drawSelectionBoxOn: canvas fromOffset: start toOffset: stop inLine: lineIndex
-	|shape absoluteStop|
-	"absoluteStop := stop == -1
-		ifTrue: [(virtualLines at: lineIndex) size]
-		ifFalse: [stop].
-	canvas setPaint: Color cosmoBlue.
-	shape := (self pixelXFromCharX: start - 1 andCharY: lineIndex) @ (lineIndex - 1 * lineHeight)
-		corner: (self pixelXFromCharX: absoluteStop andCharY: lineIndex) @ (lineIndex * lineHeight).
-	canvas drawShape: shape."
-!
-
-drawSelectionOn: canvas
-! !
-
-!AthensTextAreaMorph methodsFor: 'events'!
-
-handleKeyBackspace: evt
-	self removeCharAt: selectionStart - 1.
-	self moveCursorBy: -1.
-	self redraw.
-!
-
-handleKeyDelete: evt
-	self removeCharAt: selectionStart.
-	self redraw.
-!
-
-handleKeyDown: evt
-	|handler|
-	super handleKeyDown: evt.
-	handler := keyHandlers at: evt keyCode ifAbsent: [[:ev | "self handleKeyOther: ev"]].
-	handler value: evt.
-!
-
-handleKeyInput: evt
-	self insertString: (String fromCharCode: evt keyCode) at: selectionStart.
-	self moveCursorBy: 1.
-	self redraw.
-!
-
-handleKeyLeft: evt
-	self select: selectionStart - 1.
-!
-
-handleKeyPress: evt
-	super handleKeyPress: evt.
-	self handleKeyInput: evt.
-!
-
-handleKeyRight: evt
-	self select: selectionStart + selectionLength + 1.
-!
-
-handleMouseClick: evt
-	super handleMouseClick: evt.
-	selectionStart := self positionForPixel: evt position.
-	selectionLength := 0.
-	self redraw.
-!
-
-handleMouseDown: evt
-	super handleMouseDown: evt.
-	isInSelectionMode := true.
-	selectionStartOffset := evt position.
-!
-
-handleMouseLeave
-	super handleMouseLeave.
-	self handleMouseUp: AthensMorphicEvent new.
-!
-
-handleMouseMove: evt
-	super handleMouseMove: evt.
-	isInSelectionMode 
-		ifTrue: [
-			(selectionStartOffset y > evt position y or: [selectionStartOffset y == evt position y and: [
-				selectionStartOffset x > evt position x]])
-					ifTrue: [self selectFromOffset: evt position toOffset: selectionStartOffset]
-					ifFalse: [self selectFromOffset: selectionStartOffset toOffset: evt position]].
-!
-
-handleMouseUp: evt
-	super handleMouseUp: evt.
-	isInSelectionMode := false.
+doesNotUnderstand: aMessage
+	textMorph perform: aMessage selector withArguments: aMessage arguments.
 ! !
 
 !AthensTextAreaMorph methodsFor: 'initialization'!
 
-bindKeyHandlers
-	keyHandlers := Dictionary new
-		at: 8 put: [:evt | self handleKeyBackspace: evt];
-		at: 46 put: [:evt | self handleKeyDelete: evt];
-		at: 37 put: [:evt | self handleKeyLeft: evt];
-		at: 38 put: [:evt | self handleKeyUp: evt];
-		at: 39 put: [:evt | self handleKeyRight: evt];
-		at: 40 put: [:evt | self handleKeyDown: evt];
-		yourself
-!
-
 initialize
 	super initialize.
-	self initializeVariables.
-	self initializeVirtualSurface.
-	self bindKeyHandlers.
-!
-
-initializeVariables
-	font := LogicalFont familyName: 'Arial' pointSize: 15.
-	text := ''.
-	virtualLines := OrderedCollection new.
-	maxWidth := 100.
-	lineHeight := 15.
-	isInSelectionMode := false.
+	textMorph := AthensEditableTextMorph new.
 	hasSharpBorder := true.
-	selectionStart := 1.
-	selectionLength := 0.
-!
-
-initializeVirtualSurface
-	virtualSurface := AthensHTMLSurface extent: 0@0.
-	virtualSurface drawDuring: [:canvas | 
-		virtualCanvas := canvas.
-		canvas setFont: font].
+	borderColor := Color cosmoGray.
+	mouseFocusFillColor := Color cosmoLightGray.
+	mouseDownBorderColor := Color cosmoDarkGray.
+	self addMorph: textMorph.
+	self layoutChanged.
 ! !
 
-!AthensTextAreaMorph methodsFor: 'text manipulation'!
+!AthensTextAreaMorph methodsFor: 'morph handling'!
 
-generateVirtualLines: aString
-	|text|
-	virtualLines := OrderedCollection new.
-	text := aString.
-	text lines do: [:lineText | |line remainingText emptyLine|
-		remainingText := lineText.
-		emptyLine := lineText size == 0. "run loop at least once even if line is empty"
-		[remainingText size > 0 | emptyLine] whileTrue: [
-			line := AthensVirtualTextAreaLine forTextAreaMorph: self.
-			remainingText := remainingText copyFrom: (line populateWith: remainingText) + 1 to: remainingText size.
-			virtualLines size > 0 ifTrue: [
-				virtualLines last nextLine: line].
-			virtualLines add: line.
-			emptyLine := false].
-		virtualLines ifEmpty: [virtualLines add: (AthensVirtualTextAreaLine forTextAreaMorph: self)].
-		virtualLines last hasLineBreak: true].
-	"Last virtual line must have line break."
-	virtualLines ifEmpty: [
-		virtualLines add: (AthensVirtualTextAreaLine forTextAreaMorph: self).
-		virtualLines last hasLineBreak: true].
-!
-
-insertString: aString at: position
-	|content|
-	content := self text.
-	self text: (content copyFrom: 1 to: position - 1), 
-		aString,
-		(content copyFrom: position to: content size).
-!
-
-removeCharAt: position
-	|content|
-	content := self text.
-	self text: (content copyFrom: 1 to: position - 1),
-		(content copyFrom: position + 1 to: content size).
-! !
-
-!AthensTextAreaMorph methodsFor: 'text positioning'!
-
-charsBeforeLine: aNumber
-	|sum|
-	sum := 0.
-	(1 to: aNumber - 1) do: [:lineIndex |
-		sum := sum + (virtualLines at: lineIndex) size].
-	^ sum
-!
-
-lineForPixelOffset: aNumber
-	^ (aNumber / lineHeight) floor + 1 min: virtualLines size
-!
-
-pixelAfterPosition: aNumber
-	|currentPosition|
-	"TODO: create index for line offsets"
-	currentPosition := 0.
-	virtualLines do: [:line | |previousLine|
-		currentPosition > aNumber ifTrue: [
-			^ previousLine pixelOffsetAfter: aNumber - currentPosition + line size].
-		currentPosition := currentPosition + line size.
-		previousLine := line.
-	].
-!
-
-pixelBeforePosition: aNumber
-	|currentPosition|
-	"TODO: create index for line offsets"
-	currentPosition := 0.
-	(1 to: virtualLines size) do: [:lineIndex | |line|
-		line := virtualLines at: lineIndex.
-		currentPosition + line size + 1 > aNumber ifTrue: [
-			^ (line pixelOffsetBefore: aNumber - currentPosition) @ (self pixelOffsetForLine: lineIndex)].
-		currentPosition := currentPosition + line size].
-	self error: 'pixel not found'.
-!
-
-pixelForPosition: aNumber
-!
-
-pixelOffsetForLine: aNumber
-	^ (aNumber - 1) * lineHeight
-!
-
-positionForPixel: aPoint
-	|lineIndex lineOffset|
-	lineIndex := self lineForPixelOffset: aPoint y.
-	lineOffset := (virtualLines at: lineIndex) positionForPixelOffset: aPoint x.
-	lineOffset == -1
-		ifTrue: ["outside line (right border)" ^ (self charsBeforeLine: lineIndex + 1) + 1]
-		ifFalse: [^ lineOffset + (self charsBeforeLine: lineIndex)].
-! !
-
-!AthensTextAreaMorph methodsFor: 'text selection'!
-
-moveCursorBy: aNumber
-	selectionStart := ((selectionStart + aNumber) max: 1) min: self size.
-	selectionLength := 0.
-	self redraw.
-!
-
-select: aNumber
-	selectionStart := (aNumber max: 1) min: self size.
-	selectionLength := 0.
-	self redraw.
+layoutChanged
+	super layoutChanged.
+	textMorph
+		resetTransformation;
+		translateByX: 3 Y: 3;
+		height: height - 6;
+		width: width - 6.
 ! !
 
 AthensRectangleMorph subclass: #AthensTextMorph
