@@ -1017,6 +1017,7 @@ initialize
 	self initializeVariables.
 	self initializeVirtualSurface.
 	self bindKeyHandlers.
+	self text: ''.
 !
 
 initializeVariables
@@ -1588,7 +1589,7 @@ AthensRectangleMorph subclass: #AthensTextAreaMorph
 !AthensTextAreaMorph methodsFor: 'decorator'!
 
 doesNotUnderstand: aMessage
-	textMorph perform: aMessage selector withArguments: aMessage arguments.
+	^ textMorph perform: aMessage selector withArguments: aMessage arguments
 ! !
 
 !AthensTextAreaMorph methodsFor: 'initialization'!

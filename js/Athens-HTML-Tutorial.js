@@ -1,4 +1,74 @@
 smalltalk.addPackage('Athens-HTML-Tutorial');
+smalltalk.addClass('AthensMorphicTutorialLauncher', smalltalk.Object, [], 'Athens-HTML-Tutorial');
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "open",
+category: 'starting',
+fn: function (){
+var self=this;
+var html;
+function $HTMLCanvas(){return smalltalk.HTMLCanvas||(typeof HTMLCanvas=="undefined"?nil:HTMLCanvas)}
+function $AthensMorphicTutorialWidget(){return smalltalk.AthensMorphicTutorialWidget||(typeof AthensMorphicTutorialWidget=="undefined"?nil:AthensMorphicTutorialWidget)}
+return smalltalk.withContext(function($ctx1) { 
+html=_st($HTMLCanvas())._onJQuery_("#workspace"._asJQuery());
+_st(html)._with_(_st($AthensMorphicTutorialWidget())._new());
+return self}, function($ctx1) {$ctx1.fill(self,"open",{html:html},smalltalk.AthensMorphicTutorial.klass)})},
+args: [],
+source: "open\x0a\x09|html|\x0a\x09html := HTMLCanvas onJQuery: '#workspace' asJQuery.\x0a\x09html with: AthensMorphicTutorialWidget new.",
+messageSends: ["onJQuery:", "asJQuery", "with:", "new"],
+referencedClasses: ["HTMLCanvas", "AthensMorphicTutorialWidget"]
+}),
+smalltalk.AthensMorphicTutorialLauncher.klass);
+
+
+smalltalk.addClass('AthensMorphicTutorialWidget', smalltalk.Widget, ['canvasContainer', 'surface'], 'Athens-HTML-Tutorial');
+smalltalk.addMethod(
+smalltalk.method({
+selector: "documentExtent",
+category: 'accessing',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(_st(_st(document)._asJQuery())._width()).__at(_st(_st(document)._asJQuery())._height());
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"documentExtent",{},smalltalk.AthensMorphicTutorialWidget)})},
+args: [],
+source: "documentExtent\x0a\x09^ document asJQuery width @ document asJQuery height",
+messageSends: ["@", "height", "asJQuery", "width"],
+referencedClasses: []
+}),
+smalltalk.AthensMorphicTutorialWidget);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "renderOn:",
+category: 'rendering',
+fn: function (html){
+var self=this;
+function $AthensHTMLMorphicSurface(){return smalltalk.AthensHTMLMorphicSurface||(typeof AthensHTMLMorphicSurface=="undefined"?nil:AthensHTMLMorphicSurface)}
+function $AthensMorphicTutorial(){return smalltalk.AthensMorphicTutorial||(typeof AthensMorphicTutorial=="undefined"?nil:AthensMorphicTutorial)}
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2;
+$1=_st(html)._div();
+_st($1)._style_("overflow: hidden;");
+_st($1)._id_("canvas-container");
+$2=_st($1)._asJQuery();
+self["@canvasContainer"]=$2;
+self["@surface"]=_st($AthensHTMLMorphicSurface())._extent_(self._documentExtent());
+_st(self["@surface"])._appendToJQuery_(self["@canvasContainer"]);
+_st($AthensMorphicTutorial())._forWorld_(_st(self["@surface"])._world());
+return self}, function($ctx1) {$ctx1.fill(self,"renderOn:",{html:html},smalltalk.AthensMorphicTutorialWidget)})},
+args: ["html"],
+source: "renderOn: html\x0a\x09canvasContainer := html div\x0a\x09\x09style: 'overflow: hidden;';\x0a\x09\x09id: 'canvas-container';\x0a\x09\x09asJQuery.\x0a\x09\x09\x0a\x09surface := AthensHTMLMorphicSurface extent: self documentExtent.\x0a\x09surface appendToJQuery: canvasContainer.\x0a\x09\x0a\x09AthensMorphicTutorial forWorld: surface world.",
+messageSends: ["style:", "div", "id:", "asJQuery", "extent:", "documentExtent", "appendToJQuery:", "forWorld:", "world"],
+referencedClasses: ["AthensHTMLMorphicSurface", "AthensMorphicTutorial"]
+}),
+smalltalk.AthensMorphicTutorialWidget);
+
+
+
 smalltalk.addClass('AthensTigerShape', smalltalk.Object, ['paint', 'path', 'fillRule', 'fill', 'capStyle', 'joinStyle', 'miterLimit', 'strokeWidth', 'strokePaint', 'fillPaint', 'stroke'], 'Athens-HTML-Tutorial');
 smalltalk.addMethod(
 smalltalk.method({

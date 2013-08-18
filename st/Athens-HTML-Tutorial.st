@@ -1,4 +1,40 @@
 Smalltalk current createPackage: 'Athens-HTML-Tutorial'!
+Object subclass: #AthensMorphicTutorialLauncher
+	instanceVariableNames: ''
+	package: 'Athens-HTML-Tutorial'!
+
+!AthensMorphicTutorialLauncher class methodsFor: 'starting'!
+
+open
+	|html|
+	html := HTMLCanvas onJQuery: '#workspace' asJQuery.
+	html with: AthensMorphicTutorialWidget new.
+! !
+
+Widget subclass: #AthensMorphicTutorialWidget
+	instanceVariableNames: 'canvasContainer surface'
+	package: 'Athens-HTML-Tutorial'!
+
+!AthensMorphicTutorialWidget methodsFor: 'accessing'!
+
+documentExtent
+	^ document asJQuery width @ document asJQuery height
+! !
+
+!AthensMorphicTutorialWidget methodsFor: 'rendering'!
+
+renderOn: html
+	canvasContainer := html div
+		style: 'overflow: hidden;';
+		id: 'canvas-container';
+		asJQuery.
+		
+	surface := AthensHTMLMorphicSurface extent: self documentExtent.
+	surface appendToJQuery: canvasContainer.
+	
+	AthensMorphicTutorial forWorld: surface world.
+! !
+
 Object subclass: #AthensTigerShape
 	instanceVariableNames: 'paint path fillRule fill capStyle joinStyle miterLimit strokeWidth strokePaint fillPaint stroke'
 	package: 'Athens-HTML-Tutorial'!

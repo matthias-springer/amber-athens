@@ -2911,10 +2911,11 @@ smalltalk.AthensRectangleMorph.fn.prototype._initialize.apply(_st(self), []);
 self._initializeVariables();
 self._initializeVirtualSurface();
 self._bindKeyHandlers();
-return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensTextAreaMorph)})},
+self._text_("");
+return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensEditableTextMorph)})},
 args: [],
-source: "initialize\x0a\x09super initialize.\x0a\x09self initializeVariables.\x0a\x09self initializeVirtualSurface.\x0a\x09self bindKeyHandlers.",
-messageSends: ["initialize", "initializeVariables", "initializeVirtualSurface", "bindKeyHandlers"],
+source: "initialize\x0a\x09super initialize.\x0a\x09self initializeVariables.\x0a\x09self initializeVirtualSurface.\x0a\x09self bindKeyHandlers.\x0a\x09self text: ''.",
+messageSends: ["initialize", "initializeVariables", "initializeVirtualSurface", "bindKeyHandlers", "text:"],
 referencedClasses: []
 }),
 smalltalk.AthensEditableTextMorph);
@@ -4403,10 +4404,12 @@ category: 'decorator',
 fn: function (aMessage){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-_st(self["@textMorph"])._perform_withArguments_(_st(aMessage)._selector(),_st(aMessage)._arguments());
-return self}, function($ctx1) {$ctx1.fill(self,"doesNotUnderstand:",{aMessage:aMessage},smalltalk.AthensTextAreaMorph)})},
+var $1;
+$1=_st(self["@textMorph"])._perform_withArguments_(_st(aMessage)._selector(),_st(aMessage)._arguments());
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"doesNotUnderstand:",{aMessage:aMessage},smalltalk.AthensTextAreaMorph)})},
 args: ["aMessage"],
-source: "doesNotUnderstand: aMessage\x0a\x09textMorph perform: aMessage selector withArguments: aMessage arguments.",
+source: "doesNotUnderstand: aMessage\x0a\x09^ textMorph perform: aMessage selector withArguments: aMessage arguments",
 messageSends: ["perform:withArguments:", "selector", "arguments"],
 referencedClasses: []
 }),

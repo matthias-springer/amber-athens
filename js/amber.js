@@ -100,6 +100,7 @@ amber = (function() {
         'Athens-Core',
         'Athens-Core-Matrices',
         'Athens-Core-Morphic',
+				'Athens-Core-Morphic-Tutorial',
         'Athens-Core-Paints',
         'Athens-Core-Paths',
         'Athens-Core-PathsGeometry',

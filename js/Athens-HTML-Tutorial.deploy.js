@@ -1,4 +1,59 @@
 smalltalk.addPackage('Athens-HTML-Tutorial');
+smalltalk.addClass('AthensMorphicTutorialLauncher', smalltalk.Object, [], 'Athens-HTML-Tutorial');
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "open",
+fn: function (){
+var self=this;
+var html;
+function $HTMLCanvas(){return smalltalk.HTMLCanvas||(typeof HTMLCanvas=="undefined"?nil:HTMLCanvas)}
+function $AthensMorphicTutorialWidget(){return smalltalk.AthensMorphicTutorialWidget||(typeof AthensMorphicTutorialWidget=="undefined"?nil:AthensMorphicTutorialWidget)}
+return smalltalk.withContext(function($ctx1) { 
+html=_st($HTMLCanvas())._onJQuery_("#workspace"._asJQuery());
+_st(html)._with_(_st($AthensMorphicTutorialWidget())._new());
+return self}, function($ctx1) {$ctx1.fill(self,"open",{html:html},smalltalk.AthensMorphicTutorial.klass)})},
+messageSends: ["onJQuery:", "asJQuery", "with:", "new"]}),
+smalltalk.AthensMorphicTutorialLauncher.klass);
+
+
+smalltalk.addClass('AthensMorphicTutorialWidget', smalltalk.Widget, ['canvasContainer', 'surface'], 'Athens-HTML-Tutorial');
+smalltalk.addMethod(
+smalltalk.method({
+selector: "documentExtent",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(_st(_st(document)._asJQuery())._width()).__at(_st(_st(document)._asJQuery())._height());
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"documentExtent",{},smalltalk.AthensMorphicTutorialWidget)})},
+messageSends: ["@", "height", "asJQuery", "width"]}),
+smalltalk.AthensMorphicTutorialWidget);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "renderOn:",
+fn: function (html){
+var self=this;
+function $AthensHTMLMorphicSurface(){return smalltalk.AthensHTMLMorphicSurface||(typeof AthensHTMLMorphicSurface=="undefined"?nil:AthensHTMLMorphicSurface)}
+function $AthensMorphicTutorial(){return smalltalk.AthensMorphicTutorial||(typeof AthensMorphicTutorial=="undefined"?nil:AthensMorphicTutorial)}
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2;
+$1=_st(html)._div();
+_st($1)._style_("overflow: hidden;");
+_st($1)._id_("canvas-container");
+$2=_st($1)._asJQuery();
+self["@canvasContainer"]=$2;
+self["@surface"]=_st($AthensHTMLMorphicSurface())._extent_(self._documentExtent());
+_st(self["@surface"])._appendToJQuery_(self["@canvasContainer"]);
+_st($AthensMorphicTutorial())._forWorld_(_st(self["@surface"])._world());
+return self}, function($ctx1) {$ctx1.fill(self,"renderOn:",{html:html},smalltalk.AthensMorphicTutorialWidget)})},
+messageSends: ["style:", "div", "id:", "asJQuery", "extent:", "documentExtent", "appendToJQuery:", "forWorld:", "world"]}),
+smalltalk.AthensMorphicTutorialWidget);
+
+
+
 smalltalk.addClass('AthensTigerShape', smalltalk.Object, ['paint', 'path', 'fillRule', 'fill', 'capStyle', 'joinStyle', 'miterLimit', 'strokeWidth', 'strokePaint', 'fillPaint', 'stroke'], 'Athens-HTML-Tutorial');
 smalltalk.addMethod(
 smalltalk.method({
