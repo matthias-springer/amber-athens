@@ -175,12 +175,20 @@ Object subclass: #Image
 
 !Image methodsFor: 'accessing'!
 
+height
+	< return self.height; >
+!
+
 onLoad: aBlock
  	< self.onload = aBlock; >
 !
 
 source: anUrl
 	< self.src = anUrl; >
+!
+
+width
+	< return self.width; >
 !
 
 yourself

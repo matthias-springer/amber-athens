@@ -258,6 +258,17 @@ smalltalk.AthensHTMLBitmapPaint);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "height",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self['@patternSource'].height; ;
+return self}, function($ctx1) {$ctx1.fill(self,"height",{},smalltalk.AthensHTMLBitmapPaint)})},
+messageSends: []}),
+smalltalk.AthensHTMLBitmapPaint);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "loadingCallback:",
 fn: function (aBlock){
 var self=this;
@@ -269,6 +280,17 @@ return smalltalk.withContext(function($ctx1) {
 		self['@patternSource'].onload = function() {aBlock._value_(self);};
 	} ;
 return self}, function($ctx1) {$ctx1.fill(self,"loadingCallback:",{aBlock:aBlock},smalltalk.AthensHTMLBitmapPaint)})},
+messageSends: []}),
+smalltalk.AthensHTMLBitmapPaint);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "width",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self['@patternSource'].width; ;
+return self}, function($ctx1) {$ctx1.fill(self,"width",{},smalltalk.AthensHTMLBitmapPaint)})},
 messageSends: []}),
 smalltalk.AthensHTMLBitmapPaint);
 

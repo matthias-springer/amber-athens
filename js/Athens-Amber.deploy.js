@@ -425,6 +425,17 @@ smalltalk.Image);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "height",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self.height; ;
+return self}, function($ctx1) {$ctx1.fill(self,"height",{},smalltalk.Image)})},
+messageSends: []}),
+smalltalk.Image);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "onLoad:",
 fn: function (aBlock){
 var self=this;
@@ -442,6 +453,17 @@ var self=this;
 return smalltalk.withContext(function($ctx1) { 
  self.src = anUrl; ;
 return self}, function($ctx1) {$ctx1.fill(self,"source:",{anUrl:anUrl},smalltalk.Image)})},
+messageSends: []}),
+smalltalk.Image);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "width",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self.width; ;
+return self}, function($ctx1) {$ctx1.fill(self,"width",{},smalltalk.Image)})},
 messageSends: []}),
 smalltalk.Image);
 

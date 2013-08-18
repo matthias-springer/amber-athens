@@ -1,5 +1,5 @@
 smalltalk.addPackage('Athens-Core-Morphic-Tutorial');
-smalltalk.addClass('AthensMorphicTutorial', smalltalk.Object, ['world', 'btnPrev', 'btnNext', 'btnDoit', 'txtCode', 'step'], 'Athens-Core-Morphic-Tutorial');
+smalltalk.addClass('AthensMorphicTutorial', smalltalk.Object, ['world', 'btnPrev', 'btnNext', 'btnDoit', 'btnCode', 'txtCode', 'step'], 'Athens-Core-Morphic-Tutorial');
 smalltalk.addMethod(
 smalltalk.method({
 selector: "doStep",
@@ -28,12 +28,46 @@ fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 self._initializeWindow();
+self._initializeAmberLogo();
 self._showStep_((1));
 return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensMorphicTutorial)})},
 args: [],
-source: "initialize\x0a\x09self initializeWindow.\x0a\x09self showStep: 1.",
-messageSends: ["initializeWindow", "showStep:"],
+source: "initialize\x0a\x09self initializeWindow.\x0a\x09self initializeAmberLogo.\x0a\x09self showStep: 1.",
+messageSends: ["initializeWindow", "initializeAmberLogo", "showStep:"],
 referencedClasses: []
+}),
+smalltalk.AthensMorphicTutorial);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "initializeAmberLogo",
+category: 'initialization',
+fn: function (){
+var self=this;
+var amberLogo;
+function $AthensImageMorph(){return smalltalk.AthensImageMorph||(typeof AthensImageMorph=="undefined"?nil:AthensImageMorph)}
+function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2;
+$1=_st($AthensImageMorph())._new();
+_st($1)._url_("images/amber_transparent.png");
+_st($1)._translateByX_Y_(_st(_st(_st(self["@world"])._width()).__minus((421))).__minus((15)),(15));
+_st($1)._mouseFocusFillColor_(_st($Color())._white());
+_st($1)._mouseDownFillColor_(_st($Color())._cosmoLightGray());
+_st($1)._mouseFocusBorderColor_(_st($Color())._cosmoGray());
+_st($1)._mouseDownBorderColor_(_st($Color())._cosmoDarkGray());
+_st($1)._onMouseClick_((function(evt){
+return smalltalk.withContext(function($ctx2) {
+return _st(document)._location_("http://www.amber-lang.net/");
+}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
+$2=_st($1)._yourself();
+amberLogo=$2;
+_st(self["@world"])._addMorph_(amberLogo);
+return self}, function($ctx1) {$ctx1.fill(self,"initializeAmberLogo",{amberLogo:amberLogo},smalltalk.AthensMorphicTutorial)})},
+args: [],
+source: "initializeAmberLogo\x0a\x09|amberLogo|\x0a\x09amberLogo := AthensImageMorph new\x0a\x09\x09url: 'images/amber_transparent.png';\x0a\x09\x09translateByX: world width - 421 - 15 Y: 15;\x0a\x09\x09mouseFocusFillColor: Color white;\x0a\x09\x09mouseDownFillColor: Color cosmoLightGray;\x0a\x09\x09mouseFocusBorderColor: Color cosmoGray;\x0a\x09\x09mouseDownBorderColor: Color cosmoDarkGray;\x0a\x09\x09onMouseClick: [:evt | document location: 'http://www.amber-lang.net/'];\x0a\x09\x09yourself.\x0a\x09\x09\x0a\x09world addMorph: amberLogo.",
+messageSends: ["url:", "new", "translateByX:Y:", "-", "width", "mouseFocusFillColor:", "white", "mouseDownFillColor:", "cosmoLightGray", "mouseFocusBorderColor:", "cosmoGray", "mouseDownBorderColor:", "cosmoDarkGray", "onMouseClick:", "location:", "yourself", "addMorph:"],
+referencedClasses: ["AthensImageMorph", "Color"]
 }),
 smalltalk.AthensMorphicTutorial);
 
@@ -48,7 +82,7 @@ function $AthensWindowMorph(){return smalltalk.AthensWindowMorph||(typeof Athens
 function $AthensButtonMorph(){return smalltalk.AthensButtonMorph||(typeof AthensButtonMorph=="undefined"?nil:AthensButtonMorph)}
 function $AthensTextAreaMorph(){return smalltalk.AthensTextAreaMorph||(typeof AthensTextAreaMorph=="undefined"?nil:AthensTextAreaMorph)}
 return smalltalk.withContext(function($ctx1) { 
-var $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12;
+var $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14;
 window=_st($AthensWindowMorph())._new();
 $1=window;
 _st($1)._title_("Athens Morphic Tutorial");
@@ -88,22 +122,35 @@ return self._doStep();
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
 $8=_st($7)._yourself();
 self["@btnDoit"]=$8;
-$9=_st($AthensTextAreaMorph())._new();
-_st($9)._width_((630));
-_st($9)._height_((330));
-_st($9)._translateByX_Y_((5),(35));
+$9=_st($AthensButtonMorph())._new();
+_st($9)._text_("IDE (Helios)");
+_st($9)._width_((100));
+_st($9)._height_((25));
+_st($9)._translateByX_Y_((320),(370));
+_st($9)._onMouseClick_((function(){
+return smalltalk.withContext(function($ctx2) {
+_st(amber)._loadHelios();
+return _st(self["@btnCode"])._delete();
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
 $10=_st($9)._yourself();
-self["@txtCode"]=$10;
-$11=window;
-_st($11)._addMorph_(self["@btnPrev"]);
-_st($11)._addMorph_(self["@btnNext"]);
-_st($11)._addMorph_(self["@btnDoit"]);
-$12=_st($11)._addMorph_(self["@txtCode"]);
+self["@btnCode"]=$10;
+$11=_st($AthensTextAreaMorph())._new();
+_st($11)._width_((630));
+_st($11)._height_((330));
+_st($11)._translateByX_Y_((5),(35));
+$12=_st($11)._yourself();
+self["@txtCode"]=$12;
+$13=window;
+_st($13)._addMorph_(self["@btnPrev"]);
+_st($13)._addMorph_(self["@btnNext"]);
+_st($13)._addMorph_(self["@btnDoit"]);
+_st($13)._addMorph_(self["@btnCode"]);
+$14=_st($13)._addMorph_(self["@txtCode"]);
 _st(self["@world"])._addMorph_(window);
 return self}, function($ctx1) {$ctx1.fill(self,"initializeWindow",{window:window},smalltalk.AthensMorphicTutorial)})},
 args: [],
-source: "initializeWindow\x0a\x09|window|\x0a\x09window := AthensWindowMorph new.\x0a\x09window \x0a\x09\x09title: 'Athens Morphic Tutorial';\x0a\x09\x09width: 640;\x0a\x09\x09height: 400;\x0a\x09\x09translateByX: 40 Y: 20.\x0a\x09\x09\x0a\x09btnPrev := AthensButtonMorph new\x0a\x09\x09text: 'Previous step';\x0a\x09\x09width: 100; height: 25;\x0a\x09\x09translateByX: 5 Y: 370;\x0a\x09\x09onMouseClick: [self previousStep];\x0a\x09\x09yourself.\x0a\x09\x09\x0a\x09btnNext := AthensButtonMorph new\x0a\x09\x09text: 'Next step';\x0a\x09\x09width: 100; height: 25;\x0a\x09\x09translateByX: 110 Y: 370;\x0a\x09\x09onMouseClick: [self nextStep];\x0a\x09\x09yourself.\x0a\x09\x09\x0a\x09btnDoit := AthensButtonMorph new\x0a\x09\x09text: 'Do it';\x0a\x09\x09width: 100; height: 25;\x0a\x09\x09translateByX: 215 Y: 370;\x0a\x09\x09onMouseClick: [self doStep];\x0a\x09\x09yourself.\x0a\x09\x09\x0a\x09txtCode := AthensTextAreaMorph new\x0a\x09\x09width: 630; height: 330;\x0a\x09\x09translateByX: 5 Y: 35;\x0a\x09\x09yourself.\x0a\x09\x09\x0a\x09window \x0a\x09\x09addMorph: btnPrev;\x0a\x09\x09addMorph: btnNext;\x0a\x09\x09addMorph: btnDoit;\x0a\x09\x09addMorph: txtCode.\x0a\x09\x09\x0a\x09world addMorph: window.",
-messageSends: ["new", "title:", "width:", "height:", "translateByX:Y:", "text:", "onMouseClick:", "previousStep", "yourself", "nextStep", "doStep", "addMorph:"],
+source: "initializeWindow\x0a\x09|window|\x0a\x09window := AthensWindowMorph new.\x0a\x09window \x0a\x09\x09title: 'Athens Morphic Tutorial';\x0a\x09\x09width: 640;\x0a\x09\x09height: 400;\x0a\x09\x09translateByX: 40 Y: 20.\x0a\x09\x09\x0a\x09btnPrev := AthensButtonMorph new\x0a\x09\x09text: 'Previous step';\x0a\x09\x09width: 100; height: 25;\x0a\x09\x09translateByX: 5 Y: 370;\x0a\x09\x09onMouseClick: [self previousStep];\x0a\x09\x09yourself.\x0a\x09\x09\x0a\x09btnNext := AthensButtonMorph new\x0a\x09\x09text: 'Next step';\x0a\x09\x09width: 100; height: 25;\x0a\x09\x09translateByX: 110 Y: 370;\x0a\x09\x09onMouseClick: [self nextStep];\x0a\x09\x09yourself.\x0a\x09\x09\x0a\x09btnDoit := AthensButtonMorph new\x0a\x09\x09text: 'Do it';\x0a\x09\x09width: 100; height: 25;\x0a\x09\x09translateByX: 215 Y: 370;\x0a\x09\x09onMouseClick: [self doStep];\x0a\x09\x09yourself.\x0a\x09\x09\x0a\x09btnCode := AthensButtonMorph new\x0a\x09\x09text: 'IDE (Helios)';\x0a\x09\x09width: 100; height: 25;\x0a\x09\x09translateByX: 320 Y: 370;\x0a\x09\x09onMouseClick: [\x0a\x09\x09\x09amber loadHelios.\x0a\x09\x09\x09btnCode delete];\x0a\x09\x09yourself.\x0a\x09\x09\x0a\x09txtCode := AthensTextAreaMorph new\x0a\x09\x09width: 630; height: 330;\x0a\x09\x09translateByX: 5 Y: 35;\x0a\x09\x09yourself.\x0a\x09\x09\x0a\x09window \x0a\x09\x09addMorph: btnPrev;\x0a\x09\x09addMorph: btnNext;\x0a\x09\x09addMorph: btnDoit;\x0a\x09\x09addMorph: btnCode;\x0a\x09\x09addMorph: txtCode.\x0a\x09\x09\x0a\x09world addMorph: window.",
+messageSends: ["new", "title:", "width:", "height:", "translateByX:Y:", "text:", "onMouseClick:", "previousStep", "yourself", "nextStep", "doStep", "loadHelios", "delete", "addMorph:"],
 referencedClasses: ["AthensWindowMorph", "AthensButtonMorph", "AthensTextAreaMorph"]
 }),
 smalltalk.AthensMorphicTutorial);
@@ -116,11 +163,11 @@ fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 self["@step"]=_st(self["@step"]).__plus((1));
-self["@step"]=_st(self["@step"])._min_((2));
+self["@step"]=_st(self["@step"])._min_((4));
 self._showStep_(self["@step"]);
 return self}, function($ctx1) {$ctx1.fill(self,"nextStep",{},smalltalk.AthensMorphicTutorial)})},
 args: [],
-source: "nextStep\x0a\x09step := step + 1.\x0a\x09step := step min: 2.\x0a\x09self showStep: step.",
+source: "nextStep\x0a\x09step := step + 1.\x0a\x09step := step min: 4.\x0a\x09self showStep: step.",
 messageSends: ["+", "min:", "showStep:"],
 referencedClasses: []
 }),
@@ -191,20 +238,79 @@ fn: function (){
 var self=this;
 var window,morph;
 function $AthensWindowMorph(){return smalltalk.AthensWindowMorph||(typeof AthensWindowMorph=="undefined"?nil:AthensWindowMorph)}
-function $AthensMorph(){return smalltalk.AthensMorph||(typeof AthensMorph=="undefined"?nil:AthensMorph)}
 return smalltalk.withContext(function($ctx1) { 
-var $1,$2;
+var $1,$2,$3,$4;
 $1=_st($AthensWindowMorph())._new();
-_st($1)._title_("Step 2: Adding/removing submorphs");
+_st($1)._title_("Step 2: Rectangle Morphs");
 $2=_st($1)._yourself();
 window=$2;
+$3=window;
+_st($3)._height_((400));
+$4=_st($3)._width_((500));
 _st(self["@world"])._addMorph_(window);
-morph=_st($AthensMorph())._new();
-_st(window)._addMorph_(morph);
 return self}, function($ctx1) {$ctx1.fill(self,"step2",{window:window,morph:morph},smalltalk.AthensMorphicTutorial)})},
 args: [],
-source: "step2\x0a\x09\x22Add/remove morphs\x22\x0a\x09\x0a\x09\x22You can add submorphs to morph and remove them later. When you add a morph to another morph it is automatically removed from its former owner.\x22\x0a\x09\x0a\x09|window morph|\x0a\x09window := AthensWindowMorph new\x0a\x09\x09title: 'Step 2: Adding/removing submorphs';\x0a\x09\x09yourself.\x0a\x09\x0a\x09\x22Add the morph to the world. The world is the topmost container morph.\x22\x0a\x09world addMorph: window.\x0a\x09\x0a\x09\x22Create a morph.\x22\x0a\x09morph := AthensMorph new.\x0a\x09\x0a\x09\x22Add a morph.\x22\x0a\x09window addMorph: morph.\x0a\x0a\x09\x22Uncomment the next line to remove the morph again.\x22\x0a\x09\x22morph delete.\x22",
-messageSends: ["title:", "new", "yourself", "addMorph:"],
+source: "step2\x0a\x09\x22Rectangle Morphs\x22\x0a\x09\x0a\x09|window morph|\x0a\x09window := AthensWindowMorph new\x0a\x09\x09title: 'Step 2: Rectangle Morphs';\x0a\x09\x09yourself.\x0a\x09\x0a\x09\x22AthensWindow is a (kind of) rectangle morph. We can set its width and height directly. Morphs can also have other shapes than rectangles (see Morph>>outerShape:).\x22\x0a\x09window \x0a\x09\x09height: 400;\x0a\x09\x09width: 500.\x0a\x09\x09\x0a\x09world addMorph: window.",
+messageSends: ["title:", "new", "yourself", "height:", "width:", "addMorph:"],
+referencedClasses: ["AthensWindowMorph"]
+}),
+smalltalk.AthensMorphicTutorial);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "step3",
+category: 'steps',
+fn: function (){
+var self=this;
+var window;
+function $AthensWindowMorph(){return smalltalk.AthensWindowMorph||(typeof AthensWindowMorph=="undefined"?nil:AthensWindowMorph)}
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2,$3,$4;
+$1=_st($AthensWindowMorph())._new();
+_st($1)._title_("Step 3: Transformations");
+$2=_st($1)._yourself();
+window=$2;
+$3=window;
+_st($3)._translateByX_Y_((40),(80));
+_st($3)._rotateByDegrees_((45));
+$4=_st($3)._scaleByX_Y_((2),(0.75));
+_st(window)._translateByX_Y_((10),(10));
+_st(self["@world"])._addMorph_(window);
+return self}, function($ctx1) {$ctx1.fill(self,"step3",{window:window},smalltalk.AthensMorphicTutorial)})},
+args: [],
+source: "step3\x0a\x09\x22Transformations\x22\x0a\x09\x0a\x09|window|\x0a\x09window := AthensWindowMorph new\x0a\x09\x09title: 'Step 3: Transformations';\x0a\x09\x09yourself.\x0a\x09\x0a\x09\x22We can transform every morph (and automatically its submorphs).\x22\x0a\x09window\x0a\x09\x09translateByX: 40 Y: 80;\x0a\x09\x09rotateByDegrees: 45;\x0a\x09\x09scaleByX: 2 Y: 0.75.\x0a\x09\x0a\x09\x22Transformations always operate on the current transformation matrix and stack.\x22\x0a\x09window \x0a\x09\x09translateByX: 10 Y: 10.\x0a\x09\x09\x0a\x09\x22Morphs do not have a position but a transformation matrix that has the translation encoded in its values. To change the position of a morph to a specific value, we have to reset the transformation and translate the morph.\x22\x0a\x09\x22window\x0a\x09\x09resetTransformation;\x0a\x09\x09translateByX: 100 Y: 10.\x22\x0a\x09\x09\x0a\x09world addMorph: window.",
+messageSends: ["title:", "new", "yourself", "translateByX:Y:", "rotateByDegrees:", "scaleByX:Y:", "addMorph:"],
+referencedClasses: ["AthensWindowMorph"]
+}),
+smalltalk.AthensMorphicTutorial);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "step4",
+category: 'steps',
+fn: function (){
+var self=this;
+var window,morph;
+function $AthensWindowMorph(){return smalltalk.AthensWindowMorph||(typeof AthensWindowMorph=="undefined"?nil:AthensWindowMorph)}
+function $AthensMorph(){return smalltalk.AthensMorph||(typeof AthensMorph=="undefined"?nil:AthensMorph)}
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2,$3,$4;
+$1=_st($AthensWindowMorph())._new();
+_st($1)._title_("Step 4: Submorphs");
+_st($1)._width_((400));
+_st($1)._height_((400));
+$2=_st($1)._yourself();
+window=$2;
+$3=_st($AthensMorph())._new();
+_st($3)._translateByX_Y_((10),(40));
+$4=_st($3)._yourself();
+morph=$4;
+_st(window)._addMorph_(morph);
+_st(self["@world"])._addMorph_(window);
+return self}, function($ctx1) {$ctx1.fill(self,"step4",{window:window,morph:morph},smalltalk.AthensMorphicTutorial)})},
+args: [],
+source: "step4\x0a\x09\x22Submorphs\x22\x0a\x09\x0a\x09|window morph|\x0a\x09window := AthensWindowMorph new\x0a\x09\x09title: 'Step 4: Submorphs';\x0a\x09\x09width: 400; height: 400;\x0a\x09\x09yourself.\x0a\x09\x0a\x09morph := AthensMorph new\x0a\x09\x09translateByX: 10 Y: 40;\x0a\x09\x09yourself.\x0a\x09\x09\x0a\x09\x22Morph>>addMorph: adds a submorph to the morph and removes it from its original owner.\x22\x0a\x09window addMorph: morph.\x0a\x09\x09\x0a\x09\x22We can remove the morph from its owner by calling delete.\x22\x0a\x09\x22morph delete.\x22\x0a\x09\x0a\x09world addMorph: window.",
+messageSends: ["title:", "new", "width:", "height:", "yourself", "translateByX:Y:", "addMorph:"],
 referencedClasses: ["AthensWindowMorph", "AthensMorph"]
 }),
 smalltalk.AthensMorphicTutorial);

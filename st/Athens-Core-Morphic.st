@@ -875,6 +875,9 @@ text
 
 text: aString
 	self generateVirtualLines: aString.
+	selectionStart > aString size
+		ifTrue: [self select: 1].
+	self signalChange: aString.
 !
 
 virtualCanvas
@@ -967,6 +970,8 @@ handleKeyDownArrow: evt
 !
 
 handleKeyInput: evt
+	selectionLength == 0
+		ifFalse: [self removeSelection].
 	self insertString: (String fromCharCode: evt keyCode) at: selectionStart.
 	self moveCursorBy: 1.
 	self redraw.
@@ -1062,6 +1067,13 @@ initializeVirtualSurface
 		canvas setFont: font].
 ! !
 
+!AthensEditableTextMorph methodsFor: 'morph handling'!
+
+updateHeight
+	"TODO: add a more generic way to ensure that text is not cut in the last line."
+	self height: virtualLines size * lineHeight + 3.
+! !
+
 !AthensEditableTextMorph methodsFor: 'text manipulation'!
 
 generateVirtualLines: aString
@@ -1084,6 +1096,7 @@ generateVirtualLines: aString
 	virtualLines ifEmpty: [
 		virtualLines add: (AthensVirtualTextAreaLine forTextAreaMorph: self).
 		virtualLines last hasLineBreak: true].
+	self updateHeight.
 !
 
 insertString: aString at: position
@@ -1207,6 +1220,54 @@ selectionStartStop
 		selStart := selStop.
 		selStop := tmp].
 	^ {selStart. selStop}
+! !
+
+AthensRectangleMorph subclass: #AthensImageMorph
+	instanceVariableNames: 'bitmapPaint url'
+	package: 'Athens-Core-Morphic'!
+
+!AthensImageMorph methodsFor: 'accessing'!
+
+url
+	^ url
+!
+
+url: aString
+	url := aString.
+	self createBitmapPaint.
+! !
+
+!AthensImageMorph methodsFor: 'drawing'!
+
+drawOn: canvas
+	super drawOn: canvas.
+	bitmapPaint notNil
+		ifTrue: [canvas setPaint: bitmapPaint]
+		ifFalse: [canvas setPaint: Color transparent].
+		
+	canvas drawShape: (0 @ 0 corner: width @ height).
+! !
+
+!AthensImageMorph methodsFor: 'image loading'!
+
+createBitmapPaint
+	|virtualSurface|
+	virtualSurface := AthensHTMLSurface extent: 0@0.
+	virtualSurface
+		createBitmapPaint: (Bitmap fromUrl: url)
+		afterLoading: [:paint | 
+			bitmapPaint := paint.
+			self height: bitmapPaint height.
+			self width: bitmapPaint width.
+			self redraw].
+! !
+
+!AthensImageMorph methodsFor: 'initialization'!
+
+initialize
+	super initialize.
+	fillColor := mouseDownFillColor := mouseFocusFillColor := borderColor := mouseDownBorderColor := mouseFocusBorderColor := Color transparent.
+	hasSharpBorder := true.
 ! !
 
 AthensRectangleMorph subclass: #AthensListItemMorph
@@ -1477,6 +1538,44 @@ selectedItem: anItem
 	self signalChange: selectedItem item.
 ! !
 
+AthensScrollAreaMorph subclass: #AthensTextAreaMorph
+	instanceVariableNames: 'textMorph'
+	package: 'Athens-Core-Morphic'!
+
+!AthensTextAreaMorph methodsFor: 'decorator'!
+
+doesNotUnderstand: aMessage
+	^ textMorph perform: aMessage selector withArguments: aMessage arguments
+! !
+
+!AthensTextAreaMorph methodsFor: 'initialization'!
+
+initialize
+	textMorph := AthensEditableTextMorph new.
+	super initialize.
+	self hasXScrollBar: false.
+	hasSharpBorder := true.
+	borderColor := Color cosmoGray.
+	mouseFocusFillColor := Color cosmoLightGray.
+	mouseDownBorderColor := Color cosmoDarkGray.
+	self addMorph: textMorph.
+	textMorph onChange: [:evt |
+		self updateContentExtent.
+		self signalChange: evt].
+	self layoutChanged.
+! !
+
+!AthensTextAreaMorph methodsFor: 'morph handling'!
+
+layoutChanged
+	super layoutChanged.
+	textMorph
+		resetTransformation;
+		translateByX: 3 Y: 3;
+		height: height - 6;
+		width: width - 16.
+! !
+
 AthensRectangleMorph subclass: #AthensScrollBarMorph
 	instanceVariableNames: 'decreaseButton increaseButton sliderButton value sliderRange sliderMoveHandler sliderUpHandler buttonStepSize'
 	package: 'Athens-Core-Morphic'!
@@ -1615,40 +1714,6 @@ layoutSliderButton
 		height: (sliderRange * (height - 20) max: 7);
 		resetTransformation;
 		translateByX: 0 Y: (1 - sliderRange) * value * (height - 20) + 10.
-! !
-
-AthensRectangleMorph subclass: #AthensTextAreaMorph
-	instanceVariableNames: 'textMorph'
-	package: 'Athens-Core-Morphic'!
-
-!AthensTextAreaMorph methodsFor: 'decorator'!
-
-doesNotUnderstand: aMessage
-	^ textMorph perform: aMessage selector withArguments: aMessage arguments
-! !
-
-!AthensTextAreaMorph methodsFor: 'initialization'!
-
-initialize
-	super initialize.
-	textMorph := AthensEditableTextMorph new.
-	hasSharpBorder := true.
-	borderColor := Color cosmoGray.
-	mouseFocusFillColor := Color cosmoLightGray.
-	mouseDownBorderColor := Color cosmoDarkGray.
-	self addMorph: textMorph.
-	self layoutChanged.
-! !
-
-!AthensTextAreaMorph methodsFor: 'morph handling'!
-
-layoutChanged
-	super layoutChanged.
-	textMorph
-		resetTransformation;
-		translateByX: 3 Y: 3;
-		height: height - 6;
-		width: width - 6.
 ! !
 
 AthensRectangleMorph subclass: #AthensTextMorph
@@ -1965,6 +2030,10 @@ AthensMorph subclass: #AthensWorldMorph
 
 !AthensWorldMorph methodsFor: 'accessing'!
 
+height
+	^ surface extent y
+!
+
 surface
 	^ surface
 !
@@ -1972,6 +2041,10 @@ surface
 surface: aSurface
 	surface := aSurface.
 	self outerShape: (0@0 corner: surface extent).
+!
+
+width
+	^ surface extent x
 ! !
 
 !AthensWorldMorph methodsFor: 'drawing'!

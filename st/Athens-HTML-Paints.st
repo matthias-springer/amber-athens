@@ -144,6 +144,10 @@ bitmap: aBitmap
 	patternSource := aBitmap image.
 !
 
+height
+	< return self['@patternSource'].height; >
+!
+
 loadingCallback: aBlock
 	< if (self['@patternSource'].complete) {
 		aBlock._value_(self);
@@ -151,6 +155,10 @@ loadingCallback: aBlock
 	else {
 		self['@patternSource'].onload = function() {aBlock._value_(self);};
 	} >
+!
+
+width
+	< return self['@patternSource'].width; >
 ! !
 
 !AthensHTMLBitmapPaint class methodsFor: 'instance creation'!

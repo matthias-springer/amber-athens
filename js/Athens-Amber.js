@@ -590,6 +590,22 @@ smalltalk.Image);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "height",
+category: 'accessing',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self.height; ;
+return self}, function($ctx1) {$ctx1.fill(self,"height",{},smalltalk.Image)})},
+args: [],
+source: "height\x0a\x09< return self.height; >",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.Image);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "onLoad:",
 category: 'accessing',
 fn: function (aBlock){
@@ -615,6 +631,22 @@ return smalltalk.withContext(function($ctx1) {
 return self}, function($ctx1) {$ctx1.fill(self,"source:",{anUrl:anUrl},smalltalk.Image)})},
 args: ["anUrl"],
 source: "source: anUrl\x0a\x09< self.src = anUrl; >",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.Image);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "width",
+category: 'accessing',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self.width; ;
+return self}, function($ctx1) {$ctx1.fill(self,"width",{},smalltalk.Image)})},
+args: [],
+source: "width\x0a\x09< return self.width; >",
 messageSends: [],
 referencedClasses: []
 }),
