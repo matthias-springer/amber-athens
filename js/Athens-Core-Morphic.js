@@ -2476,26 +2476,26 @@ return self._handleKeyDelete_(evt);
 }, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
 _st($1)._at_put_((37),(function(evt){
 return smalltalk.withContext(function($ctx2) {
-return self._handleKeyLeft_(evt);
+return self._handleKeyLeftArrow_(evt);
 }, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
 _st($1)._at_put_((38),(function(evt){
 return smalltalk.withContext(function($ctx2) {
-return self._handleKeyUp_(evt);
+return self._handleKeyUpArrow_(evt);
 }, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
 _st($1)._at_put_((39),(function(evt){
 return smalltalk.withContext(function($ctx2) {
-return self._handleKeyRight_(evt);
+return self._handleKeyRightArrow_(evt);
 }, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
 _st($1)._at_put_((40),(function(evt){
 return smalltalk.withContext(function($ctx2) {
-return self._handleKeyDown_(evt);
+return self._handleKeyDownArrow_(evt);
 }, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
 $2=_st($1)._yourself();
 self["@keyHandlers"]=$2;
-return self}, function($ctx1) {$ctx1.fill(self,"bindKeyHandlers",{},smalltalk.AthensTextAreaMorph)})},
+return self}, function($ctx1) {$ctx1.fill(self,"bindKeyHandlers",{},smalltalk.AthensEditableTextMorph)})},
 args: [],
-source: "bindKeyHandlers\x0a\x09keyHandlers := Dictionary new\x0a\x09\x09at: 8 put: [:evt | self handleKeyBackspace: evt];\x0a\x09\x09at: 46 put: [:evt | self handleKeyDelete: evt];\x0a\x09\x09at: 37 put: [:evt | self handleKeyLeft: evt];\x0a\x09\x09at: 38 put: [:evt | self handleKeyUp: evt];\x0a\x09\x09at: 39 put: [:evt | self handleKeyRight: evt];\x0a\x09\x09at: 40 put: [:evt | self handleKeyDown: evt];\x0a\x09\x09yourself",
-messageSends: ["at:put:", "handleKeyBackspace:", "new", "handleKeyDelete:", "handleKeyLeft:", "handleKeyUp:", "handleKeyRight:", "handleKeyDown:", "yourself"],
+source: "bindKeyHandlers\x0a\x09keyHandlers := Dictionary new\x0a\x09\x09at: 8 put: [:evt | self handleKeyBackspace: evt];\x0a\x09\x09at: 46 put: [:evt | self handleKeyDelete: evt];\x0a\x09\x09at: 37 put: [:evt | self handleKeyLeftArrow: evt];\x0a\x09\x09at: 38 put: [:evt | self handleKeyUpArrow: evt];\x0a\x09\x09at: 39 put: [:evt | self handleKeyRightArrow: evt];\x0a\x09\x09at: 40 put: [:evt | self handleKeyDownArrow: evt];\x0a\x09\x09yourself",
+messageSends: ["at:put:", "handleKeyBackspace:", "new", "handleKeyDelete:", "handleKeyLeftArrow:", "handleKeyUpArrow:", "handleKeyRightArrow:", "handleKeyDownArrow:", "yourself"],
 referencedClasses: ["Dictionary"]
 }),
 smalltalk.AthensEditableTextMorph);
@@ -2753,6 +2753,29 @@ smalltalk.AthensEditableTextMorph);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "handleKeyDownArrow:",
+category: 'events',
+fn: function (evt){
+var self=this;
+var line,lineIndex,nextLine,nextLineIndex,lineOffset,positionOffset;
+return smalltalk.withContext(function($ctx1) { 
+lineIndex=self._lineForPosition_(self["@selectionStart"]);
+line=_st(self["@virtualLines"])._at_(lineIndex);
+lineOffset=self._charsBeforeLine_(lineIndex);
+positionOffset=_st(line)._pixelOffsetBefore_(_st(self["@selectionStart"]).__minus(lineOffset));
+nextLineIndex=_st(_st(lineIndex).__plus((1)))._min_(_st(self["@virtualLines"])._size());
+nextLine=_st(self["@virtualLines"])._at_(nextLineIndex);
+self._select_(_st(self._charsBeforeLine_(nextLineIndex)).__plus(_st(nextLine)._positionForPixelOffset_(positionOffset)));
+return self}, function($ctx1) {$ctx1.fill(self,"handleKeyDownArrow:",{evt:evt,line:line,lineIndex:lineIndex,nextLine:nextLine,nextLineIndex:nextLineIndex,lineOffset:lineOffset,positionOffset:positionOffset},smalltalk.AthensEditableTextMorph)})},
+args: ["evt"],
+source: "handleKeyDownArrow: evt\x0a\x09|line lineIndex nextLine nextLineIndex lineOffset positionOffset|\x0a\x09lineIndex := self lineForPosition: selectionStart.\x0a\x09line := virtualLines at: lineIndex.\x0a\x09lineOffset := self charsBeforeLine: lineIndex.\x0a\x09positionOffset := line pixelOffsetBefore: selectionStart - lineOffset.\x0a\x09nextLineIndex := (lineIndex + 1) min: virtualLines size.\x0a\x09nextLine := virtualLines at: nextLineIndex.\x0a\x09self select: (self charsBeforeLine: nextLineIndex) + (nextLine positionForPixelOffset: positionOffset).",
+messageSends: ["lineForPosition:", "at:", "charsBeforeLine:", "pixelOffsetBefore:", "-", "min:", "size", "+", "select:", "positionForPixelOffset:"],
+referencedClasses: []
+}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "handleKeyInput:",
 category: 'events',
 fn: function (evt){
@@ -2772,15 +2795,15 @@ smalltalk.AthensEditableTextMorph);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "handleKeyLeft:",
+selector: "handleKeyLeftArrow:",
 category: 'events',
 fn: function (evt){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 self._select_(_st(self["@selectionStart"]).__minus((1)));
-return self}, function($ctx1) {$ctx1.fill(self,"handleKeyLeft:",{evt:evt},smalltalk.AthensTextAreaMorph)})},
+return self}, function($ctx1) {$ctx1.fill(self,"handleKeyLeftArrow:",{evt:evt},smalltalk.AthensEditableTextMorph)})},
 args: ["evt"],
-source: "handleKeyLeft: evt\x0a\x09self select: selectionStart - 1.",
+source: "handleKeyLeftArrow: evt\x0a\x09self select: selectionStart - 1.",
 messageSends: ["select:", "-"],
 referencedClasses: []
 }),
@@ -2805,16 +2828,39 @@ smalltalk.AthensEditableTextMorph);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "handleKeyRight:",
+selector: "handleKeyRightArrow:",
 category: 'events',
 fn: function (evt){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 self._select_(_st(_st(self["@selectionStart"]).__plus(self["@selectionLength"])).__plus((1)));
-return self}, function($ctx1) {$ctx1.fill(self,"handleKeyRight:",{evt:evt},smalltalk.AthensTextAreaMorph)})},
+return self}, function($ctx1) {$ctx1.fill(self,"handleKeyRightArrow:",{evt:evt},smalltalk.AthensEditableTextMorph)})},
 args: ["evt"],
-source: "handleKeyRight: evt\x0a\x09self select: selectionStart + selectionLength + 1.",
+source: "handleKeyRightArrow: evt\x0a\x09self select: selectionStart + selectionLength + 1.",
 messageSends: ["select:", "+"],
+referencedClasses: []
+}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "handleKeyUpArrow:",
+category: 'events',
+fn: function (evt){
+var self=this;
+var line,lineIndex,nextLine,nextLineIndex,lineOffset,positionOffset;
+return smalltalk.withContext(function($ctx1) { 
+lineIndex=self._lineForPosition_(self["@selectionStart"]);
+line=_st(self["@virtualLines"])._at_(lineIndex);
+lineOffset=self._charsBeforeLine_(lineIndex);
+positionOffset=_st(line)._pixelOffsetBefore_(_st(self["@selectionStart"]).__minus(lineOffset));
+nextLineIndex=_st(_st(lineIndex).__minus((1)))._max_((1));
+nextLine=_st(self["@virtualLines"])._at_(nextLineIndex);
+self._select_(_st(self._charsBeforeLine_(nextLineIndex)).__plus(_st(nextLine)._positionForPixelOffset_(positionOffset)));
+return self}, function($ctx1) {$ctx1.fill(self,"handleKeyUpArrow:",{evt:evt,line:line,lineIndex:lineIndex,nextLine:nextLine,nextLineIndex:nextLineIndex,lineOffset:lineOffset,positionOffset:positionOffset},smalltalk.AthensEditableTextMorph)})},
+args: ["evt"],
+source: "handleKeyUpArrow: evt\x0a\x09|line lineIndex nextLine nextLineIndex lineOffset positionOffset|\x0a\x09lineIndex := self lineForPosition: selectionStart.\x0a\x09line := virtualLines at: lineIndex.\x0a\x09lineOffset := self charsBeforeLine: lineIndex.\x0a\x09positionOffset := line pixelOffsetBefore: selectionStart - lineOffset.\x0a\x09nextLineIndex := (lineIndex - 1) max: 1.\x0a\x09nextLine := virtualLines at: nextLineIndex.\x0a\x09self select: (self charsBeforeLine: nextLineIndex) + (nextLine positionForPixelOffset: positionOffset).",
+messageSends: ["lineForPosition:", "at:", "charsBeforeLine:", "pixelOffsetBefore:", "-", "max:", "select:", "+", "positionForPixelOffset:"],
 referencedClasses: []
 }),
 smalltalk.AthensEditableTextMorph);
@@ -3003,6 +3049,42 @@ return $1;
 args: ["aNumber"],
 source: "lineForPixelOffset: aNumber\x0a\x09^ (aNumber / lineHeight) floor + 1 min: virtualLines size",
 messageSends: ["min:", "size", "+", "floor", "/"],
+referencedClasses: []
+}),
+smalltalk.AthensEditableTextMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "lineForPosition:",
+category: 'text positioning',
+fn: function (aNumber){
+var self=this;
+var currentPosition;
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2;
+var $early={};
+try {
+currentPosition=(0);
+_st((1)._to_(_st(self["@virtualLines"])._size()))._do_((function(lineIndex){
+var line;
+return smalltalk.withContext(function($ctx2) {
+line=_st(self["@virtualLines"])._at_(lineIndex);
+line;
+$1=_st(_st(_st(currentPosition).__plus(_st(line)._size())).__plus((1))).__gt(aNumber);
+if(smalltalk.assert($1)){
+$2=lineIndex;
+throw $early=[$2];
+};
+currentPosition=_st(currentPosition).__plus(_st(line)._size());
+return currentPosition;
+}, function($ctx2) {$ctx2.fillBlock({lineIndex:lineIndex,line:line},$ctx1)})}));
+self._error_("line not found");
+return self}
+catch(e) {if(e===$early)return e[0]; throw e}
+}, function($ctx1) {$ctx1.fill(self,"lineForPosition:",{aNumber:aNumber,currentPosition:currentPosition},smalltalk.AthensEditableTextMorph)})},
+args: ["aNumber"],
+source: "lineForPosition: aNumber\x0a\x09|currentPosition|\x0a\x09\x22TODO: create index for line offsets\x22\x0a\x09currentPosition := 0.\x0a\x09(1 to: virtualLines size) do: [:lineIndex | |line|\x0a\x09\x09line := virtualLines at: lineIndex.\x0a\x09\x09currentPosition + line size + 1 > aNumber ifTrue: [\x0a\x09\x09\x09^ lineIndex].\x0a\x09\x09currentPosition := currentPosition + line size].\x0a\x09self error: 'line not found'.",
+messageSends: ["do:", "at:", "ifTrue:", ">", "+", "size", "to:", "error:"],
 referencedClasses: []
 }),
 smalltalk.AthensEditableTextMorph);
@@ -3361,11 +3443,12 @@ var self=this;
 return smalltalk.withContext(function($ctx1) { 
 smalltalk.AthensRectangleMorph.fn.prototype._width_.apply(_st(self), [aNumber]);
 self["@maxWidth"]=aNumber;
+self._text_(self._text());
 self._redraw();
-return self}, function($ctx1) {$ctx1.fill(self,"width:",{aNumber:aNumber},smalltalk.AthensTextAreaMorph)})},
+return self}, function($ctx1) {$ctx1.fill(self,"width:",{aNumber:aNumber},smalltalk.AthensEditableTextMorph)})},
 args: ["aNumber"],
-source: "width: aNumber\x0a\x09super width: aNumber.\x0a\x09maxWidth := aNumber.\x0a\x09self redraw.",
-messageSends: ["width:", "redraw"],
+source: "width: aNumber\x0a\x09super width: aNumber.\x0a\x09maxWidth := aNumber.\x0a\x09self text: self text.\x0a\x09self redraw.",
+messageSends: ["width:", "text:", "text", "redraw"],
 referencedClasses: []
 }),
 smalltalk.AthensEditableTextMorph);

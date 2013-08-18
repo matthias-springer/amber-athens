@@ -884,6 +884,7 @@ virtualCanvas
 width: aNumber
 	super width: aNumber.
 	maxWidth := aNumber.
+	self text: self text.
 	self redraw.
 ! !
 
@@ -954,13 +955,24 @@ handleKeyDown: evt
 	handler value: evt.
 !
 
+handleKeyDownArrow: evt
+	|line lineIndex nextLine nextLineIndex lineOffset positionOffset|
+	lineIndex := self lineForPosition: selectionStart.
+	line := virtualLines at: lineIndex.
+	lineOffset := self charsBeforeLine: lineIndex.
+	positionOffset := line pixelOffsetBefore: selectionStart - lineOffset.
+	nextLineIndex := (lineIndex + 1) min: virtualLines size.
+	nextLine := virtualLines at: nextLineIndex.
+	self select: (self charsBeforeLine: nextLineIndex) + (nextLine positionForPixelOffset: positionOffset).
+!
+
 handleKeyInput: evt
 	self insertString: (String fromCharCode: evt keyCode) at: selectionStart.
 	self moveCursorBy: 1.
 	self redraw.
 !
 
-handleKeyLeft: evt
+handleKeyLeftArrow: evt
 	self select: selectionStart - 1.
 !
 
@@ -969,8 +981,19 @@ handleKeyPress: evt
 	self handleKeyInput: evt.
 !
 
-handleKeyRight: evt
+handleKeyRightArrow: evt
 	self select: selectionStart + selectionLength + 1.
+!
+
+handleKeyUpArrow: evt
+	|line lineIndex nextLine nextLineIndex lineOffset positionOffset|
+	lineIndex := self lineForPosition: selectionStart.
+	line := virtualLines at: lineIndex.
+	lineOffset := self charsBeforeLine: lineIndex.
+	positionOffset := line pixelOffsetBefore: selectionStart - lineOffset.
+	nextLineIndex := (lineIndex - 1) max: 1.
+	nextLine := virtualLines at: nextLineIndex.
+	self select: (self charsBeforeLine: nextLineIndex) + (nextLine positionForPixelOffset: positionOffset).
 !
 
 handleMouseDown: evt
@@ -1005,10 +1028,10 @@ bindKeyHandlers
 	keyHandlers := Dictionary new
 		at: 8 put: [:evt | self handleKeyBackspace: evt];
 		at: 46 put: [:evt | self handleKeyDelete: evt];
-		at: 37 put: [:evt | self handleKeyLeft: evt];
-		at: 38 put: [:evt | self handleKeyUp: evt];
-		at: 39 put: [:evt | self handleKeyRight: evt];
-		at: 40 put: [:evt | self handleKeyDown: evt];
+		at: 37 put: [:evt | self handleKeyLeftArrow: evt];
+		at: 38 put: [:evt | self handleKeyUpArrow: evt];
+		at: 39 put: [:evt | self handleKeyRightArrow: evt];
+		at: 40 put: [:evt | self handleKeyDownArrow: evt];
 		yourself
 !
 
@@ -1110,6 +1133,18 @@ charsBeforeLine: aNumber
 
 lineForPixelOffset: aNumber
 	^ (aNumber / lineHeight) floor + 1 min: virtualLines size
+!
+
+lineForPosition: aNumber
+	|currentPosition|
+	"TODO: create index for line offsets"
+	currentPosition := 0.
+	(1 to: virtualLines size) do: [:lineIndex | |line|
+		line := virtualLines at: lineIndex.
+		currentPosition + line size + 1 > aNumber ifTrue: [
+			^ lineIndex].
+		currentPosition := currentPosition + line size].
+	self error: 'line not found'.
 !
 
 pixelAfterPosition: aNumber
