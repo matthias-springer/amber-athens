@@ -4280,7 +4280,7 @@ messageSends: ["width:", "x", "new", "height:", "y", "yourself"]}),
 smalltalk.AthensWindowMorph.klass);
 
 
-smalltalk.addClass('AthensWorldMorph', smalltalk.AthensMorph, ['backgroundPaint', 'surface', 'morphsUnderHand', 'halos', 'globalEventCallbacks', 'handPosition', 'worldState'], 'Athens-Core-Morphic');
+smalltalk.addClass('AthensWorldMorph', smalltalk.AthensRectangleMorph, ['backgroundPaint', 'surface', 'morphsUnderHand', 'halos', 'globalEventCallbacks', 'handPosition', 'worldState'], 'Athens-Core-Morphic');
 smalltalk.addMethod(
 smalltalk.method({
 selector: "addHalosTo:",
@@ -4392,19 +4392,6 @@ smalltalk.AthensWorldMorph);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "height",
-fn: function (){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st(_st(self["@surface"])._extent())._y();
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"height",{},smalltalk.AthensWorldMorph)})},
-messageSends: ["y", "extent"]}),
-smalltalk.AthensWorldMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
 selector: "hideHalos",
 fn: function (){
 var self=this;
@@ -4422,7 +4409,7 @@ var self=this;
 function $WorldState(){return smalltalk.WorldState||(typeof WorldState=="undefined"?nil:WorldState)}
 return smalltalk.withContext(function($ctx1) { 
 self["@worldState"]=_st($WorldState())._for_(self);
-smalltalk.AthensMorph.fn.prototype._initialize.apply(_st(self), []);
+smalltalk.AthensRectangleMorph.fn.prototype._initialize.apply(_st(self), []);
 self._initializeBackgroundPaint();
 self._initializeHalos();
 self["@morphsUnderHand"]=[self];
@@ -4541,7 +4528,7 @@ throw $early=[$3];
 };
 };
 }, function($ctx2) {$ctx2.fillBlock({morph:morph,ret:ret},$ctx1)})}));
-$6=smalltalk.AthensMorph.fn.prototype._morphsAtPosition_.apply(_st(self), [aPoint]);
+$6=smalltalk.AthensRectangleMorph.fn.prototype._morphsAtPosition_.apply(_st(self), [aPoint]);
 if(($receiver = $6) == nil || $receiver == undefined){
 $6;
 } else {
@@ -4635,9 +4622,10 @@ fn: function (aSurface){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 self["@surface"]=aSurface;
-self._outerShape_(_st((0).__at((0)))._corner_(_st(self["@surface"])._extent()));
+self._width_(_st(_st(self["@surface"])._extent())._x());
+self._height_(_st(_st(self["@surface"])._extent())._y());
 return self}, function($ctx1) {$ctx1.fill(self,"surface:",{aSurface:aSurface},smalltalk.AthensWorldMorph)})},
-messageSends: ["outerShape:", "corner:", "extent", "@"]}),
+messageSends: ["width:", "x", "extent", "height:", "y"]}),
 smalltalk.AthensWorldMorph);
 
 smalltalk.addMethod(
@@ -4683,19 +4671,6 @@ return _st(m)._handleMouseEnter();
 }, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"updateMorphsUnderHandAt:",{aPoint:aPoint,oldMorphs:oldMorphs},smalltalk.AthensWorldMorph)})},
 messageSends: ["morphsAtPosition:", "do:", "ifFalse:", "handleMouseLeave", "includes:", "handleMouseEnter"]}),
-smalltalk.AthensWorldMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "width",
-fn: function (){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st(_st(self["@surface"])._extent())._x();
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"width",{},smalltalk.AthensWorldMorph)})},
-messageSends: ["x", "extent"]}),
 smalltalk.AthensWorldMorph);
 
 

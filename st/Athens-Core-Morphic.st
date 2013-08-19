@@ -2033,15 +2033,11 @@ extent: aPoint
 		yourself
 ! !
 
-AthensMorph subclass: #AthensWorldMorph
+AthensRectangleMorph subclass: #AthensWorldMorph
 	instanceVariableNames: 'backgroundPaint surface morphsUnderHand halos globalEventCallbacks handPosition worldState'
 	package: 'Athens-Core-Morphic'!
 
 !AthensWorldMorph methodsFor: 'accessing'!
-
-height
-	^ surface extent y
-!
 
 surface
 	^ surface
@@ -2049,11 +2045,8 @@ surface
 
 surface: aSurface
 	surface := aSurface.
-	self outerShape: (0@0 corner: surface extent).
-!
-
-width
-	^ surface extent x
+	self width: surface extent x.
+	self height: surface extent y.
 ! !
 
 !AthensWorldMorph methodsFor: 'drawing'!
