@@ -98,7 +98,7 @@ doStep
 
 nextStep
 	step := step + 1.
-	step := step min: 6.
+	step := step min: 8.
 	self showStep: step.
 !
 
@@ -259,6 +259,60 @@ step6
 		borderColor: Color green;				"default border color"
 		mouseFocusBorderColor: Color yellow;	"border color if mouse is over"
 		mouseDownBorderColor: Color blue;			"borderc color if mouse button is pressed"
+		yourself).
+	
+	world addMorph: window.
+!
+
+step7
+	"Button Morphs"
+	
+	|window button check radio|
+	window := AthensWindowMorph new
+		title: 'Step 7: Button Morphs';
+		width: 280; height: 70;
+		yourself.
+	
+	"This is a button."
+	window addMorph: (button := AthensButtonMorph new
+		width: 100; height: 25;
+		translateByX: 5 Y: 35;
+		text: 'Button Morph';
+		onMouseClick: [radio checked: radio isChecked not];
+		yourself).
+		
+	"Radio buttons can be activated, but not deactivated by clicking them."
+	window addMorph: (radio := AthensRadioButtonMorph new
+		translateByX: 110 Y: 35;
+		text: 'Radio Button Morph';
+		onChange: [check checked: check isChecked not];
+		yourself).
+
+	"Check boxes can be activated and deactivated by clicking them."
+	window addMorph: (check := AthensCheckBoxMorph new
+		translateByX: 110 Y: 50;
+		text: 'Check Box Morph';
+		onChange: ["value changed"];
+		yourself).
+	
+	world addMorph: window.
+!
+
+step8
+	"Image Morph"
+	
+	|window img|
+	window := AthensWindowMorph new
+		title: 'Step 8: Image Morph';
+		width: 450; height: 350;
+		yourself.
+	
+	"The image morph is a rectangle morph."
+	window addMorph: (img := AthensImageMorph new
+		translateByX: 5 Y: 35;
+		url: 'images/amber_transparent.png';
+		hasSharpBorder: false;
+		onMouseClick: [img mouseFocusBorderColor: Color gray];
 		yourself).
 	
 	world addMorph: window.

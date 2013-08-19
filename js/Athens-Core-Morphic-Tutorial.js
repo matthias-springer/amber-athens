@@ -163,11 +163,11 @@ fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 self["@step"]=_st(self["@step"]).__plus((1));
-self["@step"]=_st(self["@step"])._min_((6));
+self["@step"]=_st(self["@step"])._min_((8));
 self._showStep_(self["@step"]);
 return self}, function($ctx1) {$ctx1.fill(self,"nextStep",{},smalltalk.AthensMorphicTutorial)})},
 args: [],
-source: "nextStep\x0a\x09step := step + 1.\x0a\x09step := step min: 6.\x0a\x09self showStep: step.",
+source: "nextStep\x0a\x09step := step + 1.\x0a\x09step := step min: 8.\x0a\x09self showStep: step.",
 messageSends: ["+", "min:", "showStep:"],
 referencedClasses: []
 }),
@@ -412,6 +412,103 @@ args: [],
 source: "step6\x0a\x09\x22Rectangle Morphs\x22\x0a\x09\x0a\x09|window|\x0a\x09window := AthensWindowMorph new\x0a\x09\x09title: 'Step 6: Rectangle Morphs';\x0a\x09\x09width: 200; height: 100;\x0a\x09\x09yourself.\x0a\x09\x0a\x09\x22By default, rectangle morphs do not have a sharp border.\x22\x0a\x09window addMorph: (AthensRectangleMorph new\x0a\x09\x09width: 20; height: 20;\x0a\x09\x09translateByX: 5 Y: 35;\x0a\x09\x09hasSharpBorder: false;\x0a\x09\x09yourself).\x0a\x09\x09\x0a\x09\x22But we can change this.\x22\x0a\x09window addMorph: (AthensRectangleMorph new\x0a\x09\x09width: 20; height: 20;\x0a\x09\x09translateByX: 30 Y: 35;\x0a\x09\x09hasSharpBorder: true;\x0a\x09\x09yourself).\x0a\x09\x09\x0a\x09\x22Rectangle morphs support a variety of color changes for the fill color and border color.\x22\x0a\x09window addMorph: (AthensRectangleMorph new\x0a\x09\x09width: 20; height: 20;\x0a\x09\x09translateByX: 55 Y: 35;\x0a\x09\x09fillColor: Color black;\x09\x09\x09\x09\x09\x22default fill color\x22\x0a\x09\x09mouseFocusFillColor: Color blue;\x09\x09\x22fill color if mouse is over\x22\x0a\x09\x09mouseDownFillColor: Color red;\x09\x09\x09\x22fill color if mouse button is pressed\x22\x0a\x09\x09borderColor: Color green;\x09\x09\x09\x09\x22default border color\x22\x0a\x09\x09mouseFocusBorderColor: Color yellow;\x09\x22border color if mouse is over\x22\x0a\x09\x09mouseDownBorderColor: Color blue;\x09\x09\x09\x22borderc color if mouse button is pressed\x22\x0a\x09\x09yourself).\x0a\x09\x0a\x09world addMorph: window.",
 messageSends: ["title:", "new", "width:", "height:", "yourself", "addMorph:", "translateByX:Y:", "hasSharpBorder:", "fillColor:", "black", "mouseFocusFillColor:", "blue", "mouseDownFillColor:", "red", "borderColor:", "green", "mouseFocusBorderColor:", "yellow", "mouseDownBorderColor:"],
 referencedClasses: ["AthensWindowMorph", "AthensRectangleMorph", "Color"]
+}),
+smalltalk.AthensMorphicTutorial);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "step7",
+category: 'steps',
+fn: function (){
+var self=this;
+var window,button,check,radio;
+function $AthensWindowMorph(){return smalltalk.AthensWindowMorph||(typeof AthensWindowMorph=="undefined"?nil:AthensWindowMorph)}
+function $AthensButtonMorph(){return smalltalk.AthensButtonMorph||(typeof AthensButtonMorph=="undefined"?nil:AthensButtonMorph)}
+function $AthensRadioButtonMorph(){return smalltalk.AthensRadioButtonMorph||(typeof AthensRadioButtonMorph=="undefined"?nil:AthensRadioButtonMorph)}
+function $AthensCheckBoxMorph(){return smalltalk.AthensCheckBoxMorph||(typeof AthensCheckBoxMorph=="undefined"?nil:AthensCheckBoxMorph)}
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2,$3,$4,$5,$6,$7,$8;
+$1=_st($AthensWindowMorph())._new();
+_st($1)._title_("Step 7: Button Morphs");
+_st($1)._width_((280));
+_st($1)._height_((70));
+$2=_st($1)._yourself();
+window=$2;
+$3=_st($AthensButtonMorph())._new();
+_st($3)._width_((100));
+_st($3)._height_((25));
+_st($3)._translateByX_Y_((5),(35));
+_st($3)._text_("Button Morph");
+_st($3)._onMouseClick_((function(){
+return smalltalk.withContext(function($ctx2) {
+return _st(radio)._checked_(_st(_st(radio)._isChecked())._not());
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
+$4=_st($3)._yourself();
+button=$4;
+_st(window)._addMorph_(button);
+$5=_st($AthensRadioButtonMorph())._new();
+_st($5)._translateByX_Y_((110),(35));
+_st($5)._text_("Radio Button Morph");
+_st($5)._onChange_((function(){
+return smalltalk.withContext(function($ctx2) {
+return _st(check)._checked_(_st(_st(check)._isChecked())._not());
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
+$6=_st($5)._yourself();
+radio=$6;
+_st(window)._addMorph_(radio);
+$7=_st($AthensCheckBoxMorph())._new();
+_st($7)._translateByX_Y_((110),(50));
+_st($7)._text_("Check Box Morph");
+_st($7)._onChange_((function(){
+return smalltalk.withContext(function($ctx2) {
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
+$8=_st($7)._yourself();
+check=$8;
+_st(window)._addMorph_(check);
+_st(self["@world"])._addMorph_(window);
+return self}, function($ctx1) {$ctx1.fill(self,"step7",{window:window,button:button,check:check,radio:radio},smalltalk.AthensMorphicTutorial)})},
+args: [],
+source: "step7\x0a\x09\x22Button Morphs\x22\x0a\x09\x0a\x09|window button check radio|\x0a\x09window := AthensWindowMorph new\x0a\x09\x09title: 'Step 7: Button Morphs';\x0a\x09\x09width: 280; height: 70;\x0a\x09\x09yourself.\x0a\x09\x0a\x09\x22This is a button.\x22\x0a\x09window addMorph: (button := AthensButtonMorph new\x0a\x09\x09width: 100; height: 25;\x0a\x09\x09translateByX: 5 Y: 35;\x0a\x09\x09text: 'Button Morph';\x0a\x09\x09onMouseClick: [radio checked: radio isChecked not];\x0a\x09\x09yourself).\x0a\x09\x09\x0a\x09\x22Radio buttons can be activated, but not deactivated by clicking them.\x22\x0a\x09window addMorph: (radio := AthensRadioButtonMorph new\x0a\x09\x09translateByX: 110 Y: 35;\x0a\x09\x09text: 'Radio Button Morph';\x0a\x09\x09onChange: [check checked: check isChecked not];\x0a\x09\x09yourself).\x0a\x0a\x09\x22Check boxes can be activated and deactivated by clicking them.\x22\x0a\x09window addMorph: (check := AthensCheckBoxMorph new\x0a\x09\x09translateByX: 110 Y: 50;\x0a\x09\x09text: 'Check Box Morph';\x0a\x09\x09onChange: [\x22value changed\x22];\x0a\x09\x09yourself).\x0a\x09\x0a\x09world addMorph: window.",
+messageSends: ["title:", "new", "width:", "height:", "yourself", "addMorph:", "translateByX:Y:", "text:", "onMouseClick:", "checked:", "not", "isChecked", "onChange:"],
+referencedClasses: ["AthensWindowMorph", "AthensButtonMorph", "AthensRadioButtonMorph", "AthensCheckBoxMorph"]
+}),
+smalltalk.AthensMorphicTutorial);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "step8",
+category: 'steps',
+fn: function (){
+var self=this;
+var window,img;
+function $AthensWindowMorph(){return smalltalk.AthensWindowMorph||(typeof AthensWindowMorph=="undefined"?nil:AthensWindowMorph)}
+function $AthensImageMorph(){return smalltalk.AthensImageMorph||(typeof AthensImageMorph=="undefined"?nil:AthensImageMorph)}
+function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2,$3,$4;
+$1=_st($AthensWindowMorph())._new();
+_st($1)._title_("Step 8: Image Morph");
+_st($1)._width_((450));
+_st($1)._height_((350));
+$2=_st($1)._yourself();
+window=$2;
+$3=_st($AthensImageMorph())._new();
+_st($3)._translateByX_Y_((5),(35));
+_st($3)._url_("images/amber_transparent.png");
+_st($3)._hasSharpBorder_(false);
+_st($3)._onMouseClick_((function(){
+return smalltalk.withContext(function($ctx2) {
+return _st(img)._mouseFocusBorderColor_(_st($Color())._gray());
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
+$4=_st($3)._yourself();
+img=$4;
+_st(window)._addMorph_(img);
+_st(self["@world"])._addMorph_(window);
+return self}, function($ctx1) {$ctx1.fill(self,"step8",{window:window,img:img},smalltalk.AthensMorphicTutorial)})},
+args: [],
+source: "step8\x0a\x09\x22Image Morph\x22\x0a\x09\x0a\x09|window img|\x0a\x09window := AthensWindowMorph new\x0a\x09\x09title: 'Step 8: Image Morph';\x0a\x09\x09width: 450; height: 350;\x0a\x09\x09yourself.\x0a\x09\x0a\x09\x22The image morph is a rectangle morph.\x22\x0a\x09window addMorph: (img := AthensImageMorph new\x0a\x09\x09translateByX: 5 Y: 35;\x0a\x09\x09url: 'images/amber_transparent.png';\x0a\x09\x09hasSharpBorder: false;\x0a\x09\x09onMouseClick: [img mouseFocusBorderColor: Color gray];\x0a\x09\x09yourself).\x0a\x09\x0a\x09world addMorph: window.",
+messageSends: ["title:", "new", "width:", "height:", "yourself", "addMorph:", "translateByX:Y:", "url:", "hasSharpBorder:", "onMouseClick:", "mouseFocusBorderColor:", "gray"],
+referencedClasses: ["AthensWindowMorph", "AthensImageMorph", "Color"]
 }),
 smalltalk.AthensMorphicTutorial);
 

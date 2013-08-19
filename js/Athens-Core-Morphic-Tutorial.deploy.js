@@ -142,7 +142,7 @@ fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 self["@step"]=_st(self["@step"]).__plus((1));
-self["@step"]=_st(self["@step"])._min_((6));
+self["@step"]=_st(self["@step"])._min_((8));
 self._showStep_(self["@step"]);
 return self}, function($ctx1) {$ctx1.fill(self,"nextStep",{},smalltalk.AthensMorphicTutorial)})},
 messageSends: ["+", "min:", "showStep:"]}),
@@ -348,6 +348,93 @@ _st(window)._addMorph_($8);
 _st(self["@world"])._addMorph_(window);
 return self}, function($ctx1) {$ctx1.fill(self,"step6",{window:window},smalltalk.AthensMorphicTutorial)})},
 messageSends: ["title:", "new", "width:", "height:", "yourself", "addMorph:", "translateByX:Y:", "hasSharpBorder:", "fillColor:", "black", "mouseFocusFillColor:", "blue", "mouseDownFillColor:", "red", "borderColor:", "green", "mouseFocusBorderColor:", "yellow", "mouseDownBorderColor:"]}),
+smalltalk.AthensMorphicTutorial);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "step7",
+fn: function (){
+var self=this;
+var window,button,check,radio;
+function $AthensWindowMorph(){return smalltalk.AthensWindowMorph||(typeof AthensWindowMorph=="undefined"?nil:AthensWindowMorph)}
+function $AthensButtonMorph(){return smalltalk.AthensButtonMorph||(typeof AthensButtonMorph=="undefined"?nil:AthensButtonMorph)}
+function $AthensRadioButtonMorph(){return smalltalk.AthensRadioButtonMorph||(typeof AthensRadioButtonMorph=="undefined"?nil:AthensRadioButtonMorph)}
+function $AthensCheckBoxMorph(){return smalltalk.AthensCheckBoxMorph||(typeof AthensCheckBoxMorph=="undefined"?nil:AthensCheckBoxMorph)}
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2,$3,$4,$5,$6,$7,$8;
+$1=_st($AthensWindowMorph())._new();
+_st($1)._title_("Step 7: Button Morphs");
+_st($1)._width_((280));
+_st($1)._height_((70));
+$2=_st($1)._yourself();
+window=$2;
+$3=_st($AthensButtonMorph())._new();
+_st($3)._width_((100));
+_st($3)._height_((25));
+_st($3)._translateByX_Y_((5),(35));
+_st($3)._text_("Button Morph");
+_st($3)._onMouseClick_((function(){
+return smalltalk.withContext(function($ctx2) {
+return _st(radio)._checked_(_st(_st(radio)._isChecked())._not());
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
+$4=_st($3)._yourself();
+button=$4;
+_st(window)._addMorph_(button);
+$5=_st($AthensRadioButtonMorph())._new();
+_st($5)._translateByX_Y_((110),(35));
+_st($5)._text_("Radio Button Morph");
+_st($5)._onChange_((function(){
+return smalltalk.withContext(function($ctx2) {
+return _st(check)._checked_(_st(_st(check)._isChecked())._not());
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
+$6=_st($5)._yourself();
+radio=$6;
+_st(window)._addMorph_(radio);
+$7=_st($AthensCheckBoxMorph())._new();
+_st($7)._translateByX_Y_((110),(50));
+_st($7)._text_("Check Box Morph");
+_st($7)._onChange_((function(){
+return smalltalk.withContext(function($ctx2) {
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
+$8=_st($7)._yourself();
+check=$8;
+_st(window)._addMorph_(check);
+_st(self["@world"])._addMorph_(window);
+return self}, function($ctx1) {$ctx1.fill(self,"step7",{window:window,button:button,check:check,radio:radio},smalltalk.AthensMorphicTutorial)})},
+messageSends: ["title:", "new", "width:", "height:", "yourself", "addMorph:", "translateByX:Y:", "text:", "onMouseClick:", "checked:", "not", "isChecked", "onChange:"]}),
+smalltalk.AthensMorphicTutorial);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "step8",
+fn: function (){
+var self=this;
+var window,img;
+function $AthensWindowMorph(){return smalltalk.AthensWindowMorph||(typeof AthensWindowMorph=="undefined"?nil:AthensWindowMorph)}
+function $AthensImageMorph(){return smalltalk.AthensImageMorph||(typeof AthensImageMorph=="undefined"?nil:AthensImageMorph)}
+function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2,$3,$4;
+$1=_st($AthensWindowMorph())._new();
+_st($1)._title_("Step 8: Image Morph");
+_st($1)._width_((450));
+_st($1)._height_((350));
+$2=_st($1)._yourself();
+window=$2;
+$3=_st($AthensImageMorph())._new();
+_st($3)._translateByX_Y_((5),(35));
+_st($3)._url_("images/amber_transparent.png");
+_st($3)._hasSharpBorder_(false);
+_st($3)._onMouseClick_((function(){
+return smalltalk.withContext(function($ctx2) {
+return _st(img)._mouseFocusBorderColor_(_st($Color())._gray());
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
+$4=_st($3)._yourself();
+img=$4;
+_st(window)._addMorph_(img);
+_st(self["@world"])._addMorph_(window);
+return self}, function($ctx1) {$ctx1.fill(self,"step8",{window:window,img:img},smalltalk.AthensMorphicTutorial)})},
+messageSends: ["title:", "new", "width:", "height:", "yourself", "addMorph:", "translateByX:Y:", "url:", "hasSharpBorder:", "onMouseClick:", "mouseFocusBorderColor:", "gray"]}),
 smalltalk.AthensMorphicTutorial);
 
 smalltalk.addMethod(
