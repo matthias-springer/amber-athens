@@ -2117,6 +2117,41 @@ smalltalk.AthensRectangleMorph);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "hasSharpBorder",
+category: 'accessing',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self["@hasSharpBorder"];
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"hasSharpBorder",{},smalltalk.AthensRectangleMorph)})},
+args: [],
+source: "hasSharpBorder\x0a\x09^ hasSharpBorder",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.AthensRectangleMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "hasSharpBorder:",
+category: 'accessing',
+fn: function (aBoolean){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self["@hasSharpBorder"]=aBoolean;
+self._redraw();
+return self}, function($ctx1) {$ctx1.fill(self,"hasSharpBorder:",{aBoolean:aBoolean},smalltalk.AthensRectangleMorph)})},
+args: ["aBoolean"],
+source: "hasSharpBorder: aBoolean\x0a\x09hasSharpBorder := aBoolean.\x0a\x09self redraw.",
+messageSends: ["redraw"],
+referencedClasses: []
+}),
+smalltalk.AthensRectangleMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "height",
 category: 'accessing',
 fn: function (){

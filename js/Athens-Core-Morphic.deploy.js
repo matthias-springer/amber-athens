@@ -1597,6 +1597,31 @@ smalltalk.AthensRectangleMorph);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "hasSharpBorder",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self["@hasSharpBorder"];
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"hasSharpBorder",{},smalltalk.AthensRectangleMorph)})},
+messageSends: []}),
+smalltalk.AthensRectangleMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "hasSharpBorder:",
+fn: function (aBoolean){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self["@hasSharpBorder"]=aBoolean;
+self._redraw();
+return self}, function($ctx1) {$ctx1.fill(self,"hasSharpBorder:",{aBoolean:aBoolean},smalltalk.AthensRectangleMorph)})},
+messageSends: ["redraw"]}),
+smalltalk.AthensRectangleMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "height",
 fn: function (){
 var self=this;

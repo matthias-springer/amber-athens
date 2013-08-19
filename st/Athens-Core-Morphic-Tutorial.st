@@ -98,7 +98,7 @@ doStep
 
 nextStep
 	step := step + 1.
-	step := step min: 4.
+	step := step min: 6.
 	self showStep: step.
 !
 
@@ -192,6 +192,74 @@ step4
 		
 	"We can remove the morph from its owner by calling delete."
 	"morph delete."
+	
+	world addMorph: window.
+!
+
+step5
+	"Mouse Events"
+	
+	|window morph|
+	window := AthensWindowMorph new
+		title: 'Step 5: Mouse Events';
+		width: 400; height: 400;
+		yourself.
+	
+	morph := AthensMorph new
+		translateByX: 10 Y: 40;
+		"We can attach event handlers to any morph by with on...: aBlock."
+		onMouseDown: [:evt | morph color: Color red];
+		onMouseUp: [:evt | morph color: Color blue];
+		yourself.
+		
+	"evt position is the mouse position relative to the morph's origin (and regarding its transformation)."
+	morph onMouseMove: [:evt | 
+			evt position y < 100
+				ifTrue: [morph color: Color yellow]].
+
+	"The mouse click event also provides the position with 'evt position'."
+	"morph onMouseClick: [:evt |
+		morph delete]."
+		
+	window addMorph: morph.
+	
+	world addMorph: window.
+!
+
+step6
+	"Rectangle Morphs"
+	
+	|window|
+	window := AthensWindowMorph new
+		title: 'Step 6: Rectangle Morphs';
+		width: 200; height: 100;
+		yourself.
+	
+	"By default, rectangle morphs do not have a sharp border."
+	window addMorph: (AthensRectangleMorph new
+		width: 20; height: 20;
+		translateByX: 5 Y: 35;
+		hasSharpBorder: false;
+		yourself).
+		
+	"But we can change this."
+	window addMorph: (AthensRectangleMorph new
+		width: 20; height: 20;
+		translateByX: 30 Y: 35;
+		hasSharpBorder: true;
+		yourself).
+		
+	"Rectangle morphs support a variety of color changes for the fill color and border color."
+	window addMorph: (AthensRectangleMorph new
+		width: 20; height: 20;
+		translateByX: 55 Y: 35;
+		fillColor: Color black;					"default fill color"
+		mouseFocusFillColor: Color blue;		"fill color if mouse is over"
+		mouseDownFillColor: Color red;			"fill color if mouse button is pressed"
+		borderColor: Color green;				"default border color"
+		mouseFocusBorderColor: Color yellow;	"border color if mouse is over"
+		mouseDownBorderColor: Color blue;			"borderc color if mouse button is pressed"
+		yourself).
 	
 	world addMorph: window.
 ! !

@@ -673,6 +673,15 @@ fillColor: aColor
 	self redraw.
 !
 
+hasSharpBorder
+	^ hasSharpBorder
+!
+
+hasSharpBorder: aBoolean
+	hasSharpBorder := aBoolean.
+	self redraw.
+!
+
 height
 	^ height
 !

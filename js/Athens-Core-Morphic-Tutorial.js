@@ -163,11 +163,11 @@ fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 self["@step"]=_st(self["@step"]).__plus((1));
-self["@step"]=_st(self["@step"])._min_((4));
+self["@step"]=_st(self["@step"])._min_((6));
 self._showStep_(self["@step"]);
 return self}, function($ctx1) {$ctx1.fill(self,"nextStep",{},smalltalk.AthensMorphicTutorial)})},
 args: [],
-source: "nextStep\x0a\x09step := step + 1.\x0a\x09step := step min: 4.\x0a\x09self showStep: step.",
+source: "nextStep\x0a\x09step := step + 1.\x0a\x09step := step min: 6.\x0a\x09self showStep: step.",
 messageSends: ["+", "min:", "showStep:"],
 referencedClasses: []
 }),
@@ -312,6 +312,106 @@ args: [],
 source: "step4\x0a\x09\x22Submorphs\x22\x0a\x09\x0a\x09|window morph|\x0a\x09window := AthensWindowMorph new\x0a\x09\x09title: 'Step 4: Submorphs';\x0a\x09\x09width: 400; height: 400;\x0a\x09\x09yourself.\x0a\x09\x0a\x09morph := AthensMorph new\x0a\x09\x09translateByX: 10 Y: 40;\x0a\x09\x09yourself.\x0a\x09\x09\x0a\x09\x22Morph>>addMorph: adds a submorph to the morph and removes it from its original owner.\x22\x0a\x09window addMorph: morph.\x0a\x09\x09\x0a\x09\x22We can remove the morph from its owner by calling delete.\x22\x0a\x09\x22morph delete.\x22\x0a\x09\x0a\x09world addMorph: window.",
 messageSends: ["title:", "new", "width:", "height:", "yourself", "translateByX:Y:", "addMorph:"],
 referencedClasses: ["AthensWindowMorph", "AthensMorph"]
+}),
+smalltalk.AthensMorphicTutorial);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "step5",
+category: 'steps',
+fn: function (){
+var self=this;
+var window,morph;
+function $AthensWindowMorph(){return smalltalk.AthensWindowMorph||(typeof AthensWindowMorph=="undefined"?nil:AthensWindowMorph)}
+function $AthensMorph(){return smalltalk.AthensMorph||(typeof AthensMorph=="undefined"?nil:AthensMorph)}
+function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2,$3,$4,$5;
+$1=_st($AthensWindowMorph())._new();
+_st($1)._title_("Step 5: Mouse Events");
+_st($1)._width_((400));
+_st($1)._height_((400));
+$2=_st($1)._yourself();
+window=$2;
+$3=_st($AthensMorph())._new();
+_st($3)._translateByX_Y_((10),(40));
+_st($3)._onMouseDown_((function(evt){
+return smalltalk.withContext(function($ctx2) {
+return _st(morph)._color_(_st($Color())._red());
+}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
+_st($3)._onMouseUp_((function(evt){
+return smalltalk.withContext(function($ctx2) {
+return _st(morph)._color_(_st($Color())._blue());
+}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
+$4=_st($3)._yourself();
+morph=$4;
+_st(morph)._onMouseMove_((function(evt){
+return smalltalk.withContext(function($ctx2) {
+$5=_st(_st(_st(evt)._position())._y()).__lt((100));
+if(smalltalk.assert($5)){
+return _st(morph)._color_(_st($Color())._yellow());
+};
+}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
+_st(window)._addMorph_(morph);
+_st(self["@world"])._addMorph_(window);
+return self}, function($ctx1) {$ctx1.fill(self,"step5",{window:window,morph:morph},smalltalk.AthensMorphicTutorial)})},
+args: [],
+source: "step5\x0a\x09\x22Mouse Events\x22\x0a\x09\x0a\x09|window morph|\x0a\x09window := AthensWindowMorph new\x0a\x09\x09title: 'Step 5: Mouse Events';\x0a\x09\x09width: 400; height: 400;\x0a\x09\x09yourself.\x0a\x09\x0a\x09morph := AthensMorph new\x0a\x09\x09translateByX: 10 Y: 40;\x0a\x09\x09\x22We can attach event handlers to any morph by with on...: aBlock.\x22\x0a\x09\x09onMouseDown: [:evt | morph color: Color red];\x0a\x09\x09onMouseUp: [:evt | morph color: Color blue];\x0a\x09\x09yourself.\x0a\x09\x09\x0a\x09\x22evt position is the mouse position relative to the morph's origin (and regarding its transformation).\x22\x0a\x09morph onMouseMove: [:evt | \x0a\x09\x09\x09evt position y < 100\x0a\x09\x09\x09\x09ifTrue: [morph color: Color yellow]].\x0a\x0a\x09\x22The mouse click event also provides the position with 'evt position'.\x22\x0a\x09\x22morph onMouseClick: [:evt |\x0a\x09\x09morph delete].\x22\x0a\x09\x09\x0a\x09window addMorph: morph.\x0a\x09\x0a\x09world addMorph: window.",
+messageSends: ["title:", "new", "width:", "height:", "yourself", "translateByX:Y:", "onMouseDown:", "color:", "red", "onMouseUp:", "blue", "onMouseMove:", "ifTrue:", "yellow", "<", "y", "position", "addMorph:"],
+referencedClasses: ["AthensWindowMorph", "AthensMorph", "Color"]
+}),
+smalltalk.AthensMorphicTutorial);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "step6",
+category: 'steps',
+fn: function (){
+var self=this;
+var window;
+function $AthensWindowMorph(){return smalltalk.AthensWindowMorph||(typeof AthensWindowMorph=="undefined"?nil:AthensWindowMorph)}
+function $AthensRectangleMorph(){return smalltalk.AthensRectangleMorph||(typeof AthensRectangleMorph=="undefined"?nil:AthensRectangleMorph)}
+function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2,$3,$4,$5,$6,$7,$8;
+$1=_st($AthensWindowMorph())._new();
+_st($1)._title_("Step 6: Rectangle Morphs");
+_st($1)._width_((200));
+_st($1)._height_((100));
+$2=_st($1)._yourself();
+window=$2;
+$3=_st($AthensRectangleMorph())._new();
+_st($3)._width_((20));
+_st($3)._height_((20));
+_st($3)._translateByX_Y_((5),(35));
+_st($3)._hasSharpBorder_(false);
+$4=_st($3)._yourself();
+_st(window)._addMorph_($4);
+$5=_st($AthensRectangleMorph())._new();
+_st($5)._width_((20));
+_st($5)._height_((20));
+_st($5)._translateByX_Y_((30),(35));
+_st($5)._hasSharpBorder_(true);
+$6=_st($5)._yourself();
+_st(window)._addMorph_($6);
+$7=_st($AthensRectangleMorph())._new();
+_st($7)._width_((20));
+_st($7)._height_((20));
+_st($7)._translateByX_Y_((55),(35));
+_st($7)._fillColor_(_st($Color())._black());
+_st($7)._mouseFocusFillColor_(_st($Color())._blue());
+_st($7)._mouseDownFillColor_(_st($Color())._red());
+_st($7)._borderColor_(_st($Color())._green());
+_st($7)._mouseFocusBorderColor_(_st($Color())._yellow());
+_st($7)._mouseDownBorderColor_(_st($Color())._blue());
+$8=_st($7)._yourself();
+_st(window)._addMorph_($8);
+_st(self["@world"])._addMorph_(window);
+return self}, function($ctx1) {$ctx1.fill(self,"step6",{window:window},smalltalk.AthensMorphicTutorial)})},
+args: [],
+source: "step6\x0a\x09\x22Rectangle Morphs\x22\x0a\x09\x0a\x09|window|\x0a\x09window := AthensWindowMorph new\x0a\x09\x09title: 'Step 6: Rectangle Morphs';\x0a\x09\x09width: 200; height: 100;\x0a\x09\x09yourself.\x0a\x09\x0a\x09\x22By default, rectangle morphs do not have a sharp border.\x22\x0a\x09window addMorph: (AthensRectangleMorph new\x0a\x09\x09width: 20; height: 20;\x0a\x09\x09translateByX: 5 Y: 35;\x0a\x09\x09hasSharpBorder: false;\x0a\x09\x09yourself).\x0a\x09\x09\x0a\x09\x22But we can change this.\x22\x0a\x09window addMorph: (AthensRectangleMorph new\x0a\x09\x09width: 20; height: 20;\x0a\x09\x09translateByX: 30 Y: 35;\x0a\x09\x09hasSharpBorder: true;\x0a\x09\x09yourself).\x0a\x09\x09\x0a\x09\x22Rectangle morphs support a variety of color changes for the fill color and border color.\x22\x0a\x09window addMorph: (AthensRectangleMorph new\x0a\x09\x09width: 20; height: 20;\x0a\x09\x09translateByX: 55 Y: 35;\x0a\x09\x09fillColor: Color black;\x09\x09\x09\x09\x09\x22default fill color\x22\x0a\x09\x09mouseFocusFillColor: Color blue;\x09\x09\x22fill color if mouse is over\x22\x0a\x09\x09mouseDownFillColor: Color red;\x09\x09\x09\x22fill color if mouse button is pressed\x22\x0a\x09\x09borderColor: Color green;\x09\x09\x09\x09\x22default border color\x22\x0a\x09\x09mouseFocusBorderColor: Color yellow;\x09\x22border color if mouse is over\x22\x0a\x09\x09mouseDownBorderColor: Color blue;\x09\x09\x09\x22borderc color if mouse button is pressed\x22\x0a\x09\x09yourself).\x0a\x09\x0a\x09world addMorph: window.",
+messageSends: ["title:", "new", "width:", "height:", "yourself", "addMorph:", "translateByX:Y:", "hasSharpBorder:", "fillColor:", "black", "mouseFocusFillColor:", "blue", "mouseDownFillColor:", "red", "borderColor:", "green", "mouseFocusBorderColor:", "yellow", "mouseDownBorderColor:"],
+referencedClasses: ["AthensWindowMorph", "AthensRectangleMorph", "Color"]
 }),
 smalltalk.AthensMorphicTutorial);
 
