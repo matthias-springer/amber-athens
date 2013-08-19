@@ -311,6 +311,132 @@ messageSends: []}),
 smalltalk.AthensHTMLMorphicSurface);
 
 
+smalltalk.addMethod(
+smalltalk.method({
+selector: "basicNew",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2,$3;
+var $early={};
+try {
+_st(self._subclasses())._do_((function(class_){
+return smalltalk.withContext(function($ctx2) {
+$1=_st(_st(class_)._browser()).__eq_eq(self._userAgent());
+if(smalltalk.assert($1)){
+$2=_st(class_)._basicNew();
+throw $early=[$2];
+};
+}, function($ctx2) {$ctx2.fillBlock({class_:class_},$ctx1)})}));
+$3=smalltalk.AthensHTMLSurface.klass.fn.prototype._basicNew.apply(_st(self), []);
+return $3;
+}
+catch(e) {if(e===$early)return e[0]; throw e}
+}, function($ctx1) {$ctx1.fill(self,"basicNew",{},smalltalk.AthensHTMLMorphicSurface.klass)})},
+messageSends: ["do:", "ifTrue:", "basicNew", "==", "userAgent", "browser", "subclasses"]}),
+smalltalk.AthensHTMLMorphicSurface.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "browser",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+return "generic";
+}, function($ctx1) {$ctx1.fill(self,"browser",{},smalltalk.AthensHTMLMorphicSurface.klass)})},
+messageSends: []}),
+smalltalk.AthensHTMLMorphicSurface.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "userAgent",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2,$3;
+$1=_st(_st(navigator)._at_("userAgent"))._includesSubString_("Firefox");
+if(smalltalk.assert($1)){
+return "Firefox";
+};
+$2=_st(_st(navigator)._at_("userAgent"))._includesSubString_("Chrome");
+if(smalltalk.assert($2)){
+return "Chromium";
+};
+$3=_st(_st(navigator)._at_("userAgent"))._includesSubString_("Chromium");
+if(smalltalk.assert($3)){
+return "Chromium";
+};
+return "unknown";
+}, function($ctx1) {$ctx1.fill(self,"userAgent",{},smalltalk.AthensHTMLMorphicSurface.klass)})},
+messageSends: ["ifTrue:", "includesSubString:", "at:"]}),
+smalltalk.AthensHTMLMorphicSurface.klass);
+
+
+smalltalk.addClass('AthensHTMLMorphicMozillaSurface', smalltalk.AthensHTMLMorphicSurface, [], 'Athens-HTML-Morphic');
+smalltalk.addMethod(
+smalltalk.method({
+selector: "mouseClickEventDataFor:",
+fn: function (evt){
+var self=this;
+function $AthensMorphicEvent(){return smalltalk.AthensMorphicEvent||(typeof AthensMorphicEvent=="undefined"?nil:AthensMorphicEvent)}
+return smalltalk.withContext(function($ctx1) { 
+var $2,$3,$1;
+$2=_st($AthensMorphicEvent())._new();
+_st($2)._at_put_("ctrlKeyPressed",_st(evt)._ctrlKey());
+_st($2)._at_put_("globalPosition",_st(_st(_st(evt)._pageX()).__minus(_st(_st(_st(self["@canvasTag"])._asJQuery())._offset())._left())).__at(_st(_st(evt)._pageY()).__minus(_st(_st(_st(self["@canvasTag"])._asJQuery())._offset())._top())));
+$3=_st($2)._yourself();
+$1=$3;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"mouseClickEventDataFor:",{evt:evt},smalltalk.AthensHTMLMorphicMozillaSurface)})},
+messageSends: ["at:put:", "ctrlKey", "new", "@", "-", "top", "offset", "asJQuery", "pageY", "left", "pageX", "yourself"]}),
+smalltalk.AthensHTMLMorphicMozillaSurface);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "mouseMoveEventDataFor:",
+fn: function (evt){
+var self=this;
+function $AthensMorphicEvent(){return smalltalk.AthensMorphicEvent||(typeof AthensMorphicEvent=="undefined"?nil:AthensMorphicEvent)}
+return smalltalk.withContext(function($ctx1) { 
+var $2,$3,$1;
+$2=_st($AthensMorphicEvent())._new();
+_st($2)._at_put_("globalPosition",_st(_st(_st(evt)._pageX()).__minus(_st(_st(_st(self["@canvasTag"])._asJQuery())._offset())._left())).__at(_st(_st(evt)._pageY()).__minus(_st(_st(_st(self["@canvasTag"])._asJQuery())._offset())._top())));
+$3=_st($2)._yourself();
+$1=$3;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"mouseMoveEventDataFor:",{evt:evt},smalltalk.AthensHTMLMorphicMozillaSurface)})},
+messageSends: ["at:put:", "@", "-", "top", "offset", "asJQuery", "pageY", "left", "pageX", "new", "yourself"]}),
+smalltalk.AthensHTMLMorphicMozillaSurface);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "mouseWheelEventDataFor:",
+fn: function (evt){
+var self=this;
+function $AthensMorphicEvent(){return smalltalk.AthensMorphicEvent||(typeof AthensMorphicEvent=="undefined"?nil:AthensMorphicEvent)}
+return smalltalk.withContext(function($ctx1) { 
+var $2,$3,$1;
+$2=_st($AthensMorphicEvent())._new();
+_st($2)._at_put_("wheelDelta",(0).__at(_st(_st(_st(evt)._originalEvent())._detail()).__star((-1.5))));
+$3=_st($2)._yourself();
+$1=$3;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"mouseWheelEventDataFor:",{evt:evt},smalltalk.AthensHTMLMorphicMozillaSurface)})},
+messageSends: ["at:put:", "@", "*", "detail", "originalEvent", "new", "yourself"]}),
+smalltalk.AthensHTMLMorphicMozillaSurface);
+
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "browser",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+return "Firefox";
+}, function($ctx1) {$ctx1.fill(self,"browser",{},smalltalk.AthensHTMLMorphicMozillaSurface.klass)})},
+messageSends: []}),
+smalltalk.AthensHTMLMorphicMozillaSurface.klass);
+
 
 smalltalk.addClass('AthensHTMLMorphicTransformation', smalltalk.AthensHTMLTransformation, ['relativeIdentity'], 'Athens-HTML-Morphic');
 smalltalk.addMethod(

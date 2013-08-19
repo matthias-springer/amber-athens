@@ -149,6 +149,62 @@ renderOn: html
 	world redraw.
 ! !
 
+!AthensHTMLMorphicSurface class methodsFor: 'browser compatibility'!
+
+browser
+	^ 'generic'
+!
+
+userAgent
+	((navigator at: #userAgent) includesSubString: 'Firefox')
+		ifTrue: [^ 'Firefox'].
+	((navigator at: #userAgent) includesSubString: 'Chrome')
+		ifTrue: [^ 'Chromium'].
+	((navigator at: #userAgent) includesSubString: 'Chromium')
+		ifTrue: [^ 'Chromium'].
+	^ 'unknown'
+! !
+
+!AthensHTMLMorphicSurface class methodsFor: 'instance creation'!
+
+basicNew
+	self subclasses do: [:class | 
+		class browser == self userAgent
+			ifTrue: [^ class basicNew]].
+	^ super basicNew
+! !
+
+AthensHTMLMorphicSurface subclass: #AthensHTMLMorphicMozillaSurface
+	instanceVariableNames: ''
+	package: 'Athens-HTML-Morphic'!
+
+!AthensHTMLMorphicMozillaSurface methodsFor: 'events'!
+
+mouseClickEventDataFor: evt
+	^ AthensMorphicEvent new
+		at: #ctrlKeyPressed put: evt ctrlKey;
+		at: #globalPosition put: (evt pageX - canvasTag asJQuery offset left) @ (evt pageY - canvasTag asJQuery offset top);
+		yourself.
+!
+
+mouseMoveEventDataFor: evt
+	^ AthensMorphicEvent new
+		at: #globalPosition put: (evt pageX - canvasTag asJQuery offset left) @ (evt pageY - canvasTag asJQuery offset top);
+		yourself
+!
+
+mouseWheelEventDataFor: evt
+	^ AthensMorphicEvent new
+		at: #wheelDelta put: 0 @ (evt originalEvent detail * -1.5);
+		yourself
+! !
+
+!AthensHTMLMorphicMozillaSurface class methodsFor: 'browser compatibility'!
+
+browser
+	^ 'Firefox'
+! !
+
 AthensHTMLTransformation subclass: #AthensHTMLMorphicTransformation
 	instanceVariableNames: 'relativeIdentity'
 	package: 'Athens-HTML-Morphic'!
