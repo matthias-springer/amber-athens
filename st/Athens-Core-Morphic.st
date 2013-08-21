@@ -1,6 +1,6 @@
 Smalltalk current createPackage: 'Athens-Core-Morphic'!
 Object subclass: #AthensMorph
-	instanceVariableNames: 'transformation outerShape outerPolygon owner submorphs color globalPathTransform globalOuterPolygon visible eventCallbacks hasMouseFocus isMouseDown zIndex'
+	instanceVariableNames: 'transformation outerShape outerPolygon owner submorphs color globalPathTransform globalOuterPolygon visible eventCallbacks hasMouseFocus isMouseDown zIndex surface transformationHash redrawScheduled'
 	package: 'Athens-Core-Morphic'!
 
 !AthensMorph methodsFor: 'accessing'!
@@ -8,6 +8,10 @@ Object subclass: #AthensMorph
 color: aColor
 	color := aColor.
 	self redraw.
+!
+
+hasSurface
+	^ surface notNil
 !
 
 owner
@@ -22,6 +26,14 @@ submorphs
 	^ submorphs
 !
 
+surface
+	^ surface
+!
+
+surface: aSurface
+	surface := aSurface.
+!
+
 zIndex
 	^ zIndex
 !
@@ -32,6 +44,10 @@ zIndex: aNumber
 ! !
 
 !AthensMorph methodsFor: 'drawing'!
+
+clearSurface
+	surface clear: Color transparent.
+!
 
 drawOn: canvas
 	|path|
@@ -50,26 +66,62 @@ drawOn: canvas
 !
 
 redraw
-	"Causes Morph to be redrawn."
-	self world redraw.
+	"Causes Morph to be redrawn. Schedule redraw for THIS morph."
+	redrawScheduled ifFalse: [
+		redrawScheduled := true.
+		[
+			self redrawNow.
+			redrawScheduled := false] valueWithTimeout: 0].
 !
 
-redrawEverythingOn: canvas
-	globalPathTransform := AthensAffineTransform new.
-	globalPathTransform loadAffineTransform: owner globalPathTransform.
-	globalPathTransform multiplyBy: transformation.
-	visible ifTrue: [
-		"canvas pathTransform restoreAfter: ["
-			canvas pathTransform setIdentity: globalPathTransform.
-			canvas pathTransform loadIdentity.
-			
-			canvas pathTransform restoreAfter: [
-				self drawOn: canvas].
+redrawNow
+	"This method is invoked by the drawing scheduler. THIS morph should now be redrawn."
+	|needsFullRedraw morph|
+	needsFullRedraw := transformation hash ~~ transformationHash.
+
+	"Redraw receiver on next possible surface."
+	morph := self.
+	[morph hasSurface] whileFalse: [morph := morph owner].
+	morph redrawNowCached: false fullRedraw: needsFullRedraw.
+	
+	"Update owners' surfaces."
+	[morph isWorldMorph] whileFalse: [
+		morph := morph owner.
+		morph hasSurface ifTrue: [
+			morph redrawNowCached: false fullRedraw: false]].
+!
+
+redrawNowCached: cached fullRedraw: fullRedraw
+	surface drawDuring: [:canvas |
+		"surface clear: Color blue."
+		self clearSurface.
+		self redrawNowOn: canvas cached: cached fullRedraw: fullRedraw].
+!
+
+redrawNowOn: canvas cached: cached fullRedraw: fullRedraw
+	cached & surface notNil & fullRedraw not
+		ifTrue: ["draw from cached surface"
+			canvas pathTransform loadAffineTransform: AthensAffineTransform new.
+			canvas setPaint: surface.
+			canvas drawShape: (0 @ 0 corner: 1280 @ 800)]
+		ifFalse: ["actually draw the stuff"
+			surface == canvas surface ifTrue: [surface clear: Color transparent].
+			globalPathTransform := AthensAffineTransform new.
+			globalPathTransform loadAffineTransform: owner globalPathTransform.
+			globalPathTransform multiplyBy: transformation.
+			transformationHash := transformation hash.
+		
+			visible ifTrue: [|cachedSubmorphs|
+				canvas pathTransform setIdentity: globalPathTransform.
+				canvas pathTransform loadIdentity.
 				
-			outerShape ifNil: [self outerShape: (0@0 corner: 50@50)].
-			
-			canvas clipBy: outerShape during: [
-				submorphs do: [:morph | morph redrawEverythingOn: canvas]]"]"].
+				canvas pathTransform restoreAfter: [self drawOn: canvas].
+				
+				outerShape ifNil: [self outerShape: (0@0 corner: 50@50)].
+		
+				canvas clipBy: outerShape during: [
+					cachedSubmorphs := cached | (surface notNil & fullRedraw not).
+					submorphs do: [:morph | morph redrawNowOn: canvas cached: cachedSubmorphs fullRedraw: fullRedraw]]]].
 ! !
 
 !AthensMorph methodsFor: 'events'!
@@ -239,7 +291,14 @@ initialize
 	eventCallbacks := Dictionary new.
 	hasMouseFocus := isMouseDown := false.
 	zIndex := 0.
+	redrawScheduled := false.
 	self outerShape: (0@0 corner: 200@200).
+	self initializeSubsurface.
+!
+
+initializeSubsurface
+	surface := AthensHTMLSurface extent: 1000 @ 1000.
+	transformationHash := nil.
 ! !
 
 !AthensMorph methodsFor: 'internals'!
@@ -397,8 +456,8 @@ handleMouseUp: evt
 
 initialize
 	super initialize.
-	self initializeText.
 	isChecked := false.
+	self initializeText.
 !
 
 initializeText
@@ -2037,35 +2096,17 @@ AthensRectangleMorph subclass: #AthensWorldMorph
 	instanceVariableNames: 'backgroundPaint surface morphsUnderHand halos globalEventCallbacks handPosition worldState'
 	package: 'Athens-Core-Morphic'!
 
-!AthensWorldMorph methodsFor: 'accessing'!
-
-surface
-	^ surface
-!
-
-surface: aSurface
-	surface := aSurface.
-	self width: surface extent x.
-	self height: surface extent y.
-! !
-
 !AthensWorldMorph methodsFor: 'drawing'!
 
+clearSurface
+	surface clear: Color blue.
+!
+
 drawOn: canvas
-	surface clear: Color gray.
+	surface clear: Color red.
 	
 	(canvas setPaint: backgroundPaint) repeat.
 	canvas drawShape: (0@0 corner: surface extent).
-!
-
-privateRedraw
-	surface drawDuring: [:canvas |
-		self redrawEverythingOn: canvas.
-		self redrawHalosOn: canvas].
-!
-
-redraw
-	worldState damageWorld.
 !
 
 redrawHalosOn: canvas
@@ -2209,6 +2250,16 @@ forSurface: aSurface
 AthensWorldMorph subclass: #AthensDummyWorldMorph
 	instanceVariableNames: ''
 	package: 'Athens-Core-Morphic'!
+
+!AthensDummyWorldMorph methodsFor: 'accessing'!
+
+height
+	^ 100
+!
+
+width
+	^ 100
+! !
 
 !AthensDummyWorldMorph methodsFor: 'drawing'!
 

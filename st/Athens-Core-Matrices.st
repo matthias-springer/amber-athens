@@ -5,6 +5,10 @@ AthensTransform subclass: #AthensAffineTransform
 
 !AthensAffineTransform methodsFor: 'accessing'!
 
+hash
+	< return self['@x'] + 2.5 * self['@shx'] + 3.5 * self['@sx'] + 4.5 * self['@y'] + 5.5 * self['@shy'] + 6.5 * self['@sy']; >
+!
+
 inverted
 	"answer an inverse transformation of receiver"
 	self notYetImplemented

@@ -9,14 +9,14 @@ var self=this;
 return smalltalk.withContext(function($ctx1) { 
  var context2D = self['@surface']['@context2D'];
 	context2D.save();
-	context2D.beginPath();
+//	context2D.beginPath();
 	aShape._drawOn_(self);
 	context2D.clip();
 	context2D.beginPath();
 	(function() {aBlock._value();})._ensure_(function() {context2D.restore();}); ;
 return self}, function($ctx1) {$ctx1.fill(self,"clipBy:during:",{aShape:aShape,aBlock:aBlock},smalltalk.AthensHTMLCanvas)})},
 args: ["aShape", "aBlock"],
-source: "clipBy: aShape during: aBlock\x0a\x09< var context2D = self['@surface']['@context2D'];\x0a\x09context2D.save();\x0a\x09context2D.beginPath();\x0a\x09aShape._drawOn_(self);\x0a\x09context2D.clip();\x0a\x09context2D.beginPath();\x0a\x09(function() {aBlock._value();})._ensure_(function() {context2D.restore();}); >",
+source: "clipBy: aShape during: aBlock\x0a\x09< var context2D = self['@surface']['@context2D'];\x0a\x09context2D.save();\x0a//\x09context2D.beginPath();\x0a\x09aShape._drawOn_(self);\x0a\x09context2D.clip();\x0a\x09context2D.beginPath();\x0a\x09(function() {aBlock._value();})._ensure_(function() {context2D.restore();}); >",
 messageSends: [],
 referencedClasses: []
 }),
@@ -166,19 +166,19 @@ selector: "surface:",
 category: 'accessing',
 fn: function (anHTMLSurface){
 var self=this;
-function $AthensHTMLTransformation(){return smalltalk.AthensHTMLTransformation||(typeof AthensHTMLTransformation=="undefined"?nil:AthensHTMLTransformation)}
+function $AthensHTMLMorphicTransformation(){return smalltalk.AthensHTMLMorphicTransformation||(typeof AthensHTMLMorphicTransformation=="undefined"?nil:AthensHTMLMorphicTransformation)}
 function $AthensAffineTransform(){return smalltalk.AthensAffineTransform||(typeof AthensAffineTransform=="undefined"?nil:AthensAffineTransform)}
 function $AthensHTMLPaintMode(){return smalltalk.AthensHTMLPaintMode||(typeof AthensHTMLPaintMode=="undefined"?nil:AthensHTMLPaintMode)}
 return smalltalk.withContext(function($ctx1) { 
 self["@surface"]=anHTMLSurface;
-self["@pathTransform"]=_st($AthensHTMLTransformation())._on_(self["@surface"]);
+self["@pathTransform"]=_st($AthensHTMLMorphicTransformation())._on_(self["@surface"]);
 self["@paintTransform"]=_st($AthensAffineTransform())._new();
 self["@paintMode"]=_st($AthensHTMLPaintMode())._on_(self["@surface"]);
 return self}, function($ctx1) {$ctx1.fill(self,"surface:",{anHTMLSurface:anHTMLSurface},smalltalk.AthensHTMLCanvas)})},
 args: ["anHTMLSurface"],
-source: "surface: anHTMLSurface\x0a\x09surface := anHTMLSurface.\x0a\x09pathTransform := AthensHTMLTransformation on: surface.\x0a\x09paintTransform := AthensAffineTransform new.\x0a\x09paintMode := AthensHTMLPaintMode on: surface.",
+source: "surface: anHTMLSurface\x0a\x09surface := anHTMLSurface.\x0a\x09\x22TODO: we should use AthensHTMLTransformation here.\x22\x0a\x09pathTransform := AthensHTMLMorphicTransformation on: surface.\x0a\x09paintTransform := AthensAffineTransform new.\x0a\x09paintMode := AthensHTMLPaintMode on: surface.",
 messageSends: ["on:", "new"],
-referencedClasses: ["AthensHTMLTransformation", "AthensAffineTransform", "AthensHTMLPaintMode"]
+referencedClasses: ["AthensHTMLMorphicTransformation", "AthensAffineTransform", "AthensHTMLPaintMode"]
 }),
 smalltalk.AthensHTMLCanvas);
 

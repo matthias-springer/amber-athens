@@ -19,6 +19,22 @@ smalltalk.AthensAffineTransform);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "hash",
+category: 'accessing',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self['@x'] + 2.5 * self['@shx'] + 3.5 * self['@sx'] + 4.5 * self['@y'] + 5.5 * self['@shy'] + 6.5 * self['@sy']; ;
+return self}, function($ctx1) {$ctx1.fill(self,"hash",{},smalltalk.AthensAffineTransform)})},
+args: [],
+source: "hash\x0a\x09< return self['@x'] + 2.5 * self['@shx'] + 3.5 * self['@sx'] + 4.5 * self['@y'] + 5.5 * self['@shy'] + 6.5 * self['@sy']; >",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.AthensAffineTransform);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "initialize",
 category: 'initialize-release',
 fn: function (){

@@ -1,5 +1,5 @@
 smalltalk.addPackage('Athens-Core-Morphic');
-smalltalk.addClass('AthensMorph', smalltalk.Object, ['transformation', 'outerShape', 'outerPolygon', 'owner', 'submorphs', 'color', 'globalPathTransform', 'globalOuterPolygon', 'visible', 'eventCallbacks', 'hasMouseFocus', 'isMouseDown', 'zIndex'], 'Athens-Core-Morphic');
+smalltalk.addClass('AthensMorph', smalltalk.Object, ['transformation', 'outerShape', 'outerPolygon', 'owner', 'submorphs', 'color', 'globalPathTransform', 'globalOuterPolygon', 'visible', 'eventCallbacks', 'hasMouseFocus', 'isMouseDown', 'zIndex', 'surface', 'transformationHash', 'redrawScheduled'], 'Athens-Core-Morphic');
 smalltalk.addMethod(
 smalltalk.method({
 selector: "addMorph:",
@@ -53,6 +53,23 @@ args: [],
 source: "bringToFront\x0a\x09self zIndex: owner maxZIndex + 1.",
 messageSends: ["zIndex:", "+", "maxZIndex"],
 referencedClasses: []
+}),
+smalltalk.AthensMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "clearSurface",
+category: 'drawing',
+fn: function (){
+var self=this;
+function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
+return smalltalk.withContext(function($ctx1) { 
+_st(self["@surface"])._clear_(_st($Color())._transparent());
+return self}, function($ctx1) {$ctx1.fill(self,"clearSurface",{},smalltalk.AthensMorph)})},
+args: [],
+source: "clearSurface\x0a\x09surface clear: Color transparent.",
+messageSends: ["clear:", "transparent"],
+referencedClasses: ["Color"]
 }),
 smalltalk.AthensMorph);
 
@@ -400,6 +417,24 @@ smalltalk.AthensMorph);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "hasSurface",
+category: 'accessing',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(self["@surface"])._notNil();
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"hasSurface",{},smalltalk.AthensMorph)})},
+args: [],
+source: "hasSurface\x0a\x09^ surface notNil",
+messageSends: ["notNil"],
+referencedClasses: []
+}),
+smalltalk.AthensMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "hide",
 category: 'morph handling',
 fn: function (){
@@ -437,12 +472,32 @@ self["@eventCallbacks"]=_st($Dictionary())._new();
 self["@isMouseDown"]=false;
 self["@hasMouseFocus"]=self["@isMouseDown"];
 self["@zIndex"]=(0);
+self["@redrawScheduled"]=false;
 self._outerShape_(_st((0).__at((0)))._corner_((200).__at((200))));
+self._initializeSubsurface();
 return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensMorph)})},
 args: [],
-source: "initialize\x0a\x09color := Color blue.\x0a\x09owner := AthensDummyWorldMorph instance.\x0a\x09transformation := AthensAffineTransform new.\x0a\x09globalPathTransform := AthensAffineTransform new.\x0a\x09submorphs := OrderedCollection new.\x0a\x09visible := true.\x0a\x09eventCallbacks := Dictionary new.\x0a\x09hasMouseFocus := isMouseDown := false.\x0a\x09zIndex := 0.\x0a\x09self outerShape: (0@0 corner: 200@200).",
-messageSends: ["blue", "instance", "new", "outerShape:", "corner:", "@"],
+source: "initialize\x0a\x09color := Color blue.\x0a\x09owner := AthensDummyWorldMorph instance.\x0a\x09transformation := AthensAffineTransform new.\x0a\x09globalPathTransform := AthensAffineTransform new.\x0a\x09submorphs := OrderedCollection new.\x0a\x09visible := true.\x0a\x09eventCallbacks := Dictionary new.\x0a\x09hasMouseFocus := isMouseDown := false.\x0a\x09zIndex := 0.\x0a\x09redrawScheduled := false.\x0a\x09self outerShape: (0@0 corner: 200@200).\x0a\x09self initializeSubsurface.",
+messageSends: ["blue", "instance", "new", "outerShape:", "corner:", "@", "initializeSubsurface"],
 referencedClasses: ["Color", "AthensDummyWorldMorph", "AthensAffineTransform", "OrderedCollection", "Dictionary"]
+}),
+smalltalk.AthensMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "initializeSubsurface",
+category: 'initialization',
+fn: function (){
+var self=this;
+function $AthensHTMLSurface(){return smalltalk.AthensHTMLSurface||(typeof AthensHTMLSurface=="undefined"?nil:AthensHTMLSurface)}
+return smalltalk.withContext(function($ctx1) { 
+self["@surface"]=_st($AthensHTMLSurface())._extent_((1000).__at((1000)));
+self["@transformationHash"]=nil;
+return self}, function($ctx1) {$ctx1.fill(self,"initializeSubsurface",{},smalltalk.AthensMorph)})},
+args: [],
+source: "initializeSubsurface\x0a\x09surface := AthensHTMLSurface extent: 1000 @ 1000.\x0a\x09transformationHash := nil.",
+messageSends: ["extent:", "@"],
+referencedClasses: ["AthensHTMLSurface"]
 }),
 smalltalk.AthensMorph);
 
@@ -817,54 +872,143 @@ category: 'drawing',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-_st(self._world())._redraw();
+var $1;
+$1=self["@redrawScheduled"];
+if(! smalltalk.assert($1)){
+self["@redrawScheduled"]=true;
+self["@redrawScheduled"];
+_st((function(){
+return smalltalk.withContext(function($ctx2) {
+self._redrawNow();
+self["@redrawScheduled"]=false;
+return self["@redrawScheduled"];
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}))._valueWithTimeout_((0));
+};
 return self}, function($ctx1) {$ctx1.fill(self,"redraw",{},smalltalk.AthensMorph)})},
 args: [],
-source: "redraw\x0a\x09\x22Causes Morph to be redrawn.\x22\x0a\x09self world redraw.",
-messageSends: ["redraw", "world"],
+source: "redraw\x0a\x09\x22Causes Morph to be redrawn. Schedule redraw for THIS morph.\x22\x0a\x09redrawScheduled ifFalse: [\x0a\x09\x09redrawScheduled := true.\x0a\x09\x09[\x0a\x09\x09\x09self redrawNow.\x0a\x09\x09\x09redrawScheduled := false] valueWithTimeout: 0].",
+messageSends: ["ifFalse:", "valueWithTimeout:", "redrawNow"],
 referencedClasses: []
 }),
 smalltalk.AthensMorph);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "redrawEverythingOn:",
+selector: "redrawNow",
 category: 'drawing',
-fn: function (canvas){
+fn: function (){
+var self=this;
+var needsFullRedraw,morph;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+needsFullRedraw=_st(_st(self["@transformation"])._hash()).__tild_tild(self["@transformationHash"]);
+morph=self;
+_st((function(){
+return smalltalk.withContext(function($ctx2) {
+return _st(morph)._hasSurface();
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}))._whileFalse_((function(){
+return smalltalk.withContext(function($ctx2) {
+morph=_st(morph)._owner();
+return morph;
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
+_st(morph)._redrawNowCached_fullRedraw_(false,needsFullRedraw);
+_st((function(){
+return smalltalk.withContext(function($ctx2) {
+return _st(morph)._isWorldMorph();
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}))._whileFalse_((function(){
+return smalltalk.withContext(function($ctx2) {
+morph=_st(morph)._owner();
+morph;
+$1=_st(morph)._hasSurface();
+if(smalltalk.assert($1)){
+return _st(morph)._redrawNowCached_fullRedraw_(false,false);
+};
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
+return self}, function($ctx1) {$ctx1.fill(self,"redrawNow",{needsFullRedraw:needsFullRedraw,morph:morph},smalltalk.AthensMorph)})},
+args: [],
+source: "redrawNow\x0a\x09\x22This method is invoked by the drawing scheduler. THIS morph should now be redrawn.\x22\x0a\x09|needsFullRedraw morph|\x0a\x09needsFullRedraw := transformation hash ~~ transformationHash.\x0a\x0a\x09\x22Redraw receiver on next possible surface.\x22\x0a\x09morph := self.\x0a\x09[morph hasSurface] whileFalse: [morph := morph owner].\x0a\x09morph redrawNowCached: false fullRedraw: needsFullRedraw.\x0a\x09\x0a\x09\x22Update owners' surfaces.\x22\x0a\x09[morph isWorldMorph] whileFalse: [\x0a\x09\x09morph := morph owner.\x0a\x09\x09morph hasSurface ifTrue: [\x0a\x09\x09\x09morph redrawNowCached: false fullRedraw: false]].",
+messageSends: ["~~", "hash", "whileFalse:", "owner", "hasSurface", "redrawNowCached:fullRedraw:", "ifTrue:", "isWorldMorph"],
+referencedClasses: []
+}),
+smalltalk.AthensMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "redrawNowCached:fullRedraw:",
+category: 'drawing',
+fn: function (cached,fullRedraw){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+_st(self["@surface"])._drawDuring_((function(canvas){
+return smalltalk.withContext(function($ctx2) {
+self._clearSurface();
+return self._redrawNowOn_cached_fullRedraw_(canvas,cached,fullRedraw);
+}, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
+return self}, function($ctx1) {$ctx1.fill(self,"redrawNowCached:fullRedraw:",{cached:cached,fullRedraw:fullRedraw},smalltalk.AthensMorph)})},
+args: ["cached", "fullRedraw"],
+source: "redrawNowCached: cached fullRedraw: fullRedraw\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09\x22surface clear: Color blue.\x22\x0a\x09\x09self clearSurface.\x0a\x09\x09self redrawNowOn: canvas cached: cached fullRedraw: fullRedraw].",
+messageSends: ["drawDuring:", "clearSurface", "redrawNowOn:cached:fullRedraw:"],
+referencedClasses: []
+}),
+smalltalk.AthensMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "redrawNowOn:cached:fullRedraw:",
+category: 'drawing',
+fn: function (canvas,cached,fullRedraw){
 var self=this;
 function $AthensAffineTransform(){return smalltalk.AthensAffineTransform||(typeof AthensAffineTransform=="undefined"?nil:AthensAffineTransform)}
+function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
 return smalltalk.withContext(function($ctx1) { 
-var $1,$2;
+var $1,$2,$3,$4;
+$1=_st(_st(cached).__and(_st(self["@surface"])._notNil())).__and(_st(fullRedraw)._not());
+if(smalltalk.assert($1)){
+_st(_st(canvas)._pathTransform())._loadAffineTransform_(_st($AthensAffineTransform())._new());
+_st(canvas)._setPaint_(self["@surface"]);
+_st(canvas)._drawShape_(_st((0).__at((0)))._corner_((1280).__at((800))));
+} else {
+$2=_st(self["@surface"]).__eq_eq(_st(canvas)._surface());
+if(smalltalk.assert($2)){
+_st(self["@surface"])._clear_(_st($Color())._transparent());
+};
 self["@globalPathTransform"]=_st($AthensAffineTransform())._new();
+self["@globalPathTransform"];
 _st(self["@globalPathTransform"])._loadAffineTransform_(_st(self["@owner"])._globalPathTransform());
 _st(self["@globalPathTransform"])._multiplyBy_(self["@transformation"]);
-$1=self["@visible"];
-if(smalltalk.assert($1)){
+self["@transformationHash"]=_st(self["@transformation"])._hash();
+self["@transformationHash"];
+$3=self["@visible"];
+if(smalltalk.assert($3)){
+var cachedSubmorphs;
 _st(_st(canvas)._pathTransform())._setIdentity_(self["@globalPathTransform"]);
 _st(_st(canvas)._pathTransform())._loadIdentity();
 _st(_st(canvas)._pathTransform())._restoreAfter_((function(){
 return smalltalk.withContext(function($ctx2) {
 return self._drawOn_(canvas);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
-$2=self["@outerShape"];
-if(($receiver = $2) == nil || $receiver == undefined){
+$4=self["@outerShape"];
+if(($receiver = $4) == nil || $receiver == undefined){
 self._outerShape_(_st((0).__at((0)))._corner_((50).__at((50))));
 } else {
-$2;
+$4;
 };
 _st(canvas)._clipBy_during_(self["@outerShape"],(function(){
 return smalltalk.withContext(function($ctx2) {
+cachedSubmorphs=_st(cached).__or(_st(_st(self["@surface"])._notNil()).__and(_st(fullRedraw)._not()));
+cachedSubmorphs;
 return _st(self["@submorphs"])._do_((function(morph){
 return smalltalk.withContext(function($ctx3) {
-return _st(morph)._redrawEverythingOn_(canvas);
+return _st(morph)._redrawNowOn_cached_fullRedraw_(canvas,cachedSubmorphs,fullRedraw);
 }, function($ctx3) {$ctx3.fillBlock({morph:morph},$ctx2)})}));
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
 };
-return self}, function($ctx1) {$ctx1.fill(self,"redrawEverythingOn:",{canvas:canvas},smalltalk.AthensMorph)})},
-args: ["canvas"],
-source: "redrawEverythingOn: canvas\x0a\x09globalPathTransform := AthensAffineTransform new.\x0a\x09globalPathTransform loadAffineTransform: owner globalPathTransform.\x0a\x09globalPathTransform multiplyBy: transformation.\x0a\x09visible ifTrue: [\x0a\x09\x09\x22canvas pathTransform restoreAfter: [\x22\x0a\x09\x09\x09canvas pathTransform setIdentity: globalPathTransform.\x0a\x09\x09\x09canvas pathTransform loadIdentity.\x0a\x09\x09\x09\x0a\x09\x09\x09canvas pathTransform restoreAfter: [\x0a\x09\x09\x09\x09self drawOn: canvas].\x0a\x09\x09\x09\x09\x0a\x09\x09\x09outerShape ifNil: [self outerShape: (0@0 corner: 50@50)].\x0a\x09\x09\x09\x0a\x09\x09\x09canvas clipBy: outerShape during: [\x0a\x09\x09\x09\x09submorphs do: [:morph | morph redrawEverythingOn: canvas]]\x22]\x22].",
-messageSends: ["new", "loadAffineTransform:", "globalPathTransform", "multiplyBy:", "ifTrue:", "setIdentity:", "pathTransform", "loadIdentity", "restoreAfter:", "drawOn:", "ifNil:", "outerShape:", "corner:", "@", "clipBy:during:", "do:", "redrawEverythingOn:"],
-referencedClasses: ["AthensAffineTransform"]
+};
+return self}, function($ctx1) {$ctx1.fill(self,"redrawNowOn:cached:fullRedraw:",{canvas:canvas,cached:cached,fullRedraw:fullRedraw},smalltalk.AthensMorph)})},
+args: ["canvas", "cached", "fullRedraw"],
+source: "redrawNowOn: canvas cached: cached fullRedraw: fullRedraw\x0a\x09cached & surface notNil & fullRedraw not\x0a\x09\x09ifTrue: [\x22draw from cached surface\x22\x0a\x09\x09\x09canvas pathTransform loadAffineTransform: AthensAffineTransform new.\x0a\x09\x09\x09canvas setPaint: surface.\x0a\x09\x09\x09canvas drawShape: (0 @ 0 corner: 1280 @ 800)]\x0a\x09\x09ifFalse: [\x22actually draw the stuff\x22\x0a\x09\x09\x09surface == canvas surface ifTrue: [surface clear: Color transparent].\x0a\x09\x09\x09globalPathTransform := AthensAffineTransform new.\x0a\x09\x09\x09globalPathTransform loadAffineTransform: owner globalPathTransform.\x0a\x09\x09\x09globalPathTransform multiplyBy: transformation.\x0a\x09\x09\x09transformationHash := transformation hash.\x0a\x09\x09\x0a\x09\x09\x09visible ifTrue: [|cachedSubmorphs|\x0a\x09\x09\x09\x09canvas pathTransform setIdentity: globalPathTransform.\x0a\x09\x09\x09\x09canvas pathTransform loadIdentity.\x0a\x09\x09\x09\x09\x0a\x09\x09\x09\x09canvas pathTransform restoreAfter: [self drawOn: canvas].\x0a\x09\x09\x09\x09\x0a\x09\x09\x09\x09outerShape ifNil: [self outerShape: (0@0 corner: 50@50)].\x0a\x09\x09\x0a\x09\x09\x09\x09canvas clipBy: outerShape during: [\x0a\x09\x09\x09\x09\x09cachedSubmorphs := cached | (surface notNil & fullRedraw not).\x0a\x09\x09\x09\x09\x09submorphs do: [:morph | morph redrawNowOn: canvas cached: cachedSubmorphs fullRedraw: fullRedraw]]]].",
+messageSends: ["ifTrue:ifFalse:", "loadAffineTransform:", "new", "pathTransform", "setPaint:", "drawShape:", "corner:", "@", "ifTrue:", "clear:", "transparent", "==", "surface", "globalPathTransform", "multiplyBy:", "hash", "setIdentity:", "loadIdentity", "restoreAfter:", "drawOn:", "ifNil:", "outerShape:", "clipBy:during:", "|", "&", "not", "notNil", "do:", "redrawNowOn:cached:fullRedraw:"],
+referencedClasses: ["AthensAffineTransform", "Color"]
 }),
 smalltalk.AthensMorph);
 
@@ -1053,6 +1197,40 @@ return self}, function($ctx1) {$ctx1.fill(self,"submorphsZIndicesChanged",{},sma
 args: [],
 source: "submorphsZIndicesChanged\x0a\x09submorphs sort: [:m1 :m2 | m1 zIndex < m2 zIndex].\x0a\x09self redraw.",
 messageSends: ["sort:", "<", "zIndex", "redraw"],
+referencedClasses: []
+}),
+smalltalk.AthensMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "surface",
+category: 'accessing',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self["@surface"];
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"surface",{},smalltalk.AthensMorph)})},
+args: [],
+source: "surface\x0a\x09^ surface",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.AthensMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "surface:",
+category: 'accessing',
+fn: function (aSurface){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self["@surface"]=aSurface;
+return self}, function($ctx1) {$ctx1.fill(self,"surface:",{aSurface:aSurface},smalltalk.AthensMorph)})},
+args: ["aSurface"],
+source: "surface: aSurface\x0a\x09surface := aSurface.",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensMorph);
@@ -1309,11 +1487,11 @@ fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 smalltalk.AthensMorph.fn.prototype._initialize.apply(_st(self), []);
-self._initializeText();
 self["@isChecked"]=false;
+self._initializeText();
 return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensBinaryStatusButtonMorph)})},
 args: [],
-source: "initialize\x0a\x09super initialize.\x0a\x09self initializeText.\x0a\x09isChecked := false.",
+source: "initialize\x0a\x09super initialize.\x0a\x09isChecked := false.\x0a\x09self initializeText.",
 messageSends: ["initialize", "initializeText"],
 referencedClasses: []
 }),
@@ -5614,6 +5792,23 @@ smalltalk.AthensWorldMorph);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "clearSurface",
+category: 'drawing',
+fn: function (){
+var self=this;
+function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
+return smalltalk.withContext(function($ctx1) { 
+_st(self["@surface"])._clear_(_st($Color())._blue());
+return self}, function($ctx1) {$ctx1.fill(self,"clearSurface",{},smalltalk.AthensWorldMorph)})},
+args: [],
+source: "clearSurface\x0a\x09surface clear: Color blue.",
+messageSends: ["clear:", "blue"],
+referencedClasses: ["Color"]
+}),
+smalltalk.AthensWorldMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "delegateEvent:with:",
 category: 'events',
 fn: function (aSymbol,evt){
@@ -5682,13 +5877,13 @@ fn: function (canvas){
 var self=this;
 function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
 return smalltalk.withContext(function($ctx1) { 
-_st(self["@surface"])._clear_(_st($Color())._gray());
+_st(self["@surface"])._clear_(_st($Color())._red());
 _st(_st(canvas)._setPaint_(self["@backgroundPaint"]))._repeat();
 _st(canvas)._drawShape_(_st((0).__at((0)))._corner_(_st(self["@surface"])._extent()));
 return self}, function($ctx1) {$ctx1.fill(self,"drawOn:",{canvas:canvas},smalltalk.AthensWorldMorph)})},
 args: ["canvas"],
-source: "drawOn: canvas\x0a\x09surface clear: Color gray.\x0a\x09\x0a\x09(canvas setPaint: backgroundPaint) repeat.\x0a\x09canvas drawShape: (0@0 corner: surface extent).",
-messageSends: ["clear:", "gray", "repeat", "setPaint:", "drawShape:", "corner:", "extent", "@"],
+source: "drawOn: canvas\x0a\x09surface clear: Color red.\x0a\x09\x0a\x09(canvas setPaint: backgroundPaint) repeat.\x0a\x09canvas drawShape: (0@0 corner: surface extent).",
+messageSends: ["clear:", "red", "repeat", "setPaint:", "drawShape:", "corner:", "extent", "@"],
 referencedClasses: ["Color"]
 }),
 smalltalk.AthensWorldMorph);
@@ -5907,42 +6102,6 @@ smalltalk.AthensWorldMorph);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "privateRedraw",
-category: 'drawing',
-fn: function (){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-_st(self["@surface"])._drawDuring_((function(canvas){
-return smalltalk.withContext(function($ctx2) {
-self._redrawEverythingOn_(canvas);
-return self._redrawHalosOn_(canvas);
-}, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
-return self}, function($ctx1) {$ctx1.fill(self,"privateRedraw",{},smalltalk.AthensWorldMorph)})},
-args: [],
-source: "privateRedraw\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09self redrawEverythingOn: canvas.\x0a\x09\x09self redrawHalosOn: canvas].",
-messageSends: ["drawDuring:", "redrawEverythingOn:", "redrawHalosOn:"],
-referencedClasses: []
-}),
-smalltalk.AthensWorldMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "redraw",
-category: 'drawing',
-fn: function (){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-_st(self["@worldState"])._damageWorld();
-return self}, function($ctx1) {$ctx1.fill(self,"redraw",{},smalltalk.AthensWorldMorph)})},
-args: [],
-source: "redraw\x0a\x09worldState damageWorld.",
-messageSends: ["damageWorld"],
-referencedClasses: []
-}),
-smalltalk.AthensWorldMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
 selector: "redrawHalosOn:",
 category: 'drawing',
 fn: function (canvas){
@@ -5979,42 +6138,6 @@ args: ["aSymbol", "aBlock"],
 source: "registerGlobalEvent: aSymbol withCallback: aBlock\x0a\x09|handlers|\x0a\x09handlers := globalEventCallbacks at: aSymbol ifAbsent: [globalEventCallbacks at: aSymbol put: OrderedCollection new].\x0a\x09handlers add: aBlock.",
 messageSends: ["at:ifAbsent:", "at:put:", "new", "add:"],
 referencedClasses: ["OrderedCollection"]
-}),
-smalltalk.AthensWorldMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "surface",
-category: 'accessing',
-fn: function (){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=self["@surface"];
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"surface",{},smalltalk.AthensWorldMorph)})},
-args: [],
-source: "surface\x0a\x09^ surface",
-messageSends: [],
-referencedClasses: []
-}),
-smalltalk.AthensWorldMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "surface:",
-category: 'accessing',
-fn: function (aSurface){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-self["@surface"]=aSurface;
-self._width_(_st(_st(self["@surface"])._extent())._x());
-self._height_(_st(_st(self["@surface"])._extent())._y());
-return self}, function($ctx1) {$ctx1.fill(self,"surface:",{aSurface:aSurface},smalltalk.AthensWorldMorph)})},
-args: ["aSurface"],
-source: "surface: aSurface\x0a\x09surface := aSurface.\x0a\x09self width: surface extent x.\x0a\x09self height: surface extent y.",
-messageSends: ["width:", "x", "extent", "height:", "y"],
-referencedClasses: []
 }),
 smalltalk.AthensWorldMorph);
 
@@ -6114,6 +6237,22 @@ smalltalk.AthensDummyWorldMorph);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "height",
+category: 'accessing',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+return (100);
+}, function($ctx1) {$ctx1.fill(self,"height",{},smalltalk.AthensDummyWorldMorph)})},
+args: [],
+source: "height\x0a\x09^ 100",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.AthensDummyWorldMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "initialize",
 category: 'initialization',
 fn: function (){
@@ -6170,6 +6309,22 @@ return smalltalk.withContext(function($ctx1) {
 return self}, function($ctx1) {$ctx1.fill(self,"submorphsZIndicesChanged",{},smalltalk.AthensDummyWorldMorph)})},
 args: [],
 source: "submorphsZIndicesChanged",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.AthensDummyWorldMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "width",
+category: 'accessing',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+return (100);
+}, function($ctx1) {$ctx1.fill(self,"width",{},smalltalk.AthensDummyWorldMorph)})},
+args: [],
+source: "width\x0a\x09^ 100",
 messageSends: [],
 referencedClasses: []
 }),

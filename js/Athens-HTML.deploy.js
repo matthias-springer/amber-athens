@@ -8,7 +8,7 @@ var self=this;
 return smalltalk.withContext(function($ctx1) { 
  var context2D = self['@surface']['@context2D'];
 	context2D.save();
-	context2D.beginPath();
+//	context2D.beginPath();
 	aShape._drawOn_(self);
 	context2D.clip();
 	context2D.beginPath();
@@ -120,12 +120,12 @@ smalltalk.method({
 selector: "surface:",
 fn: function (anHTMLSurface){
 var self=this;
-function $AthensHTMLTransformation(){return smalltalk.AthensHTMLTransformation||(typeof AthensHTMLTransformation=="undefined"?nil:AthensHTMLTransformation)}
+function $AthensHTMLMorphicTransformation(){return smalltalk.AthensHTMLMorphicTransformation||(typeof AthensHTMLMorphicTransformation=="undefined"?nil:AthensHTMLMorphicTransformation)}
 function $AthensAffineTransform(){return smalltalk.AthensAffineTransform||(typeof AthensAffineTransform=="undefined"?nil:AthensAffineTransform)}
 function $AthensHTMLPaintMode(){return smalltalk.AthensHTMLPaintMode||(typeof AthensHTMLPaintMode=="undefined"?nil:AthensHTMLPaintMode)}
 return smalltalk.withContext(function($ctx1) { 
 self["@surface"]=anHTMLSurface;
-self["@pathTransform"]=_st($AthensHTMLTransformation())._on_(self["@surface"]);
+self["@pathTransform"]=_st($AthensHTMLMorphicTransformation())._on_(self["@surface"]);
 self["@paintTransform"]=_st($AthensAffineTransform())._new();
 self["@paintMode"]=_st($AthensHTMLPaintMode())._on_(self["@surface"]);
 return self}, function($ctx1) {$ctx1.fill(self,"surface:",{anHTMLSurface:anHTMLSurface},smalltalk.AthensHTMLCanvas)})},
