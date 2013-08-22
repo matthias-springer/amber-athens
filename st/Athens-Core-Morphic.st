@@ -11,7 +11,7 @@ color: aColor
 !
 
 hasSurface
-	^ surface notNil
+	^ true
 !
 
 owner
@@ -65,6 +65,14 @@ drawOn: canvas
 	canvas draw.
 !
 
+propagateRedraw
+	|morph|
+	morph := self.
+	[morph isWorldMorph] whileFalse: [
+		morph := morph owner.
+		morph redrawNowFull: false].
+!
+
 redraw
 	"Causes Morph to be redrawn. Schedule redraw for THIS morph."
 	redrawScheduled ifFalse: [
@@ -80,48 +88,43 @@ redrawNow
 	needsFullRedraw := transformation hash ~~ transformationHash.
 
 	"Redraw receiver on next possible surface."
-	morph := self.
+	"morph := self.
 	[morph hasSurface] whileFalse: [morph := morph owner].
-	morph redrawNowCached: false fullRedraw: needsFullRedraw.
+	morph redrawNowCached: false fullRedraw: needsFullRedraw."
 	
 	"Update owners' surfaces."
-	[morph isWorldMorph] whileFalse: [
+	"[morph isWorldMorph] whileFalse: [
 		morph := morph owner.
 		morph hasSurface ifTrue: [
-			morph redrawNowCached: false fullRedraw: false]].
+			morph redrawNowCached: false fullRedraw: false]]."
+	
+	self redrawNowFull: needsFullRedraw.
+	self propagateRedraw.
 !
 
-redrawNowCached: cached fullRedraw: fullRedraw
+redrawNowFull: fullRedraw
 	surface drawDuring: [:canvas |
-		"surface clear: Color blue."
-		self clearSurface.
-		self redrawNowOn: canvas cached: cached fullRedraw: fullRedraw].
-!
-
-redrawNowOn: canvas cached: cached fullRedraw: fullRedraw
-	cached & surface notNil & fullRedraw not
-		ifTrue: ["draw from cached surface"
-			canvas pathTransform loadAffineTransform: AthensAffineTransform new.
-			canvas setPaint: surface.
-			canvas drawShape: (0 @ 0 corner: 1280 @ 800)]
-		ifFalse: ["actually draw the stuff"
-			surface == canvas surface ifTrue: [surface clear: Color transparent].
-			globalPathTransform := AthensAffineTransform new.
-			globalPathTransform loadAffineTransform: owner globalPathTransform.
-			globalPathTransform multiplyBy: transformation.
-			transformationHash := transformation hash.
+		surface clear: Color transparent.
 		
-			visible ifTrue: [|cachedSubmorphs|
-				canvas pathTransform setIdentity: globalPathTransform.
-				canvas pathTransform loadIdentity.
-				
-				canvas pathTransform restoreAfter: [self drawOn: canvas].
-				
-				outerShape ifNil: [self outerShape: (0@0 corner: 50@50)].
+		globalPathTransform := AthensAffineTransform new.
+		globalPathTransform loadAffineTransform: owner globalPathTransform.
+		globalPathTransform multiplyBy: transformation.
+		transformationHash := transformation hash.
 		
-				canvas clipBy: outerShape during: [
-					cachedSubmorphs := cached | (surface notNil & fullRedraw not).
-					submorphs do: [:morph | morph redrawNowOn: canvas cached: cachedSubmorphs fullRedraw: fullRedraw]]]].
+		visible ifTrue: [|cachedSubmorphs|
+			canvas pathTransform setIdentity: globalPathTransform.
+			canvas pathTransform loadIdentity.
+			
+			canvas pathTransform restoreAfter: [self drawOn: canvas].
+			
+			outerShape ifNil: [self outerShape: (0@0 corner: 50@50)].
+		
+			canvas clipBy: outerShape during: [
+				submorphs do: [:morph | 
+					fullRedraw ifTrue: [morph redrawNowFull: true].
+					canvas pathTransform loadAffineTransform: AthensAffineTransform new.
+					canvas setPaint: morph surface.
+					canvas drawShape: (0@0 corner: 1280@800)]]]].
 ! !
 
 !AthensMorph methodsFor: 'events'!
@@ -297,7 +300,8 @@ initialize
 !
 
 initializeSubsurface
-	surface := AthensHTMLSurface extent: 1000 @ 1000.
+	self hasSurface ifTrue: [
+		surface := AthensHTMLSurface extent: 1000 @ 1000].
 	transformationHash := nil.
 ! !
 
@@ -2083,6 +2087,12 @@ layoutChanged
 	resizeMorph translateByX: width - 15 Y: height - 15.
 ! !
 
+!AthensWindowMorph methodsFor: 'testing'!
+
+hasSurface
+	^ true
+! !
+
 !AthensWindowMorph class methodsFor: 'instance creation'!
 
 extent: aPoint
@@ -2234,6 +2244,10 @@ updateMorphsUnderHandAt: aPoint
 ! !
 
 !AthensWorldMorph methodsFor: 'testing'!
+
+hasSurface
+	^ true
+!
 
 isWorldMorph
 	^ true
