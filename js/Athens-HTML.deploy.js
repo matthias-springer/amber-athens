@@ -7,8 +7,8 @@ fn: function (aShape,aBlock){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
  var context2D = self['@surface']['@context2D'];
-	context2D.save();
 	context2D.beginPath();
+	context2D.save();
 	aShape._drawOn_(self);
 	context2D.clip();
 	context2D.beginPath();

@@ -79,16 +79,16 @@ category: 'transformations',
 fn: function (m){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self["@x"]=_st(m)._x();
-self["@y"]=_st(m)._y();
-self["@sx"]=_st(m)._sx();
-self["@sy"]=_st(m)._sy();
-self["@shx"]=_st(m)._shx();
-self["@shy"]=_st(m)._shy();
+ self['@x'] = m['@x'];
+	self['@y'] = m['@y'];
+	self['@sx'] = m['@sx'];
+	self['@sy'] = m['@sy'];
+	self['@shx'] = m['@shx'];
+	self['@shy'] = m['@shy']; ;
 return self}, function($ctx1) {$ctx1.fill(self,"loadAffineTransform:",{m:m},smalltalk.AthensAffineTransform)})},
 args: ["m"],
-source: "loadAffineTransform: m\x0a\x09x := m x.\x0a\x09y := m y.\x0a\x09sx := m sx.\x0a\x09sy := m sy.\x0a\x09shx := m shx.\x0a\x09shy := m shy.",
-messageSends: ["x", "y", "sx", "sy", "shx", "shy"],
+source: "loadAffineTransform: m\x0a\x09< self['@x'] = m['@x'];\x0a\x09self['@y'] = m['@y'];\x0a\x09self['@sx'] = m['@sx'];\x0a\x09self['@sy'] = m['@sy'];\x0a\x09self['@shx'] = m['@shx'];\x0a\x09self['@shy'] = m['@shy']; >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensAffineTransform);
@@ -116,24 +116,26 @@ selector: "multiplyBy:",
 category: 'transformations',
 fn: function (m){
 var self=this;
-var nsx,nshx,nx,nshy,nsy,ny;
 return smalltalk.withContext(function($ctx1) { 
-nsx=_st(_st(self["@sx"]).__star(_st(m)._sx())).__plus(_st(self["@shx"]).__star(_st(m)._shy()));
-nshx=_st(_st(self["@sx"]).__star(_st(m)._shx())).__plus(_st(self["@shx"]).__star(_st(m)._sy()));
-nx=_st(_st(_st(self["@sx"]).__star(_st(m)._x())).__plus(_st(self["@shx"]).__star(_st(m)._y()))).__plus(self["@x"]);
-nshy=_st(_st(self["@shy"]).__star(_st(m)._sx())).__plus(_st(self["@sy"]).__star(_st(m)._shy()));
-nsy=_st(_st(self["@shy"]).__star(_st(m)._shx())).__plus(_st(self["@sy"]).__star(_st(m)._sy()));
-ny=_st(_st(_st(self["@shy"]).__star(_st(m)._x())).__plus(_st(self["@sy"]).__star(_st(m)._y()))).__plus(self["@y"]);
-self["@sx"]=nsx;
-self["@sy"]=nsy;
-self["@shx"]=nshx;
-self["@shy"]=nshy;
-self["@x"]=nx;
-self["@y"]=ny;
-return self}, function($ctx1) {$ctx1.fill(self,"multiplyBy:",{m:m,nsx:nsx,nshx:nshx,nx:nx,nshy:nshy,nsy:nsy,ny:ny},smalltalk.AthensAffineTransform)})},
+ var nsx, nshx, nx, nshy, nsy, ny;
+	nsx = self['@sx'] * m['@sx'] + self['@shx'] * m['@shy'];
+	nshx = self['@sx'] * m['@shx'] + self['@shx'] * m['@sy'];
+	nx = self['@sx'] * m['@x'] + self['@shx'] * m['@y'] + self['@x'];
+	
+	nshy = self['@shy'] * m['@sx'] + self['@sy'] * m['@shy'];
+	nsy = self['@shy'] * m['@shx']  + self['@sy'] * m['@sy'];
+	ny = self['@shy'] * m['@x'] + self['@sy'] * m['@y'] + self['@y'];
+	
+	self['@sx'] = nsx;
+	self['@sy'] = nsy;
+	self['@shx'] = nshx;
+	self['@shy'] = nshy;
+	self['@x'] = nx;
+	self['@y'] = ny; ;
+return self}, function($ctx1) {$ctx1.fill(self,"multiplyBy:",{m:m},smalltalk.AthensAffineTransform)})},
 args: ["m"],
-source: "multiplyBy: m\x0a\x0a\x09\x22multiply receiver by given affine matrix\x22\x0a\x22\x0a| sx   shx   x   |        | sx'   shx'   x'   | \x0a| shy sy     y    |   *    | shy' sy'     y'   |\x0a|  0     0     1   |        | 0  \x090   \x09\x091\x09|       \x0a\x0a\x22\x09\x0a\x09\x0a\x09| nsx nshx nx nshy nsy ny |\x0a\x09nsx := sx * m sx + (shx  * m shy).\x0a\x09nshx := sx * m shx + (shx * m sy).\x0a\x09nx := sx * m x + (shx * m y) + x.\x0a\x09\x0a\x09nshy := shy * m sx + (sy * m shy).\x0a\x09nsy := shy * m shx  + (sy * m sy).\x0a\x09ny := shy* m x + (sy * m y) + y.\x0a\x09\x0a\x09sx := nsx.\x0a\x09sy := nsy.\x0a\x09shx := nshx.\x0a\x09shy := nshy.\x0a\x09x := nx.\x0a\x09y := ny.\x09\x09",
-messageSends: ["+", "*", "shy", "sx", "sy", "shx", "y", "x"],
+source: "multiplyBy: m\x0a\x09< var nsx, nshx, nx, nshy, nsy, ny;\x0a\x09nsx = self['@sx'] * m['@sx'] + self['@shx'] * m['@shy'];\x0a\x09nshx = self['@sx'] * m['@shx'] + self['@shx'] * m['@sy'];\x0a\x09nx = self['@sx'] * m['@x'] + self['@shx'] * m['@y'] + self['@x'];\x0a\x09\x0a\x09nshy = self['@shy'] * m['@sx'] + self['@sy'] * m['@shy'];\x0a\x09nsy = self['@shy'] * m['@shx']  + self['@sy'] * m['@sy'];\x0a\x09ny = self['@shy'] * m['@x'] + self['@sy'] * m['@y'] + self['@y'];\x0a\x09\x0a\x09self['@sx'] = nsx;\x0a\x09self['@sy'] = nsy;\x0a\x09self['@shx'] = nshx;\x0a\x09self['@shy'] = nshy;\x0a\x09self['@x'] = nx;\x0a\x09self['@y'] = ny; >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensAffineTransform);

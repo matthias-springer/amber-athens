@@ -58,14 +58,14 @@ selector: "loadAffineTransform:",
 fn: function (m){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self["@x"]=_st(m)._x();
-self["@y"]=_st(m)._y();
-self["@sx"]=_st(m)._sx();
-self["@sy"]=_st(m)._sy();
-self["@shx"]=_st(m)._shx();
-self["@shy"]=_st(m)._shy();
+ self['@x'] = m['@x'];
+	self['@y'] = m['@y'];
+	self['@sx'] = m['@sx'];
+	self['@sy'] = m['@sy'];
+	self['@shx'] = m['@shx'];
+	self['@shy'] = m['@shy']; ;
 return self}, function($ctx1) {$ctx1.fill(self,"loadAffineTransform:",{m:m},smalltalk.AthensAffineTransform)})},
-messageSends: ["x", "y", "sx", "sy", "shx", "shy"]}),
+messageSends: []}),
 smalltalk.AthensAffineTransform);
 
 smalltalk.addMethod(
@@ -85,22 +85,24 @@ smalltalk.method({
 selector: "multiplyBy:",
 fn: function (m){
 var self=this;
-var nsx,nshx,nx,nshy,nsy,ny;
 return smalltalk.withContext(function($ctx1) { 
-nsx=_st(_st(self["@sx"]).__star(_st(m)._sx())).__plus(_st(self["@shx"]).__star(_st(m)._shy()));
-nshx=_st(_st(self["@sx"]).__star(_st(m)._shx())).__plus(_st(self["@shx"]).__star(_st(m)._sy()));
-nx=_st(_st(_st(self["@sx"]).__star(_st(m)._x())).__plus(_st(self["@shx"]).__star(_st(m)._y()))).__plus(self["@x"]);
-nshy=_st(_st(self["@shy"]).__star(_st(m)._sx())).__plus(_st(self["@sy"]).__star(_st(m)._shy()));
-nsy=_st(_st(self["@shy"]).__star(_st(m)._shx())).__plus(_st(self["@sy"]).__star(_st(m)._sy()));
-ny=_st(_st(_st(self["@shy"]).__star(_st(m)._x())).__plus(_st(self["@sy"]).__star(_st(m)._y()))).__plus(self["@y"]);
-self["@sx"]=nsx;
-self["@sy"]=nsy;
-self["@shx"]=nshx;
-self["@shy"]=nshy;
-self["@x"]=nx;
-self["@y"]=ny;
-return self}, function($ctx1) {$ctx1.fill(self,"multiplyBy:",{m:m,nsx:nsx,nshx:nshx,nx:nx,nshy:nshy,nsy:nsy,ny:ny},smalltalk.AthensAffineTransform)})},
-messageSends: ["+", "*", "shy", "sx", "sy", "shx", "y", "x"]}),
+ var nsx, nshx, nx, nshy, nsy, ny;
+	nsx = self['@sx'] * m['@sx'] + self['@shx'] * m['@shy'];
+	nshx = self['@sx'] * m['@shx'] + self['@shx'] * m['@sy'];
+	nx = self['@sx'] * m['@x'] + self['@shx'] * m['@y'] + self['@x'];
+	
+	nshy = self['@shy'] * m['@sx'] + self['@sy'] * m['@shy'];
+	nsy = self['@shy'] * m['@shx']  + self['@sy'] * m['@sy'];
+	ny = self['@shy'] * m['@x'] + self['@sy'] * m['@y'] + self['@y'];
+	
+	self['@sx'] = nsx;
+	self['@sy'] = nsy;
+	self['@shx'] = nshx;
+	self['@shy'] = nshy;
+	self['@x'] = nx;
+	self['@y'] = ny; ;
+return self}, function($ctx1) {$ctx1.fill(self,"multiplyBy:",{m:m},smalltalk.AthensAffineTransform)})},
+messageSends: []}),
 smalltalk.AthensAffineTransform);
 
 smalltalk.addMethod(

@@ -1,13 +1,13 @@
 Smalltalk current createPackage: 'Athens-Core-Morphic'!
 Object subclass: #AthensMorph
-	instanceVariableNames: 'transformation outerShape outerPolygon owner submorphs color globalPathTransform globalOuterPolygon visible eventCallbacks hasMouseFocus isMouseDown zIndex'
+	instanceVariableNames: 'transformation outerShape outerPolygon owner submorphs color globalPathTransform visible eventCallbacks hasMouseFocus isMouseDown zIndex'
 	package: 'Athens-Core-Morphic'!
 
 !AthensMorph methodsFor: 'accessing'!
 
 color: aColor
-	color := aColor.
-	self redraw.
+	< self['@color'] = aColor;
+	self._redraw(); >
 !
 
 owner
@@ -27,8 +27,8 @@ zIndex
 !
 
 zIndex: aNumber
-	zIndex := aNumber.
-	owner submorphsZIndicesChanged.
+	< self['@zIndex'] = aNumber;
+	self['@owner']._submorphsZIndicesChanged(); >
 ! !
 
 !AthensMorph methodsFor: 'drawing'!
@@ -50,44 +50,49 @@ drawOn: canvas
 !
 
 redraw
-	"Causes Morph to be redrawn."
-	self world redraw.
+	< self._world()._redraw(); >
 !
 
 redrawEverythingOn: canvas
-	globalPathTransform := AthensAffineTransform new.
-	globalPathTransform loadAffineTransform: owner globalPathTransform.
-	globalPathTransform multiplyBy: transformation.
-	visible ifTrue: [
-		"canvas pathTransform restoreAfter: ["
-			canvas pathTransform setIdentity: globalPathTransform.
-			canvas pathTransform loadIdentity.
-			
-			canvas pathTransform restoreAfter: [
-				self drawOn: canvas].
-				
-			outerShape ifNil: [self outerShape: (0@0 corner: 50@50)].
-			
-			canvas clipBy: outerShape during: [
-				submorphs do: [:morph | morph redrawEverythingOn: canvas]]"]"].
+	< self['@globalPathTransform']._loadAffineTransform_(self['@owner']['@globalPathTransform']);
+	self['@globalPathTransform']._multiplyBy_(self['@transformation']);
+	
+	if (self['@visible']) {
+		canvas['@pathTransform']._setIdentity_(self['@globalPathTransform']);
+		canvas['@pathTransform']._loadIdentity();
+		
+		canvas['@pathTransform']._restoreAfter_(function() {
+			self._drawOn_(canvas);
+		});
+		
+		if (self['@outerShape'] === undefined || self['@outerShape']._isNil()) {
+			self._outerShape_(self._class()._defaultOuterShape_());
+		}
+		
+		canvas._clipBy_during_(self['@outerShape'], function() {
+			for (var index = 0; index < self['@submorphs'].length; index++) {
+				self['@submorphs'][index]._redrawEverythingOn_(canvas);
+			}
+		});
+	} >
 ! !
 
 !AthensMorph methodsFor: 'events'!
 
 handleChange: evt
-	(eventCallbacks at: #change ifAbsent: [[:ev |]]) value: evt.
+	< self['@eventCallbacks']._at_ifAbsent_('change', function(){return function(ev) {}; })(evt); >
 !
 
 handleKeyDown: evt
-	(eventCallbacks at: #keyDown ifAbsent: [[:ev | ]]) value: evt.
+	< self['@eventCallbacks']._at_ifAbsent_('keyDown', function(){return function(ev) {}; })(evt); >
 !
 
 handleKeyPress: evt
-	(eventCallbacks at: #keyPress ifAbsent: [[:ev | ]]) value: evt.
+	< self['@eventCallbacks']._at_ifAbsent_('keyPress', function(){return function(ev) {}; })(evt); >
 !
 
 handleKeyUp: evt
-	(eventCallbacks at: #keyUp ifAbsent: [[:ev | ]]) value: evt.
+	< self['@eventCallbacks']._at_ifAbsent_('keyUp', function(){return function(ev) {}; })(evt); >
 !
 
 handleMouseClick: evt
@@ -99,44 +104,51 @@ handleMouseClick: evt
 !
 
 handleMouseDown: evt
-	isMouseDown := true.
-	(eventCallbacks at: #mouseDown ifAbsent: [[:ev |]]) value: evt.
+	< self['@isMouseDown'] = true; 
+	self['@eventCallbacks']._at_ifAbsent_('mouseDown', function(){return function(ev) {}; })(evt); >
 !
 
 handleMouseEnter
-	hasMouseFocus := true.
-	(eventCallbacks at: #mouseEnter ifAbsent: []) value.
+	< self['@hasMouseFocus'] = true; 
+	self['@eventCallbacks']._at_ifAbsent_('mouseEnter', function(){return function() {}; })(); >
 !
 
 handleMouseLeave
-	hasMouseFocus := false.
-	isMouseDown := false.
-	(eventCallbacks at: #mouseLeave ifAbsent: []) value.
+	< self['@hasMouseFocus'] = self['@isMouseDown'] = false;
+	self['@eventCallbacks']._at_ifAbsent_('mouseLeave', function(){return function() {}; })(); >
 !
 
 handleMouseMove: evt
-	(eventCallbacks at: #mouseMove ifAbsent: [[:ev | ]]) value: evt.
+	< self['@eventCallbacks']._at_ifAbsent_('mouseMove', function(){return function(ev) {}; })(evt); >
 !
 
 handleMouseUp: evt
-	isMouseDown := false.
-	(eventCallbacks at: #mouseUp ifAbsent: [[:ev |]]) value: evt.
+	< self['@isMouseDown'] = false;
+	self['@eventCallbacks']._at_ifAbsent_('mouseUp', function(){return function(ev) {}; })(evt); >
 !
 
 handleMouseWheel: evt
-	(eventCallbacks at: #mouseWheel ifAbsent: [[:ev | ]]) value: evt.
+	< self['@eventCallbacks']._at_ifAbsent_('mouseWheel', function(){return function(ev) {}; })(evt); >
 !
 
 morphsAtPosition: aPoint
-	(globalOuterPolygon includesPoint: aPoint)
-		ifTrue: [submorphs reverseDo: [:morph |
-			morph isVisible ifTrue: [
-				(morph morphsAtPosition: aPoint) ifNotNil: [:m | 
-					^ m
-						add: self;
-						yourself]]]]
-		ifFalse: [^ nil].
-	^ {self}
+	< if (self['@outerPolygon']._includesPoint_(self['@globalPathTransform']._inverseTransform_(aPoint))) {
+		for (var morphIndex = self['@submorphs'].length - 1; -1 < morphIndex; morphIndex--) {
+			var morph = self['@submorphs'][morphIndex];
+			if (morph._isVisible) {
+				var morphsAtPos = morph._morphsAtPosition_(aPoint);
+				if (morphsAtPos !!== undefined) {
+					morphsAtPos._add_(self);
+					return morphsAtPos;
+				}
+			}
+		}
+	}
+	else {
+		return undefined;
+	}
+	
+	return [self]; >
 !
 
 onChange: aBlock
@@ -190,84 +202,86 @@ signalChange: evt
 !AthensMorph methodsFor: 'geometry'!
 
 resetTransformation
-	transformation loadIdentity.
-	self redraw.
+	< self['@transformation']._loadIdentity();
+	self._redraw(); >
 !
 
 rotateBy: aNumber
-	transformation rotateByRadians: aNumber.
-	self redraw.
+	< self['@transformation']._rotateByRadians_(aNumber);
+	self._redraw(); >
 !
 
 rotateByDegrees: aNumber
-	transformation rotateByDegrees: aNumber.
-	self redraw.
+	< self['@transformation']._rotateByDegrees_(aNumber); 
+	self._redraw(); >
 !
 
 rotateByRadians: aNumber
-	transformation rotateByRadians: aNumber.
-	self redraw.
+	< self['@transformation']._rotateByRadians_(aNumber);
+	self._redraw(); >
 !
 
 scaleBy: aPoint
-	self scaleByX: aPoint x Y: aPoint y.
+	< self['@transformation']._scaleX_Y_(aPoint['@x'], aPoint['@y']);
+	self._redraw(); >
 !
 
 scaleByX: x Y: y
-	transformation scaleX: x Y: y.
-	self redraw.
+	< self['@transformation']._scaleX_Y_(x, y);
+	self._redraw(); >
 !
 
 translateBy: aPoint
-	self translateByX: aPoint x Y: aPoint y.
+	< self['@transformation']._translateX_Y_(aPoint['@x'], aPoint['@y']);
+	self._redraw(); >
 !
 
 translateByX: x Y: y
-	transformation translateX: x Y: y.
-	self redraw.
+	< self['@transformation']._translateX_Y_(x, y);
+	self._redraw(); >
 ! !
 
 !AthensMorph methodsFor: 'initialization'!
 
 initialize
-	color := Color blue.
-	owner := AthensDummyWorldMorph instance.
-	transformation := AthensAffineTransform new.
-	globalPathTransform := AthensAffineTransform new.
-	submorphs := OrderedCollection new.
-	visible := true.
-	eventCallbacks := Dictionary new.
-	hasMouseFocus := isMouseDown := false.
-	zIndex := 0.
-	self outerShape: (0@0 corner: 200@200).
+	< self['@color'] = smalltalk.Color._blue();
+	self['@owner'] = smalltalk.AthensDummyWorldMorph._instance();
+	self['@transformation'] = smalltalk.AthensAffineTransform._new();
+	self['@globalPathTransform'] = smalltalk.AthensAffineTransform._new();
+	self['@submorphs'] = smalltalk.OrderedCollection._new();
+	self['@visible'] = true;
+	self['@eventCallbacks'] = smalltalk.Dictionary._new(); 
+	self['@hasMouseFocus'] = self['@isMouseDown'] = false;
+	self['@zIndex'] = 0; >
 ! !
 
 !AthensMorph methodsFor: 'internals'!
 
 bounds
-	^ outerPolygon boundingBox
+	< return self['@outerPolygon']._boundingBox(); >
 !
 
 globalBounds
-	^ globalOuterPolygon boundingBox
+	< var globalOuterPolygon = self['@outerPolygon']._deepCopy();
+	globalOuterPolygon._multiplyBy_(self['@globalPathTransform']);
+	return globalOuterPolygon._boundingBox(); >
 !
 
 globalPathTransform
-	^ globalPathTransform
+	< return self['@globalPathTransform']; >
 !
 
 maxZIndex
-	|index|
-	index := 0.
-	submorphs do: [:morph | index := index max: morph zIndex].
-	^ index
+	< var maxIndex = 0;
+	for (var morphIndex = 0; morphIndex < self['@submorphs'].length; morphIndex++) {
+		maxIndex = Math.max(maxIndex, self['@submorphs'][morphIndex]['@zIndex']);
+	}
+	return maxIndex; >
 !
 
 outerShape: aShape
-	outerShape := aShape.
-	outerPolygon := aShape asPolygon.
-	globalOuterPolygon := outerPolygon deepCopy.
-	globalOuterPolygon multiplyBy: globalPathTransform.
+	< self['@outerShape'] = aShape;
+	self['@outerPolygon'] = aShape._asPolygon(); >
 !
 
 transformation
@@ -275,37 +289,39 @@ transformation
 !
 
 transformedBounds
-	^  (outerPolygon deepCopy
-		multiplyBy: transformation) boundingBox
+	< return self['@outerPolygon']._deepCopy()._multiplyBy_(self['@transformation'])._boundingBox(); >
 !
 
 world
-	|m|
-	m := self.
-	[m isWorldMorph] whileFalse: [m := m owner].
-	^ m
+	< var morph = self;
+	while (!!morph._isWorldMorph()) {
+		morph = morph['@owner'];
+	}
+	return morph; >
 ! !
 
 !AthensMorph methodsFor: 'morph handling'!
 
 addMorph: aMorph
-	self submorphs add: aMorph.
-	aMorph owner: self.
-	aMorph isVisible ifTrue: [aMorph redraw].
+	< self['@submorphs']._add_(aMorph);
+	aMorph['@owner'] = self;
+	if (aMorph['@visible']) {
+		aMorph._redraw();
+	} >
 !
 
 bringToFront
-	self zIndex: owner maxZIndex + 1.
+	< self._zIndex_(self['@owner']._maxZIndex() + 1); >
 !
 
 delete
-	owner removeMorph: self.
-	owner := AthensDummyWorldMorph instance.
+	< self['@owner']._removeMorph_(self);
+	self['@owner'] = smalltalk.AthensDummyWorldMorph._instance(); >
 !
 
 hide
-	visible := false.
-	self redraw.
+	< self['@visible'] = false;
+	self._redraw(); >
 !
 
 layoutChanged
@@ -313,32 +329,40 @@ layoutChanged
 !
 
 removeMorph: aMorph
-	submorphs remove: aMorph.
-	self redraw.
+	< self['@submorphs']._remove_(aMorph);
+	self._redraw(); >
 !
 
 show
-	visible := true.
-	self redraw.
+	< self['@visible'] = true;
+	self._redraw(); >
 !
 
 submorphsZIndicesChanged
-	submorphs sort: [:m1 :m2 | m1 zIndex < m2 zIndex].
-	self redraw.
+	< self['@submorphs'].sort(function(m1, m2) {
+		return m2['@zIndex'] < m1['@zIndex'];
+	});
+	self._redraw(); >
 ! !
 
 !AthensMorph methodsFor: 'testing'!
 
 isHaloMorph
-	^ false
+	< return false; >
 !
 
 isVisible
-	^ visible
+	< return self['@visible']; >
 !
 
 isWorldMorph
-	^ false
+	< return false; >
+! !
+
+!AthensMorph class methodsFor: 'constants'!
+
+defaultOuterShape
+	^ 0@0 corner: 50@50
 ! !
 
 AthensMorph subclass: #AthensBinaryStatusButtonMorph
@@ -658,7 +682,7 @@ initialize
 ! !
 
 AthensMorph subclass: #AthensRectangleMorph
-	instanceVariableNames: 'width height borderColor mouseDownBorderColor mouseFocusBorderColor fillColor mouseDownFillColor mouseFocusFillColor hasSharpBorder'
+	instanceVariableNames: 'width height borderColor mouseDownBorderColor mouseFocusBorderColor fillColor mouseDownFillColor mouseFocusFillColor hasSharpBorder shapeInner shapeOuter'
 	package: 'Athens-Core-Morphic'!
 
 !AthensRectangleMorph methodsFor: 'accessing'!
@@ -688,8 +712,8 @@ height
 
 height: aNumber
 	height := aNumber.
-	self outerShape: (0@0 corner: self width@height).
 	self layoutChanged.
+	self outerShapeChanged.
 	self redraw.
 !
 
@@ -715,40 +739,54 @@ width
 
 width: aNumber
 	width := aNumber.
-	self outerShape: (0@0 corner: self width@height).
 	self layoutChanged.
+	self outerShapeChanged.
 	self redraw.
 ! !
 
 !AthensRectangleMorph methodsFor: 'drawing'!
 
 drawOn: canvas
-	|shape currentFillColor currentBorderColor|
-	"Use method width instead of instance variable to ensure that width is calculated."
-	shape := 0@0 corner: self width@height.
-	hasMouseFocus & mouseFocusFillColor notNil
-		ifTrue: [currentFillColor := mouseFocusFillColor]
-		ifFalse: [currentFillColor := fillColor].
-	isMouseDown & mouseDownFillColor notNil ifTrue: [currentFillColor := mouseDownFillColor].
+	< var currentFillColor = self['@fillColor'];
+	var currentBorderColor = self['@borderColor'];
 	
-	hasMouseFocus & mouseFocusBorderColor notNil
-		ifTrue: [currentBorderColor := mouseFocusBorderColor]
-		ifFalse: [currentBorderColor := borderColor].
-	isMouseDown & mouseDownBorderColor notNil ifTrue: [currentBorderColor := mouseDownBorderColor].
+	if (self['@isMouseDown']) {
+		if (!!self['@mouseDownFillColor']._isNil()) {
+			currentFillColor = self['@mouseDownFillColor'];
+		}
+		
+		if (!!self['@mouseDownBorderColor']._isNil()) {
+			currentBorderColor = self['@mouseDownBorderColor'];
+		}
+	}
+	else if (self['@hasMouseFocus']) {
+		if (!!self['@mouseFocusFillColor']._isNil()) {
+			currentFillColor = self['@mouseFocusFillColor'];
+		}
+		
+		if (!!self['@mouseFocusBorderColor']._isNil()) {
+			currentBorderColor = self['@mouseFocusBorderColor'];
+		}
+	}
 	
-	hasSharpBorder
-		ifTrue: [
-			canvas setPaint: currentBorderColor.
-			canvas drawShape: shape.
-			canvas setPaint: currentFillColor.
-			canvas drawShape: (1@1 corner: width - 1 @ (height - 1))]
-		ifFalse: [
-			canvas setPaint: currentFillColor.
-			canvas drawShape: shape.
-			canvas setStrokePaint: currentBorderColor.
-			canvas drawShape: shape].
-			
-	self outerShape: shape.
+	if (self['@hasSharpBorder']) {
+		canvas._setPaint_(currentBorderColor);
+		canvas._drawShape_(self['@shapeOuter']);
+		canvas._setPaint_(currentFillColor);
+		canvas._drawShape_(self['@shapeInner']);
+	}
+	else {
+		canvas._setPaint_(currentFillColor);
+		canvas._drawShape_(self['@shapeOuter']);
+		canvas._setStrokePaint_(currentBorderColor);
+		canvas._drawShape_(self['@shapeOuter']);
+	} >
+!
+
+redraw
+	shapeOuter := 0@0 corner: self width@height.
+	shapeInner := (1@1 corner: width - 1 @ (height - 1)).
+	super redraw.
 ! !
 
 !AthensRectangleMorph methodsFor: 'events'!
@@ -780,7 +818,19 @@ initialize
 	width := height := 50.
 	borderColor := Color black.
 	fillColor := Color white.
+	mouseDownBorderColor := mouseFocusBorderColor := mouseDownFillColor := mouseFocusFillColor := nil.
 	hasSharpBorder := false.
+	self outerShape: (0@0 corner: 50@50).
+	"self outerShapeChanged."
+	self redraw.
+! !
+
+!AthensRectangleMorph methodsFor: 'morph handling'!
+
+outerShapeChanged
+	shapeOuter := 0@0 corner: self width@height.
+	shapeInner := (1@1 corner: width - 1 @ (height - 1)).
+	self outerShape: shapeOuter.
 ! !
 
 !AthensRectangleMorph class methodsFor: 'instance creation'!
@@ -1946,11 +1996,6 @@ title: aString
 
 !AthensWindowMorph methodsFor: 'events'!
 
-handleMouseClick: evt
-	self bringToFront.
-	super handleMouseClick: evt.
-!
-
 handleMouseDown: evt
 	windowMoveOffset := evt at: #position.
 	self bringToFront.
@@ -1970,11 +2015,12 @@ windowMouseUp: evt
 
 initialize
 	super initialize.
-	width := height := 200.
 	hasSharpBorder := true.
 	self initializeTitleBar.
 	self initializeEvents.
 	self initializeResizeIcon.
+	self height: 200.
+	self width: 200.
 !
 
 initializeEvents
@@ -2034,7 +2080,7 @@ extent: aPoint
 ! !
 
 AthensRectangleMorph subclass: #AthensWorldMorph
-	instanceVariableNames: 'backgroundPaint surface morphsUnderHand halos globalEventCallbacks handPosition worldState'
+	instanceVariableNames: 'surface morphsUnderHand halos globalEventCallbacks handPosition worldState'
 	package: 'Athens-Core-Morphic'!
 
 !AthensWorldMorph methodsFor: 'accessing'!
@@ -2052,10 +2098,7 @@ surface: aSurface
 !AthensWorldMorph methodsFor: 'drawing'!
 
 drawOn: canvas
-	surface clear: Color gray.
-	
-	(canvas setPaint: backgroundPaint) repeat.
-	canvas drawShape: (0@0 corner: surface extent).
+	surface clear: Color cosmoGray.
 !
 
 privateRedraw
@@ -2075,24 +2118,18 @@ redrawHalosOn: canvas
 !AthensWorldMorph methodsFor: 'events'!
 
 delegateEvent: aSymbol with: evt
-	morphsUnderHand do: [:morph |
-		morph == morphsUnderHand first
-			ifTrue: [evt at: #topMost put: true]
-			ifFalse: [evt at: #topMost put: false].
-				
-		aSymbol == #mouseMove | (aSymbol == #mouseClick) | (aSymbol == #mouseDown) | (aSymbol == #mouseUp)
-			ifTrue: [
-				evt at: #position put: (morph globalPathTransform inverseTransform: handPosition).
-				evt at: #globalPosition put: handPosition].
+	< for (var morphIndex = 0; morphIndex < self['@morphsUnderHand'].length; morphIndex++) {
+		var morph = self['@morphsUnderHand'][morphIndex];
+		evt._at_put_('topMost', morphIndex == 0);
 		
-		aSymbol == #mouseClick ifTrue: [morph handleMouseClick: evt].
-		aSymbol == #mouseMove ifTrue: [morph handleMouseMove: evt].
-		aSymbol == #mouseDown ifTrue: [morph handleMouseDown: evt].
-		aSymbol == #mouseUp ifTrue: [morph handleMouseUp: evt].
-		aSymbol == #mouseWheel ifTrue: [morph handleMouseWheel: evt].
-		aSymbol == #keyDown ifTrue: [morph handleKeyDown: evt].
-		aSymbol == #keyUp ifTrue: [morph handleKeyUp: evt].
-		aSymbol == #keyPress ifTrue: [morph handleKeyPress: evt]].
+		if (-1 < ['mouseMove', 'mouseClick', 'mouseDown', 'mouseUp'].indexOf(aSymbol)) {
+			evt._at_put_('position', morph['@globalPathTransform']._inverseTransform_(self['@handPosition']));
+			// force copy of globalPosition
+			evt._at_put_('globalPosition', self['@handPosition']['@x'].__at(self['@handPosition']['@y']));
+		}
+		
+		morph['_handle' + aSymbol.charAt(0).toUpperCase() + aSymbol.slice(1) + '_'](evt);
+	} >
 !
 
 handleEvent: aSymbol with: evt
@@ -2132,23 +2169,10 @@ hideHalos
 initialize
 	worldState := WorldState for: self.
 	super initialize.
-	self initializeBackgroundPaint.
 	self initializeHalos.
 	morphsUnderHand := {self}.
 	handPosition := 0@0.
 	self initializeCallbacks.
-!
-
-initializeBackgroundPaint
-	backgroundPaint := AthensHTMLSurface extent: 10@10.
-	
-	"checker board"
-	backgroundPaint drawDuring: [:canvas |
-		backgroundPaint clear.
-		canvas setPaint: Color white.
-		canvas 
-			drawShape: (0@0 corner: 5@5);
-			drawShape: (5@5 corner: 10@10)].
 !
 
 initializeCallbacks

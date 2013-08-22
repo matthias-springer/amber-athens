@@ -1786,38 +1786,28 @@ selector: "boundingBox",
 category: 'conversion',
 fn: function (){
 var self=this;
-var minX,minY,maxX,maxY;
 return smalltalk.withContext(function($ctx1) { 
-var $1,$2;
-_st(self["@contours"])._do_((function(contour){
-return smalltalk.withContext(function($ctx2) {
-return _st(contour)._do_((function(point){
-return smalltalk.withContext(function($ctx3) {
-$1=_st(minX).__eq_eq(nil);
-if(smalltalk.assert($1)){
-maxX=_st(point)._x();
-minX=maxX;
-minX;
-maxY=_st(point)._y();
-minY=maxY;
-minY;
-};
-minX=_st(minX)._min_(_st(point)._x());
-minX;
-minY=_st(minY)._min_(_st(point)._y());
-minY;
-maxX=_st(maxX)._max_(_st(point)._x());
-maxX;
-maxY=_st(maxY)._max_(_st(point)._y());
-return maxY;
-}, function($ctx3) {$ctx3.fillBlock({point:point},$ctx2)})}));
-}, function($ctx2) {$ctx2.fillBlock({contour:contour},$ctx1)})}));
-$2=_st(_st(minX).__at(minY))._corner_(_st(maxX).__at(maxY));
-return $2;
-}, function($ctx1) {$ctx1.fill(self,"boundingBox",{minX:minX,minY:minY,maxX:maxX,maxY:maxY},smalltalk.AthensPolygon)})},
+ var minX = Infinity;
+	var minY = Infinity;
+	var maxX = -Infinity;
+	var maxY = -Infinity;
+	
+	for (var contourIndex = 0; contourIndex < self['@contours'].length; contourIndex++) {
+		var contour = self['@contours'][contourIndex];
+		for (var pointIndex = 0; pointIndex < contour.length; pointIndex++) {
+			var point = contour[pointIndex];
+			minX = Math.min(minX, point['@x']);
+			minY = Math.min(minY, point['@y']);
+			maxX = Math.max(maxX, point['@x']);
+			maxY = Math.max(maxY, point['@y']);
+		}
+	}
+	
+	return minX.__at(minY)._corner_(maxX.__at(maxY)); ;
+return self}, function($ctx1) {$ctx1.fill(self,"boundingBox",{},smalltalk.AthensPolygon)})},
 args: [],
-source: "boundingBox\x0a\x09|minX minY maxX maxY|\x0a\x09contours do: [:contour |\x0a\x09\x09contour do: [:point |\x0a\x09\x09\x09minX == nil ifTrue: [minX := maxX := point x. minY := maxY := point y].\x0a\x09\x09\x09minX := minX min: point x.\x0a\x09\x09\x09minY := minY min: point y.\x0a\x09\x09\x09maxX := maxX max: point x.\x0a\x09\x09\x09maxY := maxY max: point y]].\x0a\x09^ minX@minY corner: maxX@maxY",
-messageSends: ["do:", "ifTrue:", "x", "y", "==", "min:", "max:", "corner:", "@"],
+source: "boundingBox\x0a\x09< var minX = Infinity;\x0a\x09var minY = Infinity;\x0a\x09var maxX = -Infinity;\x0a\x09var maxY = -Infinity;\x0a\x09\x0a\x09for (var contourIndex = 0; contourIndex < self['@contours'].length; contourIndex++) {\x0a\x09\x09var contour = self['@contours'][contourIndex];\x0a\x09\x09for (var pointIndex = 0; pointIndex < contour.length; pointIndex++) {\x0a\x09\x09\x09var point = contour[pointIndex];\x0a\x09\x09\x09minX = Math.min(minX, point['@x']);\x0a\x09\x09\x09minY = Math.min(minY, point['@y']);\x0a\x09\x09\x09maxX = Math.max(maxX, point['@x']);\x0a\x09\x09\x09maxY = Math.max(maxY, point['@y']);\x0a\x09\x09}\x0a\x09}\x0a\x09\x0a\x09return minX.__at(minY)._corner_(maxX.__at(maxY)); >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensPolygon);
@@ -1939,16 +1929,15 @@ selector: "initialize",
 category: 'initialization',
 fn: function (){
 var self=this;
-function $OrderedCollection(){return smalltalk.OrderedCollection||(typeof OrderedCollection=="undefined"?nil:OrderedCollection)}
 return smalltalk.withContext(function($ctx1) { 
-self["@contours"]=_st($OrderedCollection())._new();
-self["@distanceTolerance"]=(0.5);
-self["@angleTolerance"]=(0.1);
+ self['@contours'] = smalltalk.OrderedCollection._new();
+	self['@distanceTolerance'] = 0.5;
+	self['@angleTolerance'] = 0.1; ;
 return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensPolygon)})},
 args: [],
-source: "initialize\x0a\x09contours := OrderedCollection new.\x0a\x09\x0a\x09distanceTolerance := 0.5.\x0a\x09angleTolerance := 0.1. ",
-messageSends: ["new"],
-referencedClasses: ["OrderedCollection"]
+source: "initialize\x0a\x09< self['@contours'] = smalltalk.OrderedCollection._new();\x0a\x09self['@distanceTolerance'] = 0.5;\x0a\x09self['@angleTolerance'] = 0.1; >",
+messageSends: [],
+referencedClasses: []
 }),
 smalltalk.AthensPolygon);
 
@@ -2036,12 +2025,12 @@ category: 'conversion',
 fn: function (aPoint){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-_st(self["@currentContour"])._add_(aPoint);
-self["@endPoint"]=aPoint;
+ self['@currentContour']._add_(aPoint);
+	self['@endPoint'] = aPoint; ;
 return self}, function($ctx1) {$ctx1.fill(self,"lineTo:",{aPoint:aPoint},smalltalk.AthensPolygon)})},
 args: ["aPoint"],
-source: "lineTo: aPoint \x0a\x09currentContour add: aPoint.\x0a\x09endPoint := aPoint.",
-messageSends: ["add:"],
+source: "lineTo: aPoint \x0a\x09< self['@currentContour']._add_(aPoint);\x0a\x09self['@endPoint'] = aPoint; >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensPolygon);
@@ -2053,13 +2042,13 @@ category: 'conversion',
 fn: function (aPoint){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self._newContour();
-_st(self["@currentContour"])._add_(aPoint);
-self["@endPoint"]=aPoint;
+ self._newContour();
+	self['@currentContour']._add_(aPoint);
+	self['@endPoint'] = aPoint; ;
 return self}, function($ctx1) {$ctx1.fill(self,"moveTo:",{aPoint:aPoint},smalltalk.AthensPolygon)})},
 args: ["aPoint"],
-source: "moveTo: aPoint \x0a\x09\x22 create a new contour \x22\x0a\x09self newContour.\x0a\x09currentContour add: aPoint.\x0a\x09endPoint := aPoint.",
-messageSends: ["newContour", "add:"],
+source: "moveTo: aPoint \x0a\x09< self._newContour();\x0a\x09self['@currentContour']._add_(aPoint);\x0a\x09self['@endPoint'] = aPoint; >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensPolygon);
@@ -2096,14 +2085,13 @@ selector: "newContour",
 category: 'conversion',
 fn: function (){
 var self=this;
-function $OrderedCollection(){return smalltalk.OrderedCollection||(typeof OrderedCollection=="undefined"?nil:OrderedCollection)}
 return smalltalk.withContext(function($ctx1) { 
-self["@currentContour"]=_st(self["@contours"])._add_(_st($OrderedCollection())._new());
+ self['@currentContour'] = self['@contours']._add_(smalltalk.OrderedCollection._new()); ;
 return self}, function($ctx1) {$ctx1.fill(self,"newContour",{},smalltalk.AthensPolygon)})},
 args: [],
-source: "newContour\x0a\x09currentContour := contours add: OrderedCollection new.",
-messageSends: ["add:", "new"],
-referencedClasses: ["OrderedCollection"]
+source: "newContour\x0a\x09< self['@currentContour'] = self['@contours']._add_(smalltalk.OrderedCollection._new()); >",
+messageSends: [],
+referencedClasses: []
 }),
 smalltalk.AthensPolygon);
 

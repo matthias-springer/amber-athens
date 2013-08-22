@@ -870,15 +870,23 @@ asPolygon
 !
 
 boundingBox
-	|minX minY maxX maxY|
-	contours do: [:contour |
-		contour do: [:point |
-			minX == nil ifTrue: [minX := maxX := point x. minY := maxY := point y].
-			minX := minX min: point x.
-			minY := minY min: point y.
-			maxX := maxX max: point x.
-			maxY := maxY max: point y]].
-	^ minX@minY corner: maxX@maxY
+	< var minX = Infinity;
+	var minY = Infinity;
+	var maxX = -Infinity;
+	var maxY = -Infinity;
+	
+	for (var contourIndex = 0; contourIndex < self['@contours'].length; contourIndex++) {
+		var contour = self['@contours'][contourIndex];
+		for (var pointIndex = 0; pointIndex < contour.length; pointIndex++) {
+			var point = contour[pointIndex];
+			minX = Math.min(minX, point['@x']);
+			minY = Math.min(minY, point['@y']);
+			maxX = Math.max(maxX, point['@x']);
+			maxY = Math.max(maxY, point['@y']);
+		}
+	}
+	
+	return minX.__at(minY)._corner_(maxX.__at(maxY)); >
 !
 
 curveVia: pt1 to: pt2
@@ -895,19 +903,18 @@ finish
 !
 
 lineTo: aPoint 
-	currentContour add: aPoint.
-	endPoint := aPoint.
+	< self['@currentContour']._add_(aPoint);
+	self['@endPoint'] = aPoint; >
 !
 
 moveTo: aPoint 
-	" create a new contour "
-	self newContour.
-	currentContour add: aPoint.
-	endPoint := aPoint.
+	< self._newContour();
+	self['@currentContour']._add_(aPoint);
+	self['@endPoint'] = aPoint; >
 !
 
 newContour
-	currentContour := contours add: OrderedCollection new.
+	< self['@currentContour'] = self['@contours']._add_(smalltalk.OrderedCollection._new()); >
 ! !
 
 !AthensPolygon methodsFor: 'drawing'!
@@ -922,10 +929,9 @@ paintFillsUsing: aPaint on: anAthensCanvas
 !AthensPolygon methodsFor: 'initialization'!
 
 initialize
-	contours := OrderedCollection new.
-	
-	distanceTolerance := 0.5.
-	angleTolerance := 0.1.
+	< self['@contours'] = smalltalk.OrderedCollection._new();
+	self['@distanceTolerance'] = 0.5;
+	self['@angleTolerance'] = 0.1; >
 ! !
 
 !AthensPolygon methodsFor: 'testing'!

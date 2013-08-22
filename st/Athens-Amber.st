@@ -291,12 +291,12 @@ width
 !Rectangle methodsFor: 'converting'!
 
 asPolygon
-	^ AthensPolygon new
-		moveTo: origin;
-		lineTo: corner x @ origin y;
-		lineTo: corner x @ corner y;
-		lineTo: origin x @ corner y;
-		yourself
+	< var polygon = smalltalk.AthensPolygon._new();
+	polygon._moveTo_(self['@origin']);
+	polygon._lineTo_(self['@corner']['@x'].__at(self['@origin']['@y']));
+	polygon._lineTo_(self['@corner']['@x'].__at(self['@corner']['@y']));
+	polygon._lineTo_(self['@origin']['@x'].__at(self['@corner']['@y']));
+	return polygon; >
 ! !
 
 !Rectangle methodsFor: 'drawing'!

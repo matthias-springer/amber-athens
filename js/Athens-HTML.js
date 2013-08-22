@@ -8,15 +8,15 @@ fn: function (aShape,aBlock){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
  var context2D = self['@surface']['@context2D'];
-	context2D.save();
 	context2D.beginPath();
+	context2D.save();
 	aShape._drawOn_(self);
 	context2D.clip();
 	context2D.beginPath();
 	(function() {aBlock._value();})._ensure_(function() {context2D.restore();}); ;
 return self}, function($ctx1) {$ctx1.fill(self,"clipBy:during:",{aShape:aShape,aBlock:aBlock},smalltalk.AthensHTMLCanvas)})},
 args: ["aShape", "aBlock"],
-source: "clipBy: aShape during: aBlock\x0a\x09< var context2D = self['@surface']['@context2D'];\x0a\x09context2D.save();\x0a\x09context2D.beginPath();\x0a\x09aShape._drawOn_(self);\x0a\x09context2D.clip();\x0a\x09context2D.beginPath();\x0a\x09(function() {aBlock._value();})._ensure_(function() {context2D.restore();}); >",
+source: "clipBy: aShape during: aBlock\x0a\x09< var context2D = self['@surface']['@context2D'];\x0a\x09context2D.beginPath();\x0a\x09context2D.save();\x0a\x09aShape._drawOn_(self);\x0a\x09context2D.clip();\x0a\x09context2D.beginPath();\x0a\x09(function() {aBlock._value();})._ensure_(function() {context2D.restore();}); >",
 messageSends: [],
 referencedClasses: []
 }),

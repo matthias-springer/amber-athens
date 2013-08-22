@@ -25,42 +25,33 @@ world
 !AthensHTMLMorphicSurface methodsFor: 'events'!
 
 bindEvents
-	canvasTag asJQuery 
-		bind: 'dblclick' 
-		do: [:evt | world handleEvent: #mouseDoubleClick with: (self mouseDoubleClickEventDataFor: evt). evt preventDefault].
-	canvasTag asJQuery 
-		bind: 'click' 
-		do: [:evt | world handleEvent: #mouseClick with: (self mouseClickEventDataFor: evt). evt preventDefault].
-	canvasTag asJQuery 
-		bind: 'mousedown' 
-		do: [:evt | isMouseDown := true. world handleEvent: #mouseDown with: (self mouseDownEventDataFor: evt). evt preventDefault].
-	canvasTag asJQuery 
-		bind: 'mousemove' 
-		do: [:evt | world handleEvent: #mouseMove with: (self mouseMoveEventDataFor: evt). evt preventDefault].
-	canvasTag asJQuery 
-		bind: 'mouseup' 
-		do: [:evt | world handleEvent: #mouseUp with: (self mouseUpEventDataFor: evt). evt preventDefault].
-	canvasTag asJQuery
-		bind: 'mousewheel DOMMouseScroll'
-		do: [:evt | world handleEvent: #mouseWheel with: (self mouseWheelEventDataFor: evt). evt preventDefault].
-	canvasTag asJQuery
-		bind: 'mouseenter'
-		do: [:evt | self handleMouseEnter: evt].
-	canvasTag asJQuery
-		bind: 'mouseleave'
-		do: [:evt | self handleMouseLeave: evt].
-	document 
-		addEventListener: 'keydown'
-		do: [:evt | world handleEvent: #keyDown with: (self keyDownEventDataFor: evt)]
-		initiateCapture: false.
-	document 
-		addEventListener: 'keyup'
-		do: [:evt | world handleEvent: #keyUp with: (self keyUpEventDataFor: evt)]
-		initiateCapture: false.
-	document 
-		addEventListener: 'keypress'
-		do: [:evt | world handleEvent: #keyPress with: (self keyPressEventDataFor: evt)]
-		initiateCapture: false.
+	< var canvasJ = $(self['@canvasTag']); 
+	var documentJ = $(document); 
+	var events = {
+		'dblclick': ['mouseDoubleClick', true, canvasJ],
+		'click': ['mouseClick', true, canvasJ],
+		'mousedown': ['mouseDown', true, canvasJ],
+		'mousemove': ['mouseMove', true, canvasJ],
+		'mouseup': ['mouseUp', true, canvasJ],
+		'mousewheel DOMMouseScroll': ['mouseWheel', true, canvasJ],
+		'keydown': ['keyDown', false, documentJ],
+		'keyup': ['keyUp', false, documentJ],
+		'keypress': ['keyPress', false, documentJ]};
+		
+	for (event in events) {
+		var eventTarget = events[event][2];
+		
+		eventTarget.bind(event, function(evt) {
+			var eventName = events[evt.type][0];
+			self['@world']._handleEvent_with_(eventName, self['_' + eventName + 'EventDataFor_'](evt));
+			if (events[event.type][1]) {
+				evt.preventDefault();
+			}
+		});
+	}
+	
+	canvasJ.bind('mouseenter', function(evt) {self._handleMouseEnter_(evt);});
+	canvasJ.bind('mouseleave', function(evt) {self._handleMouseLeave_(evt);}); >
 !
 
 handleMouseEnter: evt
@@ -71,7 +62,7 @@ handleMouseEnter: evt
 handleMouseLeave: evt
 	"Trigger mouse up if canvas loses mouse focus."
 	isMouseDown ifTrue: [
-		world handleEvent: #mouseUp with: evt.
+		world handleEvent: #mouseUp with: AthensMorphicEvent new.
 		isMouseDown := false].
 !
 
@@ -105,16 +96,18 @@ mouseDoubleClickEventDataFor: evt
 !
 
 mouseDownEventDataFor: evt
+	isMouseDown := true.
 	^ AthensMorphicEvent new
 !
 
 mouseMoveEventDataFor: evt
-	^ AthensMorphicEvent new
-		at: #globalPosition put: evt offsetX @ evt offsetY;
-		yourself
+	< var eventObject = smalltalk.AthensMorphicEvent._new();
+	eventObject._at_put_('globalPosition', evt.offsetX.__at(evt.offsetY));
+	return eventObject; >
 !
 
 mouseUpEventDataFor: evt
+	isMouseDown := false.
 	^ AthensMorphicEvent new
 !
 
@@ -217,10 +210,10 @@ initialize
 !
 
 loadIdentity
-	self loadAffineTransform: relativeIdentity.
+	< self._loadAffineTransform_(self['@relativeIdentity']); >
 !
 
 setIdentity: aMatrix
-	relativeIdentity loadAffineTransform: aMatrix.
+	< self['@relativeIdentity']._loadAffineTransform_(aMatrix); >
 ! !
 

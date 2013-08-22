@@ -86,12 +86,12 @@ clearTranslation
 !
 
 loadAffineTransform: m
-	x := m x.
-	y := m y.
-	sx := m sx.
-	sy := m sy.
-	shx := m shx.
-	shy := m shy.
+	< self['@x'] = m['@x'];
+	self['@y'] = m['@y'];
+	self['@sx'] = m['@sx'];
+	self['@sy'] = m['@sy'];
+	self['@shx'] = m['@shx'];
+	self['@shy'] = m['@shy']; >
 !
 
 loadIdentity
@@ -100,30 +100,21 @@ loadIdentity
 !
 
 multiplyBy: m
-
-	"multiply receiver by given affine matrix"
-"
-| sx   shx   x   |        | sx'   shx'   x'   | 
-| shy sy     y    |   *    | shy' sy'     y'   |
-|  0     0     1   |        | 0  	0   		1	|       
-
-"	
+	< var nsx, nshx, nx, nshy, nsy, ny;
+	nsx = self['@sx'] * m['@sx'] + self['@shx'] * m['@shy'];
+	nshx = self['@sx'] * m['@shx'] + self['@shx'] * m['@sy'];
+	nx = self['@sx'] * m['@x'] + self['@shx'] * m['@y'] + self['@x'];
 	
-	| nsx nshx nx nshy nsy ny |
-	nsx := sx * m sx + (shx  * m shy).
-	nshx := sx * m shx + (shx * m sy).
-	nx := sx * m x + (shx * m y) + x.
+	nshy = self['@shy'] * m['@sx'] + self['@sy'] * m['@shy'];
+	nsy = self['@shy'] * m['@shx']  + self['@sy'] * m['@sy'];
+	ny = self['@shy'] * m['@x'] + self['@sy'] * m['@y'] + self['@y'];
 	
-	nshy := shy * m sx + (sy * m shy).
-	nsy := shy * m shx  + (sy * m sy).
-	ny := shy* m x + (sy * m y) + y.
-	
-	sx := nsx.
-	sy := nsy.
-	shx := nshx.
-	shy := nshy.
-	x := nx.
-	y := ny.
+	self['@sx'] = nsx;
+	self['@sy'] = nsy;
+	self['@shx'] = nshx;
+	self['@shy'] = nshy;
+	self['@x'] = nx;
+	self['@y'] = ny; >
 !
 
 restoreAfter: aBlock
