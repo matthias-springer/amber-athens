@@ -107,16 +107,12 @@ smalltalk.method({
 selector: "keyDownEventDataFor:",
 fn: function (evt){
 var self=this;
-function $AthensMorphicEvent(){return smalltalk.AthensMorphicEvent||(typeof AthensMorphicEvent=="undefined"?nil:AthensMorphicEvent)}
 return smalltalk.withContext(function($ctx1) { 
-var $2,$3,$1;
-$2=_st($AthensMorphicEvent())._new();
-_st($2)._at_put_("keyCode",_st(evt)._keyCode());
-$3=_st($2)._yourself();
-$1=$3;
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"keyDownEventDataFor:",{evt:evt},smalltalk.AthensHTMLMorphicSurface)})},
-messageSends: ["at:put:", "keyCode", "new", "yourself"]}),
+ var eventObject = smalltalk.AthensMorphicEvent._new();
+	eventObject._at_put_('keyCode', evt.keyCode);
+	return eventObject; ;
+return self}, function($ctx1) {$ctx1.fill(self,"keyDownEventDataFor:",{evt:evt},smalltalk.AthensHTMLMorphicSurface)})},
+messageSends: []}),
 smalltalk.AthensHTMLMorphicSurface);
 
 smalltalk.addMethod(
@@ -124,16 +120,12 @@ smalltalk.method({
 selector: "keyPressEventDataFor:",
 fn: function (evt){
 var self=this;
-function $AthensMorphicEvent(){return smalltalk.AthensMorphicEvent||(typeof AthensMorphicEvent=="undefined"?nil:AthensMorphicEvent)}
 return smalltalk.withContext(function($ctx1) { 
-var $2,$3,$1;
-$2=_st($AthensMorphicEvent())._new();
-_st($2)._at_put_("keyCode",_st(evt)._keyCode());
-$3=_st($2)._yourself();
-$1=$3;
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"keyPressEventDataFor:",{evt:evt},smalltalk.AthensHTMLMorphicSurface)})},
-messageSends: ["at:put:", "keyCode", "new", "yourself"]}),
+ var eventObject = smalltalk.AthensMorphicEvent._new();
+	eventObject._at_put_('keyCode', evt.keyCode);
+	return eventObject; ;
+return self}, function($ctx1) {$ctx1.fill(self,"keyPressEventDataFor:",{evt:evt},smalltalk.AthensHTMLMorphicSurface)})},
+messageSends: []}),
 smalltalk.AthensHTMLMorphicSurface);
 
 smalltalk.addMethod(
@@ -141,16 +133,12 @@ smalltalk.method({
 selector: "keyUpEventDataFor:",
 fn: function (evt){
 var self=this;
-function $AthensMorphicEvent(){return smalltalk.AthensMorphicEvent||(typeof AthensMorphicEvent=="undefined"?nil:AthensMorphicEvent)}
 return smalltalk.withContext(function($ctx1) { 
-var $2,$3,$1;
-$2=_st($AthensMorphicEvent())._new();
-_st($2)._at_put_("keyCode",_st(evt)._keyCode());
-$3=_st($2)._yourself();
-$1=$3;
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"keyUpEventDataFor:",{evt:evt},smalltalk.AthensHTMLMorphicSurface)})},
-messageSends: ["at:put:", "keyCode", "new", "yourself"]}),
+ var eventObject = smalltalk.AthensMorphicEvent._new();
+	eventObject._at_put_('keyCode', evt.keyCode);
+	return eventObject; ;
+return self}, function($ctx1) {$ctx1.fill(self,"keyUpEventDataFor:",{evt:evt},smalltalk.AthensHTMLMorphicSurface)})},
+messageSends: []}),
 smalltalk.AthensHTMLMorphicSurface);
 
 smalltalk.addMethod(
@@ -158,17 +146,13 @@ smalltalk.method({
 selector: "mouseClickEventDataFor:",
 fn: function (evt){
 var self=this;
-function $AthensMorphicEvent(){return smalltalk.AthensMorphicEvent||(typeof AthensMorphicEvent=="undefined"?nil:AthensMorphicEvent)}
 return smalltalk.withContext(function($ctx1) { 
-var $2,$3,$1;
-$2=_st($AthensMorphicEvent())._new();
-_st($2)._at_put_("ctrlKeyPressed",_st(evt)._ctrlKey());
-_st($2)._at_put_("globalPosition",_st(_st(evt)._offsetX()).__at(_st(evt)._offsetY()));
-$3=_st($2)._yourself();
-$1=$3;
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"mouseClickEventDataFor:",{evt:evt},smalltalk.AthensHTMLMorphicSurface)})},
-messageSends: ["at:put:", "ctrlKey", "new", "@", "offsetY", "offsetX", "yourself"]}),
+ var eventObject = smalltalk.AthensMorphicEvent._new();
+	eventObject._at_put_('ctrlKeyPressed', evt.ctrlKey);
+	eventObject._at_put_('globalPosition', evt.offsetX.__at(evt.offsetY));
+	return eventObject; ;
+return self}, function($ctx1) {$ctx1.fill(self,"mouseClickEventDataFor:",{evt:evt},smalltalk.AthensHTMLMorphicSurface)})},
+messageSends: []}),
 smalltalk.AthensHTMLMorphicSurface);
 
 smalltalk.addMethod(

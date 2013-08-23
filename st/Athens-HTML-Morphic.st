@@ -67,28 +67,28 @@ handleMouseLeave: evt
 !
 
 keyDownEventDataFor: evt
-	^ AthensMorphicEvent new
-		at: #keyCode put: evt keyCode;
-		yourself
+	< var eventObject = smalltalk.AthensMorphicEvent._new();
+	eventObject._at_put_('keyCode', evt.keyCode);
+	return eventObject; >
 !
 
 keyPressEventDataFor: evt
-	^ AthensMorphicEvent new
-		at: #keyCode put: evt keyCode;
-		yourself
+	< var eventObject = smalltalk.AthensMorphicEvent._new();
+	eventObject._at_put_('keyCode', evt.keyCode);
+	return eventObject; >
 !
 
 keyUpEventDataFor: evt
-	^ AthensMorphicEvent new
-		at: #keyCode put: evt keyCode;
-		yourself
+	< var eventObject = smalltalk.AthensMorphicEvent._new();
+	eventObject._at_put_('keyCode', evt.keyCode);
+	return eventObject; >
 !
 
 mouseClickEventDataFor: evt
-	^ AthensMorphicEvent new
-		at: #ctrlKeyPressed put: evt ctrlKey;
-		at: #globalPosition put: evt offsetX @ evt offsetY;
-		yourself.
+	< var eventObject = smalltalk.AthensMorphicEvent._new();
+	eventObject._at_put_('ctrlKeyPressed', evt.ctrlKey);
+	eventObject._at_put_('globalPosition', evt.offsetX.__at(evt.offsetY));
+	return eventObject; >
 !
 
 mouseDoubleClickEventDataFor: evt

@@ -1885,12 +1885,12 @@ category: 'accessing',
 fn: function (aColor){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self["@borderColor"]=aColor;
-self._redraw();
+ self['@borderColor'] = aColor;
+	self._redraw(); ;
 return self}, function($ctx1) {$ctx1.fill(self,"borderColor:",{aColor:aColor},smalltalk.AthensRectangleMorph)})},
 args: ["aColor"],
-source: "borderColor: aColor\x0a\x09borderColor := aColor.\x0a\x09self redraw.",
-messageSends: ["redraw"],
+source: "borderColor: aColor\x0a\x09< self['@borderColor'] = aColor;\x0a\x09self._redraw(); >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensRectangleMorph);
@@ -1951,12 +1951,12 @@ category: 'accessing',
 fn: function (aColor){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self["@fillColor"]=aColor;
-self._redraw();
+ self['@fillColor'] = aColor;
+	self._redraw(); ;
 return self}, function($ctx1) {$ctx1.fill(self,"fillColor:",{aColor:aColor},smalltalk.AthensRectangleMorph)})},
 args: ["aColor"],
-source: "fillColor: aColor\x0a\x09fillColor := aColor.\x0a\x09self redraw.",
-messageSends: ["redraw"],
+source: "fillColor: aColor\x0a\x09< self['@fillColor'] = aColor;\x0a\x09self._redraw(); >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensRectangleMorph);
@@ -2054,12 +2054,12 @@ category: 'accessing',
 fn: function (aBoolean){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self["@hasSharpBorder"]=aBoolean;
-self._redraw();
+ self['@hasSharpBorder'] = aBoolean;
+	self._redraw(); ;
 return self}, function($ctx1) {$ctx1.fill(self,"hasSharpBorder:",{aBoolean:aBoolean},smalltalk.AthensRectangleMorph)})},
 args: ["aBoolean"],
-source: "hasSharpBorder: aBoolean\x0a\x09hasSharpBorder := aBoolean.\x0a\x09self redraw.",
-messageSends: ["redraw"],
+source: "hasSharpBorder: aBoolean\x0a\x09< self['@hasSharpBorder'] = aBoolean;\x0a\x09self._redraw(); >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensRectangleMorph);
@@ -2089,14 +2089,14 @@ category: 'accessing',
 fn: function (aNumber){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self["@height"]=aNumber;
-self._layoutChanged();
-self._outerShapeChanged();
-self._redraw();
+ self['@height'] = aNumber;
+	self._layoutChanged();
+	self._outerShapeChanged();
+	self._redraw(); ;
 return self}, function($ctx1) {$ctx1.fill(self,"height:",{aNumber:aNumber},smalltalk.AthensRectangleMorph)})},
 args: ["aNumber"],
-source: "height: aNumber\x0a\x09height := aNumber.\x0a\x09self layoutChanged.\x0a\x09self outerShapeChanged.\x0a\x09self redraw.",
-messageSends: ["layoutChanged", "outerShapeChanged", "redraw"],
+source: "height: aNumber\x0a\x09< self['@height'] = aNumber;\x0a\x09self._layoutChanged();\x0a\x09self._outerShapeChanged();\x0a\x09self._redraw(); >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensRectangleMorph);
@@ -2119,12 +2119,12 @@ self["@mouseDownFillColor"]=self["@mouseFocusFillColor"];
 self["@mouseFocusBorderColor"]=self["@mouseDownFillColor"];
 self["@mouseDownBorderColor"]=self["@mouseFocusBorderColor"];
 self["@hasSharpBorder"]=false;
-self._outerShape_(_st((0).__at((0)))._corner_((50).__at((50))));
+self._outerShapeChanged();
 self._redraw();
 return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensRectangleMorph)})},
 args: [],
-source: "initialize\x0a\x09super initialize.\x0a\x09width := height := 50.\x0a\x09borderColor := Color black.\x0a\x09fillColor := Color white.\x0a\x09mouseDownBorderColor := mouseFocusBorderColor := mouseDownFillColor := mouseFocusFillColor := nil.\x0a\x09hasSharpBorder := false.\x0a\x09self outerShape: (0@0 corner: 50@50).\x0a\x09\x22self outerShapeChanged.\x22\x0a\x09self redraw.",
-messageSends: ["initialize", "black", "white", "outerShape:", "corner:", "@", "redraw"],
+source: "initialize\x0a\x09super initialize.\x0a\x09width := height := 50.\x0a\x09borderColor := Color black.\x0a\x09fillColor := Color white.\x0a\x09mouseDownBorderColor := mouseFocusBorderColor := mouseDownFillColor := mouseFocusFillColor := nil.\x0a\x09hasSharpBorder := false.\x0a\x09self outerShapeChanged.\x0a\x09self redraw.",
+messageSends: ["initialize", "black", "white", "outerShapeChanged", "redraw"],
 referencedClasses: ["Color"]
 }),
 smalltalk.AthensRectangleMorph);
@@ -2200,31 +2200,15 @@ category: 'morph handling',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self["@shapeOuter"]=_st((0).__at((0)))._corner_(_st(self._width()).__at(self["@height"]));
-self["@shapeInner"]=_st((1).__at((1)))._corner_(_st(_st(self["@width"]).__minus((1))).__at(_st(self["@height"]).__minus((1))));
-self._outerShape_(self["@shapeOuter"]);
+ var zero = 0, one = 1, width = self._width();
+	var innerWidth = width - 1;
+	self['@shapeOuter'] = zero.__at(zero)._corner_(width.__at(self['@height']));
+	self['@shapeInner'] = one.__at(one)._corner_(innerWidth.__at(self['@height'] - 1));
+	self._outerShape_(self['@shapeOuter']); ;
 return self}, function($ctx1) {$ctx1.fill(self,"outerShapeChanged",{},smalltalk.AthensRectangleMorph)})},
 args: [],
-source: "outerShapeChanged\x0a\x09shapeOuter := 0@0 corner: self width@height.\x0a\x09shapeInner := (1@1 corner: width - 1 @ (height - 1)).\x0a\x09self outerShape: shapeOuter.",
-messageSends: ["corner:", "@", "width", "-", "outerShape:"],
-referencedClasses: []
-}),
-smalltalk.AthensRectangleMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "redraw",
-category: 'drawing',
-fn: function (){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-self["@shapeOuter"]=_st((0).__at((0)))._corner_(_st(self._width()).__at(self["@height"]));
-self["@shapeInner"]=_st((1).__at((1)))._corner_(_st(_st(self["@width"]).__minus((1))).__at(_st(self["@height"]).__minus((1))));
-smalltalk.AthensMorph.fn.prototype._redraw.apply(_st(self), []);
-return self}, function($ctx1) {$ctx1.fill(self,"redraw",{},smalltalk.AthensRectangleMorph)})},
-args: [],
-source: "redraw\x0a\x09shapeOuter := 0@0 corner: self width@height.\x0a\x09shapeInner := (1@1 corner: width - 1 @ (height - 1)).\x0a\x09super redraw.",
-messageSends: ["corner:", "@", "width", "-", "redraw"],
+source: "outerShapeChanged\x0a\x09< var zero = 0, one = 1, width = self._width();\x0a\x09var innerWidth = width - 1;\x0a\x09self['@shapeOuter'] = zero.__at(zero)._corner_(width.__at(self['@height']));\x0a\x09self['@shapeInner'] = one.__at(one)._corner_(innerWidth.__at(self['@height'] - 1));\x0a\x09self._outerShape_(self['@shapeOuter']); >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensRectangleMorph);
@@ -2254,14 +2238,14 @@ category: 'accessing',
 fn: function (aNumber){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self["@width"]=aNumber;
-self._layoutChanged();
-self._outerShapeChanged();
-self._redraw();
+ self['@width'] = aNumber;
+	self._layoutChanged();
+	self._outerShapeChanged();
+	self._redraw(); ;
 return self}, function($ctx1) {$ctx1.fill(self,"width:",{aNumber:aNumber},smalltalk.AthensRectangleMorph)})},
 args: ["aNumber"],
-source: "width: aNumber\x0a\x09width := aNumber.\x0a\x09self layoutChanged.\x0a\x09self outerShapeChanged.\x0a\x09self redraw.",
-messageSends: ["layoutChanged", "outerShapeChanged", "redraw"],
+source: "width: aNumber\x0a\x09< self['@width'] = aNumber;\x0a\x09self._layoutChanged();\x0a\x09self._outerShapeChanged();\x0a\x09self._redraw(); >",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensRectangleMorph);

@@ -133,19 +133,15 @@ selector: "keyDownEventDataFor:",
 category: 'events',
 fn: function (evt){
 var self=this;
-function $AthensMorphicEvent(){return smalltalk.AthensMorphicEvent||(typeof AthensMorphicEvent=="undefined"?nil:AthensMorphicEvent)}
 return smalltalk.withContext(function($ctx1) { 
-var $2,$3,$1;
-$2=_st($AthensMorphicEvent())._new();
-_st($2)._at_put_("keyCode",_st(evt)._keyCode());
-$3=_st($2)._yourself();
-$1=$3;
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"keyDownEventDataFor:",{evt:evt},smalltalk.AthensHTMLMorphicSurface)})},
+ var eventObject = smalltalk.AthensMorphicEvent._new();
+	eventObject._at_put_('keyCode', evt.keyCode);
+	return eventObject; ;
+return self}, function($ctx1) {$ctx1.fill(self,"keyDownEventDataFor:",{evt:evt},smalltalk.AthensHTMLMorphicSurface)})},
 args: ["evt"],
-source: "keyDownEventDataFor: evt\x0a\x09^ AthensMorphicEvent new\x0a\x09\x09at: #keyCode put: evt keyCode;\x0a\x09\x09yourself",
-messageSends: ["at:put:", "keyCode", "new", "yourself"],
-referencedClasses: ["AthensMorphicEvent"]
+source: "keyDownEventDataFor: evt\x0a\x09< var eventObject = smalltalk.AthensMorphicEvent._new();\x0a\x09eventObject._at_put_('keyCode', evt.keyCode);\x0a\x09return eventObject; >",
+messageSends: [],
+referencedClasses: []
 }),
 smalltalk.AthensHTMLMorphicSurface);
 
@@ -155,19 +151,15 @@ selector: "keyPressEventDataFor:",
 category: 'events',
 fn: function (evt){
 var self=this;
-function $AthensMorphicEvent(){return smalltalk.AthensMorphicEvent||(typeof AthensMorphicEvent=="undefined"?nil:AthensMorphicEvent)}
 return smalltalk.withContext(function($ctx1) { 
-var $2,$3,$1;
-$2=_st($AthensMorphicEvent())._new();
-_st($2)._at_put_("keyCode",_st(evt)._keyCode());
-$3=_st($2)._yourself();
-$1=$3;
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"keyPressEventDataFor:",{evt:evt},smalltalk.AthensHTMLMorphicSurface)})},
+ var eventObject = smalltalk.AthensMorphicEvent._new();
+	eventObject._at_put_('keyCode', evt.keyCode);
+	return eventObject; ;
+return self}, function($ctx1) {$ctx1.fill(self,"keyPressEventDataFor:",{evt:evt},smalltalk.AthensHTMLMorphicSurface)})},
 args: ["evt"],
-source: "keyPressEventDataFor: evt\x0a\x09^ AthensMorphicEvent new\x0a\x09\x09at: #keyCode put: evt keyCode;\x0a\x09\x09yourself",
-messageSends: ["at:put:", "keyCode", "new", "yourself"],
-referencedClasses: ["AthensMorphicEvent"]
+source: "keyPressEventDataFor: evt\x0a\x09< var eventObject = smalltalk.AthensMorphicEvent._new();\x0a\x09eventObject._at_put_('keyCode', evt.keyCode);\x0a\x09return eventObject; >",
+messageSends: [],
+referencedClasses: []
 }),
 smalltalk.AthensHTMLMorphicSurface);
 
@@ -177,19 +169,15 @@ selector: "keyUpEventDataFor:",
 category: 'events',
 fn: function (evt){
 var self=this;
-function $AthensMorphicEvent(){return smalltalk.AthensMorphicEvent||(typeof AthensMorphicEvent=="undefined"?nil:AthensMorphicEvent)}
 return smalltalk.withContext(function($ctx1) { 
-var $2,$3,$1;
-$2=_st($AthensMorphicEvent())._new();
-_st($2)._at_put_("keyCode",_st(evt)._keyCode());
-$3=_st($2)._yourself();
-$1=$3;
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"keyUpEventDataFor:",{evt:evt},smalltalk.AthensHTMLMorphicSurface)})},
+ var eventObject = smalltalk.AthensMorphicEvent._new();
+	eventObject._at_put_('keyCode', evt.keyCode);
+	return eventObject; ;
+return self}, function($ctx1) {$ctx1.fill(self,"keyUpEventDataFor:",{evt:evt},smalltalk.AthensHTMLMorphicSurface)})},
 args: ["evt"],
-source: "keyUpEventDataFor: evt\x0a\x09^ AthensMorphicEvent new\x0a\x09\x09at: #keyCode put: evt keyCode;\x0a\x09\x09yourself",
-messageSends: ["at:put:", "keyCode", "new", "yourself"],
-referencedClasses: ["AthensMorphicEvent"]
+source: "keyUpEventDataFor: evt\x0a\x09< var eventObject = smalltalk.AthensMorphicEvent._new();\x0a\x09eventObject._at_put_('keyCode', evt.keyCode);\x0a\x09return eventObject; >",
+messageSends: [],
+referencedClasses: []
 }),
 smalltalk.AthensHTMLMorphicSurface);
 
@@ -199,20 +187,16 @@ selector: "mouseClickEventDataFor:",
 category: 'events',
 fn: function (evt){
 var self=this;
-function $AthensMorphicEvent(){return smalltalk.AthensMorphicEvent||(typeof AthensMorphicEvent=="undefined"?nil:AthensMorphicEvent)}
 return smalltalk.withContext(function($ctx1) { 
-var $2,$3,$1;
-$2=_st($AthensMorphicEvent())._new();
-_st($2)._at_put_("ctrlKeyPressed",_st(evt)._ctrlKey());
-_st($2)._at_put_("globalPosition",_st(_st(evt)._offsetX()).__at(_st(evt)._offsetY()));
-$3=_st($2)._yourself();
-$1=$3;
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"mouseClickEventDataFor:",{evt:evt},smalltalk.AthensHTMLMorphicSurface)})},
+ var eventObject = smalltalk.AthensMorphicEvent._new();
+	eventObject._at_put_('ctrlKeyPressed', evt.ctrlKey);
+	eventObject._at_put_('globalPosition', evt.offsetX.__at(evt.offsetY));
+	return eventObject; ;
+return self}, function($ctx1) {$ctx1.fill(self,"mouseClickEventDataFor:",{evt:evt},smalltalk.AthensHTMLMorphicSurface)})},
 args: ["evt"],
-source: "mouseClickEventDataFor: evt\x0a\x09^ AthensMorphicEvent new\x0a\x09\x09at: #ctrlKeyPressed put: evt ctrlKey;\x0a\x09\x09at: #globalPosition put: evt offsetX @ evt offsetY;\x0a\x09\x09yourself.",
-messageSends: ["at:put:", "ctrlKey", "new", "@", "offsetY", "offsetX", "yourself"],
-referencedClasses: ["AthensMorphicEvent"]
+source: "mouseClickEventDataFor: evt\x0a\x09< var eventObject = smalltalk.AthensMorphicEvent._new();\x0a\x09eventObject._at_put_('ctrlKeyPressed', evt.ctrlKey);\x0a\x09eventObject._at_put_('globalPosition', evt.offsetX.__at(evt.offsetY));\x0a\x09return eventObject; >",
+messageSends: [],
+referencedClasses: []
 }),
 smalltalk.AthensHTMLMorphicSurface);
 

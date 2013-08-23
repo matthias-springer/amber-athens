@@ -688,13 +688,13 @@ AthensMorph subclass: #AthensRectangleMorph
 !AthensRectangleMorph methodsFor: 'accessing'!
 
 borderColor: aColor
-	borderColor := aColor.
-	self redraw.
+	< self['@borderColor'] = aColor;
+	self._redraw(); >
 !
 
 fillColor: aColor
-	fillColor := aColor.
-	self redraw.
+	< self['@fillColor'] = aColor;
+	self._redraw(); >
 !
 
 hasSharpBorder
@@ -702,8 +702,8 @@ hasSharpBorder
 !
 
 hasSharpBorder: aBoolean
-	hasSharpBorder := aBoolean.
-	self redraw.
+	< self['@hasSharpBorder'] = aBoolean;
+	self._redraw(); >
 !
 
 height
@@ -711,10 +711,10 @@ height
 !
 
 height: aNumber
-	height := aNumber.
-	self layoutChanged.
-	self outerShapeChanged.
-	self redraw.
+	< self['@height'] = aNumber;
+	self._layoutChanged();
+	self._outerShapeChanged();
+	self._redraw(); >
 !
 
 mouseDownBorderColor: aColor
@@ -738,10 +738,10 @@ width
 !
 
 width: aNumber
-	width := aNumber.
-	self layoutChanged.
-	self outerShapeChanged.
-	self redraw.
+	< self['@width'] = aNumber;
+	self._layoutChanged();
+	self._outerShapeChanged();
+	self._redraw(); >
 ! !
 
 !AthensRectangleMorph methodsFor: 'drawing'!
@@ -781,12 +781,6 @@ drawOn: canvas
 		canvas._setStrokePaint_(currentBorderColor);
 		canvas._drawShape_(self['@shapeOuter']);
 	} >
-!
-
-redraw
-	shapeOuter := 0@0 corner: self width@height.
-	shapeInner := (1@1 corner: width - 1 @ (height - 1)).
-	super redraw.
 ! !
 
 !AthensRectangleMorph methodsFor: 'events'!
@@ -820,17 +814,18 @@ initialize
 	fillColor := Color white.
 	mouseDownBorderColor := mouseFocusBorderColor := mouseDownFillColor := mouseFocusFillColor := nil.
 	hasSharpBorder := false.
-	self outerShape: (0@0 corner: 50@50).
-	"self outerShapeChanged."
+	self outerShapeChanged.
 	self redraw.
 ! !
 
 !AthensRectangleMorph methodsFor: 'morph handling'!
 
 outerShapeChanged
-	shapeOuter := 0@0 corner: self width@height.
-	shapeInner := (1@1 corner: width - 1 @ (height - 1)).
-	self outerShape: shapeOuter.
+	< var zero = 0, one = 1, width = self._width();
+	var innerWidth = width - 1;
+	self['@shapeOuter'] = zero.__at(zero)._corner_(width.__at(self['@height']));
+	self['@shapeInner'] = one.__at(one)._corner_(innerWidth.__at(self['@height'] - 1));
+	self._outerShape_(self['@shapeOuter']); >
 ! !
 
 !AthensRectangleMorph class methodsFor: 'instance creation'!
