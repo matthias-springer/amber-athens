@@ -650,6 +650,10 @@ AthensMorph subclass: #AthensHaloMorph
 
 !AthensHaloMorph methodsFor: 'accessing'!
 
+attachedTo
+	^ attachedTo
+!
+
 attachedTo: aMorph
 	attachedTo := aMorph.
 ! !
@@ -2240,7 +2244,7 @@ redraw: aRect
 !
 
 redrawHalosOn: canvas
-	"halos do: [:halo | halo redrawNow: (0@0 corner: self width @ self height) on: canvas]."
+	halos do: [:halo | halo redrawNow: (0@0 corner: self width @ self height) on: canvas].
 !
 
 redrawNow: rects
@@ -2299,16 +2303,18 @@ unregisterGlobalEvent: aSymbol withCallback: aBlock
 !AthensWorldMorph methodsFor: 'halos'!
 
 addHalosTo: aMorph
-	"aMorph isHaloMorph ifFalse: [
+	aMorph isHaloMorph ifFalse: [
 		halos do: [:halo | 
 			halo resetTransformation.
 			halo translateBy: aMorph globalBounds origin + halo haloPosition.
 			halo attachedTo: aMorph.
-			halo show]]."
+			halo show]].
 !
 
 hideHalos
-	self addHalosTo: self.
+	(halos notEmpty and: [halos first attachedTo ~~ self])
+		ifTrue: [self addHalosTo: self].
+		"ifFalse: halos already hidden"
 ! !
 
 !AthensWorldMorph methodsFor: 'initialization'!
@@ -2390,6 +2396,14 @@ redraw
 redraw: aRect
 ! !
 
+!AthensDummyWorldMorph methodsFor: 'halos'!
+
+addHalosTo: aMorph
+!
+
+hideHalos
+! !
+
 !AthensDummyWorldMorph methodsFor: 'initialization'!
 
 initialize
@@ -2397,9 +2411,6 @@ initialize
 ! !
 
 !AthensDummyWorldMorph methodsFor: 'morph handling'!
-
-addHalosTo: aMorph
-!
 
 maxZIndex
 	^ 0

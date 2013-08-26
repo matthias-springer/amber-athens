@@ -1165,6 +1165,19 @@ smalltalk.AthensRadioButtonMorph);
 smalltalk.addClass('AthensHaloMorph', smalltalk.AthensMorph, ['attachedTo', 'font', 'rectPath'], 'Athens-Core-Morphic');
 smalltalk.addMethod(
 smalltalk.method({
+selector: "attachedTo",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self["@attachedTo"];
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"attachedTo",{},smalltalk.AthensHaloMorph)})},
+messageSends: []}),
+smalltalk.AthensHaloMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "attachedTo:",
 fn: function (aMorph){
 var self=this;
@@ -4338,8 +4351,19 @@ selector: "addHalosTo:",
 fn: function (aMorph){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(aMorph)._isHaloMorph();
+if(! smalltalk.assert($1)){
+_st(self["@halos"])._do_((function(halo){
+return smalltalk.withContext(function($ctx2) {
+_st(halo)._resetTransformation();
+_st(halo)._translateBy_(_st(_st(_st(aMorph)._globalBounds())._origin()).__plus(_st(halo)._haloPosition()));
+_st(halo)._attachedTo_(aMorph);
+return _st(halo)._show();
+}, function($ctx2) {$ctx2.fillBlock({halo:halo},$ctx1)})}));
+};
 return self}, function($ctx1) {$ctx1.fill(self,"addHalosTo:",{aMorph:aMorph},smalltalk.AthensWorldMorph)})},
-messageSends: []}),
+messageSends: ["ifFalse:", "do:", "resetTransformation", "translateBy:", "+", "haloPosition", "origin", "globalBounds", "attachedTo:", "show", "isHaloMorph"]}),
 smalltalk.AthensWorldMorph);
 
 smalltalk.addMethod(
@@ -4399,9 +4423,16 @@ selector: "hideHalos",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(_st(self["@halos"])._notEmpty())._and_((function(){
+return smalltalk.withContext(function($ctx2) {
+return _st(_st(_st(self["@halos"])._first())._attachedTo()).__tild_tild(self);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
+if(smalltalk.assert($1)){
 self._addHalosTo_(self);
+};
 return self}, function($ctx1) {$ctx1.fill(self,"hideHalos",{},smalltalk.AthensWorldMorph)})},
-messageSends: ["addHalosTo:"]}),
+messageSends: ["ifTrue:", "addHalosTo:", "and:", "~~", "attachedTo", "first", "notEmpty"]}),
 smalltalk.AthensWorldMorph);
 
 smalltalk.addMethod(
@@ -4543,8 +4574,12 @@ selector: "redrawHalosOn:",
 fn: function (canvas){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
+_st(self["@halos"])._do_((function(halo){
+return smalltalk.withContext(function($ctx2) {
+return _st(halo)._redrawNow_on_(_st((0).__at((0)))._corner_(_st(self._width()).__at(self._height())),canvas);
+}, function($ctx2) {$ctx2.fillBlock({halo:halo},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"redrawHalosOn:",{canvas:canvas},smalltalk.AthensWorldMorph)})},
-messageSends: []}),
+messageSends: ["do:", "redrawNow:on:", "corner:", "@", "height", "width"]}),
 smalltalk.AthensWorldMorph);
 
 smalltalk.addMethod(
@@ -4687,6 +4722,16 @@ fn: function (aMorph){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 return self}, function($ctx1) {$ctx1.fill(self,"addHalosTo:",{aMorph:aMorph},smalltalk.AthensDummyWorldMorph)})},
+messageSends: []}),
+smalltalk.AthensDummyWorldMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "hideHalos",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+return self}, function($ctx1) {$ctx1.fill(self,"hideHalos",{},smalltalk.AthensDummyWorldMorph)})},
 messageSends: []}),
 smalltalk.AthensDummyWorldMorph);
 
