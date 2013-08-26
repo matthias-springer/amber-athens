@@ -40,7 +40,8 @@ return smalltalk.withContext(function($ctx1) {
 		'mousedown': ['mouseDown', true, canvasJ],
 		'mousemove': ['mouseMove', true, canvasJ],
 		'mouseup': ['mouseUp', true, canvasJ],
-		'mousewheel DOMMouseScroll': ['mouseWheel', true, canvasJ],
+		'mousewheel': ['mouseWheel', true, canvasJ],
+		'DOMMouseScroll': ['mouseWheel', true, canvasJ],
 		'keydown': ['keyDown', false, documentJ],
 		'keyup': ['keyUp', false, documentJ],
 		'keypress': ['keyPress', false, documentJ]};
@@ -61,7 +62,7 @@ return smalltalk.withContext(function($ctx1) {
 	canvasJ.bind('mouseleave', function(evt) {self._handleMouseLeave_(evt);}); ;
 return self}, function($ctx1) {$ctx1.fill(self,"bindEvents",{},smalltalk.AthensHTMLMorphicSurface)})},
 args: [],
-source: "bindEvents\x0a\x09< var canvasJ = $(self['@canvasTag']); \x0a\x09var documentJ = $(document); \x0a\x09var events = {\x0a\x09\x09'dblclick': ['mouseDoubleClick', true, canvasJ],\x0a\x09\x09'click': ['mouseClick', true, canvasJ],\x0a\x09\x09'mousedown': ['mouseDown', true, canvasJ],\x0a\x09\x09'mousemove': ['mouseMove', true, canvasJ],\x0a\x09\x09'mouseup': ['mouseUp', true, canvasJ],\x0a\x09\x09'mousewheel DOMMouseScroll': ['mouseWheel', true, canvasJ],\x0a\x09\x09'keydown': ['keyDown', false, documentJ],\x0a\x09\x09'keyup': ['keyUp', false, documentJ],\x0a\x09\x09'keypress': ['keyPress', false, documentJ]};\x0a\x09\x09\x0a\x09for (event in events) {\x0a\x09\x09var eventTarget = events[event][2];\x0a\x09\x09\x0a\x09\x09eventTarget.bind(event, function(evt) {\x0a\x09\x09\x09var eventName = events[evt.type][0];\x0a\x09\x09\x09self['@world']._handleEvent_with_(eventName, self['_' + eventName + 'EventDataFor_'](evt));\x0a\x09\x09\x09if (events[event.type][1]) {\x0a\x09\x09\x09\x09evt.preventDefault();\x0a\x09\x09\x09}\x0a\x09\x09});\x0a\x09}\x0a\x09\x0a\x09canvasJ.bind('mouseenter', function(evt) {self._handleMouseEnter_(evt);});\x0a\x09canvasJ.bind('mouseleave', function(evt) {self._handleMouseLeave_(evt);}); >",
+source: "bindEvents\x0a\x09< var canvasJ = $(self['@canvasTag']); \x0a\x09var documentJ = $(document); \x0a\x09var events = {\x0a\x09\x09'dblclick': ['mouseDoubleClick', true, canvasJ],\x0a\x09\x09'click': ['mouseClick', true, canvasJ],\x0a\x09\x09'mousedown': ['mouseDown', true, canvasJ],\x0a\x09\x09'mousemove': ['mouseMove', true, canvasJ],\x0a\x09\x09'mouseup': ['mouseUp', true, canvasJ],\x0a\x09\x09'mousewheel': ['mouseWheel', true, canvasJ],\x0a\x09\x09'DOMMouseScroll': ['mouseWheel', true, canvasJ],\x0a\x09\x09'keydown': ['keyDown', false, documentJ],\x0a\x09\x09'keyup': ['keyUp', false, documentJ],\x0a\x09\x09'keypress': ['keyPress', false, documentJ]};\x0a\x09\x09\x0a\x09for (event in events) {\x0a\x09\x09var eventTarget = events[event][2];\x0a\x09\x09\x0a\x09\x09eventTarget.bind(event, function(evt) {\x0a\x09\x09\x09var eventName = events[evt.type][0];\x0a\x09\x09\x09self['@world']._handleEvent_with_(eventName, self['_' + eventName + 'EventDataFor_'](evt));\x0a\x09\x09\x09if (events[event.type][1]) {\x0a\x09\x09\x09\x09evt.preventDefault();\x0a\x09\x09\x09}\x0a\x09\x09});\x0a\x09}\x0a\x09\x0a\x09canvasJ.bind('mouseenter', function(evt) {self._handleMouseEnter_(evt);});\x0a\x09canvasJ.bind('mouseleave', function(evt) {self._handleMouseLeave_(evt);}); >",
 messageSends: [],
 referencedClasses: []
 }),

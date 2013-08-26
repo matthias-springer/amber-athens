@@ -34,7 +34,8 @@ return smalltalk.withContext(function($ctx1) {
 		'mousedown': ['mouseDown', true, canvasJ],
 		'mousemove': ['mouseMove', true, canvasJ],
 		'mouseup': ['mouseUp', true, canvasJ],
-		'mousewheel DOMMouseScroll': ['mouseWheel', true, canvasJ],
+		'mousewheel': ['mouseWheel', true, canvasJ],
+		'DOMMouseScroll': ['mouseWheel', true, canvasJ],
 		'keydown': ['keyDown', false, documentJ],
 		'keyup': ['keyUp', false, documentJ],
 		'keypress': ['keyPress', false, documentJ]};
