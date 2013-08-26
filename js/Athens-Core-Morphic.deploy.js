@@ -91,7 +91,10 @@ selector: "bringToFront",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- self._zIndex_(self['@owner']._maxZIndex() + 1); ;
+ var maxZIndex = self['@owner']._maxZIndex();
+	if (self['@zIndex'] < maxZIndex) {
+		self._zIndex_(maxZIndex + 1);
+	} ;
 return self}, function($ctx1) {$ctx1.fill(self,"bringToFront",{},smalltalk.AthensMorph)})},
 messageSends: []}),
 smalltalk.AthensMorph);
@@ -220,14 +223,24 @@ selector: "handleMouseClick:",
 fn: function (evt){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
+var $1,$2;
+$1=_st(_st(evt)._ctrlKeyPressed()).__and(_st(evt)._topMost());
+if(smalltalk.assert($1)){
+_st(self._world())._addHalosTo_(self);
+} else {
 _st(_st(self["@eventCallbacks"])._at_ifAbsent_("mouseClick",(function(){
 return smalltalk.withContext(function($ctx2) {
 return (function(ev){
 return smalltalk.withContext(function($ctx3) {
 }, function($ctx3) {$ctx3.fillBlock({ev:ev},$ctx2)})});
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1)})})))._value_(evt);
+};
+$2=_st(_st(_st(evt)._ctrlKeyPressed())._not()).__and(_st(evt)._topMost());
+if(smalltalk.assert($2)){
+_st(self._world())._hideHalos();
+};
 return self}, function($ctx1) {$ctx1.fill(self,"handleMouseClick:",{evt:evt},smalltalk.AthensMorph)})},
-messageSends: ["value:", "at:ifAbsent:"]}),
+messageSends: ["ifTrue:ifFalse:", "addHalosTo:", "world", "value:", "at:ifAbsent:", "&", "topMost", "ctrlKeyPressed", "ifTrue:", "hideHalos", "not"]}),
 smalltalk.AthensMorph);
 
 smalltalk.addMethod(
@@ -611,8 +624,8 @@ return smalltalk.withContext(function($ctx1) {
 		canvas._clipBy_during_(self['@outerShape'], function() {
 			for (var index = 0; index < self['@submorphs'].length; index++) {
 				var submorph = self['@submorphs'][index];
-//				var submorphGlobalOuterBounds = submorph['@outerShape']._boundingBox()._boundsAfterMultiplicationWith_(submorph['@globalPathTransform']);
-				var submorphGlobalOuterBounds = submorph['@outerPolygon']._deepCopy()._multiplyBy_(submorph['@globalPathTransform'])._boundingBox();
+				var submorphGlobalOuterBounds = submorph['@outerPolygon']._boundingBox()._boundsAfterMultiplicationWith_(submorph['@globalPathTransform']);
+//				var submorphGlobalOuterBounds = submorph['@outerPolygon']._deepCopy()._multiplyBy_(submorph['@globalPathTransform'])._boundingBox();
 				var intersectRects = [];
 				for (var i = 0; i < rects.length; i++) {
 					if (submorphGlobalOuterBounds._intersectsWith_(rects[i])) {
@@ -1540,10 +1553,14 @@ selector: "handleMouseDown:",
 fn: function (evt){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
+var $1;
 smalltalk.AthensMorph.fn.prototype._handleMouseDown_.apply(_st(self), [evt]);
+$1=self._needsRedrawOnMouseDown();
+if(smalltalk.assert($1)){
 self._redraw();
+};
 return self}, function($ctx1) {$ctx1.fill(self,"handleMouseDown:",{evt:evt},smalltalk.AthensRectangleMorph)})},
-messageSends: ["handleMouseDown:", "redraw"]}),
+messageSends: ["handleMouseDown:", "ifTrue:", "redraw", "needsRedrawOnMouseDown"]}),
 smalltalk.AthensRectangleMorph);
 
 smalltalk.addMethod(
@@ -1552,10 +1569,14 @@ selector: "handleMouseEnter",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
+var $1;
 smalltalk.AthensMorph.fn.prototype._handleMouseEnter.apply(_st(self), []);
+$1=self._needsRedrawOnMouseFocus();
+if(smalltalk.assert($1)){
 self._redraw();
+};
 return self}, function($ctx1) {$ctx1.fill(self,"handleMouseEnter",{},smalltalk.AthensRectangleMorph)})},
-messageSends: ["handleMouseEnter", "redraw"]}),
+messageSends: ["handleMouseEnter", "ifTrue:", "redraw", "needsRedrawOnMouseFocus"]}),
 smalltalk.AthensRectangleMorph);
 
 smalltalk.addMethod(
@@ -1564,10 +1585,14 @@ selector: "handleMouseLeave",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
+var $1;
 smalltalk.AthensMorph.fn.prototype._handleMouseLeave.apply(_st(self), []);
+$1=self._needsRedrawOnMouseFocus();
+if(smalltalk.assert($1)){
 self._redraw();
+};
 return self}, function($ctx1) {$ctx1.fill(self,"handleMouseLeave",{},smalltalk.AthensRectangleMorph)})},
-messageSends: ["handleMouseLeave", "redraw"]}),
+messageSends: ["handleMouseLeave", "ifTrue:", "redraw", "needsRedrawOnMouseFocus"]}),
 smalltalk.AthensRectangleMorph);
 
 smalltalk.addMethod(
@@ -1576,10 +1601,14 @@ selector: "handleMouseUp:",
 fn: function (evt){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
+var $1;
 smalltalk.AthensMorph.fn.prototype._handleMouseUp_.apply(_st(self), [evt]);
+$1=self._needsRedrawOnMouseDown();
+if(smalltalk.assert($1)){
 self._redraw();
+};
 return self}, function($ctx1) {$ctx1.fill(self,"handleMouseUp:",{evt:evt},smalltalk.AthensRectangleMorph)})},
-messageSends: ["handleMouseUp:", "redraw"]}),
+messageSends: ["handleMouseUp:", "ifTrue:", "redraw", "needsRedrawOnMouseDown"]}),
 smalltalk.AthensRectangleMorph);
 
 smalltalk.addMethod(
@@ -1698,6 +1727,28 @@ var self=this;
 return smalltalk.withContext(function($ctx1) { 
 self["@mouseFocusFillColor"]=aColor;
 return self}, function($ctx1) {$ctx1.fill(self,"mouseFocusFillColor:",{aColor:aColor},smalltalk.AthensRectangleMorph)})},
+messageSends: []}),
+smalltalk.AthensRectangleMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "needsRedrawOnMouseDown",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self['@mouseDownFillColor']._notNil() || self['@mouseDownBorderColor']._notNil(); ;
+return self}, function($ctx1) {$ctx1.fill(self,"needsRedrawOnMouseDown",{},smalltalk.AthensRectangleMorph)})},
+messageSends: []}),
+smalltalk.AthensRectangleMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "needsRedrawOnMouseFocus",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self['@mouseFocusFillColor']._notNil() || self['@mouseFocusBorderColor']._notNil(); ;
+return self}, function($ctx1) {$ctx1.fill(self,"needsRedrawOnMouseFocus",{},smalltalk.AthensRectangleMorph)})},
 messageSends: []}),
 smalltalk.AthensRectangleMorph);
 
@@ -5002,6 +5053,7 @@ fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
  var zero = 0;
+	console.log('damaging world');
 	self['@damageRects'] = [];
 	self._damageArea_(zero.__at(zero)._corner_(self['@world']._width().__at(self['@world']._height()))); ;
 return self}, function($ctx1) {$ctx1.fill(self,"damageWorld",{},smalltalk.WorldState)})},

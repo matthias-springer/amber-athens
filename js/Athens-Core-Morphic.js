@@ -122,10 +122,13 @@ category: 'morph handling',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- self._zIndex_(self['@owner']._maxZIndex() + 1); ;
+ var maxZIndex = self['@owner']._maxZIndex();
+	if (self['@zIndex'] < maxZIndex) {
+		self._zIndex_(maxZIndex + 1);
+	} ;
 return self}, function($ctx1) {$ctx1.fill(self,"bringToFront",{},smalltalk.AthensMorph)})},
 args: [],
-source: "bringToFront\x0a\x09< self._zIndex_(self['@owner']._maxZIndex() + 1); >",
+source: "bringToFront\x0a\x09< var maxZIndex = self['@owner']._maxZIndex();\x0a\x09if (self['@zIndex'] < maxZIndex) {\x0a\x09\x09self._zIndex_(maxZIndex + 1);\x0a\x09} >",
 messageSends: [],
 referencedClasses: []
 }),
@@ -301,16 +304,26 @@ category: 'events',
 fn: function (evt){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
+var $1,$2;
+$1=_st(_st(evt)._ctrlKeyPressed()).__and(_st(evt)._topMost());
+if(smalltalk.assert($1)){
+_st(self._world())._addHalosTo_(self);
+} else {
 _st(_st(self["@eventCallbacks"])._at_ifAbsent_("mouseClick",(function(){
 return smalltalk.withContext(function($ctx2) {
 return (function(ev){
 return smalltalk.withContext(function($ctx3) {
 }, function($ctx3) {$ctx3.fillBlock({ev:ev},$ctx2)})});
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1)})})))._value_(evt);
+};
+$2=_st(_st(_st(evt)._ctrlKeyPressed())._not()).__and(_st(evt)._topMost());
+if(smalltalk.assert($2)){
+_st(self._world())._hideHalos();
+};
 return self}, function($ctx1) {$ctx1.fill(self,"handleMouseClick:",{evt:evt},smalltalk.AthensMorph)})},
 args: ["evt"],
-source: "handleMouseClick: evt\x0a\x09(eventCallbacks at: #mouseClick ifAbsent: [[:ev | ]]) value: evt.\x0a\x09\x22evt ctrlKeyPressed & (evt topMost)\x0a\x09\x09ifTrue: [self world addHalosTo: self]\x0a\x09\x09ifFalse: [(eventCallbacks at: #mouseClick ifAbsent: [[:ev | ]]) value: evt].\x0a\x09evt ctrlKeyPressed not & evt topMost\x0a\x09\x09ifTrue: [self world hideHalos].\x22",
-messageSends: ["value:", "at:ifAbsent:"],
+source: "handleMouseClick: evt\x0a\x09evt ctrlKeyPressed & (evt topMost)\x0a\x09\x09ifTrue: [self world addHalosTo: self]\x0a\x09\x09ifFalse: [(eventCallbacks at: #mouseClick ifAbsent: [[:ev | ]]) value: evt].\x0a\x09evt ctrlKeyPressed not & evt topMost\x0a\x09\x09ifTrue: [self world hideHalos].",
+messageSends: ["ifTrue:ifFalse:", "addHalosTo:", "world", "value:", "at:ifAbsent:", "&", "topMost", "ctrlKeyPressed", "ifTrue:", "hideHalos", "not"],
 referencedClasses: []
 }),
 smalltalk.AthensMorph);
@@ -842,8 +855,8 @@ return smalltalk.withContext(function($ctx1) {
 		canvas._clipBy_during_(self['@outerShape'], function() {
 			for (var index = 0; index < self['@submorphs'].length; index++) {
 				var submorph = self['@submorphs'][index];
-//				var submorphGlobalOuterBounds = submorph['@outerShape']._boundingBox()._boundsAfterMultiplicationWith_(submorph['@globalPathTransform']);
-				var submorphGlobalOuterBounds = submorph['@outerPolygon']._deepCopy()._multiplyBy_(submorph['@globalPathTransform'])._boundingBox();
+				var submorphGlobalOuterBounds = submorph['@outerPolygon']._boundingBox()._boundsAfterMultiplicationWith_(submorph['@globalPathTransform']);
+//				var submorphGlobalOuterBounds = submorph['@outerPolygon']._deepCopy()._multiplyBy_(submorph['@globalPathTransform'])._boundingBox();
 				var intersectRects = [];
 				for (var i = 0; i < rects.length; i++) {
 					if (submorphGlobalOuterBounds._intersectsWith_(rects[i])) {
@@ -873,7 +886,7 @@ return smalltalk.withContext(function($ctx1) {
 	} ;
 return self}, function($ctx1) {$ctx1.fill(self,"redrawNow:on:",{rects:rects,canvas:canvas},smalltalk.AthensMorph)})},
 args: ["rects", "canvas"],
-source: "redrawNow: rects on: canvas\x0a\x09< self['@globalPathTransform']._loadAffineTransform_(self['@owner']['@globalPathTransform']);\x0a\x09self['@globalPathTransform']._multiplyBy_(self['@transformation']);\x0a\x09\x0a\x09if (self['@visible']) {\x0a\x09\x09canvas['@pathTransform']._setIdentity_(self['@globalPathTransform']);\x0a\x09\x09canvas['@pathTransform']._loadIdentity();\x0a\x09\x09\x0a\x09\x09canvas['@pathTransform']._restoreAfter_(function() {\x0a\x09\x09\x09self._drawOn_(canvas);\x0a\x09\x09});\x0a\x09\x09\x0a\x09\x09if (self['@outerShape'] === undefined || self['@outerShape']._isNil()) {\x0a\x09\x09\x09self._outerShape_(self._class()._defaultOuterShape_());\x0a\x09\x09}\x0a\x09\x09\x0a\x09\x09canvas._clipBy_during_(self['@outerShape'], function() {\x0a\x09\x09\x09for (var index = 0; index < self['@submorphs'].length; index++) {\x0a\x09\x09\x09\x09var submorph = self['@submorphs'][index];\x0a//\x09\x09\x09\x09var submorphGlobalOuterBounds = submorph['@outerShape']._boundingBox()._boundsAfterMultiplicationWith_(submorph['@globalPathTransform']);\x0a\x09\x09\x09\x09var submorphGlobalOuterBounds = submorph['@outerPolygon']._deepCopy()._multiplyBy_(submorph['@globalPathTransform'])._boundingBox();\x0a\x09\x09\x09\x09var intersectRects = [];\x0a\x09\x09\x09\x09for (var i = 0; i < rects.length; i++) {\x0a\x09\x09\x09\x09\x09if (submorphGlobalOuterBounds._intersectsWith_(rects[i])) {\x0a\x09\x09\x09\x09\x09\x09intersectRects.push(rects[i]);\x0a\x09\x09\x09\x09\x09}\x0a\x09\x09\x09\x09}\x0a\x09\x09\x09\x09\x0a\x09\x09\x09\x09if (0 < intersectRects.length) {\x0a\x09\x09\x09\x09\x09submorph._redrawNow_on_(intersectRects, canvas);\x0a\x09\x09\x09\x09}\x0a\x09\x09\x09\x09\x0a\x09\x09\x09\x09if (smalltalk.AthensGlobalMorphSettings['@instance']['@showDamageArea']) {\x0a\x09\x09\x09\x09\x09// debug: show damage area\x0a\x09\x09\x09\x09\x09if (0 < intersectRects.length) {\x0a\x09\x09\x09\x09\x09\x09canvas._setPaint_(smalltalk.Color._r_g_b_a_(0,1,0,0.25));\x0a\x09\x09\x09\x09\x09}\x0a\x09\x09\x09\x09\x09else {\x0a\x09\x09\x09\x09\x09\x09canvas._setPaint_(smalltalk.Color._r_g_b_a_(1,0,0,0.25));\x0a\x09\x09\x09\x09\x09}\x0a\x0a\x09\x09\x09\x09\x09canvas['@pathTransform']._loadAffineTransform_(self['@submorphs'][index]['@globalPathTransform']);\x0a\x09\x09\x09\x09\x09canvas._drawShape_(self['@submorphs'][index]['@outerShape']);\x0a\x09\x09\x09\x09}\x0a\x0a\x09\x09\x09}\x0a\x09\x09});\x0a\x09} >",
+source: "redrawNow: rects on: canvas\x0a\x09< self['@globalPathTransform']._loadAffineTransform_(self['@owner']['@globalPathTransform']);\x0a\x09self['@globalPathTransform']._multiplyBy_(self['@transformation']);\x0a\x09\x0a\x09if (self['@visible']) {\x0a\x09\x09canvas['@pathTransform']._setIdentity_(self['@globalPathTransform']);\x0a\x09\x09canvas['@pathTransform']._loadIdentity();\x0a\x09\x09\x0a\x09\x09canvas['@pathTransform']._restoreAfter_(function() {\x0a\x09\x09\x09self._drawOn_(canvas);\x0a\x09\x09});\x0a\x09\x09\x0a\x09\x09if (self['@outerShape'] === undefined || self['@outerShape']._isNil()) {\x0a\x09\x09\x09self._outerShape_(self._class()._defaultOuterShape_());\x0a\x09\x09}\x0a\x09\x09\x0a\x09\x09canvas._clipBy_during_(self['@outerShape'], function() {\x0a\x09\x09\x09for (var index = 0; index < self['@submorphs'].length; index++) {\x0a\x09\x09\x09\x09var submorph = self['@submorphs'][index];\x0a\x09\x09\x09\x09var submorphGlobalOuterBounds = submorph['@outerPolygon']._boundingBox()._boundsAfterMultiplicationWith_(submorph['@globalPathTransform']);\x0a//\x09\x09\x09\x09var submorphGlobalOuterBounds = submorph['@outerPolygon']._deepCopy()._multiplyBy_(submorph['@globalPathTransform'])._boundingBox();\x0a\x09\x09\x09\x09var intersectRects = [];\x0a\x09\x09\x09\x09for (var i = 0; i < rects.length; i++) {\x0a\x09\x09\x09\x09\x09if (submorphGlobalOuterBounds._intersectsWith_(rects[i])) {\x0a\x09\x09\x09\x09\x09\x09intersectRects.push(rects[i]);\x0a\x09\x09\x09\x09\x09}\x0a\x09\x09\x09\x09}\x0a\x09\x09\x09\x09\x0a\x09\x09\x09\x09if (0 < intersectRects.length) {\x0a\x09\x09\x09\x09\x09submorph._redrawNow_on_(intersectRects, canvas);\x0a\x09\x09\x09\x09}\x0a\x09\x09\x09\x09\x0a\x09\x09\x09\x09if (smalltalk.AthensGlobalMorphSettings['@instance']['@showDamageArea']) {\x0a\x09\x09\x09\x09\x09// debug: show damage area\x0a\x09\x09\x09\x09\x09if (0 < intersectRects.length) {\x0a\x09\x09\x09\x09\x09\x09canvas._setPaint_(smalltalk.Color._r_g_b_a_(0,1,0,0.25));\x0a\x09\x09\x09\x09\x09}\x0a\x09\x09\x09\x09\x09else {\x0a\x09\x09\x09\x09\x09\x09canvas._setPaint_(smalltalk.Color._r_g_b_a_(1,0,0,0.25));\x0a\x09\x09\x09\x09\x09}\x0a\x0a\x09\x09\x09\x09\x09canvas['@pathTransform']._loadAffineTransform_(self['@submorphs'][index]['@globalPathTransform']);\x0a\x09\x09\x09\x09\x09canvas._drawShape_(self['@submorphs'][index]['@outerShape']);\x0a\x09\x09\x09\x09}\x0a\x0a\x09\x09\x09}\x0a\x09\x09});\x0a\x09} >",
 messageSends: [],
 referencedClasses: []
 }),
@@ -2066,12 +2079,16 @@ category: 'events',
 fn: function (evt){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
+var $1;
 smalltalk.AthensMorph.fn.prototype._handleMouseDown_.apply(_st(self), [evt]);
+$1=self._needsRedrawOnMouseDown();
+if(smalltalk.assert($1)){
 self._redraw();
+};
 return self}, function($ctx1) {$ctx1.fill(self,"handleMouseDown:",{evt:evt},smalltalk.AthensRectangleMorph)})},
 args: ["evt"],
-source: "handleMouseDown: evt\x0a\x09super handleMouseDown: evt.\x0a\x09self redraw.",
-messageSends: ["handleMouseDown:", "redraw"],
+source: "handleMouseDown: evt\x0a\x09super handleMouseDown: evt.\x0a\x09self needsRedrawOnMouseDown \x0a\x09\x09ifTrue: [self redraw].",
+messageSends: ["handleMouseDown:", "ifTrue:", "redraw", "needsRedrawOnMouseDown"],
 referencedClasses: []
 }),
 smalltalk.AthensRectangleMorph);
@@ -2083,12 +2100,16 @@ category: 'events',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
+var $1;
 smalltalk.AthensMorph.fn.prototype._handleMouseEnter.apply(_st(self), []);
+$1=self._needsRedrawOnMouseFocus();
+if(smalltalk.assert($1)){
 self._redraw();
+};
 return self}, function($ctx1) {$ctx1.fill(self,"handleMouseEnter",{},smalltalk.AthensRectangleMorph)})},
 args: [],
-source: "handleMouseEnter\x0a\x09super handleMouseEnter.\x0a\x09self redraw.",
-messageSends: ["handleMouseEnter", "redraw"],
+source: "handleMouseEnter\x0a\x09super handleMouseEnter.\x0a\x09self needsRedrawOnMouseFocus \x0a\x09\x09ifTrue: [self redraw].",
+messageSends: ["handleMouseEnter", "ifTrue:", "redraw", "needsRedrawOnMouseFocus"],
 referencedClasses: []
 }),
 smalltalk.AthensRectangleMorph);
@@ -2100,12 +2121,16 @@ category: 'events',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
+var $1;
 smalltalk.AthensMorph.fn.prototype._handleMouseLeave.apply(_st(self), []);
+$1=self._needsRedrawOnMouseFocus();
+if(smalltalk.assert($1)){
 self._redraw();
+};
 return self}, function($ctx1) {$ctx1.fill(self,"handleMouseLeave",{},smalltalk.AthensRectangleMorph)})},
 args: [],
-source: "handleMouseLeave\x0a\x09super handleMouseLeave.\x0a\x09self redraw.",
-messageSends: ["handleMouseLeave", "redraw"],
+source: "handleMouseLeave\x0a\x09super handleMouseLeave.\x0a\x09self needsRedrawOnMouseFocus \x0a\x09\x09ifTrue: [self redraw].",
+messageSends: ["handleMouseLeave", "ifTrue:", "redraw", "needsRedrawOnMouseFocus"],
 referencedClasses: []
 }),
 smalltalk.AthensRectangleMorph);
@@ -2117,12 +2142,16 @@ category: 'events',
 fn: function (evt){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
+var $1;
 smalltalk.AthensMorph.fn.prototype._handleMouseUp_.apply(_st(self), [evt]);
+$1=self._needsRedrawOnMouseDown();
+if(smalltalk.assert($1)){
 self._redraw();
+};
 return self}, function($ctx1) {$ctx1.fill(self,"handleMouseUp:",{evt:evt},smalltalk.AthensRectangleMorph)})},
 args: ["evt"],
-source: "handleMouseUp: evt\x0a\x09super handleMouseUp: evt.\x0a\x09self redraw.",
-messageSends: ["handleMouseUp:", "redraw"],
+source: "handleMouseUp: evt\x0a\x09super handleMouseUp: evt.\x0a\x09self needsRedrawOnMouseDown \x0a\x09\x09ifTrue: [self redraw].",
+messageSends: ["handleMouseUp:", "ifTrue:", "redraw", "needsRedrawOnMouseDown"],
 referencedClasses: []
 }),
 smalltalk.AthensRectangleMorph);
@@ -2286,6 +2315,38 @@ self["@mouseFocusFillColor"]=aColor;
 return self}, function($ctx1) {$ctx1.fill(self,"mouseFocusFillColor:",{aColor:aColor},smalltalk.AthensRectangleMorph)})},
 args: ["aColor"],
 source: "mouseFocusFillColor: aColor\x0a\x09mouseFocusFillColor := aColor.",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.AthensRectangleMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "needsRedrawOnMouseDown",
+category: 'testing',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self['@mouseDownFillColor']._notNil() || self['@mouseDownBorderColor']._notNil(); ;
+return self}, function($ctx1) {$ctx1.fill(self,"needsRedrawOnMouseDown",{},smalltalk.AthensRectangleMorph)})},
+args: [],
+source: "needsRedrawOnMouseDown\x0a\x09< return self['@mouseDownFillColor']._notNil() || self['@mouseDownBorderColor']._notNil(); >",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.AthensRectangleMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "needsRedrawOnMouseFocus",
+category: 'testing',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self['@mouseFocusFillColor']._notNil() || self['@mouseFocusBorderColor']._notNil(); ;
+return self}, function($ctx1) {$ctx1.fill(self,"needsRedrawOnMouseFocus",{},smalltalk.AthensRectangleMorph)})},
+args: [],
+source: "needsRedrawOnMouseFocus\x0a\x09< return self['@mouseFocusFillColor']._notNil() || self['@mouseFocusBorderColor']._notNil(); >",
 messageSends: [],
 referencedClasses: []
 }),
@@ -6543,11 +6604,12 @@ fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
  var zero = 0;
+	console.log('damaging world');
 	self['@damageRects'] = [];
 	self._damageArea_(zero.__at(zero)._corner_(self['@world']._width().__at(self['@world']._height()))); ;
 return self}, function($ctx1) {$ctx1.fill(self,"damageWorld",{},smalltalk.WorldState)})},
 args: [],
-source: "damageWorld\x0a\x09< var zero = 0;\x0a\x09self['@damageRects'] = [];\x0a\x09self._damageArea_(zero.__at(zero)._corner_(self['@world']._width().__at(self['@world']._height()))); >",
+source: "damageWorld\x0a\x09< var zero = 0;\x0a\x09console.log('damaging world');\x0a\x09self['@damageRects'] = [];\x0a\x09self._damageArea_(zero.__at(zero)._corner_(self['@world']._width().__at(self['@world']._height()))); >",
 messageSends: [],
 referencedClasses: []
 }),

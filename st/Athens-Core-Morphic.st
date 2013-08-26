@@ -102,8 +102,8 @@ redrawNow: rects on: canvas
 		canvas._clipBy_during_(self['@outerShape'], function() {
 			for (var index = 0; index < self['@submorphs'].length; index++) {
 				var submorph = self['@submorphs'][index];
-//				var submorphGlobalOuterBounds = submorph['@outerShape']._boundingBox()._boundsAfterMultiplicationWith_(submorph['@globalPathTransform']);
-				var submorphGlobalOuterBounds = submorph['@outerPolygon']._deepCopy()._multiplyBy_(submorph['@globalPathTransform'])._boundingBox();
+				var submorphGlobalOuterBounds = submorph['@outerPolygon']._boundingBox()._boundsAfterMultiplicationWith_(submorph['@globalPathTransform']);
+//				var submorphGlobalOuterBounds = submorph['@outerPolygon']._deepCopy()._multiplyBy_(submorph['@globalPathTransform'])._boundingBox();
 				var intersectRects = [];
 				for (var i = 0; i < rects.length; i++) {
 					if (submorphGlobalOuterBounds._intersectsWith_(rects[i])) {
@@ -152,12 +152,11 @@ handleKeyUp: evt
 !
 
 handleMouseClick: evt
-	(eventCallbacks at: #mouseClick ifAbsent: [[:ev | ]]) value: evt.
-	"evt ctrlKeyPressed & (evt topMost)
+	evt ctrlKeyPressed & (evt topMost)
 		ifTrue: [self world addHalosTo: self]
 		ifFalse: [(eventCallbacks at: #mouseClick ifAbsent: [[:ev | ]]) value: evt].
 	evt ctrlKeyPressed not & evt topMost
-		ifTrue: [self world hideHalos]."
+		ifTrue: [self world hideHalos].
 !
 
 handleMouseDown: evt
@@ -370,7 +369,10 @@ addMorph: aMorph
 !
 
 bringToFront
-	< self._zIndex_(self['@owner']._maxZIndex() + 1); >
+	< var maxZIndex = self['@owner']._maxZIndex();
+	if (self['@zIndex'] < maxZIndex) {
+		self._zIndex_(maxZIndex + 1);
+	} >
 !
 
 delete
@@ -846,22 +848,26 @@ drawOn: canvas
 
 handleMouseDown: evt
 	super handleMouseDown: evt.
-	self redraw.
+	self needsRedrawOnMouseDown 
+		ifTrue: [self redraw].
 !
 
 handleMouseEnter
 	super handleMouseEnter.
-	self redraw.
+	self needsRedrawOnMouseFocus 
+		ifTrue: [self redraw].
 !
 
 handleMouseLeave
 	super handleMouseLeave.
-	self redraw.
+	self needsRedrawOnMouseFocus 
+		ifTrue: [self redraw].
 !
 
 handleMouseUp: evt
 	super handleMouseUp: evt.
-	self redraw.
+	self needsRedrawOnMouseDown 
+		ifTrue: [self redraw].
 ! !
 
 !AthensRectangleMorph methodsFor: 'initialization'!
@@ -885,6 +891,16 @@ outerShapeChanged
 	self['@shapeOuter'] = zero.__at(zero)._corner_(width.__at(self['@height']));
 	self['@shapeInner'] = one.__at(one)._corner_(innerWidth.__at(self['@height'] - 1));
 	self._outerShape_(self['@shapeOuter']); >
+! !
+
+!AthensRectangleMorph methodsFor: 'testing'!
+
+needsRedrawOnMouseDown
+	< return self['@mouseDownFillColor']._notNil() || self['@mouseDownBorderColor']._notNil(); >
+!
+
+needsRedrawOnMouseFocus
+	< return self['@mouseFocusFillColor']._notNil() || self['@mouseFocusBorderColor']._notNil(); >
 ! !
 
 !AthensRectangleMorph class methodsFor: 'instance creation'!
@@ -2472,6 +2488,7 @@ damageArea: aRect
 
 damageWorld
 	< var zero = 0;
+	console.log('damaging world');
 	self['@damageRects'] = [];
 	self._damageArea_(zero.__at(zero)._corner_(self['@world']._width().__at(self['@world']._height()))); >
 ! !

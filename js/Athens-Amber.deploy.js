@@ -637,8 +637,8 @@ return smalltalk.withContext(function($ctx1) {
 	for (var i = 0; i < 4; i++) {
 		minX = Math.min(minX, points[i][0]);
 		maxX = Math.max(maxX, points[i][0]);
-		minY = Math.min(minY, points[i][0]);
-		maxY = Math.max(maxY, points[i][0]);
+		minY = Math.min(minY, points[i][1]);
+		maxY = Math.max(maxY, points[i][1]);
 	}
 	
 	return minX.__at(minY)._corner_(maxX.__at(maxY)); ;
