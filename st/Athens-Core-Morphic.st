@@ -427,7 +427,9 @@ addMorph: aMorph
 	aMorph['@owner'] = self;
 	if (aMorph['@visible']) {
 		aMorph._redraw();
-	} >
+	}
+	// bring to front
+	aMorph._zIndex_(self._maxZIndex() + 1);	>
 !
 
 bringToFront

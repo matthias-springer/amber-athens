@@ -91,10 +91,12 @@ return smalltalk.withContext(function($ctx1) {
 	aMorph['@owner'] = self;
 	if (aMorph['@visible']) {
 		aMorph._redraw();
-	} ;
+	}
+	// bring to front
+	aMorph._zIndex_(self._maxZIndex() + 1);	;
 return self}, function($ctx1) {$ctx1.fill(self,"addMorph:",{aMorph:aMorph},smalltalk.AthensMorph)})},
 args: ["aMorph"],
-source: "addMorph: aMorph\x0a\x09< self['@submorphs']._add_(aMorph);\x0a\x09aMorph['@owner'] = self;\x0a\x09if (aMorph['@visible']) {\x0a\x09\x09aMorph._redraw();\x0a\x09} >",
+source: "addMorph: aMorph\x0a\x09< self['@submorphs']._add_(aMorph);\x0a\x09aMorph['@owner'] = self;\x0a\x09if (aMorph['@visible']) {\x0a\x09\x09aMorph._redraw();\x0a\x09}\x0a\x09// bring to front\x0a\x09aMorph._zIndex_(self._maxZIndex() + 1);\x09>",
 messageSends: [],
 referencedClasses: []
 }),
