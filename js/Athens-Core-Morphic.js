@@ -3628,10 +3628,10 @@ fn: function (){
 var self=this;
 var virtualSurface;
 function $AthensHTMLSurface(){return smalltalk.AthensHTMLSurface||(typeof AthensHTMLSurface=="undefined"?nil:AthensHTMLSurface)}
-function $Bitmap(){return smalltalk.Bitmap||(typeof Bitmap=="undefined"?nil:Bitmap)}
+function $Image(){return smalltalk.Image||(typeof Image=="undefined"?nil:Image)}
 return smalltalk.withContext(function($ctx1) { 
 virtualSurface=_st($AthensHTMLSurface())._extent_((0).__at((0)));
-_st(virtualSurface)._createBitmapPaint_afterLoading_(_st($Bitmap())._fromUrl_(self["@url"]),(function(paint){
+_st(virtualSurface)._createBitmapPaint_afterLoading_(_st($Image())._fromUrl_(self["@url"]),(function(paint){
 return smalltalk.withContext(function($ctx2) {
 self["@bitmapPaint"]=paint;
 self["@bitmapPaint"];
@@ -3641,9 +3641,9 @@ return self._redraw();
 }, function($ctx2) {$ctx2.fillBlock({paint:paint},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"createBitmapPaint",{virtualSurface:virtualSurface},smalltalk.AthensImageMorph)})},
 args: [],
-source: "createBitmapPaint\x0a\x09|virtualSurface|\x0a\x09virtualSurface := AthensHTMLSurface extent: 0@0.\x0a\x09virtualSurface\x0a\x09\x09createBitmapPaint: (Bitmap fromUrl: url)\x0a\x09\x09afterLoading: [:paint | \x0a\x09\x09\x09bitmapPaint := paint.\x0a\x09\x09\x09self height: bitmapPaint height.\x0a\x09\x09\x09self width: bitmapPaint width.\x0a\x09\x09\x09self redraw].",
+source: "createBitmapPaint\x0a\x09|virtualSurface|\x0a\x09virtualSurface := AthensHTMLSurface extent: 0@0.\x0a\x09virtualSurface\x0a\x09\x09createBitmapPaint: (Image fromUrl: url)\x0a\x09\x09afterLoading: [:paint | \x0a\x09\x09\x09bitmapPaint := paint.\x0a\x09\x09\x09self height: bitmapPaint height.\x0a\x09\x09\x09self width: bitmapPaint width.\x0a\x09\x09\x09self redraw].",
 messageSends: ["extent:", "@", "createBitmapPaint:afterLoading:", "fromUrl:", "height:", "height", "width:", "width", "redraw"],
-referencedClasses: ["AthensHTMLSurface", "Bitmap"]
+referencedClasses: ["AthensHTMLSurface", "Image"]
 }),
 smalltalk.AthensImageMorph);
 

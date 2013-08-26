@@ -1,63 +1,4 @@
 smalltalk.addPackage('Athens-Amber');
-smalltalk.addClass('Bitmap', smalltalk.Object, ['url'], 'Athens-Amber');
-smalltalk.addMethod(
-smalltalk.method({
-selector: "image",
-category: 'accessing',
-fn: function (){
-var self=this;
-function $Image(){return smalltalk.Image||(typeof Image=="undefined"?nil:Image)}
-return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st($Image())._fromUrl_(self["@url"]);
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"image",{},smalltalk.Bitmap)})},
-args: [],
-source: "image\x0a\x09^ Image fromUrl: url",
-messageSends: ["fromUrl:"],
-referencedClasses: ["Image"]
-}),
-smalltalk.Bitmap);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "url:",
-category: 'accessing',
-fn: function (anUrl){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-self["@url"]=anUrl;
-return self}, function($ctx1) {$ctx1.fill(self,"url:",{anUrl:anUrl},smalltalk.Bitmap)})},
-args: ["anUrl"],
-source: "url: anUrl\x0a\x09url := anUrl.",
-messageSends: [],
-referencedClasses: []
-}),
-smalltalk.Bitmap);
-
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "fromUrl:",
-category: 'instance creation',
-fn: function (aString){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-var $2,$3,$1;
-$2=self._new();
-_st($2)._url_(aString);
-$3=_st($2)._yourself();
-$1=$3;
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"fromUrl:",{aString:aString},smalltalk.Bitmap.klass)})},
-args: ["aString"],
-source: "fromUrl: aString\x0a\x09^ self new\x0a\x09\x09url: aString;\x0a\x09\x09yourself",
-messageSends: ["url:", "new", "yourself"],
-referencedClasses: []
-}),
-smalltalk.Bitmap.klass);
-
-
 smalltalk.addClass('Color', smalltalk.Object, ['rgbaString', 'alpha', 'r', 'g', 'b'], 'Athens-Amber');
 smalltalk.addMethod(
 smalltalk.method({
@@ -805,6 +746,7 @@ smalltalk.LogicalFont.klass);
 
 
 smalltalk.addClass('Rectangle', smalltalk.Object, ['origin', 'corner'], 'Athens-Amber');
+smalltalk.Rectangle.comment="I am a rectangle. I have a point of origin and a corner point.\x0a\x0a\x0a## API\x0a\x0aThe `#insectsWith:` method is used to determine whether I intersect with another rectangle.\x0a\x0aThe `#boundsAfterMultiplicationWith:` method is used to calculate my bounding box after transforming myself with the argument matrix.";
 smalltalk.addMethod(
 smalltalk.method({
 selector: "asPolygon",

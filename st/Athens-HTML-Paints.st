@@ -141,7 +141,7 @@ AthensHTMLPatternPaint subclass: #AthensHTMLBitmapPaint
 !AthensHTMLBitmapPaint methodsFor: 'accessing'!
 
 bitmap: aBitmap
-	patternSource := aBitmap image.
+	patternSource := aBitmap.
 !
 
 height
@@ -163,13 +163,13 @@ width
 
 !AthensHTMLBitmapPaint class methodsFor: 'instance creation'!
 
-forBitmap: aBitmap
+fromImage: aBitmap
 	^ self new
 		bitmap: aBitmap;
 		yourself
 !
 
-forBitmap: aBitmap afterLoading: aBlock
+fromImage: aBitmap afterLoading: aBlock
 	^ self new
 		bitmap: aBitmap;
 		loadingCallback: aBlock;

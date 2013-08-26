@@ -2757,10 +2757,10 @@ fn: function (){
 var self=this;
 var virtualSurface;
 function $AthensHTMLSurface(){return smalltalk.AthensHTMLSurface||(typeof AthensHTMLSurface=="undefined"?nil:AthensHTMLSurface)}
-function $Bitmap(){return smalltalk.Bitmap||(typeof Bitmap=="undefined"?nil:Bitmap)}
+function $Image(){return smalltalk.Image||(typeof Image=="undefined"?nil:Image)}
 return smalltalk.withContext(function($ctx1) { 
 virtualSurface=_st($AthensHTMLSurface())._extent_((0).__at((0)));
-_st(virtualSurface)._createBitmapPaint_afterLoading_(_st($Bitmap())._fromUrl_(self["@url"]),(function(paint){
+_st(virtualSurface)._createBitmapPaint_afterLoading_(_st($Image())._fromUrl_(self["@url"]),(function(paint){
 return smalltalk.withContext(function($ctx2) {
 self["@bitmapPaint"]=paint;
 self["@bitmapPaint"];

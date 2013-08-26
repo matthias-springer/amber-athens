@@ -337,11 +337,11 @@ category: 'accessing',
 fn: function (aBitmap){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self["@patternSource"]=_st(aBitmap)._image();
+self["@patternSource"]=aBitmap;
 return self}, function($ctx1) {$ctx1.fill(self,"bitmap:",{aBitmap:aBitmap},smalltalk.AthensHTMLBitmapPaint)})},
 args: ["aBitmap"],
-source: "bitmap: aBitmap\x0a\x09patternSource := aBitmap image.",
-messageSends: ["image"],
+source: "bitmap: aBitmap\x0a\x09patternSource := aBitmap.",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLBitmapPaint);
@@ -402,7 +402,7 @@ smalltalk.AthensHTMLBitmapPaint);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "forBitmap:",
+selector: "fromImage:",
 category: 'instance creation',
 fn: function (aBitmap){
 var self=this;
@@ -413,9 +413,9 @@ _st($2)._bitmap_(aBitmap);
 $3=_st($2)._yourself();
 $1=$3;
 return $1;
-}, function($ctx1) {$ctx1.fill(self,"forBitmap:",{aBitmap:aBitmap},smalltalk.AthensHTMLBitmapPaint.klass)})},
+}, function($ctx1) {$ctx1.fill(self,"fromImage:",{aBitmap:aBitmap},smalltalk.AthensHTMLBitmapPaint.klass)})},
 args: ["aBitmap"],
-source: "forBitmap: aBitmap\x0a\x09^ self new\x0a\x09\x09bitmap: aBitmap;\x0a\x09\x09yourself",
+source: "fromImage: aBitmap\x0a\x09^ self new\x0a\x09\x09bitmap: aBitmap;\x0a\x09\x09yourself",
 messageSends: ["bitmap:", "new", "yourself"],
 referencedClasses: []
 }),
@@ -423,7 +423,7 @@ smalltalk.AthensHTMLBitmapPaint.klass);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "forBitmap:afterLoading:",
+selector: "fromImage:afterLoading:",
 category: 'instance creation',
 fn: function (aBitmap,aBlock){
 var self=this;
@@ -435,9 +435,9 @@ _st($2)._loadingCallback_(aBlock);
 $3=_st($2)._yourself();
 $1=$3;
 return $1;
-}, function($ctx1) {$ctx1.fill(self,"forBitmap:afterLoading:",{aBitmap:aBitmap,aBlock:aBlock},smalltalk.AthensHTMLBitmapPaint.klass)})},
+}, function($ctx1) {$ctx1.fill(self,"fromImage:afterLoading:",{aBitmap:aBitmap,aBlock:aBlock},smalltalk.AthensHTMLBitmapPaint.klass)})},
 args: ["aBitmap", "aBlock"],
-source: "forBitmap: aBitmap afterLoading: aBlock\x0a\x09^ self new\x0a\x09\x09bitmap: aBitmap;\x0a\x09\x09loadingCallback: aBlock;\x0a\x09\x09yourself",
+source: "fromImage: aBitmap afterLoading: aBlock\x0a\x09^ self new\x0a\x09\x09bitmap: aBitmap;\x0a\x09\x09loadingCallback: aBlock;\x0a\x09\x09yourself",
 messageSends: ["bitmap:", "new", "loadingCallback:", "yourself"],
 referencedClasses: []
 }),

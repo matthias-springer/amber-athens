@@ -252,11 +252,11 @@ initializeCanvas
 !AthensHTMLSurface methodsFor: 'paints'!
 
 createBitmapPaint: aBitmap
-	^ AthensHTMLBitmapPaint forBitmap: aBitmap
+	^ AthensHTMLBitmapPaint fromImage: aBitmap
 !
 
 createBitmapPaint: aBitmap afterLoading: aBlock
-	^ AthensHTMLBitmapPaint forBitmap: aBitmap afterLoading: aBlock
+	^ AthensHTMLBitmapPaint fromImage: aBitmap afterLoading: aBlock
 !
 
 createLinearGradient: aColorRamp start: aStartPoint stop: aStopPoint

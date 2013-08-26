@@ -1,26 +1,4 @@
 Smalltalk current createPackage: 'Athens-Amber'!
-Object subclass: #Bitmap
-	instanceVariableNames: 'url'
-	package: 'Athens-Amber'!
-
-!Bitmap methodsFor: 'accessing'!
-
-image
-	^ Image fromUrl: url
-!
-
-url: anUrl
-	url := anUrl.
-! !
-
-!Bitmap class methodsFor: 'instance creation'!
-
-fromUrl: aString
-	^ self new
-		url: aString;
-		yourself
-! !
-
 Object subclass: #Color
 	instanceVariableNames: 'rgbaString alpha r g b'
 	package: 'Athens-Amber'!
@@ -254,6 +232,15 @@ familyName: aString pointSize: anInteger
 Object subclass: #Rectangle
 	instanceVariableNames: 'origin corner'
 	package: 'Athens-Amber'!
+!Rectangle commentStamp!
+I am a rectangle. I have a point of origin and a corner point.
+
+
+## API
+
+The `#insectsWith:` method is used to determine whether I intersect with another rectangle.
+
+The `#boundsAfterMultiplicationWith:` method is used to calculate my bounding box after transforming myself with the argument matrix.!
 
 !Rectangle methodsFor: 'accessing'!
 

@@ -874,10 +874,10 @@ selector: "step21",
 category: 'steps',
 fn: function (){
 var self=this;
-function $Bitmap(){return smalltalk.Bitmap||(typeof Bitmap=="undefined"?nil:Bitmap)}
+function $Image(){return smalltalk.Image||(typeof Image=="undefined"?nil:Image)}
 function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
 return smalltalk.withContext(function($ctx1) { 
-_st(self["@surface"])._createBitmapPaint_afterLoading_(_st($Bitmap())._fromUrl_("http://amber-lang.net/images/amber.png"),(function(bitmapPaint){
+_st(self["@surface"])._createBitmapPaint_afterLoading_(_st($Image())._fromUrl_("http://amber-lang.net/images/amber.png"),(function(bitmapPaint){
 return smalltalk.withContext(function($ctx2) {
 _st(bitmapPaint)._repeat();
 return _st(self["@surface"])._drawDuring_((function(canvas){
@@ -890,9 +890,9 @@ return _st(canvas)._drawShape_(_st((0).__at((0)))._corner_(_st(self["@surface"])
 }, function($ctx2) {$ctx2.fillBlock({bitmapPaint:bitmapPaint},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step21",{},smalltalk.AthensTutorial)})},
 args: [],
-source: "step21\x0a\x22Step 21: Pattern paints (bitmap paints).\x0a\x0a\x22\x0a\x09\x0a\x09\x22The afterLoading block is executed when the image is loaded by the browser.\x0a\x09If you know for sure that the image is already loaded, you can use\x0a\x09createBitmapPaint: that creates the paint and returns it directly.\x22\x0a\x09\x0a\x09surface \x0a\x09\x09createBitmapPaint: (Bitmap fromUrl: 'http://amber-lang.net/images/amber.png')\x0a\x09\x09afterLoading: [:bitmapPaint |\x0a\x09\x09\x09bitmapPaint repeat. \x22use #repeat to repeat the fill ad infinitum using tiling effect \x22\x0a\x09\x0a\x09\x09\x09surface drawDuring: [:canvas |\x0a\x09\x09\x09\x09surface clear: Color gray.\x0a\x09\x09\x09\x0a\x09\x09\x09\x09canvas setPaint: bitmapPaint.\x0a\x09\x09\x0a\x09\x09\x09\x09\x22And of course, using the paint transform we can affect the result\x22\x0a\x09\x09\x0a\x09\x09\x09\x09canvas paintTransform scaleBy: 0.5.\x0a\x09\x09\x09\x09canvas drawShape: (0@0 corner: surface extent).\x0a\x0a\x09\x09\x09]].",
+source: "step21\x0a\x22Step 21: Pattern paints (bitmap paints).\x0a\x0a\x22\x0a\x09\x0a\x09\x22The afterLoading block is executed when the image is loaded by the browser.\x0a\x09If you know for sure that the image is already loaded, you can use\x0a\x09createBitmapPaint: that creates the paint and returns it directly.\x22\x0a\x09\x0a\x09surface \x0a\x09\x09createBitmapPaint: (Image fromUrl: 'http://amber-lang.net/images/amber.png')\x0a\x09\x09afterLoading: [:bitmapPaint |\x0a\x09\x09\x09bitmapPaint repeat. \x22use #repeat to repeat the fill ad infinitum using tiling effect \x22\x0a\x09\x0a\x09\x09\x09surface drawDuring: [:canvas |\x0a\x09\x09\x09\x09surface clear: Color gray.\x0a\x09\x09\x09\x0a\x09\x09\x09\x09canvas setPaint: bitmapPaint.\x0a\x09\x09\x0a\x09\x09\x09\x09\x22And of course, using the paint transform we can affect the result\x22\x0a\x09\x09\x0a\x09\x09\x09\x09canvas paintTransform scaleBy: 0.5.\x0a\x09\x09\x09\x09canvas drawShape: (0@0 corner: surface extent).\x0a\x0a\x09\x09\x09]].",
 messageSends: ["createBitmapPaint:afterLoading:", "fromUrl:", "repeat", "drawDuring:", "clear:", "gray", "setPaint:", "scaleBy:", "paintTransform", "drawShape:", "corner:", "extent", "@"],
-referencedClasses: ["Bitmap", "Color"]
+referencedClasses: ["Image", "Color"]
 }),
 smalltalk.AthensTutorial);
 
@@ -903,10 +903,10 @@ category: 'steps',
 fn: function (){
 var self=this;
 var bitmapPaint;
-function $Bitmap(){return smalltalk.Bitmap||(typeof Bitmap=="undefined"?nil:Bitmap)}
+function $Image(){return smalltalk.Image||(typeof Image=="undefined"?nil:Image)}
 function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
 return smalltalk.withContext(function($ctx1) { 
-bitmapPaint=_st(self["@surface"])._createBitmapPaint_(_st($Bitmap())._fromUrl_("http://amber-lang.net/images/amber.png"));
+bitmapPaint=_st(self["@surface"])._createBitmapPaint_(_st($Image())._fromUrl_("http://amber-lang.net/images/amber.png"));
 _st(bitmapPaint)._repeat();
 _st(self["@surface"])._drawDuring_((function(canvas){
 return smalltalk.withContext(function($ctx2) {
@@ -917,9 +917,9 @@ return _st(canvas)._drawShape_(_st((0).__at((0)))._corner_(_st(self["@surface"])
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step21a",{bitmapPaint:bitmapPaint},smalltalk.AthensTutorial)})},
 args: [],
-source: "step21a\x0a\x22Step 21: Pattern paints (bitmap paints).\x0a\x0a\x22\x0a\x09| bitmapPaint  |\x0a\x0a\x09bitmapPaint := surface createBitmapPaint: (Bitmap fromUrl: 'http://amber-lang.net/images/amber.png'). \x0a\x09bitmapPaint repeat. \x22use #repeat to repeat the fill ad infinitum using tiling effect \x22\x0a\x09\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x09\x0a\x09\x09canvas setPaint: bitmapPaint.\x0a\x09\x09\x0a\x09\x09\x22And of course, using the paint transform we can affect the result\x22\x0a\x09\x09\x0a\x09\x09canvas paintTransform scaleBy: 0.5.\x0a\x09\x09canvas drawShape: (0@0 corner: surface extent).\x0a\x0a\x09].",
+source: "step21a\x0a\x22Step 21: Pattern paints (bitmap paints).\x0a\x0a\x22\x0a\x09| bitmapPaint  |\x0a\x0a\x09bitmapPaint := surface createBitmapPaint: (Image fromUrl: 'http://amber-lang.net/images/amber.png'). \x0a\x09bitmapPaint repeat. \x22use #repeat to repeat the fill ad infinitum using tiling effect \x22\x0a\x09\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x09\x0a\x09\x09canvas setPaint: bitmapPaint.\x0a\x09\x09\x0a\x09\x09\x22And of course, using the paint transform we can affect the result\x22\x0a\x09\x09\x0a\x09\x09canvas paintTransform scaleBy: 0.5.\x0a\x09\x09canvas drawShape: (0@0 corner: surface extent).\x0a\x0a\x09].",
 messageSends: ["createBitmapPaint:", "fromUrl:", "repeat", "drawDuring:", "clear:", "gray", "setPaint:", "scaleBy:", "paintTransform", "drawShape:", "corner:", "extent", "@"],
-referencedClasses: ["Bitmap", "Color"]
+referencedClasses: ["Image", "Color"]
 }),
 smalltalk.AthensTutorial);
 

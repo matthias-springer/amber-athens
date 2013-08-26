@@ -1383,7 +1383,7 @@ createBitmapPaint
 	|virtualSurface|
 	virtualSurface := AthensHTMLSurface extent: 0@0.
 	virtualSurface
-		createBitmapPaint: (Bitmap fromUrl: url)
+		createBitmapPaint: (Image fromUrl: url)
 		afterLoading: [:paint | 
 			bitmapPaint := paint.
 			self height: bitmapPaint height.

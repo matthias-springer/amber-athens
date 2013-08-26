@@ -789,7 +789,7 @@ step21
 	createBitmapPaint: that creates the paint and returns it directly."
 	
 	surface 
-		createBitmapPaint: (Bitmap fromUrl: 'http://amber-lang.net/images/amber.png')
+		createBitmapPaint: (Image fromUrl: 'http://amber-lang.net/images/amber.png')
 		afterLoading: [:bitmapPaint |
 			bitmapPaint repeat. "use #repeat to repeat the fill ad infinitum using tiling effect "
 	
@@ -812,7 +812,7 @@ step21a
 "
 	| bitmapPaint  |
 
-	bitmapPaint := surface createBitmapPaint: (Bitmap fromUrl: 'http://amber-lang.net/images/amber.png'). 
+	bitmapPaint := surface createBitmapPaint: (Image fromUrl: 'http://amber-lang.net/images/amber.png'). 
 	bitmapPaint repeat. "use #repeat to repeat the fill ad infinitum using tiling effect "
 	
 	surface drawDuring: [:canvas |

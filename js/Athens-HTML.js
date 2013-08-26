@@ -613,12 +613,12 @@ var self=this;
 function $AthensHTMLBitmapPaint(){return smalltalk.AthensHTMLBitmapPaint||(typeof AthensHTMLBitmapPaint=="undefined"?nil:AthensHTMLBitmapPaint)}
 return smalltalk.withContext(function($ctx1) { 
 var $1;
-$1=_st($AthensHTMLBitmapPaint())._forBitmap_(aBitmap);
+$1=_st($AthensHTMLBitmapPaint())._fromImage_(aBitmap);
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"createBitmapPaint:",{aBitmap:aBitmap},smalltalk.AthensHTMLSurface)})},
 args: ["aBitmap"],
-source: "createBitmapPaint: aBitmap\x0a\x09^ AthensHTMLBitmapPaint forBitmap: aBitmap",
-messageSends: ["forBitmap:"],
+source: "createBitmapPaint: aBitmap\x0a\x09^ AthensHTMLBitmapPaint fromImage: aBitmap",
+messageSends: ["fromImage:"],
 referencedClasses: ["AthensHTMLBitmapPaint"]
 }),
 smalltalk.AthensHTMLSurface);
@@ -632,12 +632,12 @@ var self=this;
 function $AthensHTMLBitmapPaint(){return smalltalk.AthensHTMLBitmapPaint||(typeof AthensHTMLBitmapPaint=="undefined"?nil:AthensHTMLBitmapPaint)}
 return smalltalk.withContext(function($ctx1) { 
 var $1;
-$1=_st($AthensHTMLBitmapPaint())._forBitmap_afterLoading_(aBitmap,aBlock);
+$1=_st($AthensHTMLBitmapPaint())._fromImage_afterLoading_(aBitmap,aBlock);
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"createBitmapPaint:afterLoading:",{aBitmap:aBitmap,aBlock:aBlock},smalltalk.AthensHTMLSurface)})},
 args: ["aBitmap", "aBlock"],
-source: "createBitmapPaint: aBitmap afterLoading: aBlock\x0a\x09^ AthensHTMLBitmapPaint forBitmap: aBitmap afterLoading: aBlock",
-messageSends: ["forBitmap:afterLoading:"],
+source: "createBitmapPaint: aBitmap afterLoading: aBlock\x0a\x09^ AthensHTMLBitmapPaint fromImage: aBitmap afterLoading: aBlock",
+messageSends: ["fromImage:afterLoading:"],
 referencedClasses: ["AthensHTMLBitmapPaint"]
 }),
 smalltalk.AthensHTMLSurface);

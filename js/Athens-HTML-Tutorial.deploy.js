@@ -708,10 +708,10 @@ smalltalk.method({
 selector: "step21",
 fn: function (){
 var self=this;
-function $Bitmap(){return smalltalk.Bitmap||(typeof Bitmap=="undefined"?nil:Bitmap)}
+function $Image(){return smalltalk.Image||(typeof Image=="undefined"?nil:Image)}
 function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
 return smalltalk.withContext(function($ctx1) { 
-_st(self["@surface"])._createBitmapPaint_afterLoading_(_st($Bitmap())._fromUrl_("http://amber-lang.net/images/amber.png"),(function(bitmapPaint){
+_st(self["@surface"])._createBitmapPaint_afterLoading_(_st($Image())._fromUrl_("http://amber-lang.net/images/amber.png"),(function(bitmapPaint){
 return smalltalk.withContext(function($ctx2) {
 _st(bitmapPaint)._repeat();
 return _st(self["@surface"])._drawDuring_((function(canvas){
@@ -732,10 +732,10 @@ selector: "step21a",
 fn: function (){
 var self=this;
 var bitmapPaint;
-function $Bitmap(){return smalltalk.Bitmap||(typeof Bitmap=="undefined"?nil:Bitmap)}
+function $Image(){return smalltalk.Image||(typeof Image=="undefined"?nil:Image)}
 function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
 return smalltalk.withContext(function($ctx1) { 
-bitmapPaint=_st(self["@surface"])._createBitmapPaint_(_st($Bitmap())._fromUrl_("http://amber-lang.net/images/amber.png"));
+bitmapPaint=_st(self["@surface"])._createBitmapPaint_(_st($Image())._fromUrl_("http://amber-lang.net/images/amber.png"));
 _st(bitmapPaint)._repeat();
 _st(self["@surface"])._drawDuring_((function(canvas){
 return smalltalk.withContext(function($ctx2) {
