@@ -344,6 +344,22 @@ smalltalk.Color.klass);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "r:g:b:a:",
+fn: function (red,green,blue,alpha){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ var instance = self._new();
+	instance['@r'] = red;
+	instance['@g'] = green;
+	instance['@b'] = blue;
+	instance['@alpha'] = alpha;
+	return instance; ;
+return self}, function($ctx1) {$ctx1.fill(self,"r:g:b:a:",{red:red,green:green,blue:blue,alpha:alpha},smalltalk.Color.klass)})},
+messageSends: []}),
+smalltalk.Color.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "r:g:b:rgba:",
 fn: function (red,green,blue,rgbaString){
 var self=this;
@@ -593,6 +609,45 @@ smalltalk.Rectangle);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "boundingBox",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"boundingBox",{},smalltalk.Rectangle)})},
+messageSends: []}),
+smalltalk.Rectangle);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "boundsAfterMultiplicationWith:",
+fn: function (matrix){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+	var x1 = matrix['@sx']*self['@origin']['@x'] + matrix['@shx']*self['@origin']['@y'] + matrix['@x'];
+	var x2 = matrix['@sx']*self['@corner']['@x'] + matrix['@shx']*self['@corner']['@y'] + matrix['@x'];
+	var y1 = matrix['@shy']*self['@origin']['@x'] + matrix['@sy']*self['@origin']['@y'] + matrix['@y'];
+	var y2 = matrix['@shy']*self['@corner']['@x'] + matrix['@sy']*self['@corner']['@y'] + matrix['@y'];
+	
+	var points = [[x1, y1], [x1, y2], [x2, y1], [x2, y2]];
+	
+	for (var i = 0; i < 4; i++) {
+		minX = Math.min(minX, points[i][0]);
+		maxX = Math.max(maxX, points[i][0]);
+		minY = Math.min(minY, points[i][0]);
+		maxY = Math.max(maxY, points[i][0]);
+	}
+	
+	return minX.__at(minY)._corner_(maxX.__at(maxY)); ;
+return self}, function($ctx1) {$ctx1.fill(self,"boundsAfterMultiplicationWith:",{matrix:matrix},smalltalk.Rectangle)})},
+messageSends: []}),
+smalltalk.Rectangle);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "corner",
 fn: function (){
 var self=this;
@@ -634,6 +689,20 @@ var self=this;
 return smalltalk.withContext(function($ctx1) { 
  return self['@corner']['@y'] -  self['@origin']['@y']; ;
 return self}, function($ctx1) {$ctx1.fill(self,"height",{},smalltalk.Rectangle)})},
+messageSends: []}),
+smalltalk.Rectangle);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "intersectsWith:",
+fn: function (aRect){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self['@origin']['@x'] <= aRect['@corner']['@x'] &&
+		aRect['@origin']['@x'] <= self['@corner']['@x'] &&
+		self['@origin']['@y'] <= aRect['@corner']['@y'] &&
+		aRect['@origin']['@y'] <= self['@corner']['@y']; ;
+return self}, function($ctx1) {$ctx1.fill(self,"intersectsWith:",{aRect:aRect},smalltalk.Rectangle)})},
 messageSends: []}),
 smalltalk.Rectangle);
 

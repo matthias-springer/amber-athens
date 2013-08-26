@@ -9,6 +9,21 @@ createPath:	aBlock
 
 		"aBlock value: self ...."	
 	self subclassResponsibility
+!
+
+fromRectangles: rects
+	< return self._createPath_(function(builder) {
+		builder._absolute();
+		
+		for (var i = 0; i < rects.length; i++) {
+			var rect = rects[i];
+			builder._moveTo_(rect['@origin']['@x'].__at(rect['@origin']['@y']));
+			builder._lineTo_(rect['@corner']['@x'].__at(rect['@origin']['@y']));
+			builder._lineTo_(rect['@corner']['@x'].__at(rect['@corner']['@y']));
+			builder._lineTo_(rect['@origin']['@x'].__at(rect['@corner']['@y']));
+			builder._close();
+		}
+	}); >
 ! !
 
 !AthensPathBuilder methodsFor: 'path commands'!
@@ -92,6 +107,11 @@ initialize
 createPath: aBlock
 
 	^ self new createPath: aBlock
+!
+
+fromRectangles: rects
+
+	^ self new fromRectangles: rects
 ! !
 
 AthensPathBuilder subclass: #AthensSimplePathBuilder

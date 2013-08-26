@@ -144,6 +144,15 @@ r: red g: green b: blue
 	return instance; >
 !
 
+r: red g: green b: blue a: alpha
+	< var instance = self._new();
+	instance['@r'] = red;
+	instance['@g'] = green;
+	instance['@b'] = blue;
+	instance['@alpha'] = alpha;
+	return instance; >
+!
+
 r: red g: green b: blue rgba: rgbaString
 	< var instance = self._new();
 	instance['@r'] = red;
@@ -297,12 +306,44 @@ asPolygon
 	polygon._lineTo_(self['@corner']['@x'].__at(self['@corner']['@y']));
 	polygon._lineTo_(self['@origin']['@x'].__at(self['@corner']['@y']));
 	return polygon; >
+!
+
+boundingBox
+	^ self
+!
+
+boundsAfterMultiplicationWith: matrix
+	< var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+	var x1 = matrix['@sx']*self['@origin']['@x'] + matrix['@shx']*self['@origin']['@y'] + matrix['@x'];
+	var x2 = matrix['@sx']*self['@corner']['@x'] + matrix['@shx']*self['@corner']['@y'] + matrix['@x'];
+	var y1 = matrix['@shy']*self['@origin']['@x'] + matrix['@sy']*self['@origin']['@y'] + matrix['@y'];
+	var y2 = matrix['@shy']*self['@corner']['@x'] + matrix['@sy']*self['@corner']['@y'] + matrix['@y'];
+	
+	var points = [[x1, y1], [x1, y2], [x2, y1], [x2, y2]];
+	
+	for (var i = 0; i < 4; i++) {
+		minX = Math.min(minX, points[i][0]);
+		maxX = Math.max(maxX, points[i][0]);
+		minY = Math.min(minY, points[i][0]);
+		maxY = Math.max(maxY, points[i][0]);
+	}
+	
+	return minX.__at(minY)._corner_(maxX.__at(maxY)); >
 ! !
 
 !Rectangle methodsFor: 'drawing'!
 
 drawOn: canvas
 	< canvas['@surface']['@context2D'].rect(self._left(), self._top(), self._width(), self._height()); >
+! !
+
+!Rectangle methodsFor: 'testing'!
+
+intersectsWith: aRect
+	< return self['@origin']['@x'] <= aRect['@corner']['@x'] &&
+		aRect['@origin']['@x'] <= self['@corner']['@x'] &&
+		self['@origin']['@y'] <= aRect['@corner']['@y'] &&
+		aRect['@origin']['@y'] <= self['@corner']['@y']; >
 ! !
 
 !Rectangle class methodsFor: 'instance creation'!

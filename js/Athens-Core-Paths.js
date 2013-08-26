@@ -114,6 +114,33 @@ smalltalk.AthensPathBuilder);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "fromRectangles:",
+category: 'creating path',
+fn: function (rects){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self._createPath_(function(builder) {
+		builder._absolute();
+		
+		for (var i = 0; i < rects.length; i++) {
+			var rect = rects[i];
+			builder._moveTo_(rect['@origin']['@x'].__at(rect['@origin']['@y']));
+			builder._lineTo_(rect['@corner']['@x'].__at(rect['@origin']['@y']));
+			builder._lineTo_(rect['@corner']['@x'].__at(rect['@corner']['@y']));
+			builder._lineTo_(rect['@origin']['@x'].__at(rect['@corner']['@y']));
+			builder._close();
+		}
+	}); ;
+return self}, function($ctx1) {$ctx1.fill(self,"fromRectangles:",{rects:rects},smalltalk.AthensPathBuilder)})},
+args: ["rects"],
+source: " fromRectangles: rects\x0a\x09< return self._createPath_(function(builder) {\x0a\x09\x09builder._absolute();\x0a\x09\x09\x0a\x09\x09for (var i = 0; i < rects.length; i++) {\x0a\x09\x09\x09var rect = rects[i];\x0a\x09\x09\x09builder._moveTo_(rect['@origin']['@x'].__at(rect['@origin']['@y']));\x0a\x09\x09\x09builder._lineTo_(rect['@corner']['@x'].__at(rect['@origin']['@y']));\x0a\x09\x09\x09builder._lineTo_(rect['@corner']['@x'].__at(rect['@corner']['@y']));\x0a\x09\x09\x09builder._lineTo_(rect['@origin']['@x'].__at(rect['@corner']['@y']));\x0a\x09\x09\x09builder._close();\x0a\x09\x09}\x0a\x09}); >",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.AthensPathBuilder);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "lineTo:",
 category: 'path commands',
 fn: function (aPoint){
@@ -176,6 +203,24 @@ return $1;
 args: ["aBlock"],
 source: "createPath: aBlock\x0a\x0a\x09^ self new createPath: aBlock",
 messageSends: ["createPath:", "new"],
+referencedClasses: []
+}),
+smalltalk.AthensPathBuilder.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "fromRectangles:",
+category: 'instance creation',
+fn: function (rects){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(self._new())._fromRectangles_(rects);
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"fromRectangles:",{rects:rects},smalltalk.AthensPathBuilder.klass)})},
+args: ["rects"],
+source: "fromRectangles: rects\x0a\x0a\x09^ self new fromRectangles: rects",
+messageSends: ["fromRectangles:", "new"],
 referencedClasses: []
 }),
 smalltalk.AthensPathBuilder.klass);

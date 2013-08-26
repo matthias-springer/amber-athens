@@ -1,4 +1,63 @@
 smalltalk.addPackage('Athens-Core-Morphic');
+smalltalk.addClass('AthensGlobalMorphSettings', smalltalk.Object, ['showDamageArea'], 'Athens-Core-Morphic');
+smalltalk.addMethod(
+smalltalk.method({
+selector: "initialize",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self["@showDamageArea"]=true;
+return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensGlobalMorphSettings)})},
+messageSends: []}),
+smalltalk.AthensGlobalMorphSettings);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "showDamageArea",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self["@showDamageArea"];
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"showDamageArea",{},smalltalk.AthensGlobalMorphSettings)})},
+messageSends: []}),
+smalltalk.AthensGlobalMorphSettings);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "showDamageArea:",
+fn: function (aBoolean){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self["@showDamageArea"]=aBoolean;
+return self}, function($ctx1) {$ctx1.fill(self,"showDamageArea:",{aBoolean:aBoolean},smalltalk.AthensGlobalMorphSettings)})},
+messageSends: []}),
+smalltalk.AthensGlobalMorphSettings);
+
+
+smalltalk.AthensGlobalMorphSettings.klass.iVarNames = ['instance'];
+smalltalk.addMethod(
+smalltalk.method({
+selector: "instance",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2;
+$1=self["@instance"];
+if(($receiver = $1) == nil || $receiver == undefined){
+self["@instance"]=self._new();
+self["@instance"];
+} else {
+$1;
+};
+$2=self["@instance"];
+return $2;
+}, function($ctx1) {$ctx1.fill(self,"instance",{},smalltalk.AthensGlobalMorphSettings.klass)})},
+messageSends: ["ifNil:", "new"]}),
+smalltalk.AthensGlobalMorphSettings.klass);
+
+
 smalltalk.addClass('AthensMorph', smalltalk.Object, ['transformation', 'outerShape', 'outerPolygon', 'owner', 'submorphs', 'color', 'globalPathTransform', 'visible', 'eventCallbacks', 'hasMouseFocus', 'isMouseDown', 'zIndex'], 'Athens-Core-Morphic');
 smalltalk.addMethod(
 smalltalk.method({
@@ -161,24 +220,14 @@ selector: "handleMouseClick:",
 fn: function (evt){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1,$2;
-$1=_st(_st(evt)._ctrlKeyPressed()).__and(_st(evt)._topMost());
-if(smalltalk.assert($1)){
-_st(self._world())._addHalosTo_(self);
-} else {
 _st(_st(self["@eventCallbacks"])._at_ifAbsent_("mouseClick",(function(){
 return smalltalk.withContext(function($ctx2) {
 return (function(ev){
 return smalltalk.withContext(function($ctx3) {
 }, function($ctx3) {$ctx3.fillBlock({ev:ev},$ctx2)})});
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1)})})))._value_(evt);
-};
-$2=_st(_st(_st(evt)._ctrlKeyPressed())._not()).__and(_st(evt)._topMost());
-if(smalltalk.assert($2)){
-_st(self._world())._hideHalos();
-};
 return self}, function($ctx1) {$ctx1.fill(self,"handleMouseClick:",{evt:evt},smalltalk.AthensMorph)})},
-messageSends: ["ifTrue:ifFalse:", "addHalosTo:", "world", "value:", "at:ifAbsent:", "&", "topMost", "ctrlKeyPressed", "ifTrue:", "hideHalos", "not"]}),
+messageSends: ["value:", "at:ifAbsent:"]}),
 smalltalk.AthensMorph);
 
 smalltalk.addMethod(
@@ -277,7 +326,9 @@ return smalltalk.withContext(function($ctx1) {
 	self['@visible'] = true;
 	self['@eventCallbacks'] = smalltalk.Dictionary._new(); 
 	self['@hasMouseFocus'] = self['@isMouseDown'] = false;
-	self['@zIndex'] = 0; ;
+	self['@zIndex'] = 0;
+	var zero = 0;
+	self._outerShape_(zero.__at(zero)._corner_(zero.__at(zero))); ;
 return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensMorph)})},
 messageSends: []}),
 smalltalk.AthensMorph);
@@ -530,15 +581,16 @@ selector: "redraw",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- self._world()._redraw(); ;
+ self._world()._redraw_(self['@outerPolygon']._deepCopy()._multiplyBy_(self['@globalPathTransform'])._boundingBox()); 
+	//._deepCopy()._multiplyBy_(self['@globalPathTransform'])._boundingBox(); ;
 return self}, function($ctx1) {$ctx1.fill(self,"redraw",{},smalltalk.AthensMorph)})},
 messageSends: []}),
 smalltalk.AthensMorph);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "redrawEverythingOn:",
-fn: function (canvas){
+selector: "redrawNow:on:",
+fn: function (rects,canvas){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
  self['@globalPathTransform']._loadAffineTransform_(self['@owner']['@globalPathTransform']);
@@ -558,11 +610,37 @@ return smalltalk.withContext(function($ctx1) {
 		
 		canvas._clipBy_during_(self['@outerShape'], function() {
 			for (var index = 0; index < self['@submorphs'].length; index++) {
-				self['@submorphs'][index]._redrawEverythingOn_(canvas);
+				var submorph = self['@submorphs'][index];
+//				var submorphGlobalOuterBounds = submorph['@outerShape']._boundingBox()._boundsAfterMultiplicationWith_(submorph['@globalPathTransform']);
+				var submorphGlobalOuterBounds = submorph['@outerPolygon']._deepCopy()._multiplyBy_(submorph['@globalPathTransform'])._boundingBox();
+				var intersectRects = [];
+				for (var i = 0; i < rects.length; i++) {
+					if (submorphGlobalOuterBounds._intersectsWith_(rects[i])) {
+						intersectRects.push(rects[i]);
+					}
+				}
+				
+				if (0 < intersectRects.length) {
+					submorph._redrawNow_on_(intersectRects, canvas);
+				}
+				
+				if (smalltalk.AthensGlobalMorphSettings['@instance']['@showDamageArea']) {
+					// debug: show damage area
+					if (0 < intersectRects.length) {
+						canvas._setPaint_(smalltalk.Color._r_g_b_a_(0,1,0,0.25));
+					}
+					else {
+						canvas._setPaint_(smalltalk.Color._r_g_b_a_(1,0,0,0.25));
+					}
+
+					canvas['@pathTransform']._loadAffineTransform_(self['@submorphs'][index]['@globalPathTransform']);
+					canvas._drawShape_(self['@submorphs'][index]['@outerShape']);
+				}
+
 			}
 		});
 	} ;
-return self}, function($ctx1) {$ctx1.fill(self,"redrawEverythingOn:",{canvas:canvas},smalltalk.AthensMorph)})},
+return self}, function($ctx1) {$ctx1.fill(self,"redrawNow:on:",{rects:rects,canvas:canvas},smalltalk.AthensMorph)})},
 messageSends: []}),
 smalltalk.AthensMorph);
 
@@ -585,7 +663,7 @@ fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
  self['@transformation']._loadIdentity();
-	self._redraw(); ;
+	self['@owner']._redraw(); ;
 return self}, function($ctx1) {$ctx1.fill(self,"resetTransformation",{},smalltalk.AthensMorph)})},
 messageSends: []}),
 smalltalk.AthensMorph);
@@ -597,7 +675,7 @@ fn: function (aNumber){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
  self['@transformation']._rotateByRadians_(aNumber);
-	self._redraw(); ;
+	self['@owner']._redraw(); ;
 return self}, function($ctx1) {$ctx1.fill(self,"rotateBy:",{aNumber:aNumber},smalltalk.AthensMorph)})},
 messageSends: []}),
 smalltalk.AthensMorph);
@@ -609,7 +687,7 @@ fn: function (aNumber){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
  self['@transformation']._rotateByDegrees_(aNumber); 
-	self._redraw(); ;
+	self['@owner']._redraw(); ;
 return self}, function($ctx1) {$ctx1.fill(self,"rotateByDegrees:",{aNumber:aNumber},smalltalk.AthensMorph)})},
 messageSends: []}),
 smalltalk.AthensMorph);
@@ -621,7 +699,7 @@ fn: function (aNumber){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
  self['@transformation']._rotateByRadians_(aNumber);
-	self._redraw(); ;
+	self['@owner']._redraw(); ;
 return self}, function($ctx1) {$ctx1.fill(self,"rotateByRadians:",{aNumber:aNumber},smalltalk.AthensMorph)})},
 messageSends: []}),
 smalltalk.AthensMorph);
@@ -633,7 +711,7 @@ fn: function (aPoint){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
  self['@transformation']._scaleX_Y_(aPoint['@x'], aPoint['@y']);
-	self._redraw(); ;
+	self['@owner']._redraw(); ;
 return self}, function($ctx1) {$ctx1.fill(self,"scaleBy:",{aPoint:aPoint},smalltalk.AthensMorph)})},
 messageSends: []}),
 smalltalk.AthensMorph);
@@ -645,7 +723,7 @@ fn: function (x,y){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
  self['@transformation']._scaleX_Y_(x, y);
-	self._redraw(); ;
+	self['@owner']._redraw(); ;
 return self}, function($ctx1) {$ctx1.fill(self,"scaleByX:Y:",{x:x,y:y},smalltalk.AthensMorph)})},
 messageSends: []}),
 smalltalk.AthensMorph);
@@ -731,7 +809,7 @@ fn: function (aPoint){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
  self['@transformation']._translateX_Y_(aPoint['@x'], aPoint['@y']);
-	self._redraw(); ;
+	self['@owner']._redraw(); ;
 return self}, function($ctx1) {$ctx1.fill(self,"translateBy:",{aPoint:aPoint},smalltalk.AthensMorph)})},
 messageSends: []}),
 smalltalk.AthensMorph);
@@ -743,7 +821,7 @@ fn: function (x,y){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
  self['@transformation']._translateX_Y_(x, y);
-	self._redraw(); ;
+	self['@owner']._redraw(); ;
 return self}, function($ctx1) {$ctx1.fill(self,"translateByX:Y:",{x:x,y:y},smalltalk.AthensMorph)})},
 messageSends: []}),
 smalltalk.AthensMorph);
@@ -1709,7 +1787,9 @@ function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
 return smalltalk.withContext(function($ctx1) { 
 self["@fillColor"]=_st($Color())._cosmoBlue();
 self["@mouseFocusFillColor"]=_st($Color())._cosmoMiddleBlue();
-self["@mouseDownFillColor"]=_st($Color())._cosmoDarkBlue();
+self["@mouseFocusBorderColor"]=_st($Color())._cosmoDarkBlue();
+self["@mouseDownBorderColor"]=self["@mouseFocusBorderColor"];
+self["@mouseDownFillColor"]=self["@mouseDownBorderColor"];
 self["@borderColor"]=self["@mouseDownFillColor"];
 _st(self["@textMorph"])._fontColor_(_st($Color())._white());
 return self}, function($ctx1) {$ctx1.fill(self,"initializeColors",{},smalltalk.AthensButtonMorph)})},
@@ -4205,19 +4285,8 @@ selector: "addHalosTo:",
 fn: function (aMorph){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-var $1;
-$1=_st(aMorph)._isHaloMorph();
-if(! smalltalk.assert($1)){
-_st(self["@halos"])._do_((function(halo){
-return smalltalk.withContext(function($ctx2) {
-_st(halo)._resetTransformation();
-_st(halo)._translateBy_(_st(_st(_st(aMorph)._globalBounds())._origin()).__plus(_st(halo)._haloPosition()));
-_st(halo)._attachedTo_(aMorph);
-return _st(halo)._show();
-}, function($ctx2) {$ctx2.fillBlock({halo:halo},$ctx1)})}));
-};
 return self}, function($ctx1) {$ctx1.fill(self,"addHalosTo:",{aMorph:aMorph},smalltalk.AthensWorldMorph)})},
-messageSends: ["ifFalse:", "do:", "resetTransformation", "translateBy:", "+", "haloPosition", "origin", "globalBounds", "attachedTo:", "show", "isHaloMorph"]}),
+messageSends: []}),
 smalltalk.AthensWorldMorph);
 
 smalltalk.addMethod(
@@ -4288,15 +4357,17 @@ selector: "initialize",
 fn: function (){
 var self=this;
 function $WorldState(){return smalltalk.WorldState||(typeof WorldState=="undefined"?nil:WorldState)}
+function $AthensGlobalMorphSettings(){return smalltalk.AthensGlobalMorphSettings||(typeof AthensGlobalMorphSettings=="undefined"?nil:AthensGlobalMorphSettings)}
 return smalltalk.withContext(function($ctx1) { 
 self["@worldState"]=_st($WorldState())._for_(self);
+_st($AthensGlobalMorphSettings())._instance();
 smalltalk.AthensRectangleMorph.fn.prototype._initialize.apply(_st(self), []);
 self._initializeHalos();
 self["@morphsUnderHand"]=[self];
 self["@handPosition"]=(0).__at((0));
 self._initializeCallbacks();
 return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensWorldMorph)})},
-messageSends: ["for:", "initialize", "initializeHalos", "@", "initializeCallbacks"]}),
+messageSends: ["for:", "instance", "initialize", "initializeHalos", "@", "initializeCallbacks"]}),
 smalltalk.AthensWorldMorph);
 
 smalltalk.addMethod(
@@ -4404,28 +4475,13 @@ smalltalk.AthensWorldMorph);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "privateRedraw",
-fn: function (){
+selector: "redraw:",
+fn: function (aRect){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-_st(self["@surface"])._drawDuring_((function(canvas){
-return smalltalk.withContext(function($ctx2) {
-self._redrawEverythingOn_(canvas);
-return self._redrawHalosOn_(canvas);
-}, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
-return self}, function($ctx1) {$ctx1.fill(self,"privateRedraw",{},smalltalk.AthensWorldMorph)})},
-messageSends: ["drawDuring:", "redrawEverythingOn:", "redrawHalosOn:"]}),
-smalltalk.AthensWorldMorph);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "redraw",
-fn: function (){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-_st(self["@worldState"])._damageWorld();
-return self}, function($ctx1) {$ctx1.fill(self,"redraw",{},smalltalk.AthensWorldMorph)})},
-messageSends: ["damageWorld"]}),
+_st(self["@worldState"])._damageArea_(aRect);
+return self}, function($ctx1) {$ctx1.fill(self,"redraw:",{aRect:aRect},smalltalk.AthensWorldMorph)})},
+messageSends: ["damageArea:"]}),
 smalltalk.AthensWorldMorph);
 
 smalltalk.addMethod(
@@ -4434,12 +4490,34 @@ selector: "redrawHalosOn:",
 fn: function (canvas){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-_st(self["@halos"])._do_((function(halo){
-return smalltalk.withContext(function($ctx2) {
-return _st(halo)._redrawEverythingOn_(canvas);
-}, function($ctx2) {$ctx2.fillBlock({halo:halo},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"redrawHalosOn:",{canvas:canvas},smalltalk.AthensWorldMorph)})},
-messageSends: ["do:", "redrawEverythingOn:"]}),
+messageSends: []}),
+smalltalk.AthensWorldMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "redrawNow:",
+fn: function (rects){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ var rectsPath = smalltalk.AthensHTMLPath._segment_(smalltalk.AthensSimplePathBuilder._fromRectangles_(rects));
+	
+	self['@surface']._drawDuring_(function(canvas) {
+		if (smalltalk.AthensGlobalMorphSettings['@instance']['@showDamageArea']) {
+			// debug: show damage area
+			canvas['@pathTransform']._loadAffineTransform_(smalltalk.AthensAffineTransform._new());
+			canvas._setStrokePaint_(smalltalk.Color._red());
+			canvas._drawShape_(rectsPath);
+		}
+		
+		canvas._clipBy_during_(rectsPath, function() {
+			self._redrawNow_on_(rects, canvas);
+		});
+		
+		self._redrawHalosOn_(canvas);
+	}); ;
+return self}, function($ctx1) {$ctx1.fill(self,"redrawNow:",{rects:rects},smalltalk.AthensWorldMorph)})},
+messageSends: []}),
 smalltalk.AthensWorldMorph);
 
 smalltalk.addMethod(
@@ -4589,6 +4667,16 @@ fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 return self}, function($ctx1) {$ctx1.fill(self,"redraw",{},smalltalk.AthensDummyWorldMorph)})},
+messageSends: []}),
+smalltalk.AthensDummyWorldMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "redraw:",
+fn: function (aRect){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+return self}, function($ctx1) {$ctx1.fill(self,"redraw:",{aRect:aRect},smalltalk.AthensDummyWorldMorph)})},
 messageSends: []}),
 smalltalk.AthensDummyWorldMorph);
 
@@ -4894,14 +4982,28 @@ messageSends: ["morph:", "new", "yourself"]}),
 smalltalk.AthensVirtualTextAreaLine.klass);
 
 
-smalltalk.addClass('WorldState', smalltalk.Object, ['needsRedraw', 'world'], 'Athens-Core-Morphic');
+smalltalk.addClass('WorldState', smalltalk.Object, ['needsRedraw', 'world', 'damageRects'], 'Athens-Core-Morphic');
+smalltalk.addMethod(
+smalltalk.method({
+selector: "damageArea:",
+fn: function (aRect){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ self['@damageRects'].push(aRect); 
+	self['@needsRedraw'] = true; ;
+return self}, function($ctx1) {$ctx1.fill(self,"damageArea:",{aRect:aRect},smalltalk.WorldState)})},
+messageSends: []}),
+smalltalk.WorldState);
+
 smalltalk.addMethod(
 smalltalk.method({
 selector: "damageWorld",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self["@needsRedraw"]=true;
+ var zero = 0;
+	self['@damageRects'] = [];
+	self._damageArea_(zero.__at(zero)._corner_(self['@world']._width().__at(self['@world']._height()))); ;
 return self}, function($ctx1) {$ctx1.fill(self,"damageWorld",{},smalltalk.WorldState)})},
 messageSends: []}),
 smalltalk.WorldState);
@@ -4912,7 +5014,8 @@ selector: "initialize",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self["@needsRedraw"]=false;
+ self['@needsRedraw'] = false;
+	self['@damageRects'] = []; ;
 return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.WorldState)})},
 messageSends: []}),
 smalltalk.WorldState);
@@ -4926,7 +5029,8 @@ return smalltalk.withContext(function($ctx1) {
  setInterval(function() {
 		if (self['@needsRedraw']) {
 			self['@needsRedraw'] = false;
-			self['@world']._privateRedraw();
+			self['@world']._redrawNow_(self['@damageRects']);
+			self['@damageRects'] = [];
 		}
 	}, 0); ;
 return self}, function($ctx1) {$ctx1.fill(self,"initializeRenderLoop",{},smalltalk.WorldState)})},

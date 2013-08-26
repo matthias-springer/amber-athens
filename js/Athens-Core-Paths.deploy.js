@@ -79,6 +79,28 @@ smalltalk.AthensPathBuilder);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "fromRectangles:",
+fn: function (rects){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self._createPath_(function(builder) {
+		builder._absolute();
+		
+		for (var i = 0; i < rects.length; i++) {
+			var rect = rects[i];
+			builder._moveTo_(rect['@origin']['@x'].__at(rect['@origin']['@y']));
+			builder._lineTo_(rect['@corner']['@x'].__at(rect['@origin']['@y']));
+			builder._lineTo_(rect['@corner']['@x'].__at(rect['@corner']['@y']));
+			builder._lineTo_(rect['@origin']['@x'].__at(rect['@corner']['@y']));
+			builder._close();
+		}
+	}); ;
+return self}, function($ctx1) {$ctx1.fill(self,"fromRectangles:",{rects:rects},smalltalk.AthensPathBuilder)})},
+messageSends: []}),
+smalltalk.AthensPathBuilder);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "lineTo:",
 fn: function (aPoint){
 var self=this;
@@ -123,6 +145,19 @@ $1=_st(self._new())._createPath_(aBlock);
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"createPath:",{aBlock:aBlock},smalltalk.AthensPathBuilder.klass)})},
 messageSends: ["createPath:", "new"]}),
+smalltalk.AthensPathBuilder.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "fromRectangles:",
+fn: function (rects){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(self._new())._fromRectangles_(rects);
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"fromRectangles:",{rects:rects},smalltalk.AthensPathBuilder.klass)})},
+messageSends: ["fromRectangles:", "new"]}),
 smalltalk.AthensPathBuilder.klass);
 
 smalltalk.addMethod(

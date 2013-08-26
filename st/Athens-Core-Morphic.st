@@ -1,4 +1,33 @@
 Smalltalk current createPackage: 'Athens-Core-Morphic'!
+Object subclass: #AthensGlobalMorphSettings
+	instanceVariableNames: 'showDamageArea'
+	package: 'Athens-Core-Morphic'!
+
+!AthensGlobalMorphSettings methodsFor: 'accessing'!
+
+showDamageArea
+	^ showDamageArea
+!
+
+showDamageArea: aBoolean
+	showDamageArea := aBoolean.
+! !
+
+!AthensGlobalMorphSettings methodsFor: 'initialization'!
+
+initialize
+	showDamageArea := true.
+! !
+
+AthensGlobalMorphSettings class instanceVariableNames: 'instance'!
+
+!AthensGlobalMorphSettings class methodsFor: 'singleton'!
+
+instance
+	instance ifNil: [instance := self new].
+	^ instance
+! !
+
 Object subclass: #AthensMorph
 	instanceVariableNames: 'transformation outerShape outerPolygon owner submorphs color globalPathTransform visible eventCallbacks hasMouseFocus isMouseDown zIndex'
 	package: 'Athens-Core-Morphic'!
@@ -50,10 +79,11 @@ drawOn: canvas
 !
 
 redraw
-	< self._world()._redraw(); >
+	< self._world()._redraw_(self['@outerPolygon']._deepCopy()._multiplyBy_(self['@globalPathTransform'])._boundingBox()); 
+	//._deepCopy()._multiplyBy_(self['@globalPathTransform'])._boundingBox(); >
 !
 
-redrawEverythingOn: canvas
+redrawNow: rects on: canvas
 	< self['@globalPathTransform']._loadAffineTransform_(self['@owner']['@globalPathTransform']);
 	self['@globalPathTransform']._multiplyBy_(self['@transformation']);
 	
@@ -71,7 +101,33 @@ redrawEverythingOn: canvas
 		
 		canvas._clipBy_during_(self['@outerShape'], function() {
 			for (var index = 0; index < self['@submorphs'].length; index++) {
-				self['@submorphs'][index]._redrawEverythingOn_(canvas);
+				var submorph = self['@submorphs'][index];
+//				var submorphGlobalOuterBounds = submorph['@outerShape']._boundingBox()._boundsAfterMultiplicationWith_(submorph['@globalPathTransform']);
+				var submorphGlobalOuterBounds = submorph['@outerPolygon']._deepCopy()._multiplyBy_(submorph['@globalPathTransform'])._boundingBox();
+				var intersectRects = [];
+				for (var i = 0; i < rects.length; i++) {
+					if (submorphGlobalOuterBounds._intersectsWith_(rects[i])) {
+						intersectRects.push(rects[i]);
+					}
+				}
+				
+				if (0 < intersectRects.length) {
+					submorph._redrawNow_on_(intersectRects, canvas);
+				}
+				
+				if (smalltalk.AthensGlobalMorphSettings['@instance']['@showDamageArea']) {
+					// debug: show damage area
+					if (0 < intersectRects.length) {
+						canvas._setPaint_(smalltalk.Color._r_g_b_a_(0,1,0,0.25));
+					}
+					else {
+						canvas._setPaint_(smalltalk.Color._r_g_b_a_(1,0,0,0.25));
+					}
+
+					canvas['@pathTransform']._loadAffineTransform_(self['@submorphs'][index]['@globalPathTransform']);
+					canvas._drawShape_(self['@submorphs'][index]['@outerShape']);
+				}
+
 			}
 		});
 	} >
@@ -96,11 +152,12 @@ handleKeyUp: evt
 !
 
 handleMouseClick: evt
-	evt ctrlKeyPressed & (evt topMost)
+	(eventCallbacks at: #mouseClick ifAbsent: [[:ev | ]]) value: evt.
+	"evt ctrlKeyPressed & (evt topMost)
 		ifTrue: [self world addHalosTo: self]
 		ifFalse: [(eventCallbacks at: #mouseClick ifAbsent: [[:ev | ]]) value: evt].
 	evt ctrlKeyPressed not & evt topMost
-		ifTrue: [self world hideHalos].
+		ifTrue: [self world hideHalos]."
 !
 
 handleMouseDown: evt
@@ -203,42 +260,42 @@ signalChange: evt
 
 resetTransformation
 	< self['@transformation']._loadIdentity();
-	self._redraw(); >
+	self['@owner']._redraw(); >
 !
 
 rotateBy: aNumber
 	< self['@transformation']._rotateByRadians_(aNumber);
-	self._redraw(); >
+	self['@owner']._redraw(); >
 !
 
 rotateByDegrees: aNumber
 	< self['@transformation']._rotateByDegrees_(aNumber); 
-	self._redraw(); >
+	self['@owner']._redraw(); >
 !
 
 rotateByRadians: aNumber
 	< self['@transformation']._rotateByRadians_(aNumber);
-	self._redraw(); >
+	self['@owner']._redraw(); >
 !
 
 scaleBy: aPoint
 	< self['@transformation']._scaleX_Y_(aPoint['@x'], aPoint['@y']);
-	self._redraw(); >
+	self['@owner']._redraw(); >
 !
 
 scaleByX: x Y: y
 	< self['@transformation']._scaleX_Y_(x, y);
-	self._redraw(); >
+	self['@owner']._redraw(); >
 !
 
 translateBy: aPoint
 	< self['@transformation']._translateX_Y_(aPoint['@x'], aPoint['@y']);
-	self._redraw(); >
+	self['@owner']._redraw(); >
 !
 
 translateByX: x Y: y
 	< self['@transformation']._translateX_Y_(x, y);
-	self._redraw(); >
+	self['@owner']._redraw(); >
 ! !
 
 !AthensMorph methodsFor: 'initialization'!
@@ -252,7 +309,9 @@ initialize
 	self['@visible'] = true;
 	self['@eventCallbacks'] = smalltalk.Dictionary._new(); 
 	self['@hasMouseFocus'] = self['@isMouseDown'] = false;
-	self['@zIndex'] = 0; >
+	self['@zIndex'] = 0;
+	var zero = 0;
+	self._outerShape_(zero.__at(zero)._corner_(zero.__at(zero))); >
 ! !
 
 !AthensMorph methodsFor: 'internals'!
@@ -861,7 +920,7 @@ initialize
 initializeColors
 	fillColor := Color cosmoBlue.
 	mouseFocusFillColor := Color cosmoMiddleBlue.
-	borderColor := mouseDownFillColor := Color cosmoDarkBlue.
+	borderColor := mouseDownFillColor := mouseDownBorderColor := mouseFocusBorderColor := Color cosmoDarkBlue.
 	textMorph fontColor: Color white.
 !
 
@@ -2096,18 +2155,31 @@ drawOn: canvas
 	surface clear: Color cosmoGray.
 !
 
-privateRedraw
-	surface drawDuring: [:canvas |
-		self redrawEverythingOn: canvas.
-		self redrawHalosOn: canvas].
-!
-
-redraw
-	worldState damageWorld.
+redraw: aRect
+	worldState damageArea: aRect.
 !
 
 redrawHalosOn: canvas
-	halos do: [:halo | halo redrawEverythingOn: canvas].
+	"halos do: [:halo | halo redrawNow: (0@0 corner: self width @ self height) on: canvas]."
+!
+
+redrawNow: rects
+	< var rectsPath = smalltalk.AthensHTMLPath._segment_(smalltalk.AthensSimplePathBuilder._fromRectangles_(rects));
+	
+	self['@surface']._drawDuring_(function(canvas) {
+		if (smalltalk.AthensGlobalMorphSettings['@instance']['@showDamageArea']) {
+			// debug: show damage area
+			canvas['@pathTransform']._loadAffineTransform_(smalltalk.AthensAffineTransform._new());
+			canvas._setStrokePaint_(smalltalk.Color._red());
+			canvas._drawShape_(rectsPath);
+		}
+		
+		canvas._clipBy_during_(rectsPath, function() {
+			self._redrawNow_on_(rects, canvas);
+		});
+		
+		self._redrawHalosOn_(canvas);
+	}); >
 ! !
 
 !AthensWorldMorph methodsFor: 'events'!
@@ -2147,12 +2219,12 @@ unregisterGlobalEvent: aSymbol withCallback: aBlock
 !AthensWorldMorph methodsFor: 'halos'!
 
 addHalosTo: aMorph
-	aMorph isHaloMorph ifFalse: [
+	"aMorph isHaloMorph ifFalse: [
 		halos do: [:halo | 
 			halo resetTransformation.
 			halo translateBy: aMorph globalBounds origin + halo haloPosition.
 			halo attachedTo: aMorph.
-			halo show]].
+			halo show]]."
 !
 
 hideHalos
@@ -2163,6 +2235,7 @@ hideHalos
 
 initialize
 	worldState := WorldState for: self.
+	AthensGlobalMorphSettings instance.	"ensure that singleton exists"
 	super initialize.
 	self initializeHalos.
 	morphsUnderHand := {self}.
@@ -2232,6 +2305,9 @@ AthensWorldMorph subclass: #AthensDummyWorldMorph
 !AthensDummyWorldMorph methodsFor: 'drawing'!
 
 redraw
+!
+
+redraw: aRect
 ! !
 
 !AthensDummyWorldMorph methodsFor: 'initialization'!
@@ -2377,7 +2453,7 @@ forTextAreaMorph: aMorph
 ! !
 
 Object subclass: #WorldState
-	instanceVariableNames: 'needsRedraw world'
+	instanceVariableNames: 'needsRedraw world damageRects'
 	package: 'Athens-Core-Morphic'!
 
 !WorldState methodsFor: 'accessing'!
@@ -2389,21 +2465,30 @@ world: aWorld
 
 !WorldState methodsFor: 'drawing'!
 
+damageArea: aRect
+	< self['@damageRects'].push(aRect); 
+	self['@needsRedraw'] = true; >
+!
+
 damageWorld
-	needsRedraw := true.
+	< var zero = 0;
+	self['@damageRects'] = [];
+	self._damageArea_(zero.__at(zero)._corner_(self['@world']._width().__at(self['@world']._height()))); >
 ! !
 
 !WorldState methodsFor: 'initialization'!
 
 initialize
-	needsRedraw := false.
+	< self['@needsRedraw'] = false;
+	self['@damageRects'] = []; >
 !
 
 initializeRenderLoop
 	< setInterval(function() {
 		if (self['@needsRedraw']) {
 			self['@needsRedraw'] = false;
-			self['@world']._privateRedraw();
+			self['@world']._redrawNow_(self['@damageRects']);
+			self['@damageRects'] = [];
 		}
 	}, 0); >
 ! !
