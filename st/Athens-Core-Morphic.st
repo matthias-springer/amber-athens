@@ -31,6 +31,68 @@ instance
 Object subclass: #AthensMorph
 	instanceVariableNames: 'transformation outerShape outerPolygon owner submorphs color globalPathTransform visible eventCallbacks hasMouseFocus isMouseDown zIndex'
 	package: 'Athens-Core-Morphic'!
+!AthensMorph commentStamp!
+I am an Athens morph. I can be drawn onto an Athens surface.
+
+I have a list of submorphs (`#submorphs`) and can be added to another morph (`#addMorph:`).
+
+I do not have a fixed shape, but I have an outer shape that is used for mouse events and focus, and for clipping my submorphs.
+
+## API
+
+The method `#color:` is used to set my color in case the default drawing routine was not overridden. 
+
+The method `#owner` returns my owner and `#submorphs` return my submorphs. 
+
+The method `#zIndex:` sets my z-index that is used to determine the drawing order of my owner's submorphs.
+
+## Drawing
+
+The method `#drawOn:` is used for drawing myself using an Athens canvas.
+
+The method `#redraw:` schedules a redraw of myself and all of my morphs. When the scheduler decides to redraw me, the method `#redrawNow:on:` is called.
+
+## Events
+
+All methods starting with `on` are used to bind event handlers. An event handler is a block closure that takes an event argument containing specific information about the event.
+
+`#onKeyDown:` is triggered when a key is pressed down.
+
+`#onKeyUp:` is triggered when a key is released.
+
+`#onKeyPress:` is triggered when a key is pressed and provides a case-sensitive ASCII character code. Is not triggered on special keys such as backspace, delete and arrow keys.
+
+`#onMouseClick:` is triggered when I or one of my submorphs is clicked.
+
+`#onMouseDown:` is triggered when the mouse button is pressed down while I or one of my submorphs has mouse focus.
+
+`#onMouseUp:` is triggered when the mouse is released while I or one of my submorphs has mouse focus.
+
+`#onMouseEnter:` is triggered when I receive mouse focus.
+
+`#onMouseLeave:` is triggered when I loose mouse focus. Mouse focus is not lost when one of my submorphs receives mouse focus.
+
+`#onMouseWheel:` is triggered when the mouse scroll wheel is used while I or one of my submorphs has mouse focus.
+
+## Geometry
+
+The method `#translateBy:` is used to change my position. 
+
+The method `#scaleBy:` is used to scale myself. Non-uniform scaling is supported.
+
+The methods `#rotateByDegrees:` and `#rotateByRadians:` are used to rotate myself.
+
+My position, rotation and scaling cannot be determined. Instead, these transformations are stored internally in a transformation matrix and subsequent transformations stack.
+
+The method `#resetTransformation` resets all my transformations. This method can be used to position myself at given coordinates by first resetting my transformation and translating myself afterwards.
+
+## Usage example:
+
+    aMorph 
+        resetTransformation;
+        rotateByDegrees: 45;
+        scaleBy: 1.5 @ 2;
+        addMorph: AthensMorph new.!
 
 !AthensMorph methodsFor: 'accessing'!
 

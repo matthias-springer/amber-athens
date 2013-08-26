@@ -534,6 +534,7 @@ smalltalk.Color.klass);
 
 
 smalltalk.addClass('Image', smalltalk.Object, [], 'Athens-Amber');
+smalltalk.Image.comment="I represent a DOM image element. I am loaded asynchronously from a URL.\x0a\x0a\x0a## API\x0a\x0aThe `#onLoad:` method is used to bind a event that is triggered when the image was loaded by the browser. I provide a method `#complete` to determine the loading status at any time.\x0a";
 smalltalk.addMethod(
 smalltalk.method({
 selector: "complete",

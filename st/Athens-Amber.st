@@ -159,6 +159,13 @@ yellow
 Object subclass: #Image
 	instanceVariableNames: ''
 	package: 'Athens-Amber'!
+!Image commentStamp!
+I represent a DOM image element. I am loaded asynchronously from a URL.
+
+
+## API
+
+The `#onLoad:` method is used to bind a event that is triggered when the image was loaded by the browser. I provide a method `#complete` to determine the loading status at any time.!
 
 !Image methodsFor: 'accessing'!
 
