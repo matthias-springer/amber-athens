@@ -24,6 +24,17 @@ smalltalk.AthensHTMLTransformation);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "loadGlobalIdentity",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ self['@surface']['@context2D'].setTransform(1, 0, 0, 1, 0, 0); ;
+return self}, function($ctx1) {$ctx1.fill(self,"loadGlobalIdentity",{},smalltalk.AthensHTMLTransformation)})},
+messageSends: []}),
+smalltalk.AthensHTMLTransformation);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "loadIdentity",
 fn: function (){
 var self=this;

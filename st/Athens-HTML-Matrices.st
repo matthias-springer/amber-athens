@@ -19,6 +19,10 @@ loadAffineTransform: m
 	< self['@surface']['@context2D'].setTransform(m['@sx'], m['@shy'], m['@shx'], m['@sy'], m['@x'], m['@y']); >
 !
 
+loadGlobalIdentity
+	< self['@surface']['@context2D'].setTransform(1, 0, 0, 1, 0, 0); >
+!
+
 loadIdentity
 	< self['@surface']['@context2D'].setTransform(1, 0, 0, 1, 0, 0); >
 !

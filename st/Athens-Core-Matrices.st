@@ -94,6 +94,11 @@ loadAffineTransform: m
 	self['@shy'] = m['@shy']; >
 !
 
+loadGlobalIdentity
+	< self['@sx'] = self['@sy'] = 1.0;
+	self['@shx'] = self['@shy'] = self['@x'] = self['@y'] = 0.0; >
+!
+
 loadIdentity
 	< self['@sx'] = self['@sy'] = 1.0;
 	self['@shx'] = self['@shy'] = self['@x'] = self['@y'] = 0.0; >

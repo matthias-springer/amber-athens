@@ -95,6 +95,23 @@ smalltalk.AthensAffineTransform);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "loadGlobalIdentity",
+category: 'transformations',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ self['@sx'] = self['@sy'] = 1.0;
+	self['@shx'] = self['@shy'] = self['@x'] = self['@y'] = 0.0; ;
+return self}, function($ctx1) {$ctx1.fill(self,"loadGlobalIdentity",{},smalltalk.AthensAffineTransform)})},
+args: [],
+source: "loadGlobalIdentity\x0a\x09< self['@sx'] = self['@sy'] = 1.0;\x0a\x09self['@shx'] = self['@shy'] = self['@x'] = self['@y'] = 0.0; >",
+messageSends: [],
+referencedClasses: []
+}),
+smalltalk.AthensAffineTransform);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "loadIdentity",
 category: 'transformations',
 fn: function (){

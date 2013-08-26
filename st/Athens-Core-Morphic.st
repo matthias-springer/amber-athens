@@ -2251,9 +2251,10 @@ redrawNow: rects
 	< var rectsPath = smalltalk.AthensHTMLPath._segment_(smalltalk.AthensSimplePathBuilder._fromRectangles_(rects));
 	
 	self['@surface']._drawDuring_(function(canvas) {
+		canvas['@pathTransform']._loadGlobalIdentity();
+		
 		if (smalltalk.AthensGlobalMorphSettings['@instance']['@showDamageArea']) {
 			// debug: show damage area
-			canvas['@pathTransform']._loadAffineTransform_(smalltalk.AthensAffineTransform._new());
 			canvas._setStrokePaint_(smalltalk.Color._red());
 			canvas._drawShape_(rectsPath);
 		}

@@ -5998,9 +5998,10 @@ return smalltalk.withContext(function($ctx1) {
  var rectsPath = smalltalk.AthensHTMLPath._segment_(smalltalk.AthensSimplePathBuilder._fromRectangles_(rects));
 	
 	self['@surface']._drawDuring_(function(canvas) {
+		canvas['@pathTransform']._loadGlobalIdentity();
+		
 		if (smalltalk.AthensGlobalMorphSettings['@instance']['@showDamageArea']) {
 			// debug: show damage area
-			canvas['@pathTransform']._loadAffineTransform_(smalltalk.AthensAffineTransform._new());
 			canvas._setStrokePaint_(smalltalk.Color._red());
 			canvas._drawShape_(rectsPath);
 		}
@@ -6013,7 +6014,7 @@ return smalltalk.withContext(function($ctx1) {
 	}); ;
 return self}, function($ctx1) {$ctx1.fill(self,"redrawNow:",{rects:rects},smalltalk.AthensWorldMorph)})},
 args: ["rects"],
-source: "redrawNow: rects\x0a\x09< var rectsPath = smalltalk.AthensHTMLPath._segment_(smalltalk.AthensSimplePathBuilder._fromRectangles_(rects));\x0a\x09\x0a\x09self['@surface']._drawDuring_(function(canvas) {\x0a\x09\x09if (smalltalk.AthensGlobalMorphSettings['@instance']['@showDamageArea']) {\x0a\x09\x09\x09// debug: show damage area\x0a\x09\x09\x09canvas['@pathTransform']._loadAffineTransform_(smalltalk.AthensAffineTransform._new());\x0a\x09\x09\x09canvas._setStrokePaint_(smalltalk.Color._red());\x0a\x09\x09\x09canvas._drawShape_(rectsPath);\x0a\x09\x09}\x0a\x09\x09\x0a\x09\x09canvas._clipBy_during_(rectsPath, function() {\x0a\x09\x09\x09self._redrawNow_on_(rects, canvas);\x0a\x09\x09});\x0a\x09\x09\x0a\x09\x09self._redrawHalosOn_(canvas);\x0a\x09}); >",
+source: "redrawNow: rects\x0a\x09< var rectsPath = smalltalk.AthensHTMLPath._segment_(smalltalk.AthensSimplePathBuilder._fromRectangles_(rects));\x0a\x09\x0a\x09self['@surface']._drawDuring_(function(canvas) {\x0a\x09\x09canvas['@pathTransform']._loadGlobalIdentity();\x0a\x09\x09\x0a\x09\x09if (smalltalk.AthensGlobalMorphSettings['@instance']['@showDamageArea']) {\x0a\x09\x09\x09// debug: show damage area\x0a\x09\x09\x09canvas._setStrokePaint_(smalltalk.Color._red());\x0a\x09\x09\x09canvas._drawShape_(rectsPath);\x0a\x09\x09}\x0a\x09\x09\x0a\x09\x09canvas._clipBy_during_(rectsPath, function() {\x0a\x09\x09\x09self._redrawNow_on_(rects, canvas);\x0a\x09\x09});\x0a\x09\x09\x0a\x09\x09self._redrawHalosOn_(canvas);\x0a\x09}); >",
 messageSends: [],
 referencedClasses: []
 }),
