@@ -142,7 +142,7 @@ fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 self["@step"]=_st(self["@step"]).__plus((1));
-self["@step"]=_st(self["@step"])._min_((8));
+self["@step"]=_st(self["@step"])._min_((10));
 self._showStep_(self["@step"]);
 return self}, function($ctx1) {$ctx1.fill(self,"nextStep",{},smalltalk.AthensMorphicTutorial)})},
 messageSends: ["+", "min:", "showStep:"]}),
@@ -188,6 +188,30 @@ _st(self["@world"])._addMorph_(window);
 _st(window)._title_("Step1 Demo Window");
 return self}, function($ctx1) {$ctx1.fill(self,"step1",{window:window},smalltalk.AthensMorphicTutorial)})},
 messageSends: ["new", "addMorph:", "title:"]}),
+smalltalk.AthensMorphicTutorial);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "step10",
+fn: function (){
+var self=this;
+var window,textMorph,listBox;
+function $AthensWindowMorph(){return smalltalk.AthensWindowMorph||(typeof AthensWindowMorph=="undefined"?nil:AthensWindowMorph)}
+function $AthensTigerMorph(){return smalltalk.AthensTigerMorph||(typeof AthensTigerMorph=="undefined"?nil:AthensTigerMorph)}
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2;
+window=_st($AthensWindowMorph())._new();
+_st(window)._title_("Step 10: Tiger Demo");
+$1=_st($AthensTigerMorph())._new();
+_st($1)._translateByX_Y_((5),(25));
+_st($1)._height_((300));
+_st($1)._width_((300));
+_st($1)._runDemo();
+$2=_st($1)._yourself();
+_st(window)._addMorph_($2);
+_st(self["@world"])._addMorph_(window);
+return self}, function($ctx1) {$ctx1.fill(self,"step10",{window:window,textMorph:textMorph,listBox:listBox},smalltalk.AthensMorphicTutorial)})},
+messageSends: ["new", "title:", "addMorph:", "translateByX:Y:", "height:", "width:", "runDemo", "yourself"]}),
 smalltalk.AthensMorphicTutorial);
 
 smalltalk.addMethod(
@@ -439,6 +463,49 @@ smalltalk.AthensMorphicTutorial);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "step9",
+fn: function (){
+var self=this;
+var window,textMorph,listBox;
+function $AthensWindowMorph(){return smalltalk.AthensWindowMorph||(typeof AthensWindowMorph=="undefined"?nil:AthensWindowMorph)}
+function $AthensListBoxMorph(){return smalltalk.AthensListBoxMorph||(typeof AthensListBoxMorph=="undefined"?nil:AthensListBoxMorph)}
+function $Object(){return smalltalk.Object||(typeof Object=="undefined"?nil:Object)}
+function $AthensTextMorph(){return smalltalk.AthensTextMorph||(typeof AthensTextMorph=="undefined"?nil:AthensTextMorph)}
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2,$3,$4;
+window=_st($AthensWindowMorph())._new();
+_st(window)._title_("Step 9: List Box Morph");
+$1=_st($AthensListBoxMorph())._new();
+_st($1)._addItem_("First Item");
+_st($1)._addItem_("Another Item");
+_st($1)._addItem_((42));
+_st($1)._addItem_(_st($Object())._new());
+_st($1)._addItem_("Last Item");
+_st($1)._width_((150));
+_st($1)._height_((75));
+_st($1)._translateByX_Y_((25),(50));
+$2=_st($1)._yourself();
+listBox=$2;
+_st(window)._addMorph_(listBox);
+$3=_st($AthensTextMorph())._new();
+_st($3)._text_("(Nothing selected)");
+_st($3)._width_((150));
+_st($3)._height_((20));
+_st($3)._translateByX_Y_((25),(140));
+$4=_st($3)._yourself();
+textMorph=$4;
+_st(listBox)._onChange_((function(selection){
+return smalltalk.withContext(function($ctx2) {
+return _st(textMorph)._text_(_st(_st(_st(_st(selection)._asString()).__comma(" (")).__comma(_st(_st(selection)._class())._asString())).__comma(")"));
+}, function($ctx2) {$ctx2.fillBlock({selection:selection},$ctx1)})}));
+_st(window)._addMorph_(textMorph);
+_st(self["@world"])._addMorph_(window);
+return self}, function($ctx1) {$ctx1.fill(self,"step9",{window:window,textMorph:textMorph,listBox:listBox},smalltalk.AthensMorphicTutorial)})},
+messageSends: ["new", "title:", "addItem:", "width:", "height:", "translateByX:Y:", "yourself", "addMorph:", "text:", "onChange:", ",", "asString", "class"]}),
+smalltalk.AthensMorphicTutorial);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "world:",
 fn: function (aMorph){
 var self=this;
@@ -465,5 +532,101 @@ return $1;
 }, function($ctx1) {$ctx1.fill(self,"forWorld:",{worldMorph:worldMorph},smalltalk.AthensMorphicTutorial.klass)})},
 messageSends: ["world:", "basicNew", "initialize", "yourself"]}),
 smalltalk.AthensMorphicTutorial.klass);
+
+
+smalltalk.addClass('AthensTigerMorph', smalltalk.AthensRectangleMorph, ['renderInterval', 'looping', 'frames', 'time', 'paths', 'extent', 'rotation', 'scale', 'translation', 'rotationSpeed', 'zoom'], 'Athens-Core-Morphic-Tutorial');
+smalltalk.addMethod(
+smalltalk.method({
+selector: "drawOn:",
+fn: function (can){
+var self=this;
+function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
+return smalltalk.withContext(function($ctx1) { 
+var $1,$2,$3,$4;
+self["@rotation"]=_st(self["@rotation"]).__plus(self["@rotationSpeed"]);
+self["@frames"]=_st(self["@frames"]).__plus((1));
+self["@zoom"]=_st(_st(_st(self["@frames"]).__slash((100)))._sin())._abs();
+_st(_st(can)._pathTransform())._loadIdentity();
+$1=can;
+_st($1)._setPaint_(_st($Color())._white());
+$2=_st($1)._drawShape_(_st((0).__at((0)))._corner_(self["@extent"]));
+$3=_st(can)._pathTransform();
+_st($3)._translateX_Y_((0.5).__star(_st(_st(self["@extent"])._x()).__minus(_st(_st(_st(self._class())._tigerMaxX()).__star(self["@scale"])).__star(self["@zoom"]))),_st(_st(self["@extent"])._y()).__slash((-12)));
+_st($3)._scaleBy_(_st(self["@scale"]).__star(self["@zoom"]));
+_st($3)._translateX_Y_(_st(_st(self._class())._tigerMaxX()).__star((0.5)),_st(_st(self._class())._tigerMaxY()).__star((0.5)));
+_st($3)._scaleBy_((0.8));
+_st($3)._rotateByDegrees_(self["@rotation"]);
+$4=_st($3)._translateX_Y_(_st(_st(self._class())._tigerMaxX()).__star((-0.5)),_st(_st(self._class())._tigerMaxY()).__star((-0.5)));
+_st(self["@paths"])._do_((function(each){
+return smalltalk.withContext(function($ctx2) {
+return _st(each)._renderOn_(can);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1)})}));
+return self}, function($ctx1) {$ctx1.fill(self,"drawOn:",{can:can},smalltalk.AthensTigerMorph)})},
+messageSends: ["+", "abs", "sin", "/", "loadIdentity", "pathTransform", "setPaint:", "white", "drawShape:", "corner:", "@", "translateX:Y:", "*", "-", "tigerMaxX", "class", "x", "y", "scaleBy:", "tigerMaxY", "rotateByDegrees:", "do:", "renderOn:"]}),
+smalltalk.AthensTigerMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "height:",
+fn: function (aNumber){
+var self=this;
+function $AthensVGTigerDemo(){return smalltalk.AthensVGTigerDemo||(typeof AthensVGTigerDemo=="undefined"?nil:AthensVGTigerDemo)}
+return smalltalk.withContext(function($ctx1) { 
+smalltalk.AthensRectangleMorph.fn.prototype._height_.apply(_st(self), [aNumber]);
+self["@extent"]=_st(self["@width"]).__at(self["@height"]);
+self["@scale"]=_st(_st(self["@extent"])._x()).__slash(_st($AthensVGTigerDemo())._tigerMaxY());
+return self}, function($ctx1) {$ctx1.fill(self,"height:",{aNumber:aNumber},smalltalk.AthensTigerMorph)})},
+messageSends: ["height:", "@", "/", "tigerMaxY", "x"]}),
+smalltalk.AthensTigerMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "initialize",
+fn: function (){
+var self=this;
+function $AthensVGTigerDemo(){return smalltalk.AthensVGTigerDemo||(typeof AthensVGTigerDemo=="undefined"?nil:AthensVGTigerDemo)}
+function $Time(){return smalltalk.Time||(typeof Time=="undefined"?nil:Time)}
+return smalltalk.withContext(function($ctx1) { 
+smalltalk.AthensRectangleMorph.fn.prototype._initialize.apply(_st(self), []);
+self["@paths"]=_st(_st($AthensVGTigerDemo())._new())._convertPathData2();
+self["@rotationSpeed"]=(1);
+self["@rotation"]=(0);
+self["@extent"]=_st(self["@width"]).__at(self["@height"]);
+self["@scale"]=_st(_st(self["@extent"])._x()).__slash(_st($AthensVGTigerDemo())._tigerMaxY());
+self["@translation"]=(0).__at((0));
+self["@frames"]=(0);
+self["@looping"]=true;
+self["@time"]=_st($Time())._millisecondClockValue();
+return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensTigerMorph)})},
+messageSends: ["initialize", "convertPathData2", "new", "@", "/", "tigerMaxY", "x", "millisecondClockValue"]}),
+smalltalk.AthensTigerMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "runDemo",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ setInterval(function() {
+		self._redraw();
+	}, 0); ;
+return self}, function($ctx1) {$ctx1.fill(self,"runDemo",{},smalltalk.AthensTigerMorph)})},
+messageSends: []}),
+smalltalk.AthensTigerMorph);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "width:",
+fn: function (aNumber){
+var self=this;
+function $AthensVGTigerDemo(){return smalltalk.AthensVGTigerDemo||(typeof AthensVGTigerDemo=="undefined"?nil:AthensVGTigerDemo)}
+return smalltalk.withContext(function($ctx1) { 
+smalltalk.AthensRectangleMorph.fn.prototype._width_.apply(_st(self), [aNumber]);
+self["@extent"]=_st(self["@width"]).__at(self["@height"]);
+self["@scale"]=_st(_st(self["@extent"])._x()).__slash(_st($AthensVGTigerDemo())._tigerMaxY());
+return self}, function($ctx1) {$ctx1.fill(self,"width:",{aNumber:aNumber},smalltalk.AthensTigerMorph)})},
+messageSends: ["width:", "@", "/", "tigerMaxY", "x"]}),
+smalltalk.AthensTigerMorph);
+
 
 

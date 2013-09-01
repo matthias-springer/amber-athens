@@ -16,56 +16,50 @@ surface: aSurface
 !AthensHTMLTransformation methodsFor: 'transformations'!
 
 loadAffineTransform: m
-	< self['@surface']['@context2D'].setTransform(m['@sx'], m['@shy'], m['@shx'], m['@sy'], m['@x'], m['@y']); >
+	surface context2D transform: m sx a: m shy a: m shx a: m sy a: m x a: m y.
 !
 
 loadGlobalIdentity
-	< self['@surface']['@context2D'].setTransform(1, 0, 0, 1, 0, 0); >
+	surface context2D transform: 1 a: 0 a: 0 a: 1 a: 0 a: 0.
 !
 
 loadIdentity
-	< self['@surface']['@context2D'].setTransform(1, 0, 0, 1, 0, 0); >
+	surface context2D transform: 1 a: 0 a: 0 a: 1 a: 0 a: 0.
 !
 
 multiplyBy: m
-	< self['@surface']['@context2D'].transform(m['@sx'], m['@shy'], m['@shx'], m['@sy'], m['@x'], m['@y']); >
+	surface context2D transformBy: m sx a: m shy a: m shx a: m sy a: m x a: m y.
 !
 
 restoreAfter: aBlock
-	< self['@surface']['@context2D'].save();
-	
-	aBlock._ensure_(function() {
-		self['@surface']['@context2D'].restore();
-	}); >
+	surface context2D push.
+	aBlock ensure: [surface context2D pop].
 !
 
 rotateByDegrees: angle
-	< self['@surface']['@context2D'].rotate(angle * Math.PI/180); >
+	surface context2D rotateByRadians: angle * Number pi /  180.
 !
 
 rotateByRadians: angle
-	< self['@surface']['@context2D'].rotate(angle); >
+	surface context2D rotateByRadians: angle.
 !
 
 scaleBy: factor
-	< if (factor.constructor === Number) {
-		self['@surface']['@context2D'].scale(factor, factor);
-	}	
-	else {
-		self['@surface']['@context2D'].scale(factor['@x'], factor['@y']);
-	} >
+	factor isNumber
+		ifTrue: [surface context2D scaleByX: factor Y: factor]
+		ifFalse: [surface context2D scaleByX: factor x Y: factor y].
 !
 
 scaleX: fx Y: fy
-	< self['@surface']['@context2D'].scale(fx, fy); >
+	surface context2D scaleByX: fx Y: fy.
 !
 
 translateBy: aPoint
-	< self['@surface']['@context2D'].translate(aPoint['@x'], aPoint['@y']); >
+	surface context2D translateByX: aPoint x Y: aPoint y.
 !
 
 translateX: px Y: py
-	< self['@surface']['@context2D'].translate(px, py); >
+	surface context2D translateByX: px Y: py.
 ! !
 
 !AthensHTMLTransformation class methodsFor: 'instance creation'!

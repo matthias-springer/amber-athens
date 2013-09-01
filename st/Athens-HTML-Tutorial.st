@@ -654,7 +654,7 @@ Now let's play with gradients.
 	
 	A vector connecting start and stop defines the direction which gradient will be facing,
 	as well as its dimensions. "	
-	linearGradient := surface createLinearGradient: {
+	linearGradient := surface createLinearGradient: #{
 			0 -> Color blue .
 			0.25 -> Color red.
 			0.5 -> Color white.
@@ -744,7 +744,7 @@ step20
 	- radius
 	- focal point (can be omited if focus is at center)
 	"	
-	ramp :=  {
+	ramp :=  #{
 			0 -> Color blue .
 			0.25 -> Color red.
 			0.5 -> Color white.

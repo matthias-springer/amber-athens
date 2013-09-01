@@ -877,6 +877,8 @@ smalltalk.wrapClassName("Error", "Kernel-Exceptions", Error, smalltalk.Object);
 smalltalk.wrapClassName("MethodContext", "Kernel-Methods", SmalltalkMethodContext, smalltalk.Object, false);
 
 smalltalk.wrapClassName("Image", "Athens-Amber", Image, smalltalk.Object);
+smalltalk.wrapClassName("CanvasContext2D", "Athens-Amber", CanvasRenderingContext2D, smalltalk.Object);
+smalltalk.wrapClassName("CanvasGradient", "Athens-Amber", CanvasGradient, smalltalk.Object);
 
 /* Alias definitions */
 

@@ -25,17 +25,18 @@ asPolygon
 !AthensHTMLPath methodsFor: 'drawing'!
 
 drawOn: anAthensCanvas
-	< // Replay saved pat
-	(function() {
-		self['@context2D'] = anAthensCanvas['@surface']['@context2D'];
-		self._newPath();
-		self['@segment']._sendCommandsTo_(self);
-	})._ensure_(function() {
-		self['@context2D'] = undefined;}); >
+	"Replay saved path."
+	
+	[
+		context2D := anAthensCanvas context2D.
+		self newPath.
+		segment sendCommandsTo: self.
+	] ensure: [
+		context2D := nil].
 !
 
 paintFillsUsing: aPaint on: anAthensCanvas 
-	< aPaint._fillPath_on_(self, anAthensCanvas); >
+	aPaint fillPath: self on: anAthensCanvas.
 ! !
 
 !AthensHTMLPath methodsFor: 'path commands'!
@@ -85,26 +86,26 @@ ccwArcTo: newEndPoint angle: angle
 !
 
 close
-	< self['@endPoint'] = self['@startPoint'];
-	self['@context2D'].closePath(); >
+	endPoint := startPoint.
+	context2D closePath.
 !
 
 curveVia: pt1 and: pt2 to: aPoint
-	< self['@endPoint'] = aPoint;
-	self['@context2D'].bezierCurveTo(pt1._x(), pt1._y(), pt2._x(), pt2._y(), aPoint._x(), aPoint._y()); >
+	endPoint := aPoint.
+	context2D bezierCurveVia: pt1 and: pt2 to: aPoint.
 !
 
 curveVia: pt1 to: aPoint
-	< self['@endPoint'] = aPoint;
-	self['@context2D'].quadraticCurveTo(pt1._x(), pt1._y(), aPoint._x(), aPoint._y()); >
+	endPoint := aPoint.
+	context2D quadraticCurveVia: pt1 to: aPoint.
 !
 
 curveViaX: x1 Y: y1 toX: x2 Y: y2
-	< self['@context2D'].quadraticCurveTo(x1, y1, x2, y2); >
+	self curveVia: x1 @ y1 to: x2 @ y2.
 !
 
 curveViaX: x1 Y: y1 viaX: x2 Y: y2 toX: x3 Y: y3
-	< self['@context2D'].bezierCurveTo(x1, y1, x2, y2, x3, y3); >
+	self curveVia: x1 @ y1 and: x2 @ y2 to: x3 @ y3.
 !
 
 cwArcTo: newEndPoint angle: angle
@@ -115,27 +116,27 @@ cwArcTo: newEndPoint angle: angle
 !
 
 lineTo: aPoint
-	< self['@endPoint'] = aPoint;
-	self['@context2D'].lineTo(aPoint._x(), aPoint._y()); >
+	endPoint := aPoint.
+	context2D lineTo: aPoint.
 !
 
 lineToX: x Y: y
-	< self['@context2D'].lineTo(x, y); >
+	self lineToX: x Y: y.
 !
 
 moveTo: aPoint
-	< self['@endPoint'] = aPoint;
-	self['@context2D'].moveTo(aPoint._x(), aPoint._y()); >
+	endPoint := aPoint.
+	context2D moveTo: aPoint.
 !
 
 moveToX: x Y: y
-	< self['@context2D'].moveTo(x, y); >
+	self moveTo: x @ y.
 !
 
 newPath
-	< self['@endPoint'] = self['@startPoint'] = self._class()['@zeroPoint'];
-	self['@context2D'].beginPath();
-	self._moveToX_Y_(0, 0); >
+	endPoint := startPoint := 0 @ 0.
+	context2D beginPath.
+	self moveTo: startPoint.
 ! !
 
 AthensHTMLPath class instanceVariableNames: 'zeroPoint'!

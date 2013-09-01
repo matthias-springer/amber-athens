@@ -98,7 +98,7 @@ doStep
 
 nextStep
 	step := step + 1.
-	step := step min: 8.
+	step := step min: 10.
 	self showStep: step.
 !
 
@@ -130,6 +130,24 @@ step1
 	
 	"Change the title of the window."
 	window title: 'Step1 Demo Window'.
+!
+
+step10
+	"Tiger Demo"
+	
+	|window textMorph listBox|
+	
+	window := AthensWindowMorph new.
+	window title: 'Step 10: Tiger Demo'.
+
+	window addMorph: (AthensTigerMorph new
+		translateByX: 5 Y: 25;
+		height: 300;
+		width: 300;
+		runDemo;
+		yourself).
+
+	world addMorph: window.
 !
 
 step2
@@ -316,6 +334,42 @@ step8
 		yourself).
 	
 	world addMorph: window.
+!
+
+step9
+	"List Box Morph"
+	
+	|window textMorph listBox|
+	
+	window := AthensWindowMorph new.
+	window title: 'Step 9: List Box Morph'.
+
+	listBox := AthensListBoxMorph new
+		addItem: 'First Item';
+		addItem: 'Another Item';
+		addItem: 42;
+		addItem: Object new;	"ListBoxMorph displays anItem asString"
+		addItem: 'Last Item';
+		width: 150;
+		height: 75;
+		translateByX: 25 Y: 50;
+		yourself.
+
+	window addMorph: listBox.
+		
+	textMorph := AthensTextMorph new
+		text: '(Nothing selected)';
+		width: 150; height: 20;
+		translateByX: 25 Y: 140;
+		yourself.
+
+	"When the selection changes, the change event is triggered."
+	listBox onChange: [:selection | 
+		textMorph text: selection asString, ' (', selection class asString, ')'].
+
+	window addMorph: textMorph.
+
+	world addMorph: window.
 ! !
 
 !AthensMorphicTutorial class methodsFor: 'instance creation'!
@@ -325,5 +379,76 @@ forWorld: worldMorph
 		world: worldMorph;
 		initialize;
 		yourself
+! !
+
+AthensRectangleMorph subclass: #AthensTigerMorph
+	instanceVariableNames: 'renderInterval looping frames time paths extent rotation scale translation rotationSpeed zoom'
+	package: 'Athens-Core-Morphic-Tutorial'!
+
+!AthensTigerMorph methodsFor: 'accessing'!
+
+height: aNumber
+	super height: aNumber.
+	extent := width @ height.
+	scale := extent x / AthensVGTigerDemo tigerMaxY.
+!
+
+width: aNumber
+	super width: aNumber.
+	extent := width @ height.
+	scale := extent x / AthensVGTigerDemo tigerMaxY.
+! !
+
+!AthensTigerMorph methodsFor: 'demo'!
+
+runDemo
+	< setInterval(function() {
+		self._redraw();
+	}, 0); >
+! !
+
+!AthensTigerMorph methodsFor: 'drawing'!
+
+drawOn: can
+		rotation := rotation + rotationSpeed.
+		frames := frames + 1.
+
+		zoom := (frames/100) sin abs .
+
+				can pathTransform 
+					loadIdentity. 
+					
+				can 
+					setPaint: Color white;
+					drawShape: (0@0 corner: extent).
+					
+				can pathTransform 
+					translateX: (0.5 * (extent x - (self class tigerMaxX * scale*zoom))) Y: extent y / -12.0 ;
+					scaleBy: scale*zoom ;
+
+					translateX: (self class tigerMaxX * 0.5) Y: (self class tigerMaxY * 0.5 );
+					scaleBy: 0.8;
+					rotateByDegrees: rotation;
+					translateX: (self class tigerMaxX * -0.5) Y: (self class tigerMaxY * -0.5 ).
+
+				paths do: [:each | each renderOn: can ].
+! !
+
+!AthensTigerMorph methodsFor: 'initialization'!
+
+initialize
+	super initialize.
+
+	paths := AthensVGTigerDemo new convertPathData2.
+
+	rotationSpeed := 1.
+	rotation := 0.
+	extent := width @ height.
+	scale := extent x / AthensVGTigerDemo tigerMaxY.
+	translation := 0@0.
+	frames := 0.
+	looping := true.
+	
+	time := Time millisecondClockValue.
 ! !
 

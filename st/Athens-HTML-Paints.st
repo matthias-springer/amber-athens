@@ -3,6 +3,12 @@ AthensPaint subclass: #AthensHTMLPaint
 	instanceVariableNames: 'fillStyle'
 	package: 'Athens-HTML-Paints'!
 
+!AthensHTMLPaint methodsFor: 'accessing'!
+
+fillStyle
+	^ fillStyle
+! !
+
 !AthensHTMLPaint methodsFor: 'converting'!
 
 asAthensPaintOn: anAthensCanvas	
@@ -12,36 +18,39 @@ asAthensPaintOn: anAthensCanvas
 !AthensHTMLPaint methodsFor: 'drawing'!
 
 drawString: aString on: anAthensCanvas
-	< var context2D = anAthensCanvas['@surface']['@context2D'];
-	self._preparePaintFor_(context2D);
-	context2D.beginPath();
-	//anAthensCanvas['@paintTransform']._apply();
-	context2D.fillStyle = self['@fillStyle'];
-	context2D.fillText(aString, 0, 0); >
+	|context2D|
+	context2D := anAthensCanvas context2D.
+	self preparePaintFor: context2D.
+	context2D beginPath.
+	"TODO: apply paint transform, but how?"
+	context2D fillStyle: fillStyle.
+	context2D fillText: aString X: 0 Y: 0.
 !
 
 fillPath: aPath on: anAthensCanvas
-	< var context2D = anAthensCanvas['@surface']['@context2D'];
-	self._preparePaintFor_(context2D);
-	context2D.beginPath();
-	aPath._drawOn_(anAthensCanvas);
-	context2D.save();
-	anAthensCanvas['@pathTransform']._multiplyBy_(anAthensCanvas['@paintTransform']);
-	context2D.fillStyle = self['@fillStyle'];
-	context2D.fill(); 
-	context2D.restore();>
+	|context2D|
+	context2D := anAthensCanvas context2D.
+	self preparePaintFor: context2D.
+	context2D beginPath.
+	aPath drawOn: anAthensCanvas.
+	context2D push.
+	anAthensCanvas pathTransform multiplyBy: anAthensCanvas paintTransform.
+	context2D fillStyle: fillStyle.
+	context2D fill.
+	context2D pop.
 !
 
-fillRectangle: aRect on: anAthensCanvas
-	< var context2D = anAthensCanvas['@surface']['@context2D'];
-	self._preparePaintFor_(context2D);
-	context2D.beginPath();
-	context2D.rect(aRect._left(), aRect._top(), aRect._width(), aRect._height());
-	context2D.save();
-	anAthensCanvas['@pathTransform']._multiplyBy_(anAthensCanvas['@paintTransform']);
-	context2D.fillStyle = self['@fillStyle'];
-	context2D.fill(); 
-	context2D.restore(); >
+fillRectangle: rect on: anAthensCanvas
+	|context2D|
+	context2D := anAthensCanvas context2D.
+	self preparePaintFor: context2D.
+	context2D beginPath.
+	context2D rect: rect.
+	context2D push.
+	anAthensCanvas pathTransform multiplyBy: anAthensCanvas paintTransform.
+	context2D fillStyle: fillStyle.
+	context2D fill.
+	context2D pop.
 !
 
 preparePaintFor: context2D
@@ -77,15 +86,12 @@ stop: aPoint
 !AthensHTMLGradientPaint methodsFor: 'drawing'!
 
 preparePaintFor: context2D
-	< if (self['@innerRadius'] === undefined) {
-		self['@fillStyle'] = context2D.createLinearGradient(self['@start']._x(), self['@start']._y(), self['@stop']._x(), self['@stop']._y());
-	}
-	else {
-		self['@fillStyle'] = context2D.createRadialGradient(self['@start']._x(), self['@start']._y(), self['@innerRadius'], self['@stop']._x(), self['@stop']._y(), self['@outerRadius']);
-	}
-	self['@colorRamp']._do_(function(assoc) {
-		self['@fillStyle'].addColorStop(assoc['@key'], assoc['@value']._rgbaString());
-	}); >
+	innerRadius == nil
+		ifTrue: [fillStyle := context2D createLinearGradientFrom: start to: stop]
+		ifFalse: [fillStyle := context2D createRadialGradientFrom: start with: innerRadius to: stop with: outerRadius].
+		
+	colorRamp keysAndValuesDo: [:pos :color |
+		fillStyle addColorStopAt: pos color: color rgbaString].
 ! !
 
 !AthensHTMLGradientPaint class methodsFor: 'instance creation'!
@@ -121,7 +127,7 @@ noRepeat
 !
 
 preparePaintFor: context2D
-	< self['@fillStyle'] = context2D.createPattern(self['@patternSource'], self['@repeatMode']); >
+	fillStyle := context2D createPattern: patternSource repeat: repeatMode.
 !
 
 repeat
@@ -145,20 +151,17 @@ bitmap: aBitmap
 !
 
 height
-	< return self['@patternSource'].height; >
+	^ patternSource height
 !
 
 loadingCallback: aBlock
-	< if (self['@patternSource'].complete) {
-		aBlock._value_(self);
-	}
-	else {
-		self['@patternSource'].onload = function() {aBlock._value_(self);};
-	} >
+	patternSource complete
+		ifTrue: [aBlock value: self]
+		ifFalse: [patternSource onLoad: [aBlock value: self]].
 !
 
 width
-	< return self['@patternSource'].width; >
+	^ patternSource width
 ! !
 
 !AthensHTMLBitmapPaint class methodsFor: 'instance creation'!
@@ -183,7 +186,7 @@ AthensHTMLPatternPaint subclass: #AthensHTMLPatternSurfacePaint
 !AthensHTMLPatternSurfacePaint methodsFor: 'accessing'!
 
 surface: aSurface
-	< self['@patternSource'] = aSurface['@canvasTag']; >
+	patternSource := aSurface canvasTag.
 ! !
 
 !AthensHTMLPatternSurfacePaint class methodsFor: 'instance creation'!
@@ -201,28 +204,29 @@ AthensHTMLPaint subclass: #AthensHTMLSolidPaint
 !AthensHTMLSolidPaint methodsFor: 'accessing'!
 
 color: aColor
-	< self['@fillStyle'] = aColor._rgbaString(); >
+	fillStyle := aColor rgbaString.
 ! !
 
 !AthensHTMLSolidPaint methodsFor: 'drawing'!
 
 drawString: aString on: anAthensCanvas
-	< var context2D = anAthensCanvas['@surface']['@context2D'];
-	context2D.fillStyle = self['@fillStyle'];
-	context2D.fillText(aString, 0, 0); >
+	anAthensCanvas context2D
+		fillStyle: fillStyle;
+		fillText: aString X: 0 Y: 0.
 !
 
 fillPath: aPath on: anAthensCanvas
-	< var context2D = anAthensCanvas['@surface']['@context2D'];
-	context2D.fillStyle = self['@fillStyle'];
-	aPath._drawOn_(anAthensCanvas);
-	context2D.fill(); >
+	|context2D|
+	context2D := anAthensCanvas context2D.
+	context2D fillStyle: fillStyle.
+	aPath drawOn: anAthensCanvas.
+	context2D fill.
 !
 
 fillRectangle: aRect on: anAthensCanvas
-	< var context2D = anAthensCanvas['@surface']['@context2D'];
-	context2D.fillStyle = self['@fillStyle'];
-	context2D.fillRect(aRect._left(), aRect._top(), aRect._width(), aRect._height()); >
+	anAthensCanvas context2D
+		fillStyle: fillStyle;
+		fillRect: aRect.
 !
 
 preparePaintFor: context2D
@@ -230,46 +234,39 @@ preparePaintFor: context2D
 ! !
 
 AthensStrokePaint subclass: #AthensHTMLStrokePaint
-	instanceVariableNames: 'dashLenghts dashOffset'
+	instanceVariableNames: 'dashOffset dashLengths'
 	package: 'Athens-HTML-Paints'!
 
 !AthensHTMLStrokePaint methodsFor: 'accessing'!
 
 dashes: anAlternateCollectionOfLenghts offset: anOffset
-	dashLenghts := anAlternateCollectionOfLenghts.
+	dashLengths := anAlternateCollectionOfLenghts.
 	dashOffset := anOffset.
 ! !
 
 !AthensHTMLStrokePaint methodsFor: 'drawing'!
 
 fillPath: aPath on: anAthensCanvas
-	< var context2D = anAthensCanvas['@surface']['@context2D'];
-	context2D.strokeStyle = self['@fillPaint']['@fillStyle'];
-	context2D.lineWidth = self['@width'];
-	context2D.lineJoin = self['@joinStyle'];
-	context2D.lineCap = self['@capStyle'];
-	// TODO: this only works in Chrome, see http://www.rgraph.net/blog/2013/january/html5-canvas-dashed-lines.html
-	if (context2D.setLineDash !!== undefined) {
-		context2D.setLineDash(self['@dashLenghts']);
-		context2D.lineDashOffset = self['@dashOffset'];
-	}
-	aPath._drawOn_(anAthensCanvas);
-	context2D.stroke(); >
+	anAthensCanvas context2D
+		strokeStyle: fillPaint fillStyle;
+		lineWidth: width;
+		lineJoin: joinStyle;
+		lineCap: capStyle;
+		lineDash: dashLengths;
+		lineDashOffset: dashOffset.
+	aPath drawOn: anAthensCanvas.
+	anAthensCanvas context2D stroke.
 !
 
 fillRectangle: aRect on: anAthensCanvas
-	< var context2D = anAthensCanvas['@surface']['@context2D'];
-	context2D.strokeStyle = self['@fillPaint']['@fillStyle'];
-	context2D.lineWidth = self['@width'];
-	context2D.lineJoin = self['@joinStyle'];
-	context2D.lineCap = self['@capStyle'];
-	// TODO: this only works in Chrome, see http://www.rgraph.net/blog/2013/january/html5-canvas-dashed-lines.html
-	if (context2D.setLineDash !!== undefined) {
-		context2D.setLineDash(self['@dashLenghts']);
-		context2D.lineDashOffset = self['@dashOffset'];
-	}
-	context2D.rect(aRect._left(), aRect._top(), aRect._width(), aRect._height());
-	context2D.stroke(); >
+	anAthensCanvas context2D
+		strokeStyle: fillPaint fillStyle;
+		lineWidth: width;
+		lineJoin: joinStyle;
+		lineCap: capStyle;
+		lineDash: dashLengths;
+		lineDashOffset: dashOffset;
+		strokeRect: aRect.
 ! !
 
 !AthensHTMLStrokePaint methodsFor: 'initialize-release'!
@@ -283,28 +280,28 @@ initialize
 !AthensHTMLStrokePaint methodsFor: 'setting cap styles'!
 
 capButt
-	< self['@capStyle'] = 'butt'; >
+	capStyle := 'butt'.
 !
 
 capRound
-	< self['@capStyle'] = 'round'; >
+	capStyle := 'round'.
 !
 
 capSquare
-	< self['@capStyle'] = 'square'; >
+	capStyle := 'square'.
 ! !
 
 !AthensHTMLStrokePaint methodsFor: 'setting join styles'!
 
 joinBevel
-	< self['@joinStyle'] = 'bevel'; >
+	joinStyle := 'bevel'.
 !
 
 joinMiter
-	< self['@joinStyle'] = 'miter'; >
+	joinStyle := 'miter'.
 !
 
 joinRound
-	< self['@joinStyle'] = 'round'; >
+	joinStyle := 'round'.
 ! !
 

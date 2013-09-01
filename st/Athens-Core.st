@@ -17,28 +17,26 @@ paintMode
 !
 
 setShape: anObject
-	"Set the current shape of receiver"
+	"Set the current shape of receiver."
+	
 	shape := anObject.
 !
 
 surface
-	"Answer an Athens surface, to which receiver is bound to"
+	"Answer an Athens surface, to which receiver is bound to."
+	
 	^ surface
 ! !
 
 !AthensCanvas methodsFor: 'caching'!
 
 cacheAt: anObject ifAbsentPut: aBlock
-
 	^ surface cacheAt: anObject ifAbsentPut: aBlock
 !
 
 flushCacheAt: anObject
 	"Flush (delete) any cached value(s) identified by given object, anObject.
-	A surface using identity comparison for object identifiers.
-
-	Answer receiver.
-	"
+	A surface using identity comparison for object identifiers. Answer receiver."
 
 	surface removeCacheAt: anObject
 ! !
@@ -46,16 +44,15 @@ flushCacheAt: anObject
 !AthensCanvas methodsFor: 'clipping'!
 
 clipBy: aRectangle during: aBlock
+	"Sets a clipping rectangle during drawing operations performed in a block.
+	Note that clipping rectangles are intetersected with currently active 
+	clipping rectangle."
 	
-	" Set a clipping rectangle during drawing operations performed in a block.
-	Note that clipping rectangle are intetersected with currently active clipping
-	rectangle "
-	
-	 ^surface clipBy: aRectangle during: aBlock
+	 ^ surface clipBy: aRectangle during: aBlock
 !
 
 isVisible: aRectangle 
-	"check if rectangle are not fully clipped by current clipping coordinates"
+	"Check if the rectangles is not fully clipped by current clipping coordinates."
 	
 	^ true
 ! !
@@ -63,21 +60,23 @@ isVisible: aRectangle
 !AthensCanvas methodsFor: 'drawing'!
 
 draw
-	"Fill the shape (anObject) using currently selected paint
-	an object should implement double-dispatch to currently selected paint"
+	"Fills the shape (anObject) using the currently selected paint.
+	anObject should implement double-dispatch to the currently selected paint."
 	
 	^ shape paintFillsUsing: paint on: self
 !
 
 draw: anObject
-	"A generic dispatch method to draw anObject on receiver. 
-	the object should understand #drawOnAthensCanvas: message"
+	"A generic dispatch method to draw anObject onto the receiver. 
+	The object should understand #drawOnAthensCanvas: message."
+	
 	^ anObject drawOnAthensCanvas: self
 !
 
 drawShape: anObject
 	"A convenience method, which sets the current shape to anObject and then fills it
-	with currently selected paint" 
+	with the currently selected paint." 
+	
 	self setShape: anObject.
 	self draw.
 ! !
@@ -85,21 +84,23 @@ drawShape: anObject
 !AthensCanvas methodsFor: 'drawing text'!
 
 drawString: aString
-	"Draw a string using currently selected font.
-	Answer a total advance of rendered string "
+	"Draws a string using the currently selected font.
+	Answers a total advance of rendered string."
+	
 	^ fontRenderer renderCharacters: aString from: 1 to: aString size.
 !
 
 drawString: aString from: start to: end
-
-	"Draw a portion of string using currently selected font.
-	Answer a total advance of rendered portion"
+	"Draws a portion of string using the currently selected font.
+	Answers a total advance of rendered portion."
+	
 	^ fontRenderer renderCharacters: aString from: start to: end
 !
 
 setFont: aFont
-	"Set the current font of receiver. Font object should answer a glyph renderer instance,
-	compatible with glyph renderer protocol" 
+	"Set the current font of receiver. Font object should answer
+	a glyph renderer instance, compatible with glyph renderer protocol."
+	
 	fontRenderer := aFont glyphRendererOn: surface.
 ! !
 
@@ -112,7 +113,8 @@ initializeWithSurface: anAthensSurface
 !AthensCanvas methodsFor: 'masking'!
 
 clearMask: aShape
-	"set mask pixels to 0 for all pixels covered by shape, aShape"
+	"Set mask pixels to 0 for all pixels covered by aShape."
+	
 	^ aShape paintFillsUsing: surface clearMaskPaint on: self
 !
 
@@ -125,7 +127,7 @@ enableMask
 !
 
 setMask: aShape
-	"set mask pixels to 1 for all pixels covered by shape, aShape"
+	"Set mask pixels to 1 for all pixels covered by shape, aShape."
 
 	^ aShape paintFillsUsing: surface setMaskPaint on: self
 ! !
@@ -133,14 +135,16 @@ setMask: aShape
 !AthensCanvas methodsFor: 'paint'!
 
 setPaint: aPaint
-	"set the current paint of receiver"
-	paint = aPaint ifTrue:[ ^ paint ].
+	"Set the current paint of receiver"
+	
+	paint = aPaint ifTrue: [ ^ paint ].
 	paint := aPaint asAthensPaintOn: self.
-	^ paint.
+	^ paint
 !
 
 setStrokePaint: aPaint
-	"use paint as stroke paint, note conversion to #asStrokePaintOn:"
+	"Use paint as stroke paint, note conversion to #asStrokePaintOn:."
+	
 	paint := (aPaint asAthensPaintOn: self) asStrokePaintOn: self.
 	^ paint
 ! !
@@ -148,11 +152,10 @@ setStrokePaint: aPaint
 !AthensCanvas methodsFor: 'paths'!
 
 createPath: aPathCreatingBlock
-	"Create new path. A path creating block should be a monadic block,
+	"Creates a new path. A path creating block should be a monadic block,
 	which will get a path builder instance as argument. See AthensPathBuilder
-	for available protocol.
-	The resulting path object can be later used for drawing.
-	" 
+	for the protocol. The resulting path object can be later used for drawing."
+	
 	^ surface createPath: aPathCreatingBlock
 !
 
@@ -172,6 +175,7 @@ paintTransform
 pathTransform
 	"Answer the path transformation matrix controller.
 	The answered object should conform to AthensTransform public protocol."
+	
 	^ surface pathTransform
 ! !
 

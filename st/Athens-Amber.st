@@ -1,4 +1,208 @@
 Smalltalk current createPackage: 'Athens-Amber'!
+Object subclass: #CanvasContext2D
+	instanceVariableNames: ''
+	package: 'Athens-Amber'!
+
+!CanvasContext2D methodsFor: 'compositing'!
+
+globalCompositeOperation
+	< return self.globalCompositeOperation; >
+!
+
+globalCompositeOperation: aString
+	< self.globalCompositeOperation = aString; >
+! !
+
+!CanvasContext2D methodsFor: 'line styles'!
+
+lineCap: aNumber
+	< self.lineCap = aNumber; >
+!
+
+lineDash: anArray
+	< if (self.setLineDash !!== undefined) {
+		self.setLineDash(anArray);
+	} >
+!
+
+lineDashOffset: aNumber
+	< if (self.setLineDash !!== undefined) {
+		self.lineDashOffset = aNumber;
+	} >
+!
+
+lineJoin: aNumber
+	< self.lineJoin = aNumber; >
+!
+
+lineWidth: aNumber
+	< self.lineWidth = aNumber; >
+!
+
+miterLimit: aNumber
+	< self.miterLimit = aNumber; >
+! !
+
+!CanvasContext2D methodsFor: 'paths'!
+
+beginPath
+	< self.beginPath(); >
+!
+
+bezierCurveVia: pt1 and: pt2 to: aPoint
+	< self.bezierCurveTo(pt1._x(), pt1._y(), pt2._x(), pt2._y(), aPoint._x(), aPoint._y()); >
+!
+
+clip
+	< self.clip(); >
+!
+
+closePath
+	< self.closePath(); >
+!
+
+fill
+	< self.fill(); >
+!
+
+lineTo: aPoint
+	< self.lineTo(aPoint._x(), aPoint._y()); >
+!
+
+moveTo: aPoint
+	< self.moveTo(aPoint._x(), aPoint._y()); >
+!
+
+quadraticCurveVia: pt1 to: aPoint
+	< self.quadraticCurveTo(pt1._x(), pt1._y(), aPoint._x(), aPoint._y()); >
+!
+
+stroke
+	< self.stroke(); >
+! !
+
+!CanvasContext2D methodsFor: 'private'!
+
+clearRect: left a: top a: right a: bottom
+	< self.clearRect(left, top, right, bottom); >
+!
+
+createLinearGradient: x1 a: y1 a: x2 a: y2
+	< return self.createLinearGradient(x1, y1, x2, y2); >
+!
+
+createRadialGradient: x1 a: y1 a: innerRadius a: x2 a: y2 a: outerRadius
+	< return self.createRadialGradient(x1, y1, innerRadius, x2, y2, outerRadius); >
+!
+
+fillRect: left a: top a: right a: bottom
+	< self.fillRect(left, top, right, bottom); >
+!
+
+rect: left a: top a: right a: bottom
+	< self.rect(left, top, right, bottom); >
+!
+
+strokeRect: left a: top a: right a: bottom
+	< self.strokeRect(left, top, right, bottom); >
+! !
+
+!CanvasContext2D methodsFor: 'rectangles'!
+
+clearRect: rect
+	self clearRect: rect left a: rect top a: rect right a: rect bottom.
+!
+
+fillRect: rect
+	self fillRect: rect left a: rect top a: rect right a: rect bottom.
+!
+
+rect: rect
+	self rect: rect left a: rect top a: rect right a: rect bottom.
+!
+
+strokeRect: rect
+	self strokeRect: rect left a: rect top a: rect right a: rect bottom.
+! !
+
+!CanvasContext2D methodsFor: 'save/restore context'!
+
+pop
+	< self.restore(); >
+!
+
+push
+	< self.save(); >
+! !
+
+!CanvasContext2D methodsFor: 'styles'!
+
+createLinearGradientFrom: start to: stop
+	^ self createLinearGradient: start x a: start y a: stop x a: stop y
+!
+
+createPattern: source repeat: repeatMode
+	< self.createPattern(source, repeatMode); >
+!
+
+createRadialGradientFrom: start with: innerRadius to: stop with: outerRadius
+	^ self createRadialGradient: start x a: start y a: innerRadius a: stop x a: stop y a: outerRadius
+!
+
+fillStyle: anObject
+	< self.fillStyle = anObject; >
+!
+
+strokeStyle: anObject
+	< self.strokeStyle = anObject; >
+! !
+
+!CanvasContext2D methodsFor: 'text'!
+
+fillText: aString X: x Y: y
+	< self.fillText(aString, x, y); >
+!
+
+font: aString
+	< self.font = aString; >
+!
+
+measureStringWidth: aString
+	< return self.measureText(aString).width; >
+! !
+
+!CanvasContext2D methodsFor: 'transformations'!
+
+rotateByRadians: angle
+	< self.rotate(angle); >
+!
+
+scaleByX: x Y: y
+	< self.scale(x, y); >
+!
+
+transform: sx a: shy a: shx a: sy a: x a: y
+	< self.setTransform(sx, shy, shx, sy, x, y); >
+!
+
+transformBy: sx a: shy a: shx a: sy a: x a: y
+	< self.transform(sx, shy, shx, sy, x, y); >
+!
+
+translateByX: x Y: y
+	< self.translate(x, y); >
+! !
+
+Object subclass: #CanvasGradient
+	instanceVariableNames: ''
+	package: 'Athens-Amber'!
+
+!CanvasGradient methodsFor: 'styles'!
+
+addColorStopAt: pos color: color
+	< self.addColorStop(pos, color); >
+! !
+
 Object subclass: #Color
 	instanceVariableNames: 'rgbaString alpha r g b'
 	package: 'Athens-Amber'!
@@ -252,7 +456,7 @@ The `#boundsAfterMultiplicationWith:` method is used to calculate my bounding bo
 !Rectangle methodsFor: 'accessing'!
 
 bottom
-	< return self['@corner']['@y']; >
+	^ corner y
 !
 
 corner
@@ -264,11 +468,11 @@ corner: aPoint
 !
 
 height
-	< return self['@corner']['@y'] -  self['@origin']['@y']; >
+	^ corner y - origin y
 !
 
 left
-	< return self['@origin']['@x']; >
+	^ origin x
 !
 
 origin
@@ -280,26 +484,26 @@ origin: aPoint
 !
 
 right
-	< return self['@corner']['@x']; >
+	^ corner x
 !
 
 top
-	< return self['@origin']['@y']; >
+	^ origin y
 !
 
 width
-	< return self['@corner']['@x'] - self['@origin']['@x']; >
+	^ corner x - origin x
 ! !
 
 !Rectangle methodsFor: 'converting'!
 
 asPolygon
-	< var polygon = smalltalk.AthensPolygon._new();
-	polygon._moveTo_(self['@origin']);
-	polygon._lineTo_(self['@corner']['@x'].__at(self['@origin']['@y']));
-	polygon._lineTo_(self['@corner']['@x'].__at(self['@corner']['@y']));
-	polygon._lineTo_(self['@origin']['@x'].__at(self['@corner']['@y']));
-	return polygon; >
+	^ AthensPolygon new
+		moveTo: origin;
+		lineTo: corner x @ origin y;
+		lineTo: corner;
+		lineTo: origin x @ corner y;
+		yourself
 !
 
 boundingBox
@@ -328,16 +532,13 @@ boundsAfterMultiplicationWith: matrix
 !Rectangle methodsFor: 'drawing'!
 
 drawOn: canvas
-	< canvas['@surface']['@context2D'].rect(self._left(), self._top(), self._width(), self._height()); >
+	canvas context2D rect: self.
 ! !
 
 !Rectangle methodsFor: 'testing'!
 
 intersectsWith: aRect
-	< return self['@origin']['@x'] <= aRect['@corner']['@x'] &&
-		aRect['@origin']['@x'] <= self['@corner']['@x'] &&
-		self['@origin']['@y'] <= aRect['@corner']['@y'] &&
-		aRect['@origin']['@y'] <= self['@corner']['@y']; >
+	^ (origin x <= aRect corner x) & (aRect origin x <= corner x) & (origin y < aRect corner y) & (aRect origin y <= corner y)
 ! !
 
 !Rectangle class methodsFor: 'instance creation'!

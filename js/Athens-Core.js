@@ -12,7 +12,7 @@ $1=_st(self["@surface"])._cacheAt_ifAbsentPut_(anObject,aBlock);
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"cacheAt:ifAbsentPut:",{anObject:anObject,aBlock:aBlock},smalltalk.AthensCanvas)})},
 args: ["anObject", "aBlock"],
-source: "cacheAt: anObject ifAbsentPut: aBlock\x0a\x0a\x09^ surface cacheAt: anObject ifAbsentPut: aBlock",
+source: "cacheAt: anObject ifAbsentPut: aBlock\x0a\x09^ surface cacheAt: anObject ifAbsentPut: aBlock",
 messageSends: ["cacheAt:ifAbsentPut:"],
 referencedClasses: []
 }),
@@ -30,7 +30,7 @@ $1=_st(aShape)._paintFillsUsing_on_(_st(self["@surface"])._clearMaskPaint(),self
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"clearMask:",{aShape:aShape},smalltalk.AthensCanvas)})},
 args: ["aShape"],
-source: "clearMask: aShape\x0a\x09\x22set mask pixels to 0 for all pixels covered by shape, aShape\x22\x0a\x09^ aShape paintFillsUsing: surface clearMaskPaint on: self",
+source: "clearMask: aShape\x0a\x09\x22Set mask pixels to 0 for all pixels covered by aShape.\x22\x0a\x09\x0a\x09^ aShape paintFillsUsing: surface clearMaskPaint on: self",
 messageSends: ["paintFillsUsing:on:", "clearMaskPaint"],
 referencedClasses: []
 }),
@@ -48,7 +48,7 @@ $1=_st(self["@surface"])._clipBy_during_(aRectangle,aBlock);
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"clipBy:during:",{aRectangle:aRectangle,aBlock:aBlock},smalltalk.AthensCanvas)})},
 args: ["aRectangle", "aBlock"],
-source: "clipBy: aRectangle during: aBlock\x0a\x09\x0a\x09\x22 Set a clipping rectangle during drawing operations performed in a block.\x0a\x09Note that clipping rectangle are intetersected with currently active clipping\x0a\x09rectangle \x22\x0a\x09\x0a\x09 ^surface clipBy: aRectangle during: aBlock",
+source: "clipBy: aRectangle during: aBlock\x0a\x09\x22Sets a clipping rectangle during drawing operations performed in a block.\x0a\x09Note that clipping rectangles are intetersected with currently active \x0a\x09clipping rectangle.\x22\x0a\x09\x0a\x09 ^ surface clipBy: aRectangle during: aBlock",
 messageSends: ["clipBy:during:"],
 referencedClasses: []
 }),
@@ -66,7 +66,7 @@ $1=_st(self["@surface"])._createPath_(aPathCreatingBlock);
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"createPath:",{aPathCreatingBlock:aPathCreatingBlock},smalltalk.AthensCanvas)})},
 args: ["aPathCreatingBlock"],
-source: "createPath: aPathCreatingBlock\x0a\x09\x22Create new path. A path creating block should be a monadic block,\x0a\x09which will get a path builder instance as argument. See AthensPathBuilder\x0a\x09for available protocol.\x0a\x09The resulting path object can be later used for drawing.\x0a\x09\x22 \x0a\x09^ surface createPath: aPathCreatingBlock",
+source: "createPath: aPathCreatingBlock\x0a\x09\x22Creates a new path. A path creating block should be a monadic block,\x0a\x09which will get a path builder instance as argument. See AthensPathBuilder\x0a\x09for the protocol. The resulting path object can be later used for drawing.\x22\x0a\x09\x0a\x09^ surface createPath: aPathCreatingBlock",
 messageSends: ["createPath:"],
 referencedClasses: []
 }),
@@ -120,7 +120,7 @@ $1=_st(self["@shape"])._paintFillsUsing_on_(self["@paint"],self);
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"draw",{},smalltalk.AthensCanvas)})},
 args: [],
-source: "draw\x0a\x09\x22Fill the shape (anObject) using currently selected paint\x0a\x09an object should implement double-dispatch to currently selected paint\x22\x0a\x09\x0a\x09^ shape paintFillsUsing: paint on: self",
+source: "draw\x0a\x09\x22Fills the shape (anObject) using the currently selected paint.\x0a\x09anObject should implement double-dispatch to the currently selected paint.\x22\x0a\x09\x0a\x09^ shape paintFillsUsing: paint on: self",
 messageSends: ["paintFillsUsing:on:"],
 referencedClasses: []
 }),
@@ -138,7 +138,7 @@ $1=_st(anObject)._drawOnAthensCanvas_(self);
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"draw:",{anObject:anObject},smalltalk.AthensCanvas)})},
 args: ["anObject"],
-source: "draw: anObject\x0a\x09\x22A generic dispatch method to draw anObject on receiver. \x0a\x09the object should understand #drawOnAthensCanvas: message\x22\x0a\x09^ anObject drawOnAthensCanvas: self",
+source: "draw: anObject\x0a\x09\x22A generic dispatch method to draw anObject onto the receiver. \x0a\x09The object should understand #drawOnAthensCanvas: message.\x22\x0a\x09\x0a\x09^ anObject drawOnAthensCanvas: self",
 messageSends: ["drawOnAthensCanvas:"],
 referencedClasses: []
 }),
@@ -155,7 +155,7 @@ self._setShape_(anObject);
 self._draw();
 return self}, function($ctx1) {$ctx1.fill(self,"drawShape:",{anObject:anObject},smalltalk.AthensCanvas)})},
 args: ["anObject"],
-source: "drawShape: anObject\x0a\x09\x22A convenience method, which sets the current shape to anObject and then fills it\x0a\x09with currently selected paint\x22 \x0a\x09self setShape: anObject.\x0a\x09self draw.\x0a\x09",
+source: "drawShape: anObject\x0a\x09\x22A convenience method, which sets the current shape to anObject and then fills it\x0a\x09with the currently selected paint.\x22 \x0a\x09\x0a\x09self setShape: anObject.\x0a\x09self draw.\x0a\x09",
 messageSends: ["setShape:", "draw"],
 referencedClasses: []
 }),
@@ -173,7 +173,7 @@ $1=_st(self["@fontRenderer"])._renderCharacters_from_to_(aString,(1),_st(aString
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"drawString:",{aString:aString},smalltalk.AthensCanvas)})},
 args: ["aString"],
-source: "drawString: aString\x0a\x09\x22Draw a string using currently selected font.\x0a\x09Answer a total advance of rendered string \x22\x0a\x09^ fontRenderer renderCharacters: aString from: 1 to: aString size.",
+source: "drawString: aString\x0a\x09\x22Draws a string using the currently selected font.\x0a\x09Answers a total advance of rendered string.\x22\x0a\x09\x0a\x09^ fontRenderer renderCharacters: aString from: 1 to: aString size.",
 messageSends: ["renderCharacters:from:to:", "size"],
 referencedClasses: []
 }),
@@ -191,7 +191,7 @@ $1=_st(self["@fontRenderer"])._renderCharacters_from_to_(aString,start,end);
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"drawString:from:to:",{aString:aString,start:start,end:end},smalltalk.AthensCanvas)})},
 args: ["aString", "start", "end"],
-source: "drawString: aString from: start to: end\x0a\x0a\x09\x22Draw a portion of string using currently selected font.\x0a\x09Answer a total advance of rendered portion\x22\x0a\x09^ fontRenderer renderCharacters: aString from: start to: end",
+source: "drawString: aString from: start to: end\x0a\x09\x22Draws a portion of string using the currently selected font.\x0a\x09Answers a total advance of rendered portion.\x22\x0a\x09\x0a\x09^ fontRenderer renderCharacters: aString from: start to: end",
 messageSends: ["renderCharacters:from:to:"],
 referencedClasses: []
 }),
@@ -225,7 +225,7 @@ return smalltalk.withContext(function($ctx1) {
 _st(self["@surface"])._removeCacheAt_(anObject);
 return self}, function($ctx1) {$ctx1.fill(self,"flushCacheAt:",{anObject:anObject},smalltalk.AthensCanvas)})},
 args: ["anObject"],
-source: "flushCacheAt: anObject\x0a\x09\x22Flush (delete) any cached value(s) identified by given object, anObject.\x0a\x09A surface using identity comparison for object identifiers.\x0a\x0a\x09Answer receiver.\x0a\x09\x22\x0a\x0a\x09surface removeCacheAt: anObject",
+source: "flushCacheAt: anObject\x0a\x09\x22Flush (delete) any cached value(s) identified by given object, anObject.\x0a\x09A surface using identity comparison for object identifiers. Answer receiver.\x22\x0a\x0a\x09surface removeCacheAt: anObject",
 messageSends: ["removeCacheAt:"],
 referencedClasses: []
 }),
@@ -257,7 +257,7 @@ return smalltalk.withContext(function($ctx1) {
 return true;
 }, function($ctx1) {$ctx1.fill(self,"isVisible:",{aRectangle:aRectangle},smalltalk.AthensCanvas)})},
 args: ["aRectangle"],
-source: "isVisible: aRectangle \x0a\x09\x22check if rectangle are not fully clipped by current clipping coordinates\x22\x0a\x09\x0a\x09^ true",
+source: "isVisible: aRectangle \x0a\x09\x22Check if the rectangles is not fully clipped by current clipping coordinates.\x22\x0a\x09\x0a\x09^ true",
 messageSends: [],
 referencedClasses: []
 }),
@@ -329,7 +329,7 @@ $1=_st(self["@surface"])._pathTransform();
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"pathTransform",{},smalltalk.AthensCanvas)})},
 args: [],
-source: "pathTransform\x0a\x09\x22Answer the path transformation matrix controller.\x0a\x09The answered object should conform to AthensTransform public protocol.\x22\x0a\x09^ surface pathTransform",
+source: "pathTransform\x0a\x09\x22Answer the path transformation matrix controller.\x0a\x09The answered object should conform to AthensTransform public protocol.\x22\x0a\x09\x0a\x09^ surface pathTransform",
 messageSends: ["pathTransform"],
 referencedClasses: []
 }),
@@ -345,7 +345,7 @@ return smalltalk.withContext(function($ctx1) {
 self["@fontRenderer"]=_st(aFont)._glyphRendererOn_(self["@surface"]);
 return self}, function($ctx1) {$ctx1.fill(self,"setFont:",{aFont:aFont},smalltalk.AthensCanvas)})},
 args: ["aFont"],
-source: "setFont: aFont\x0a\x09\x22Set the current font of receiver. Font object should answer a glyph renderer instance,\x0a\x09compatible with glyph renderer protocol\x22 \x0a\x09fontRenderer := aFont glyphRendererOn: surface.",
+source: "setFont: aFont\x0a\x09\x22Set the current font of receiver. Font object should answer\x0a\x09a glyph renderer instance, compatible with glyph renderer protocol.\x22\x0a\x09\x0a\x09fontRenderer := aFont glyphRendererOn: surface.",
 messageSends: ["glyphRendererOn:"],
 referencedClasses: []
 }),
@@ -363,7 +363,7 @@ $1=_st(aShape)._paintFillsUsing_on_(_st(self["@surface"])._setMaskPaint(),self);
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"setMask:",{aShape:aShape},smalltalk.AthensCanvas)})},
 args: ["aShape"],
-source: "setMask: aShape\x0a\x09\x22set mask pixels to 1 for all pixels covered by shape, aShape\x22\x0a\x0a\x09^ aShape paintFillsUsing: surface setMaskPaint on: self",
+source: "setMask: aShape\x0a\x09\x22Set mask pixels to 1 for all pixels covered by shape, aShape.\x22\x0a\x0a\x09^ aShape paintFillsUsing: surface setMaskPaint on: self",
 messageSends: ["paintFillsUsing:on:", "setMaskPaint"],
 referencedClasses: []
 }),
@@ -387,7 +387,7 @@ $3=self["@paint"];
 return $3;
 }, function($ctx1) {$ctx1.fill(self,"setPaint:",{aPaint:aPaint},smalltalk.AthensCanvas)})},
 args: ["aPaint"],
-source: "setPaint: aPaint\x0a\x09\x22set the current paint of receiver\x22\x0a\x09paint = aPaint ifTrue:[ ^ paint ].\x0a\x09paint := aPaint asAthensPaintOn: self.\x0a\x09^ paint.",
+source: "setPaint: aPaint\x0a\x09\x22Set the current paint of receiver\x22\x0a\x09\x0a\x09paint = aPaint ifTrue: [ ^ paint ].\x0a\x09paint := aPaint asAthensPaintOn: self.\x0a\x09^ paint",
 messageSends: ["ifTrue:", "=", "asAthensPaintOn:"],
 referencedClasses: []
 }),
@@ -403,7 +403,7 @@ return smalltalk.withContext(function($ctx1) {
 self["@shape"]=anObject;
 return self}, function($ctx1) {$ctx1.fill(self,"setShape:",{anObject:anObject},smalltalk.AthensCanvas)})},
 args: ["anObject"],
-source: "setShape: anObject\x0a\x09\x22Set the current shape of receiver\x22\x0a\x09shape := anObject.",
+source: "setShape: anObject\x0a\x09\x22Set the current shape of receiver.\x22\x0a\x09\x0a\x09shape := anObject.",
 messageSends: [],
 referencedClasses: []
 }),
@@ -422,7 +422,7 @@ $1=self["@paint"];
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"setStrokePaint:",{aPaint:aPaint},smalltalk.AthensCanvas)})},
 args: ["aPaint"],
-source: "setStrokePaint: aPaint\x0a\x09\x22use paint as stroke paint, note conversion to #asStrokePaintOn:\x22\x0a\x09paint := (aPaint asAthensPaintOn: self) asStrokePaintOn: self.\x0a\x09^ paint",
+source: "setStrokePaint: aPaint\x0a\x09\x22Use paint as stroke paint, note conversion to #asStrokePaintOn:.\x22\x0a\x09\x0a\x09paint := (aPaint asAthensPaintOn: self) asStrokePaintOn: self.\x0a\x09^ paint",
 messageSends: ["asStrokePaintOn:", "asAthensPaintOn:"],
 referencedClasses: []
 }),
@@ -440,7 +440,7 @@ $1=self["@surface"];
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"surface",{},smalltalk.AthensCanvas)})},
 args: [],
-source: "surface\x0a\x09\x22Answer an Athens surface, to which receiver is bound to\x22\x0a\x09^ surface",
+source: "surface\x0a\x09\x22Answer an Athens surface, to which receiver is bound to.\x22\x0a\x09\x0a\x09^ surface",
 messageSends: [],
 referencedClasses: []
 }),

@@ -124,12 +124,12 @@ category: 'path commands',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- self['@endPoint'] = self['@startPoint'];
-	self['@context2D'].closePath(); ;
+self["@endPoint"]=self["@startPoint"];
+_st(self["@context2D"])._closePath();
 return self}, function($ctx1) {$ctx1.fill(self,"close",{},smalltalk.AthensHTMLPath)})},
 args: [],
-source: "close\x0a\x09< self['@endPoint'] = self['@startPoint'];\x0a\x09self['@context2D'].closePath(); >",
-messageSends: [],
+source: "close\x0a\x09endPoint := startPoint.\x0a\x09context2D closePath.",
+messageSends: ["closePath"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLPath);
@@ -141,12 +141,12 @@ category: 'path commands',
 fn: function (pt1,pt2,aPoint){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- self['@endPoint'] = aPoint;
-	self['@context2D'].bezierCurveTo(pt1._x(), pt1._y(), pt2._x(), pt2._y(), aPoint._x(), aPoint._y()); ;
+self["@endPoint"]=aPoint;
+_st(self["@context2D"])._bezierCurveVia_and_to_(pt1,pt2,aPoint);
 return self}, function($ctx1) {$ctx1.fill(self,"curveVia:and:to:",{pt1:pt1,pt2:pt2,aPoint:aPoint},smalltalk.AthensHTMLPath)})},
 args: ["pt1", "pt2", "aPoint"],
-source: "curveVia: pt1 and: pt2 to: aPoint\x0a\x09< self['@endPoint'] = aPoint;\x0a\x09self['@context2D'].bezierCurveTo(pt1._x(), pt1._y(), pt2._x(), pt2._y(), aPoint._x(), aPoint._y()); >",
-messageSends: [],
+source: "curveVia: pt1 and: pt2 to: aPoint\x0a\x09endPoint := aPoint.\x0a\x09context2D bezierCurveVia: pt1 and: pt2 to: aPoint.",
+messageSends: ["bezierCurveVia:and:to:"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLPath);
@@ -158,12 +158,12 @@ category: 'path commands',
 fn: function (pt1,aPoint){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- self['@endPoint'] = aPoint;
-	self['@context2D'].quadraticCurveTo(pt1._x(), pt1._y(), aPoint._x(), aPoint._y()); ;
+self["@endPoint"]=aPoint;
+_st(self["@context2D"])._quadraticCurveVia_to_(pt1,aPoint);
 return self}, function($ctx1) {$ctx1.fill(self,"curveVia:to:",{pt1:pt1,aPoint:aPoint},smalltalk.AthensHTMLPath)})},
 args: ["pt1", "aPoint"],
-source: "curveVia: pt1 to: aPoint\x0a\x09< self['@endPoint'] = aPoint;\x0a\x09self['@context2D'].quadraticCurveTo(pt1._x(), pt1._y(), aPoint._x(), aPoint._y()); >",
-messageSends: [],
+source: "curveVia: pt1 to: aPoint\x0a\x09endPoint := aPoint.\x0a\x09context2D quadraticCurveVia: pt1 to: aPoint.",
+messageSends: ["quadraticCurveVia:to:"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLPath);
@@ -175,11 +175,11 @@ category: 'path commands',
 fn: function (x1,y1,x2,y2){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- self['@context2D'].quadraticCurveTo(x1, y1, x2, y2); ;
+self._curveVia_to_(_st(x1).__at(y1),_st(x2).__at(y2));
 return self}, function($ctx1) {$ctx1.fill(self,"curveViaX:Y:toX:Y:",{x1:x1,y1:y1,x2:x2,y2:y2},smalltalk.AthensHTMLPath)})},
 args: ["x1", "y1", "x2", "y2"],
-source: "curveViaX: x1 Y: y1 toX: x2 Y: y2\x0a\x09< self['@context2D'].quadraticCurveTo(x1, y1, x2, y2); >",
-messageSends: [],
+source: "curveViaX: x1 Y: y1 toX: x2 Y: y2\x0a\x09self curveVia: x1 @ y1 to: x2 @ y2.",
+messageSends: ["curveVia:to:", "@"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLPath);
@@ -191,11 +191,11 @@ category: 'path commands',
 fn: function (x1,y1,x2,y2,x3,y3){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- self['@context2D'].bezierCurveTo(x1, y1, x2, y2, x3, y3); ;
+self._curveVia_and_to_(_st(x1).__at(y1),_st(x2).__at(y2),_st(x3).__at(y3));
 return self}, function($ctx1) {$ctx1.fill(self,"curveViaX:Y:viaX:Y:toX:Y:",{x1:x1,y1:y1,x2:x2,y2:y2,x3:x3,y3:y3},smalltalk.AthensHTMLPath)})},
 args: ["x1", "y1", "x2", "y2", "x3", "y3"],
-source: "curveViaX: x1 Y: y1 viaX: x2 Y: y2 toX: x3 Y: y3\x0a\x09< self['@context2D'].bezierCurveTo(x1, y1, x2, y2, x3, y3); >",
-messageSends: [],
+source: "curveViaX: x1 Y: y1 viaX: x2 Y: y2 toX: x3 Y: y3\x0a\x09self curveVia: x1 @ y1 and: x2 @ y2 to: x3 @ y3.",
+messageSends: ["curveVia:and:to:", "@"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLPath);
@@ -225,17 +225,21 @@ category: 'drawing',
 fn: function (anAthensCanvas){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- // Replay saved pat
-	(function() {
-		self['@context2D'] = anAthensCanvas['@surface']['@context2D'];
-		self._newPath();
-		self['@segment']._sendCommandsTo_(self);
-	})._ensure_(function() {
-		self['@context2D'] = undefined;}); ;
+_st((function(){
+return smalltalk.withContext(function($ctx2) {
+self["@context2D"]=_st(anAthensCanvas)._context2D();
+self["@context2D"];
+self._newPath();
+return _st(self["@segment"])._sendCommandsTo_(self);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}))._ensure_((function(){
+return smalltalk.withContext(function($ctx2) {
+self["@context2D"]=nil;
+return self["@context2D"];
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"drawOn:",{anAthensCanvas:anAthensCanvas},smalltalk.AthensHTMLPath)})},
 args: ["anAthensCanvas"],
-source: "drawOn: anAthensCanvas\x0a\x09< // Replay saved pat\x0a\x09(function() {\x0a\x09\x09self['@context2D'] = anAthensCanvas['@surface']['@context2D'];\x0a\x09\x09self._newPath();\x0a\x09\x09self['@segment']._sendCommandsTo_(self);\x0a\x09})._ensure_(function() {\x0a\x09\x09self['@context2D'] = undefined;}); >",
-messageSends: [],
+source: "drawOn: anAthensCanvas\x0a\x09\x22Replay saved path.\x22\x0a\x09\x0a\x09[\x0a\x09\x09context2D := anAthensCanvas context2D.\x0a\x09\x09self newPath.\x0a\x09\x09segment sendCommandsTo: self.\x0a\x09] ensure: [\x0a\x09\x09context2D := nil].",
+messageSends: ["ensure:", "context2D", "newPath", "sendCommandsTo:"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLPath);
@@ -247,12 +251,12 @@ category: 'path commands',
 fn: function (aPoint){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- self['@endPoint'] = aPoint;
-	self['@context2D'].lineTo(aPoint._x(), aPoint._y()); ;
+self["@endPoint"]=aPoint;
+_st(self["@context2D"])._lineTo_(aPoint);
 return self}, function($ctx1) {$ctx1.fill(self,"lineTo:",{aPoint:aPoint},smalltalk.AthensHTMLPath)})},
 args: ["aPoint"],
-source: "lineTo: aPoint\x0a\x09< self['@endPoint'] = aPoint;\x0a\x09self['@context2D'].lineTo(aPoint._x(), aPoint._y()); >",
-messageSends: [],
+source: "lineTo: aPoint\x0a\x09endPoint := aPoint.\x0a\x09context2D lineTo: aPoint.",
+messageSends: ["lineTo:"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLPath);
@@ -264,11 +268,11 @@ category: 'path commands',
 fn: function (x,y){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- self['@context2D'].lineTo(x, y); ;
+self._lineToX_Y_(x,y);
 return self}, function($ctx1) {$ctx1.fill(self,"lineToX:Y:",{x:x,y:y},smalltalk.AthensHTMLPath)})},
 args: ["x", "y"],
-source: "lineToX: x Y: y\x0a\x09< self['@context2D'].lineTo(x, y); >",
-messageSends: [],
+source: "lineToX: x Y: y\x0a\x09self lineToX: x Y: y.",
+messageSends: ["lineToX:Y:"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLPath);
@@ -280,12 +284,12 @@ category: 'path commands',
 fn: function (aPoint){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- self['@endPoint'] = aPoint;
-	self['@context2D'].moveTo(aPoint._x(), aPoint._y()); ;
+self["@endPoint"]=aPoint;
+_st(self["@context2D"])._moveTo_(aPoint);
 return self}, function($ctx1) {$ctx1.fill(self,"moveTo:",{aPoint:aPoint},smalltalk.AthensHTMLPath)})},
 args: ["aPoint"],
-source: "moveTo: aPoint\x0a\x09< self['@endPoint'] = aPoint;\x0a\x09self['@context2D'].moveTo(aPoint._x(), aPoint._y()); >",
-messageSends: [],
+source: "moveTo: aPoint\x0a\x09endPoint := aPoint.\x0a\x09context2D moveTo: aPoint.",
+messageSends: ["moveTo:"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLPath);
@@ -297,11 +301,11 @@ category: 'path commands',
 fn: function (x,y){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- self['@context2D'].moveTo(x, y); ;
+self._moveTo_(_st(x).__at(y));
 return self}, function($ctx1) {$ctx1.fill(self,"moveToX:Y:",{x:x,y:y},smalltalk.AthensHTMLPath)})},
 args: ["x", "y"],
-source: "moveToX: x Y: y\x0a\x09< self['@context2D'].moveTo(x, y); >",
-messageSends: [],
+source: "moveToX: x Y: y\x0a\x09self moveTo: x @ y.",
+messageSends: ["moveTo:", "@"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLPath);
@@ -313,13 +317,14 @@ category: 'path commands',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- self['@endPoint'] = self['@startPoint'] = self._class()['@zeroPoint'];
-	self['@context2D'].beginPath();
-	self._moveToX_Y_(0, 0); ;
+self["@startPoint"]=(0).__at((0));
+self["@endPoint"]=self["@startPoint"];
+_st(self["@context2D"])._beginPath();
+self._moveTo_(self["@startPoint"]);
 return self}, function($ctx1) {$ctx1.fill(self,"newPath",{},smalltalk.AthensHTMLPath)})},
 args: [],
-source: "newPath\x0a\x09< self['@endPoint'] = self['@startPoint'] = self._class()['@zeroPoint'];\x0a\x09self['@context2D'].beginPath();\x0a\x09self._moveToX_Y_(0, 0); >",
-messageSends: [],
+source: "newPath\x0a\x09endPoint := startPoint := 0 @ 0.\x0a\x09context2D beginPath.\x0a\x09self moveTo: startPoint.",
+messageSends: ["@", "beginPath", "moveTo:"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLPath);
@@ -331,11 +336,11 @@ category: 'drawing',
 fn: function (aPaint,anAthensCanvas){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- aPaint._fillPath_on_(self, anAthensCanvas); ;
+_st(aPaint)._fillPath_on_(self,anAthensCanvas);
 return self}, function($ctx1) {$ctx1.fill(self,"paintFillsUsing:on:",{aPaint:aPaint,anAthensCanvas:anAthensCanvas},smalltalk.AthensHTMLPath)})},
 args: ["aPaint", "anAthensCanvas"],
-source: "paintFillsUsing: aPaint on: anAthensCanvas \x0a\x09< aPaint._fillPath_on_(self, anAthensCanvas); >",
-messageSends: [],
+source: "paintFillsUsing: aPaint on: anAthensCanvas \x0a\x09aPaint fillPath: self on: anAthensCanvas.",
+messageSends: ["fillPath:on:"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLPath);

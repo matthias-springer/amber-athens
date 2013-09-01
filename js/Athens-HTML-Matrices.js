@@ -23,11 +23,11 @@ category: 'transformations',
 fn: function (m){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- self['@surface']['@context2D'].setTransform(m['@sx'], m['@shy'], m['@shx'], m['@sy'], m['@x'], m['@y']); ;
+_st(_st(self["@surface"])._context2D())._transform_a_a_a_a_a_(_st(m)._sx(),_st(m)._shy(),_st(m)._shx(),_st(m)._sy(),_st(m)._x(),_st(m)._y());
 return self}, function($ctx1) {$ctx1.fill(self,"loadAffineTransform:",{m:m},smalltalk.AthensHTMLTransformation)})},
 args: ["m"],
-source: "loadAffineTransform: m\x0a\x09< self['@surface']['@context2D'].setTransform(m['@sx'], m['@shy'], m['@shx'], m['@sy'], m['@x'], m['@y']); >",
-messageSends: [],
+source: "loadAffineTransform: m\x0a\x09surface context2D transform: m sx a: m shy a: m shx a: m sy a: m x a: m y.",
+messageSends: ["transform:a:a:a:a:a:", "sx", "shy", "shx", "sy", "x", "y", "context2D"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLTransformation);
@@ -39,11 +39,11 @@ category: 'transformations',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- self['@surface']['@context2D'].setTransform(1, 0, 0, 1, 0, 0); ;
+_st(_st(self["@surface"])._context2D())._transform_a_a_a_a_a_((1),(0),(0),(1),(0),(0));
 return self}, function($ctx1) {$ctx1.fill(self,"loadGlobalIdentity",{},smalltalk.AthensHTMLTransformation)})},
 args: [],
-source: "loadGlobalIdentity\x0a\x09< self['@surface']['@context2D'].setTransform(1, 0, 0, 1, 0, 0); >",
-messageSends: [],
+source: "loadGlobalIdentity\x0a\x09surface context2D transform: 1 a: 0 a: 0 a: 1 a: 0 a: 0.",
+messageSends: ["transform:a:a:a:a:a:", "context2D"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLTransformation);
@@ -55,11 +55,11 @@ category: 'transformations',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- self['@surface']['@context2D'].setTransform(1, 0, 0, 1, 0, 0); ;
+_st(_st(self["@surface"])._context2D())._transform_a_a_a_a_a_((1),(0),(0),(1),(0),(0));
 return self}, function($ctx1) {$ctx1.fill(self,"loadIdentity",{},smalltalk.AthensHTMLTransformation)})},
 args: [],
-source: "loadIdentity\x0a\x09< self['@surface']['@context2D'].setTransform(1, 0, 0, 1, 0, 0); >",
-messageSends: [],
+source: "loadIdentity\x0a\x09surface context2D transform: 1 a: 0 a: 0 a: 1 a: 0 a: 0.",
+messageSends: ["transform:a:a:a:a:a:", "context2D"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLTransformation);
@@ -71,11 +71,11 @@ category: 'transformations',
 fn: function (m){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- self['@surface']['@context2D'].transform(m['@sx'], m['@shy'], m['@shx'], m['@sy'], m['@x'], m['@y']); ;
+_st(_st(self["@surface"])._context2D())._transformBy_a_a_a_a_a_(_st(m)._sx(),_st(m)._shy(),_st(m)._shx(),_st(m)._sy(),_st(m)._x(),_st(m)._y());
 return self}, function($ctx1) {$ctx1.fill(self,"multiplyBy:",{m:m},smalltalk.AthensHTMLTransformation)})},
 args: ["m"],
-source: "multiplyBy: m\x0a\x09< self['@surface']['@context2D'].transform(m['@sx'], m['@shy'], m['@shx'], m['@sy'], m['@x'], m['@y']); >",
-messageSends: [],
+source: "multiplyBy: m\x0a\x09surface context2D transformBy: m sx a: m shy a: m shx a: m sy a: m x a: m y.",
+messageSends: ["transformBy:a:a:a:a:a:", "sx", "shy", "shx", "sy", "x", "y", "context2D"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLTransformation);
@@ -87,15 +87,15 @@ category: 'transformations',
 fn: function (aBlock){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- self['@surface']['@context2D'].save();
-	
-	aBlock._ensure_(function() {
-		self['@surface']['@context2D'].restore();
-	}); ;
+_st(_st(self["@surface"])._context2D())._push();
+_st(aBlock)._ensure_((function(){
+return smalltalk.withContext(function($ctx2) {
+return _st(_st(self["@surface"])._context2D())._pop();
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"restoreAfter:",{aBlock:aBlock},smalltalk.AthensHTMLTransformation)})},
 args: ["aBlock"],
-source: "restoreAfter: aBlock\x0a\x09< self['@surface']['@context2D'].save();\x0a\x09\x0a\x09aBlock._ensure_(function() {\x0a\x09\x09self['@surface']['@context2D'].restore();\x0a\x09}); >",
-messageSends: [],
+source: "restoreAfter: aBlock\x0a\x09surface context2D push.\x0a\x09aBlock ensure: [surface context2D pop].",
+messageSends: ["push", "context2D", "ensure:", "pop"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLTransformation);
@@ -106,13 +106,14 @@ selector: "rotateByDegrees:",
 category: 'transformations',
 fn: function (angle){
 var self=this;
+function $Number(){return smalltalk.Number||(typeof Number=="undefined"?nil:Number)}
 return smalltalk.withContext(function($ctx1) { 
- self['@surface']['@context2D'].rotate(angle * Math.PI/180); ;
+_st(_st(self["@surface"])._context2D())._rotateByRadians_(_st(_st(angle).__star(_st($Number())._pi())).__slash((180)));
 return self}, function($ctx1) {$ctx1.fill(self,"rotateByDegrees:",{angle:angle},smalltalk.AthensHTMLTransformation)})},
 args: ["angle"],
-source: "rotateByDegrees: angle\x0a\x09< self['@surface']['@context2D'].rotate(angle * Math.PI/180); >",
-messageSends: [],
-referencedClasses: []
+source: "rotateByDegrees: angle\x0a\x09surface context2D rotateByRadians: angle * Number pi /  180.",
+messageSends: ["rotateByRadians:", "/", "*", "pi", "context2D"],
+referencedClasses: ["Number"]
 }),
 smalltalk.AthensHTMLTransformation);
 
@@ -123,11 +124,11 @@ category: 'transformations',
 fn: function (angle){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- self['@surface']['@context2D'].rotate(angle); ;
+_st(_st(self["@surface"])._context2D())._rotateByRadians_(angle);
 return self}, function($ctx1) {$ctx1.fill(self,"rotateByRadians:",{angle:angle},smalltalk.AthensHTMLTransformation)})},
 args: ["angle"],
-source: "rotateByRadians: angle\x0a\x09< self['@surface']['@context2D'].rotate(angle); >",
-messageSends: [],
+source: "rotateByRadians: angle\x0a\x09surface context2D rotateByRadians: angle.",
+messageSends: ["rotateByRadians:", "context2D"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLTransformation);
@@ -139,16 +140,17 @@ category: 'transformations',
 fn: function (factor){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- if (factor.constructor === Number) {
-		self['@surface']['@context2D'].scale(factor, factor);
-	}	
-	else {
-		self['@surface']['@context2D'].scale(factor['@x'], factor['@y']);
-	} ;
+var $1;
+$1=_st(factor)._isNumber();
+if(smalltalk.assert($1)){
+_st(_st(self["@surface"])._context2D())._scaleByX_Y_(factor,factor);
+} else {
+_st(_st(self["@surface"])._context2D())._scaleByX_Y_(_st(factor)._x(),_st(factor)._y());
+};
 return self}, function($ctx1) {$ctx1.fill(self,"scaleBy:",{factor:factor},smalltalk.AthensHTMLTransformation)})},
 args: ["factor"],
-source: "scaleBy: factor\x0a\x09< if (factor.constructor === Number) {\x0a\x09\x09self['@surface']['@context2D'].scale(factor, factor);\x0a\x09}\x09\x0a\x09else {\x0a\x09\x09self['@surface']['@context2D'].scale(factor['@x'], factor['@y']);\x0a\x09} >",
-messageSends: [],
+source: "scaleBy: factor\x0a\x09factor isNumber\x0a\x09\x09ifTrue: [surface context2D scaleByX: factor Y: factor]\x0a\x09\x09ifFalse: [surface context2D scaleByX: factor x Y: factor y].",
+messageSends: ["ifTrue:ifFalse:", "scaleByX:Y:", "context2D", "x", "y", "isNumber"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLTransformation);
@@ -160,11 +162,11 @@ category: 'transformations',
 fn: function (fx,fy){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- self['@surface']['@context2D'].scale(fx, fy); ;
+_st(_st(self["@surface"])._context2D())._scaleByX_Y_(fx,fy);
 return self}, function($ctx1) {$ctx1.fill(self,"scaleX:Y:",{fx:fx,fy:fy},smalltalk.AthensHTMLTransformation)})},
 args: ["fx", "fy"],
-source: "scaleX: fx Y: fy\x0a\x09< self['@surface']['@context2D'].scale(fx, fy); >",
-messageSends: [],
+source: "scaleX: fx Y: fy\x0a\x09surface context2D scaleByX: fx Y: fy.",
+messageSends: ["scaleByX:Y:", "context2D"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLTransformation);
@@ -192,11 +194,11 @@ category: 'transformations',
 fn: function (aPoint){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- self['@surface']['@context2D'].translate(aPoint['@x'], aPoint['@y']); ;
+_st(_st(self["@surface"])._context2D())._translateByX_Y_(_st(aPoint)._x(),_st(aPoint)._y());
 return self}, function($ctx1) {$ctx1.fill(self,"translateBy:",{aPoint:aPoint},smalltalk.AthensHTMLTransformation)})},
 args: ["aPoint"],
-source: "translateBy: aPoint\x0a\x09< self['@surface']['@context2D'].translate(aPoint['@x'], aPoint['@y']); >",
-messageSends: [],
+source: "translateBy: aPoint\x0a\x09surface context2D translateByX: aPoint x Y: aPoint y.",
+messageSends: ["translateByX:Y:", "x", "y", "context2D"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLTransformation);
@@ -208,11 +210,11 @@ category: 'transformations',
 fn: function (px,py){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- self['@surface']['@context2D'].translate(px, py); ;
+_st(_st(self["@surface"])._context2D())._translateByX_Y_(px,py);
 return self}, function($ctx1) {$ctx1.fill(self,"translateX:Y:",{px:px,py:py},smalltalk.AthensHTMLTransformation)})},
 args: ["px", "py"],
-source: "translateX: px Y: py\x0a\x09< self['@surface']['@context2D'].translate(px, py); >",
-messageSends: [],
+source: "translateX: px Y: py\x0a\x09surface context2D translateByX: px Y: py.",
+messageSends: ["translateByX:Y:", "context2D"],
 referencedClasses: []
 }),
 smalltalk.AthensHTMLTransformation);

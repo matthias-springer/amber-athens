@@ -1,4 +1,491 @@
 smalltalk.addPackage('Athens-Amber');
+smalltalk.addClass('CanvasContext2D', smalltalk.Object, [], 'Athens-Amber');
+smalltalk.addMethod(
+smalltalk.method({
+selector: "beginPath",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ self.beginPath(); ;
+return self}, function($ctx1) {$ctx1.fill(self,"beginPath",{},smalltalk.CanvasContext2D)})},
+messageSends: []}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "bezierCurveVia:and:to:",
+fn: function (pt1,pt2,aPoint){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ self.bezierCurveTo(pt1._x(), pt1._y(), pt2._x(), pt2._y(), aPoint._x(), aPoint._y()); ;
+return self}, function($ctx1) {$ctx1.fill(self,"bezierCurveVia:and:to:",{pt1:pt1,pt2:pt2,aPoint:aPoint},smalltalk.CanvasContext2D)})},
+messageSends: []}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "clearRect:",
+fn: function (rect){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self._clearRect_a_a_a_(_st(rect)._left(),_st(rect)._top(),_st(rect)._right(),_st(rect)._bottom());
+return self}, function($ctx1) {$ctx1.fill(self,"clearRect:",{rect:rect},smalltalk.CanvasContext2D)})},
+messageSends: ["clearRect:a:a:a:", "left", "top", "right", "bottom"]}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "clearRect:a:a:a:",
+fn: function (left,top,right,bottom){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ self.clearRect(left, top, right, bottom); ;
+return self}, function($ctx1) {$ctx1.fill(self,"clearRect:a:a:a:",{left:left,top:top,right:right,bottom:bottom},smalltalk.CanvasContext2D)})},
+messageSends: []}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "clip",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ self.clip(); ;
+return self}, function($ctx1) {$ctx1.fill(self,"clip",{},smalltalk.CanvasContext2D)})},
+messageSends: []}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "closePath",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ self.closePath(); ;
+return self}, function($ctx1) {$ctx1.fill(self,"closePath",{},smalltalk.CanvasContext2D)})},
+messageSends: []}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "createLinearGradient:a:a:a:",
+fn: function (x1,y1,x2,y2){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self.createLinearGradient(x1, y1, x2, y2); ;
+return self}, function($ctx1) {$ctx1.fill(self,"createLinearGradient:a:a:a:",{x1:x1,y1:y1,x2:x2,y2:y2},smalltalk.CanvasContext2D)})},
+messageSends: []}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "createLinearGradientFrom:to:",
+fn: function (start,stop){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self._createLinearGradient_a_a_a_(_st(start)._x(),_st(start)._y(),_st(stop)._x(),_st(stop)._y());
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"createLinearGradientFrom:to:",{start:start,stop:stop},smalltalk.CanvasContext2D)})},
+messageSends: ["createLinearGradient:a:a:a:", "x", "y"]}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "createPattern:repeat:",
+fn: function (source,repeatMode){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ self.createPattern(source, repeatMode); ;
+return self}, function($ctx1) {$ctx1.fill(self,"createPattern:repeat:",{source:source,repeatMode:repeatMode},smalltalk.CanvasContext2D)})},
+messageSends: []}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "createRadialGradient:a:a:a:a:a:",
+fn: function (x1,y1,innerRadius,x2,y2,outerRadius){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self.createRadialGradient(x1, y1, innerRadius, x2, y2, outerRadius); ;
+return self}, function($ctx1) {$ctx1.fill(self,"createRadialGradient:a:a:a:a:a:",{x1:x1,y1:y1,innerRadius:innerRadius,x2:x2,y2:y2,outerRadius:outerRadius},smalltalk.CanvasContext2D)})},
+messageSends: []}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "createRadialGradientFrom:with:to:with:",
+fn: function (start,innerRadius,stop,outerRadius){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self._createRadialGradient_a_a_a_a_a_(_st(start)._x(),_st(start)._y(),innerRadius,_st(stop)._x(),_st(stop)._y(),outerRadius);
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"createRadialGradientFrom:with:to:with:",{start:start,innerRadius:innerRadius,stop:stop,outerRadius:outerRadius},smalltalk.CanvasContext2D)})},
+messageSends: ["createRadialGradient:a:a:a:a:a:", "x", "y"]}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "fill",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ self.fill(); ;
+return self}, function($ctx1) {$ctx1.fill(self,"fill",{},smalltalk.CanvasContext2D)})},
+messageSends: []}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "fillRect:",
+fn: function (rect){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self._fillRect_a_a_a_(_st(rect)._left(),_st(rect)._top(),_st(rect)._right(),_st(rect)._bottom());
+return self}, function($ctx1) {$ctx1.fill(self,"fillRect:",{rect:rect},smalltalk.CanvasContext2D)})},
+messageSends: ["fillRect:a:a:a:", "left", "top", "right", "bottom"]}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "fillRect:a:a:a:",
+fn: function (left,top,right,bottom){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ self.fillRect(left, top, right, bottom); ;
+return self}, function($ctx1) {$ctx1.fill(self,"fillRect:a:a:a:",{left:left,top:top,right:right,bottom:bottom},smalltalk.CanvasContext2D)})},
+messageSends: []}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "fillStyle:",
+fn: function (anObject){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ self.fillStyle = anObject; ;
+return self}, function($ctx1) {$ctx1.fill(self,"fillStyle:",{anObject:anObject},smalltalk.CanvasContext2D)})},
+messageSends: []}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "fillText:X:Y:",
+fn: function (aString,x,y){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ self.fillText(aString, x, y); ;
+return self}, function($ctx1) {$ctx1.fill(self,"fillText:X:Y:",{aString:aString,x:x,y:y},smalltalk.CanvasContext2D)})},
+messageSends: []}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "font:",
+fn: function (aString){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ self.font = aString; ;
+return self}, function($ctx1) {$ctx1.fill(self,"font:",{aString:aString},smalltalk.CanvasContext2D)})},
+messageSends: []}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "globalCompositeOperation",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self.globalCompositeOperation; ;
+return self}, function($ctx1) {$ctx1.fill(self,"globalCompositeOperation",{},smalltalk.CanvasContext2D)})},
+messageSends: []}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "globalCompositeOperation:",
+fn: function (aString){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ self.globalCompositeOperation = aString; ;
+return self}, function($ctx1) {$ctx1.fill(self,"globalCompositeOperation:",{aString:aString},smalltalk.CanvasContext2D)})},
+messageSends: []}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "lineCap:",
+fn: function (aNumber){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ self.lineCap = aNumber; ;
+return self}, function($ctx1) {$ctx1.fill(self,"lineCap:",{aNumber:aNumber},smalltalk.CanvasContext2D)})},
+messageSends: []}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "lineDash:",
+fn: function (anArray){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ if (self.setLineDash !== undefined) {
+		self.setLineDash(anArray);
+	} ;
+return self}, function($ctx1) {$ctx1.fill(self,"lineDash:",{anArray:anArray},smalltalk.CanvasContext2D)})},
+messageSends: []}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "lineDashOffset:",
+fn: function (aNumber){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ if (self.setLineDash !== undefined) {
+		self.lineDashOffset = aNumber;
+	} ;
+return self}, function($ctx1) {$ctx1.fill(self,"lineDashOffset:",{aNumber:aNumber},smalltalk.CanvasContext2D)})},
+messageSends: []}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "lineJoin:",
+fn: function (aNumber){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ self.lineJoin = aNumber; ;
+return self}, function($ctx1) {$ctx1.fill(self,"lineJoin:",{aNumber:aNumber},smalltalk.CanvasContext2D)})},
+messageSends: []}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "lineTo:",
+fn: function (aPoint){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ self.lineTo(aPoint._x(), aPoint._y()); ;
+return self}, function($ctx1) {$ctx1.fill(self,"lineTo:",{aPoint:aPoint},smalltalk.CanvasContext2D)})},
+messageSends: []}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "lineWidth:",
+fn: function (aNumber){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ self.lineWidth = aNumber; ;
+return self}, function($ctx1) {$ctx1.fill(self,"lineWidth:",{aNumber:aNumber},smalltalk.CanvasContext2D)})},
+messageSends: []}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "measureStringWidth:",
+fn: function (aString){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ return self.measureText(aString).width; ;
+return self}, function($ctx1) {$ctx1.fill(self,"measureStringWidth:",{aString:aString},smalltalk.CanvasContext2D)})},
+messageSends: []}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "miterLimit:",
+fn: function (aNumber){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ self.miterLimit = aNumber; ;
+return self}, function($ctx1) {$ctx1.fill(self,"miterLimit:",{aNumber:aNumber},smalltalk.CanvasContext2D)})},
+messageSends: []}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "moveTo:",
+fn: function (aPoint){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ self.moveTo(aPoint._x(), aPoint._y()); ;
+return self}, function($ctx1) {$ctx1.fill(self,"moveTo:",{aPoint:aPoint},smalltalk.CanvasContext2D)})},
+messageSends: []}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "pop",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ self.restore(); ;
+return self}, function($ctx1) {$ctx1.fill(self,"pop",{},smalltalk.CanvasContext2D)})},
+messageSends: []}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "push",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ self.save(); ;
+return self}, function($ctx1) {$ctx1.fill(self,"push",{},smalltalk.CanvasContext2D)})},
+messageSends: []}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "quadraticCurveVia:to:",
+fn: function (pt1,aPoint){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ self.quadraticCurveTo(pt1._x(), pt1._y(), aPoint._x(), aPoint._y()); ;
+return self}, function($ctx1) {$ctx1.fill(self,"quadraticCurveVia:to:",{pt1:pt1,aPoint:aPoint},smalltalk.CanvasContext2D)})},
+messageSends: []}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "rect:",
+fn: function (rect){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self._rect_a_a_a_(_st(rect)._left(),_st(rect)._top(),_st(rect)._right(),_st(rect)._bottom());
+return self}, function($ctx1) {$ctx1.fill(self,"rect:",{rect:rect},smalltalk.CanvasContext2D)})},
+messageSends: ["rect:a:a:a:", "left", "top", "right", "bottom"]}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "rect:a:a:a:",
+fn: function (left,top,right,bottom){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ self.rect(left, top, right, bottom); ;
+return self}, function($ctx1) {$ctx1.fill(self,"rect:a:a:a:",{left:left,top:top,right:right,bottom:bottom},smalltalk.CanvasContext2D)})},
+messageSends: []}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "rotateByRadians:",
+fn: function (angle){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ self.rotate(angle); ;
+return self}, function($ctx1) {$ctx1.fill(self,"rotateByRadians:",{angle:angle},smalltalk.CanvasContext2D)})},
+messageSends: []}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "scaleByX:Y:",
+fn: function (x,y){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ self.scale(x, y); ;
+return self}, function($ctx1) {$ctx1.fill(self,"scaleByX:Y:",{x:x,y:y},smalltalk.CanvasContext2D)})},
+messageSends: []}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "stroke",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ self.stroke(); ;
+return self}, function($ctx1) {$ctx1.fill(self,"stroke",{},smalltalk.CanvasContext2D)})},
+messageSends: []}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "strokeRect:",
+fn: function (rect){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self._strokeRect_a_a_a_(_st(rect)._left(),_st(rect)._top(),_st(rect)._right(),_st(rect)._bottom());
+return self}, function($ctx1) {$ctx1.fill(self,"strokeRect:",{rect:rect},smalltalk.CanvasContext2D)})},
+messageSends: ["strokeRect:a:a:a:", "left", "top", "right", "bottom"]}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "strokeRect:a:a:a:",
+fn: function (left,top,right,bottom){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ self.strokeRect(left, top, right, bottom); ;
+return self}, function($ctx1) {$ctx1.fill(self,"strokeRect:a:a:a:",{left:left,top:top,right:right,bottom:bottom},smalltalk.CanvasContext2D)})},
+messageSends: []}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "strokeStyle:",
+fn: function (anObject){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ self.strokeStyle = anObject; ;
+return self}, function($ctx1) {$ctx1.fill(self,"strokeStyle:",{anObject:anObject},smalltalk.CanvasContext2D)})},
+messageSends: []}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "transform:a:a:a:a:a:",
+fn: function (sx,shy,shx,sy,x,y){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ self.setTransform(sx, shy, shx, sy, x, y); ;
+return self}, function($ctx1) {$ctx1.fill(self,"transform:a:a:a:a:a:",{sx:sx,shy:shy,shx:shx,sy:sy,x:x,y:y},smalltalk.CanvasContext2D)})},
+messageSends: []}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "transformBy:a:a:a:a:a:",
+fn: function (sx,shy,shx,sy,x,y){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ self.transform(sx, shy, shx, sy, x, y); ;
+return self}, function($ctx1) {$ctx1.fill(self,"transformBy:a:a:a:a:a:",{sx:sx,shy:shy,shx:shx,sy:sy,x:x,y:y},smalltalk.CanvasContext2D)})},
+messageSends: []}),
+smalltalk.CanvasContext2D);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "translateByX:Y:",
+fn: function (x,y){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ self.translate(x, y); ;
+return self}, function($ctx1) {$ctx1.fill(self,"translateByX:Y:",{x:x,y:y},smalltalk.CanvasContext2D)})},
+messageSends: []}),
+smalltalk.CanvasContext2D);
+
+
+
+smalltalk.addClass('CanvasGradient', smalltalk.Object, [], 'Athens-Amber');
+smalltalk.addMethod(
+smalltalk.method({
+selector: "addColorStopAt:color:",
+fn: function (pos,color){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+ self.addColorStop(pos, color); ;
+return self}, function($ctx1) {$ctx1.fill(self,"addColorStopAt:color:",{pos:pos,color:color},smalltalk.CanvasGradient)})},
+messageSends: []}),
+smalltalk.CanvasGradient);
+
+
+
 smalltalk.addClass('Color', smalltalk.Object, ['rgbaString', 'alpha', 'r', 'g', 'b'], 'Athens-Amber');
 smalltalk.addMethod(
 smalltalk.method({
@@ -541,15 +1028,19 @@ smalltalk.method({
 selector: "asPolygon",
 fn: function (){
 var self=this;
+function $AthensPolygon(){return smalltalk.AthensPolygon||(typeof AthensPolygon=="undefined"?nil:AthensPolygon)}
 return smalltalk.withContext(function($ctx1) { 
- var polygon = smalltalk.AthensPolygon._new();
-	polygon._moveTo_(self['@origin']);
-	polygon._lineTo_(self['@corner']['@x'].__at(self['@origin']['@y']));
-	polygon._lineTo_(self['@corner']['@x'].__at(self['@corner']['@y']));
-	polygon._lineTo_(self['@origin']['@x'].__at(self['@corner']['@y']));
-	return polygon; ;
-return self}, function($ctx1) {$ctx1.fill(self,"asPolygon",{},smalltalk.Rectangle)})},
-messageSends: []}),
+var $2,$3,$1;
+$2=_st($AthensPolygon())._new();
+_st($2)._moveTo_(self["@origin"]);
+_st($2)._lineTo_(_st(_st(self["@corner"])._x()).__at(_st(self["@origin"])._y()));
+_st($2)._lineTo_(self["@corner"]);
+_st($2)._lineTo_(_st(_st(self["@origin"])._x()).__at(_st(self["@corner"])._y()));
+$3=_st($2)._yourself();
+$1=$3;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"asPolygon",{},smalltalk.Rectangle)})},
+messageSends: ["moveTo:", "new", "lineTo:", "@", "y", "x", "yourself"]}),
 smalltalk.Rectangle);
 
 smalltalk.addMethod(
@@ -558,9 +1049,11 @@ selector: "bottom",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- return self['@corner']['@y']; ;
-return self}, function($ctx1) {$ctx1.fill(self,"bottom",{},smalltalk.Rectangle)})},
-messageSends: []}),
+var $1;
+$1=_st(self["@corner"])._y();
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"bottom",{},smalltalk.Rectangle)})},
+messageSends: ["y"]}),
 smalltalk.Rectangle);
 
 smalltalk.addMethod(
@@ -632,9 +1125,9 @@ selector: "drawOn:",
 fn: function (canvas){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- canvas['@surface']['@context2D'].rect(self._left(), self._top(), self._width(), self._height()); ;
+_st(_st(canvas)._context2D())._rect_(self);
 return self}, function($ctx1) {$ctx1.fill(self,"drawOn:",{canvas:canvas},smalltalk.Rectangle)})},
-messageSends: []}),
+messageSends: ["rect:", "context2D"]}),
 smalltalk.Rectangle);
 
 smalltalk.addMethod(
@@ -643,9 +1136,11 @@ selector: "height",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- return self['@corner']['@y'] -  self['@origin']['@y']; ;
-return self}, function($ctx1) {$ctx1.fill(self,"height",{},smalltalk.Rectangle)})},
-messageSends: []}),
+var $1;
+$1=_st(_st(self["@corner"])._y()).__minus(_st(self["@origin"])._y());
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"height",{},smalltalk.Rectangle)})},
+messageSends: ["-", "y"]}),
 smalltalk.Rectangle);
 
 smalltalk.addMethod(
@@ -654,12 +1149,11 @@ selector: "intersectsWith:",
 fn: function (aRect){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- return self['@origin']['@x'] <= aRect['@corner']['@x'] &&
-		aRect['@origin']['@x'] <= self['@corner']['@x'] &&
-		self['@origin']['@y'] <= aRect['@corner']['@y'] &&
-		aRect['@origin']['@y'] <= self['@corner']['@y']; ;
-return self}, function($ctx1) {$ctx1.fill(self,"intersectsWith:",{aRect:aRect},smalltalk.Rectangle)})},
-messageSends: []}),
+var $1;
+$1=_st(_st(_st(_st(_st(self["@origin"])._x()).__lt_eq(_st(_st(aRect)._corner())._x())).__and(_st(_st(_st(aRect)._origin())._x()).__lt_eq(_st(self["@corner"])._x()))).__and(_st(_st(self["@origin"])._y()).__lt(_st(_st(aRect)._corner())._y()))).__and(_st(_st(_st(aRect)._origin())._y()).__lt_eq(_st(self["@corner"])._y()));
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"intersectsWith:",{aRect:aRect},smalltalk.Rectangle)})},
+messageSends: ["&", "<=", "y", "origin", "<", "corner", "x"]}),
 smalltalk.Rectangle);
 
 smalltalk.addMethod(
@@ -668,9 +1162,11 @@ selector: "left",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- return self['@origin']['@x']; ;
-return self}, function($ctx1) {$ctx1.fill(self,"left",{},smalltalk.Rectangle)})},
-messageSends: []}),
+var $1;
+$1=_st(self["@origin"])._x();
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"left",{},smalltalk.Rectangle)})},
+messageSends: ["x"]}),
 smalltalk.Rectangle);
 
 smalltalk.addMethod(
@@ -703,9 +1199,11 @@ selector: "right",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- return self['@corner']['@x']; ;
-return self}, function($ctx1) {$ctx1.fill(self,"right",{},smalltalk.Rectangle)})},
-messageSends: []}),
+var $1;
+$1=_st(self["@corner"])._x();
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"right",{},smalltalk.Rectangle)})},
+messageSends: ["x"]}),
 smalltalk.Rectangle);
 
 smalltalk.addMethod(
@@ -714,9 +1212,11 @@ selector: "top",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- return self['@origin']['@y']; ;
-return self}, function($ctx1) {$ctx1.fill(self,"top",{},smalltalk.Rectangle)})},
-messageSends: []}),
+var $1;
+$1=_st(self["@origin"])._y();
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"top",{},smalltalk.Rectangle)})},
+messageSends: ["y"]}),
 smalltalk.Rectangle);
 
 smalltalk.addMethod(
@@ -725,9 +1225,11 @@ selector: "width",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- return self['@corner']['@x'] - self['@origin']['@x']; ;
-return self}, function($ctx1) {$ctx1.fill(self,"width",{},smalltalk.Rectangle)})},
-messageSends: []}),
+var $1;
+$1=_st(_st(self["@corner"])._x()).__minus(_st(self["@origin"])._x());
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"width",{},smalltalk.Rectangle)})},
+messageSends: ["-", "x"]}),
 smalltalk.Rectangle);
 
 

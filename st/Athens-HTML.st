@@ -1,12 +1,16 @@
 Smalltalk current createPackage: 'Athens-HTML'!
 AthensCanvas subclass: #AthensHTMLCanvas
-	instanceVariableNames: 'pathTransform paintTransform currentClipRect font'
+	instanceVariableNames: 'context2D pathTransform paintTransform currentClipRect font'
 	package: 'Athens-HTML'!
 
 !AthensHTMLCanvas methodsFor: 'accessing'!
 
 context2D
-	< return self['@surface']['@context2D']; >
+	^ context2D
+!
+
+context2D: aContext
+	context2D := aContext.
 !
 
 paintTransform
@@ -31,13 +35,12 @@ surface: anHTMLSurface
 !AthensHTMLCanvas methodsFor: 'clipping'!
 
 clipBy: aShape during: aBlock
-	< var context2D = self['@surface']['@context2D'];
-	context2D.save();
-	context2D.beginPath();
-	aShape._drawOn_(self);
-	context2D.clip();
-	context2D.beginPath();
-	(function() {aBlock._value();})._ensure_(function() {context2D.restore();}); >
+	context2D push.
+	context2D beginPath.
+	aShape drawOn: self.
+	context2D clip.
+	context2D beginPath.
+	aBlock ensure: [context2D pop].
 ! !
 
 !AthensHTMLCanvas methodsFor: 'creation'!
@@ -49,13 +52,13 @@ createPath: aPathCreatingBlock
 !AthensHTMLCanvas methodsFor: 'drawing'!
 
 drawString: aString
-	< self['@surface']['@context2D'].font = self['@font']._asHTMLString(); 
-	self._drawShape_(aString); >
+	context2D font: font asHTMLString.
+	self drawShape: aString.
 !
 
 measureStringWidth: aString
-	< self['@surface']['@context2D'].font = self['@font']._asHTMLString(); 
-	return self['@surface']['@context2D'].measureText(aString).width; >
+	context2D font: font asHTMLString.
+	^ context2D measureStringWidth: aString
 ! !
 
 !AthensHTMLCanvas methodsFor: 'private'!
@@ -69,12 +72,13 @@ newPath
 on: anHTMLSurface
 	^ self basicNew
 		surface: anHTMLSurface;
+		context2D: anHTMLSurface context2D;
 		initialize;
 		yourself
 ! !
 
 AthensPaintMode subclass: #AthensHTMLPaintMode
-	instanceVariableNames: 'surface'
+	instanceVariableNames: 'context2D surface'
 	package: 'Athens-HTML'!
 
 !AthensHTMLPaintMode methodsFor: 'accessing'!
@@ -85,61 +89,61 @@ availableModes
 
 surface: aSurface
 	surface := aSurface.
+	context2D := aSurface context2D.
 ! !
 
 !AthensHTMLPaintMode methodsFor: 'convenience'!
 
 restoreAfter: aBlock
-	< var op = self['@surface']['@context2D'].globalCompositeOperation;
-	aBlock._ensure_(function() {
-		self['@surface']['@context2D'].globalCompositeOperation = op;
-	}); >
+	|previous|
+	previous := context2D globalCompositeOperation.
+	aBlock ensure: [context2D globalCompositeOperation: previous].
 ! !
 
 !AthensHTMLPaintMode methodsFor: 'modes'!
 
 atop
-	< self['@surface']['@context2D'].globalCompositeOperation = 'source-atop'; >
+	context2D globalCompositeOperation: 'source-atop'.
 !
 
 darken
-	< self['@surface']['@context2D'].globalCompositeOperation = 'darker'; >
+	context2D globalCompositeOperation: 'darker'.
 !
 
 destAtop
-	< self['@surface']['@context2D'].globalCompositeOperation = 'destination-atop'; >
+	context2D globalCompositeOperation: 'destination-atop'.
 !
 
 destIn
-	< self['@surface']['@context2D'].globalCompositeOperation = 'destination-in'; >
+	context2D globalCompositeOperation: 'destination-in'.
 !
 
 destOut
-	< self['@surface']['@context2D'].globalCompositeOperation = 'destination-out'; >
+	context2D globalCompositeOperation: 'destination-out'.
 !
 
 destOver
-	< self['@surface']['@context2D'].globalCompositeOperation = 'destination-over'; >
+	context2D globalCompositeOperation: 'destination-over'.
 !
 
 in
-	< self['@surface']['@context2D'].globalCompositeOperation = 'source-in'; >
+	context2D globalCompositeOperation: 'source-in'.
 !
 
 lighten
-	< self['@surface']['@context2D'].globalCompositeOperation = 'lighter'; >
+	context2D globalCompositeOperation: 'lighter'.
 !
 
 out
-	< self['@surface']['@context2D'].globalCompositeOperation = 'source-out'; >
+	context2D globalCompositeOperation: 'source-out'.
 !
 
 over
-	< self['@surface']['@context2D'].globalCompositeOperation = 'source-over'; >
+	context2D globalCompositeOperation: 'source-over'.
 !
 
 xor
-	< self['@surface']['@context2D'].globalCompositeOperation = 'xor'; >
+	context2D globalCompositeOperation: 'xor'.
 ! !
 
 !AthensHTMLPaintMode class methodsFor: 'instance creation'!
@@ -210,27 +214,25 @@ createPath: aPathCreatingBlock
 !AthensHTMLSurface methodsFor: 'drawing'!
 
 clear
-	< self._clear_(self['@transparentColor']); >
+	self clear: transparentColor.
 !
 
 clear: clearPaint
-	< var canvas = self['@currentCanvas'];
-	canvas['@pathTransform']._restoreAfter_(function() {
-		canvas['@pathTransform']._loadIdentity();
-		canvas['@paintMode']._restoreAfter_(function() {
-			canvas['@surface']['@context2D'].globalCompositeOperation = 'source-over'
-			canvas['@surface']['@context2D'].clearRect(0, 0, self['@extent']['@x'], self['@extent']['@y']);
-			clearPaint._asAthensPaintOn_(canvas)._fillRectangle_on_(self['@boundsRect'], canvas);
-		});
-	}); >
+	|canvas|
+	canvas := currentCanvas.
+	canvas pathTransform restoreAfter: [
+		canvas pathTransform loadIdentity.
+		canvas paintMode restoreAfter: [
+			context2D globalCompositeOperation: 'source-over'.
+			context2D clearRect: (0@0 corner: extent).
+			canvas setPaint: clearPaint.
+			canvas drawShape: boundsRect]].
 !
 
 drawDuring: aBlock
-	< (function() {
-		self['@currentCanvas'] = self['@athensCanvas'];
-		self._setDefaults();
-		aBlock._value_(self['@currentCanvas']);
-	})._ensure_(function() {self['@currentCanvas'] = undefined;}); >
+	currentCanvas := athensCanvas.
+	self setDefaults.
+	[aBlock value: currentCanvas] ensure: [currentCanvas := nil].
 ! !
 
 !AthensHTMLSurface methodsFor: 'initialization'!
@@ -294,16 +296,13 @@ newCanvas
 !
 
 setDefaults
-	< var canvas = self['@currentCanvas'];
-	var context2D = canvas['@surface']['@context2D'];
+	currentCanvas paintMode over.
+	currentCanvas pathTransform loadIdentity.
+	currentCanvas paintTransform loadIdentity.
 	
-	canvas['@paintMode']._over();
-	canvas['@pathTransform']._loadIdentity();
-	canvas['@paintTransform']._loadIdentity();
-	
-	context2D.lineJoin = 'miter';
-	context2D.miterLimit = 10;
-	context2D.lineCap = 'butt'; >
+	context2D lineJoin: 'miter'.
+	context2D miterLimit: 10.
+	context2D lineCap: 'butt'.
 ! !
 
 !AthensHTMLSurface methodsFor: 'rendering'!
