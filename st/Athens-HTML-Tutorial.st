@@ -125,53 +125,46 @@ initialize
 !AthensTutorial methodsFor: 'steps'!
 
 step1
-	"Step 1: Get Athens into your image. "
-	"Does not apply for Athens-HTML."
+	"Step 1: Get Athens into your image. Does not apply for Athens-HTML."
 !
 
 step10
-"Step 10: Loading matrix/using identity matrix.
+	"Step 10: Loading matrix/using identity matrix."
 
-"
+	surface drawDuring: [ :canvas | | m |
+		surface clear: Color gray. 
 
-surface drawDuring: [:canvas |  | m |
-	surface clear: Color gray. 
+		canvas setShape: (0@0 corner: 100@100).
+		canvas setPaint: (Color blue).
 
-	canvas setShape: (0@0 corner: 100@100).
-	canvas setPaint: (Color blue).
-
-	m := AthensAffineTransform new
-		scaleBy: 4;
-		translateX: 50 Y: 50;
-		rotateByDegrees: 35;
-		translateX: -50 Y: -50;
-		yourself.
+		m := AthensAffineTransform new
+			scaleBy: 4;
+			translateByX: 50 Y: 50;
+			rotateByDegrees: 35;
+			translateByX: -50 Y: -50;
+			yourself.
 	
-	"loading a transformation"
-	canvas pathTransform loadAffineTransform: m.	
+		"loading a transformation"
+		canvas pathTransform loadAffineTransform: m.	
 		
-	canvas draw.
+		canvas draw.
 
 
-	"The following statement resets coordinate transformation to match surface's coordinate space"
-	canvas pathTransform loadIdentity.
+		"The following statement resets coordinate transformation to match surface's coordinate space"
+		canvas pathTransform loadIdentity.
 	
-	canvas setPaint: (Color yellow).
-	canvas draw.
+		canvas setPaint: (Color yellow).
+		canvas draw.
 
-	"Now load the matrix back"
-	
-	canvas pathTransform 
-		loadAffineTransform: m;
-	
-	"Offset it a bit"
-		translateX: 2 Y: 2.
+		canvas pathTransform 
+			"Now load the matrix back"
+			loadAffineTransform: m;
+			"Offset it a bit"
+			translateByX: 2 Y: 2.
 		
-	canvas setPaint: (Color gray alpha:0.8).
+		canvas setPaint: (Color gray alpha: 0.8).
 
-	canvas draw.
-		
-	]
+		canvas draw ].
 !
 
 step11
@@ -189,23 +182,19 @@ step11
 !
 
 step12
-
-"Step 12: Building complex shapes using paths.
-
-So far, we used only rectangles as shapes, now time to create something more interesting.
-
-"
+	"Step 12: Building complex shapes using paths.
+	
+	So far, we used only rectangles as shapes, now time to create something more interesting."
 
 
-	surface drawDuring: [:canvas |
-		| path |
+	surface drawDuring: [ :canvas | | path |
 		surface clear: Color gray.
 		
-		canvas pathTransform translateX: surface width/2.0 Y: surface height / 2.0 .
+		canvas pathTransform translateByX: surface width/2.0 Y: surface height / 2.0 .
 	
 		"To create a path, use #createPath: protocol.
 		The block should accept a single argument, where AthensPathBuilder instance will be passed"	
-		path := canvas createPath: [:builder |
+		path := canvas createPath: [ :builder |
 			
 			"A simple polygon"
 			builder 
@@ -225,25 +214,21 @@ So far, we used only rectangles as shapes, now time to create something more int
 		
 		"If you want to fill the path instead, uncomment the line below"
 		"canvas setPaint: Color white."
-		
-		
-		canvas draw.
-	].
+				
+		canvas draw ].
 !
 
 step13
+	"Step 13: Building complex shapes using paths.
 
-"Step 13: Building complex shapes using paths.
+	For complex and large paths, building it every time could be ineffective and computationally intensive. 
+	Instead you can use surface factory method (#createPath:) to create a path object
+	at any point, and use it later, whenever you see fit.
 
-For complex and large paths, building it every time could be ineffective and computationally intensive. 
-Instead you can use surface factory method (#createPath:) to create a path object
-at any point, and use it later, whenever you see fit.
-
-Note, that since we're not using canvas, it is not necessary to put path creation inside #drawDuring: method.
-"
+	Note, that since we're not using canvas, it is not necessary to put path creation inside #drawDuring: method."
+	
 	| path |
-
-	path := surface createPath: [:builder |
+	path := surface createPath: [ :builder |
 			
 			"A simple polygon"
 		builder 
@@ -257,28 +242,24 @@ Note, that since we're not using canvas, it is not necessary to put path creatio
 		].
 
 
-	surface drawDuring: [:canvas |
+	surface drawDuring: [ :canvas |
 		surface clear: Color gray.
 		
-		canvas pathTransform translateX: surface width/2.0 Y: surface height / 2.0 .
+		canvas pathTransform translateByX: surface width/2.0 Y: surface height / 2.0 .
 	
 		canvas setShape: path.
 
-		(canvas setStrokePaint: Color yellow) width:4.
+		(canvas setStrokePaint: Color yellow) width: 4.
 		
-		canvas draw.
-	].
+		canvas draw	].
 !
 
 step14
-"Step 14: Various path segment types.
-
-
-"
+	"Step 14: Various path segment types."
+	
 	| path |
-
-	path := surface createPath: [:builder |
-			
+	path := surface createPath: [ :builder |
+	
 		builder 
 			absolute;
 				
@@ -305,141 +286,28 @@ step14
 			
 			"close segment. Simply connects endpoint of previous segment with path starting point.
 			Try to comment following line to see the difference" 
-			builder close.
-		].
+			builder close ].
 
 
-	surface drawDuring: [:canvas |
+	surface drawDuring: [ :canvas |
 		surface clear: Color gray.
 		
 		canvas pathTransform
-			translateX: surface width/2.0 Y: surface height / 2.0 ;
-			scaleBy:2.
+			translateByX: surface width/2.0 Y: surface height / 2.0 ;
+			scaleBy: 2.
 	
 		canvas setShape: path.
 		
-		(canvas setStrokePaint: Color yellow) width:4.
+		(canvas setStrokePaint: Color yellow) width: 4.
 		
-		canvas draw.
-	].
-!
-
-step14a
-"Step 14a: Various path segment types.
-
-
-"
-	| path |
-
-	path := surface createPath: [:builder |
-			
-		builder 
-			absolute;
-				
-			"The path consists from a list of segments connected with each other, e.g.
-			the starting point of next segment is always an end point of previous one"
-			 				
-			lineTo: -50@ -50;
-			
-			"quadric Bezier curve"
-			
-			curveVia: 0@ -80 to: 50@ -50;
-			
-			"cubic Bezier curve" 
-			
-			curveVia: 100@ -20 and: -50@20 to: 50@ 50.
-
-			 "clockwise arc"
-			
-			"cwArcTo: 50@100 angle: 45; "
-			
-			"counter-clockwise arc"
-
-			"ccwArcTo: -50@100 angle: 45."
-			
-			"close segment. Simply connects endpoint of previous segment with path starting point.
-			Try to comment following line to see the difference" 
-			builder close.
-		].
-
-
-	surface drawDuring: [:canvas |
-		surface clear: Color gray.
-		
-		canvas pathTransform
-			translateX: surface width/2.0 Y: surface height / 2.0 ;
-			scaleBy:2.
-	
-		canvas setShape: path.
-		
-		(canvas setStrokePaint: Color yellow) width:4.
-		
-		canvas draw.
-	].
-!
-
-step14b
-"Step 14b: Various path segment types.
-
-
-"
-	| path |
-
-	path := surface createPath: [:builder |
-			
-		builder 
-			absolute;
-				
-			"The path consists from a list of segments connected with each other, e.g.
-			the starting point of next segment is always an end point of previous one"
-			 				
-			"lineTo: -50@ -50;"
-			
-			"quadric Bezier curve"
-			
-			"curveVia: 0@ -80 to: 50@ -50;"
-			
-			"cubic Bezier curve" 
-			
-			"curveVia: 100@ -20 and: -50@20 to: 50@ 50;"
-
-			 "clockwise arc"
-			
-			cwArcTo: 50@100 angle: 45;
-			
-			"counter-clockwise arc"
-
-			ccwArcTo: -50@100 angle: 45.
-			
-			"close segment. Simply connects endpoint of previous segment with path starting point.
-			Try to comment following line to see the difference" 
-			builder close.
-		].
-
-
-	surface drawDuring: [:canvas |
-		surface clear: Color gray.
-		
-		canvas pathTransform
-			translateX: surface width/2.0 Y: surface height / 5.0 ;
-			scaleBy:1.
-	
-		canvas setShape: path.
-		
-		(canvas setStrokePaint: Color yellow) width:4.
-		
-		canvas draw.
-	].
+		canvas draw ].
 !
 
 step15
-"Step 15: Path origin and moveTo: segment.
-
-
-"
+	"Step 15: Path origin and moveTo: segment."
+	
 	| path |
-
-	path := surface createPath: [:builder |
+	path := surface createPath: [ :builder |
 			
 		builder 
 			absolute;
@@ -449,117 +317,106 @@ step15
 			Try to change moveTo: parameter to see the difference"
 
 			 				
-			moveTo: -50@ -50;
+			moveTo: -50 @ -50;
 			
 			"quadric Bezier curve"
 			
-			curveVia: 0@ -80 to: 50@ -50;
+			curveVia: 0 @ -80 to: 50 @ -50;
 			
 			"cubic Bezier curve" 
 			
-			curveVia: 100@ -20 and: -50@20 to: 50@ 50;
+			curveVia: 100 @ -20 and: -50 @ 20 to: 50 @ 50;
 
-			 "clockwise arc"
+			 "clockwise arc" 
 			
-			cwArcTo: 50@100 angle: 45; 
+			cwArcTo: 50 @ 100 angle: 45; 
 			
 			"counter-clockwise arc"
 
-			ccwArcTo: -50@100 angle: 45.
-			
-			
-		].
+			ccwArcTo: -50 @ 100 angle: 45 ].
 
 
-	surface drawDuring: [:canvas |
+	surface drawDuring: [ :canvas |
 		surface clear: Color gray.
 		
 		canvas pathTransform
-			translateX: surface width/2.0 Y: surface height / 2.0 ;
-			scaleBy:2.
+			translateByX: surface width/2.0 Y: surface height / 2.0;
+			scaleBy: 2.
 	
 		canvas setShape: path.
-		(canvas setStrokePaint: Color yellow) width:4.
 		
-		canvas draw.
-	].
+		(canvas setStrokePaint: Color yellow) width: 4.
+		
+		canvas draw ].
 !
 
 step16
-"Step 16: Absolute versus relative path building mode.
-
-
-"
+	"Step 16: Absolute versus relative path building mode."
+	
 	| path |
+	path := surface createPath: [ :builder |
 
-	path := surface createPath: [:builder |
-
-	"In absolute path building mode, all segment coordinates is absolute (relative to coordinate system origin which is 0@0).
+		"In absolute path building mode, all segment coordinates is absolute (relative to coordinate system origin which is 0@0).
 	
-	In relative path building mode, the coordinates of next segment computed relative
-	to the end point of previous segment"
-	
+		In relative path building mode, the coordinates of next segment computed relative
+		to the end point of previous segment"
 			
 		builder 
 			relative;  "actually, relative is default. You can simply delete this line without any effect"
 
-			moveTo: -50@ -50;
+			moveTo: -50 @ -50;
 			
 			
-			lineTo: 50@0;
+			lineTo: 50 @ 0;
 			
 			"The building mode can be switched at any moment. 
 			Try to uncomment line below to see the difference"
 			"absolute;"
 			
-			lineTo: 0@50;
-			lineTo: -50@0.
-		].
+			lineTo: 0 @ 50;
+			lineTo: -50 @ 0 ].
 
-	surface drawDuring: [:canvas |
+	surface drawDuring: [ :canvas |
 		surface clear: Color gray.
 		
 		canvas pathTransform
-			translateX: surface width/2.0 Y: surface height / 2.0 ;
-			scaleBy:2.
+			translateByX: surface width/2.0 Y: surface height / 2.0;
+			scaleBy: 2.
 	
 		canvas setShape: path.
-		(canvas setStrokePaint: Color yellow) width:4.
 		
-		canvas draw.
-	].
+		(canvas setStrokePaint: Color yellow) width: 4.
+		
+		canvas draw ].
 !
 
 step17
-"Step 17: Self-intersecting paths and how they are filled.
+	"Step 17: Self-intersecting paths and how they are filled.
 
-
-There is a simple algorithm to determine whether given point will be filled or not: 
- - take an arbitrary point, infinitely distant from path interior and connect it with a point under the question.
- - count how many times the resulting ray intersects with path segments
- - if number of intersections is odd, then given point will be filled
- - if number of intersections is even, then given point will NOT be filled 
-"
+	There is a simple algorithm to determine whether given point will be filled or not: 
+ 	- take an arbitrary point, infinitely distant from path interior and connect it with a point under the question.
+ 	- count how many times the resulting ray intersects with path segments
+ 	- if number of intersections is odd, then given point will be filled
+ 	- if number of intersections is even, then given point will NOT be filled"
+	
 	| path |
-
-	path := surface createPath: [:builder |
+	path := surface createPath: [ :builder |
 			
 		builder 
-			moveTo: -50@ -50;
-			lineTo: 50@0;
-			lineTo: 0@50;
-			lineTo: -50@0;
-			lineTo: 80@ -30;
-			close
-		].
+			moveTo: -50 @ -50;
+			lineTo: 50 @ 0;
+			lineTo: 0 @ 50;
+			lineTo: -50 @ 0;
+			lineTo: 80 @ -30;
+			close ].
 
 
-	surface drawDuring: [:canvas |
+	surface drawDuring: [ :canvas |
 		surface clear: Color gray.
 		
 		canvas pathTransform
-			translateX: surface width/2.0 Y: surface height / 2.0 ;
-			scaleBy:3.
+			translateByX: surface width/2.0 Y: surface height / 2.0;
+			scaleBy: 3.
 	
 		canvas setShape: path.
 		canvas setPaint: Color yellow.
@@ -570,26 +427,23 @@ There is a simple algorithm to determine whether given point will be filled or n
 		
 		canvas setStrokePaint: Color blue.
 		
-		canvas drawShape: (canvas createPath: [:b | b lineTo:300@300 ])
-	].
+		canvas drawShape: (canvas createPath: [ :b | b lineTo: 300 @ 300 ]) ].
 !
 
 step18
-"Step 18: Creating hollow shapes using multiple contours.
-
-"
+	"Step 18: Creating hollow shapes using multiple contours."
+	
 	| path |
-
-	path := surface createPath: [:builder |
+	path := surface createPath: [ :builder |
 			
 		builder 
 		
 			"The first contour is a rectangle"
 
-			moveTo: -50@ -50;
-			lineTo: 50@0;			
-			lineTo: 0@50;
-			lineTo: -50@0;
+			moveTo: -50 @ -50;
+			lineTo: 50 @ 0;
+			lineTo: 0 @ 50;
+			lineTo: -50 @ 0;
 			close;
 			
 			"A second contour is a rectangle, embedded into previous one. "
@@ -599,10 +453,10 @@ step18
 			moveTo: , it is counted as if implicit #close segment were added. 
 			This is of course relevant only for filled paths, not stoked ones"
 				
-			moveTo: 10@10;
-			lineTo: 0@30;
-			lineTo: 30@0;
-			lineTo: 0@ -30;
+			moveTo: 10 @ 10;
+			lineTo: 0 @ 30;
+			lineTo: 30 @ 0;
+			lineTo: 0 @ -30;
 			close.
 			
 			"An important note here: the winding of contours must be different in order 
@@ -613,39 +467,34 @@ step18
 
 			"The third rectangle intersecting with both contours, try to change the initial moveTo: 
 			segment coordinates to draw it outside or inside and see the difference"
-			builder
-			moveTo: 25@10;
-			lineTo: 0@10;
-			lineTo: 10@0;
-			lineTo: 0@ -10;
-			close.
-
-		].
+		builder
+			moveTo: 25 @ 10;
+			lineTo: 0 @ 10;
+			lineTo: 10 @ 0;
+			lineTo: 0 @ -10;
+			close ].
 
 
-	surface drawDuring: [:canvas |
+	surface drawDuring: [ :canvas |
 		surface clear: Color gray.
 		
 		canvas pathTransform
-			translateX: surface width/2.0 Y: surface height / 2.0 ;
-			scaleBy:3.
+			translateByX: surface width/2.0 Y: surface height / 2.0;
+			scaleBy: 3.
 	
 		canvas setShape: path.
 		canvas setPaint: Color yellow.
 		
-		canvas draw.
-	].
+		canvas draw ].
 !
 
 step19
-"Step 19: Using gradient paints.
+	"Step 19: Using gradient paints.
 
-
-So far we're use a simplest kind of paint: just a solid color.
-Now let's play with gradients.
-"
+	So far we're use a simplest kind of paint: just a solid color.
+	Now let's play with gradients."
+	
 	| linearGradient |
-
 
 	"A linear gradient defined used 3 parameters:
 	 - a color ramp (a points in range from 0 to 1 with associated colors)
@@ -654,146 +503,121 @@ Now let's play with gradients.
 	
 	A vector connecting start and stop defines the direction which gradient will be facing,
 	as well as its dimensions. "	
+
 	linearGradient := surface createLinearGradient: #{
 			0 -> Color blue .
 			0.25 -> Color red.
 			0.5 -> Color white.
 			0.75 -> Color yellow.
-			1 -> Color green	
-		}
-		start: 0@0  
-		stop: 100@100.
+			1 -> Color green }
+		start: 0 @ 0  
+		stop: 100 @ 100.
 
 
 
-	surface drawDuring: [:canvas |
+	surface drawDuring: [ :canvas |
 		surface clear: Color gray.
 			
-			
-		canvas pathTransform translateX: 10 Y: 10.
+		canvas pathTransform translateByX: 10 Y: 10.
 		
 		canvas setShape: (0@0 corner:100@100).
 		canvas setPaint: linearGradient.
 		
 		canvas draw.
 
-
-		canvas pathTransform translateX: 150 Y: 0.
+		canvas pathTransform translateByX: 150 Y: 0.
 		
 		"Here we are using a paint tranform to change the gradient's direction and scale"
 		canvas paintTransform rotateByDegrees: 45; scaleBy: 0.7.
 		canvas draw.
 
-		canvas pathTransform translateX: 150 Y: 0.
+		canvas pathTransform translateByX: 150 Y: 0.
 		
 		"The areas outside the ramp boundary filled by extending the colors defined for 0 and 1 points of ramp respectively. 
 		(blue for top, green for bottom, in our case)"
-		canvas paintTransform translateX: 0 Y: 80; scaleBy: 0.2.
-		canvas draw.
-
-	].
+		canvas paintTransform translateByX: 0 Y: 80; scaleBy: 0.2.
+		canvas draw ].
 !
 
 step2
-"Step 2:
+	"Step 2: Creating a surface.
 
-Creating a surface.
+	Protocol: <SurfaceClass> extent: x@y will create a surface using specific class.
+	All surfaces are conformant to AthensSurface protocol."
 
-Protocol:
+	|container|
+	container := '#canvas-container' asJQuery.
 
-<SurfaceClass> extent: x@y
+	"Clear previous canvases"
+	container empty.
 
-will create a surface using specific class.
+	surface := AthensHTMLSurface extent: 500@400.
+	surface appendToJQuery: '#canvas-container' asJQuery.
 
-All surfaces is conformant to AthensSurface protocol.
-
-Example: 
-"
-
-|container|
-container := '#canvas-container' asJQuery.
-
-"Clear previous canvases"
-container empty.
-
-surface := AthensHTMLSurface extent: 500@400.
-surface appendToJQuery: '#canvas-container' asJQuery.
-
-"Render border around canvas."
-surface canvasTag asJQuery 
-	css: 'border' with: '1px #aaa solid'.
-
-"IMPORTANT NOTE:
-	the surface which we will create at this step will be used in later steps.
-	This means that if you resize the window (changing the view size), you may need to recreate surface.
-	Also, since surface uses external resources, quitting an image and restarting it, will also require to 
-	create a new surface, because the one from previous session will be no longer accessible.
-"
+	"Render border around canvas."
+	surface canvasTag asJQuery 
+		css: 'border' with: '1px #aaa solid'.
+	
+	"IMPORTANT NOTE:
+		the surface which we will create at this step will be used in later steps.
+		This means that if you resize the window (changing the view size), you may need to recreate surface.
+		Also, since surface uses external resources, quitting an image and restarting it, will also require to 
+		create a new surface, because the one from previous session will be no longer accessible."
 !
 
 step20
-"Step 20: Radial gradients.
-
-"
+	"Step 20: Radial gradients."
+	
 	| ramp perfectRadial radialWithCustomFocus |
-
 
 	"A radial gradient defined using following parameters:
 	 - a color ramp (a points in range from 0 to 1 with associated colors)
 	- center point
 	- radius
-	- focal point (can be omited if focus is at center)
-	"	
+	- focal point (can be omited if focus is at center)"
+	
 	ramp :=  #{
 			0 -> Color blue .
 			0.25 -> Color red.
 			0.5 -> Color white.
 			0.75 -> Color yellow.
-			1 -> (Color blue alpha: 0)
-		}.
+			1 -> (Color blue alpha: 0) }.
 		
 	perfectRadial := surface createRadialGradient: ramp
-		center: 50@50  radius: 50 .
+		center: 50 @ 50 radius: 50 .
 	
 	radialWithCustomFocus := surface createRadialGradient: ramp
-		center: 50@50  radius: 50	focalPoint: 20@20. 
+		center: 50 @ 50 radius: 50 focalPoint: 20 @ 20. 
 	
-
-	surface drawDuring: [:canvas |
+	surface drawDuring: [ :canvas |
 		surface clear: Color gray.
 			
-			
-		canvas pathTransform translateX: 10 Y: 10.
+		canvas pathTransform translateByX: 10 Y: 10.
 		
-		canvas setShape: (0@0 corner:100@100).
+		canvas setShape: (0 @ 0 corner:100 @ 100).
 		canvas setPaint: perfectRadial.
 		
 		canvas draw.
 
-
-		canvas pathTransform translateX: 150 Y: 0.
+		canvas pathTransform translateByX: 150 Y: 0.
 		canvas setPaint: radialWithCustomFocus.
 		
-		canvas draw.
-
-	].
+		canvas draw ].
 !
 
 step21
-"Step 21: Pattern paints (bitmap paints).
-
-"
+	"Step 21: Pattern paints (bitmap paints)."
 	
 	"The afterLoading block is executed when the image is loaded by the browser.
 	If you know for sure that the image is already loaded, you can use
 	createBitmapPaint: that creates the paint and returns it directly."
 	
 	surface 
-		createBitmapPaint: (Image fromUrl: 'http://amber-lang.net/images/amber.png')
-		afterLoading: [:bitmapPaint |
+		createBitmapPaint: (Image fromUrl: 'images/amber.png')
+		afterLoading: [ :bitmapPaint |
 			bitmapPaint repeat. "use #repeat to repeat the fill ad infinitum using tiling effect "
 	
-			surface drawDuring: [:canvas |
+			surface drawDuring: [ :canvas |
 				surface clear: Color gray.
 			
 				canvas setPaint: bitmapPaint.
@@ -801,167 +625,120 @@ step21
 				"And of course, using the paint transform we can affect the result"
 		
 				canvas paintTransform scaleBy: 0.5.
-				canvas drawShape: (0@0 corner: surface extent).
-
-			]].
-!
-
-step21a
-"Step 21: Pattern paints (bitmap paints).
-
-"
-	| bitmapPaint  |
-
-	bitmapPaint := surface createBitmapPaint: (Image fromUrl: 'http://amber-lang.net/images/amber.png'). 
-	bitmapPaint repeat. "use #repeat to repeat the fill ad infinitum using tiling effect "
-	
-	surface drawDuring: [:canvas |
-		surface clear: Color gray.
-			
-		canvas setPaint: bitmapPaint.
-		
-		"And of course, using the paint transform we can affect the result"
-		
-		canvas paintTransform scaleBy: 0.5.
-		canvas drawShape: (0@0 corner: surface extent).
-
-	].
+				canvas drawShape: (0 @ 0 corner: surface extent) ]].
 !
 
 step22
-"Step 22: Using another surface as paint.
-
-Simply pass surface as an argument to #setPaint: method.
-
-"
+	"Step 22: Using another surface as paint. 
+	
+	Simply pass surface as an argument to #setPaint: method."
+	
 	| surface2  |
-
-	surface2 := AthensHTMLSurface extent: 10@10.
+	surface2 := AthensHTMLSurface extent: 10 @ 10.
 	
 	"checker board"
-	surface2 drawDuring: [:canvas |
+	surface2 drawDuring: [ :canvas |
 		surface2 clear.
 		canvas setPaint: Color white.
 		
 		canvas 
-			drawShape: (0@0 corner: 5@5);
-			drawShape: (5@5 corner: 10@10)
-		].
+			drawShape: (0 @ 0 corner: 5 @ 5);
+			drawShape: (5 @ 5 corner: 10 @ 10) ].
 
-	
-	surface drawDuring: [:canvas |
+	surface drawDuring: [ :canvas |
 		surface clear: Color gray.
 			
 		(canvas setPaint: surface2) repeat.
 		
 		"And of course, using the paint transform we can affect the result.
 		Uncomment the line below to see the difference"
-		"canvas paintTransform scaleX: 3 Y:1; rotateByDegrees: 45 ."
-		canvas drawShape: (0@0 corner: surface extent).
-
-	].
+		"canvas paintTransform scaleByX: 3 Y: 1; rotateByDegrees: 45 ."
+		
+		canvas drawShape: (0 @ 0 corner: surface extent) ].
 !
 
 step23
-"Step 23: Stroke paints.
-
-Stroke paint is a special kind of paint, which instead of filling the shape,
- drawing a connected contour of certain width following the path.
-"
-	| path |
-
-	path := surface createPath: [:builder |
-			
-		builder 
-			moveTo: -50@ -50;
-			lineTo: 50@0;
-			lineTo: 0@50;
-			lineTo: -50@0;
-			lineTo: 80@ -30;
-			close
-		].
+	"Step 23: Stroke paints.
 	
-	surface drawDuring: [:canvas |
-		| stroke |
+	Stroke paint is a special kind of paint, which instead of filling the shape,
+	drawing a connected contour of certain width following the path. "
+	
+	| path |
+	path := surface createPath: [ :builder |
+		builder 
+			moveTo: -50 @ -50;
+			lineTo: 50 @ 0;
+			lineTo: 0 @ 50;
+			lineTo: -50 @ 0;
+			lineTo: 80 @ -30;
+			close ].
+	
+	surface drawDuring: [ :canvas | | stroke |
 		surface clear: Color gray.
 			
 		"A stroke paint uses another paint for fills"
-		
 		stroke := canvas setStrokePaint: Color white.
 		
 		"You can control the width of stroke by setting width parameter"
 		stroke width: 5.
 		
 		canvas pathTransform 
-			translateX: 400 Y:400;
+			translateByX: 400 Y: 400;
 			scaleBy: 4.
-		canvas drawShape: path.
-
-	].
+			
+		canvas drawShape: path ].
 !
 
 step24
-
-"Step 24: Stroke paints: Join type.
-
-The stroke join type affects how to connect the segments.
-
-"
-	| path |
-
-	path := surface createPath: [:builder |
-			
-		builder 
-			moveTo: -50@ -50;
-			lineTo: 50@0;
-			lineTo: 0@50;
-			lineTo: -50@0;
-			lineTo: 80@ -30;
-			close
-		].
+	"Step 24: Stroke paints: Join type.
 	
-	surface drawDuring: [:canvas |
+	The stroke join type affects how to connect the segments."
+	
+	| path |
+	path := surface createPath: [ :builder |
+		builder 
+			moveTo: -50 @ -50;
+			lineTo: 50 @ 0;
+			lineTo: 0 @ 50;
+			lineTo: -50 @ 0;
+			lineTo: 80 @ -30;
+			close ].
+	
+	surface drawDuring: [ :canvas |
 		| stroke |
 		surface clear: Color gray.
 			
 		stroke := canvas setStrokePaint: Color white.
 		stroke width: 5.
 
-	"There are 3 kinds of joins: bevel, miter and round (uncomment to see the difference)"
+		"There are 3 kinds of joins: bevel, miter and round (uncomment to see the difference)"
 	
 		stroke joinBevel. 
-"		stroke joinRound.
-		stroke joinMiter.  
-"		
+		"stroke joinRound.
+		stroke joinMiter."
 		 		
 		canvas pathTransform 
-			translateX: 400 Y:400;
+			translateByX: 400 Y: 400;
 			scaleBy: 4.
-		canvas drawShape: path.
-
-	].
+			
+		canvas drawShape: path ].
 !
 
 step25
-"Step 25: Stroke paints: Cap style
+	"Step 25: Stroke paints: Cap style
 
-The cap style affects drawing the end segments (what kind of 'cap' to use).
-
-"
-	| path |
-
-	path := surface createPath: [:builder |
-			
-		builder 
-			moveTo: -50@ -50;
-			lineTo: 50@0;
-			lineTo: 0@50;
-			lineTo: -50@0;
-			lineTo: 80@ -30 
-			
-			].
+	The cap style affects drawing the end segments (what kind of 'cap' to use)."
 	
-	surface drawDuring: [:canvas |
+	| path |
+	path := surface createPath: [ :builder |
+		builder 
+			moveTo: -50 @ -50;
+			lineTo: 50 @ 0;
+			lineTo: 0 @ 50;
+			lineTo: -50 @ 0;
+			lineTo: 80 @ -30 ].
+	
+	surface drawDuring: [ :canvas |
 		| stroke |
 		surface clear: Color gray.
 			
@@ -975,39 +752,32 @@ The cap style affects drawing the end segments (what kind of 'cap' to use).
 		  - square
 		  - and butt
 		
-		(uncomment to see the difference)
-		"
+		(uncomment to see the difference)"
 		
 		stroke capRound. 
 		"stroke capButt."
 		"stroke capSquare. "
 		
 		canvas pathTransform 
-			translateX: 400 Y:400;
+			translateByX: 400 Y: 400;
 			scaleBy: 4.
-		canvas drawShape: path.
-
-	].
+			
+		canvas drawShape: path ].
 !
 
 step26
-"Step 26: Stroke paints: Dashing
-
-"
-	| path |
-
-	path := surface createPath: [:builder |
-			
-		builder 
-			moveTo: -50@ -50;
-			lineTo: 50@0;
-			lineTo: 0@50;
-			lineTo: -50@0;
-			lineTo: 80@ -30 
-			
-			].
+	"Step 26: Stroke paints: Dashing"
 	
-	surface drawDuring: [:canvas |
+	| path |
+	path := surface createPath: [ :builder |
+		builder 
+			moveTo: -50 @ -50;
+			lineTo: 50 @ 0;
+			lineTo: 0 @ 50;
+			lineTo: -50 @ 0;
+			lineTo: 80 @ -30 ].
+	
+	surface drawDuring: [ :canvas |
 		| stroke |
 		surface clear: Color gray.
 			
@@ -1015,45 +785,33 @@ step26
 		stroke width: 5.
 
 		stroke joinRound.
-		
-		"There are 3 kinds of cap: 
-		  - round
-		  - square
-		  - and butt
-		
-		(uncomment to see the difference)
-		"
-		
-		stroke capRound. 
+		stroke capRound.
 
-		stroke dashes: #( "fill"20  "gap"10 "fill" 35 "gap" 30) offset: 0.
+		stroke dashes: #( "fill" 20  "gap" 10  "fill" 35  "gap" 30 ) offset: 0.
 		
 		canvas pathTransform 
-			translateX: 400 Y:400;
+			translateByX: 400 Y: 400;
 			scaleBy: 4.
-		canvas drawShape: path.
-
-	].
+			
+		canvas drawShape: path ].
 !
 
 step27
+	"Step 27: Paint modes
 
-"Step 27: Paint modes
-
-The paint mode controls how incoming (source) fragments will be combined with what is already on surface (destination).
-"
+	The paint mode controls how incoming (source) fragments will be combined with what is already on surface (destination)."
 	
-	surface drawDuring: [:canvas |
+	surface drawDuring: [ :canvas |
 		| stroke |
 		surface clear: Color gray.
 
-			
-		"Draw a blue rectangle to use it as background "
+		"Draw a blue rectangle to use it as background"
 		canvas setPaint: Color blue.	
-		canvas drawShape: (0@0 corner: 300@300).
+		canvas drawShape: (0 @ 0 corner: 300 @ 300).
 		
 		canvas paintMode over.
-	"Try one of following paint modes, and see the result: 	
+		
+		"Try one of following paint modes, and see the result: 	
 	
 		clear
 		source
@@ -1085,116 +843,80 @@ The paint mode controls how incoming (source) fragments will be combined with wh
 		hslColor
 		hslLuminosity
 	
-	You can check if given mode is supported by sending: 
-	
-		canvas paintMode availableModes 
+		You can check if given mode is supported by sending: 
+		canvas paintMode availableModes"
 		
-	"	
-		"Draw a semi-transparent yellow rectangle to combine it with background "
+		"Draw a semi-transparent yellow rectangle to combine it with background"
 		canvas setPaint: (Color yellow alpha: 0.5).	
-		canvas drawShape: (150@150 corner: 450@450).
-
-	].
+		canvas drawShape: (150 @ 150 corner: 450 @ 450) ].
 !
 
 step28
-
-"Step 28: Paint modes. Preserving the modes.
-
-"
+	"Step 28: Paint modes. Preserving the modes."
 	
-	surface drawDuring: [:canvas |
+	surface drawDuring: [ :canvas |
 		| stroke |
 		surface clear: Color gray.
 
-			
-		"Draw a blue rectangle to use it as background "
+		"Draw a blue rectangle to use it as background"
 		canvas setPaint: Color blue.	
-		canvas drawShape: (0@0 corner: 300@300).
+		canvas drawShape: (0 @ 0 corner: 300 @ 300).
 
-	"Try to comment #restoreAfter: to see the difference "
+		"Try to comment #restoreAfter: to see the difference "
 		canvas paintMode restoreAfter: [		
-
 			canvas paintMode xor.
 			canvas setPaint: (Color yellow alpha: 0.5).	
-			canvas drawShape: (150@150 corner: 450@450).
-		].
-	
+			canvas drawShape: (150 @ 150 corner: 450 @ 450) ].
 	
 		canvas setPaint: (Color red).	
-		canvas drawShape: (200@200 corner: 500@500).
-	].
+		canvas drawShape: (200 @ 200 corner: 500 @ 500) ].
 !
 
 step29
-
-"Step 29: Clipping.
-
-"
+	"Step 29: Clipping"
 	
-	surface drawDuring: [:canvas |
+	surface drawDuring: [ :canvas |
 		| stroke |
 		surface clear: Color gray.
 
-			
-		"Draw a blue rectangle to use it as background "
+		"Draw a blue rectangle to use it as background"
 		canvas setPaint: Color blue.	
 
-		canvas clipBy:  (100@100 corner: 200@200) during: [ 	
-
-			canvas drawShape: (0@0 corner: surface extent).
-		].
-	].
+		canvas clipBy: (100 @ 100 corner: 200 @ 200) during: [ 	
+			canvas drawShape: (0 @ 0 corner: surface extent) ]].
 !
 
 step3
-"Step 3: Start drawing.
+	"Step 3: Start drawing.
 
-Any drawing operations on surface is performed within #drawDuring: block.
-There is no other (valid) way of obtaining canvas instance. 
-"
+	Any drawing operations on surface is performed within #drawDuring: block.
+	There is no other (valid) way of obtaining canvas instance."
 
-surface drawDuring: [:canvas |
+	surface drawDuring: [ :canvas |
 	
-	"First, we clear the surface"
-	surface clear. 
+		"First, we clear the surface"
+		surface clear. 
 	
-	"we can use 
+		"We can use 
+		surface clear: Color black.  
+		as well. A #clear is equivalent to: (surface clear: Color transparent)."
 	
-	surface clear: Color black.  
-	
-	as well. A #clear is equivalent to: (surface clear: Color transparent).   "
-	
-	"Let''s draw a simple green rectangle"
-	canvas setPaint: Color green.
-	canvas setShape: (40@40 corner: 100@100).
-	canvas draw.
+		"Let's draw a simple green rectangle"
+		canvas setPaint: Color green.
+		canvas setShape: (40 @ 40 corner: 100 @ 100).
+		canvas draw ]
 
-	]
-
-"Important to note:
-
-- canvas instance should be used only within #drawDuring: scope.
-
-"
+	"Important to note:
+	- canvas instance should be used only within #drawDuring: scope"
 !
 
 step30
-
-"Step 30: drawing text.
-
-Please note that this step requires Freetype enabled. 
-Check if you enabled it in settings.
-From world menu, go System->Settings
-And then look for Appearance -> Use freetype in settings browser.
-
-"
-	| font |
+	"Step 30: drawing text"
 	
-	font := LogicalFont familyName: 'Arial' pointSize: 20.
+	| font |
+	font := LogicalFont familyName: 'Arial' size: 20.
 
-
-	surface drawDuring: [:canvas |
+	surface drawDuring: [ :canvas |
 		surface clear: Color black.
 
 		"set font and color"
@@ -1205,27 +927,25 @@ And then look for Appearance -> Use freetype in settings browser.
 		we will see only things below baseline"
 		
 		canvas pathTransform scaleBy: 4.
-		canvas pathTransform translateX: 0 Y: 20.
-		canvas drawString: 'Hello Athens!!'.
-	].
+		canvas pathTransform translateByX: 0 Y: 20.
+		canvas drawString: 'Hello Athens!!' ].
 !
 
 step31
-"The End!!"
+	"The End!!"
 
 	| font |	
-	font := LogicalFont familyName: 'Arial' pointSize: 20.
+	font := LogicalFont familyName: 'Arial' size: 20.
 
-	surface drawDuring: [:canvas |
+	surface drawDuring: [ :canvas |
 		surface clear: Color black.
 
 		canvas setFont: font.
 		canvas setPaint: Color red.
 		
 		canvas pathTransform scaleBy: 4.
-		canvas pathTransform translateX: 0 Y: 40.
-		canvas drawString: 'The End!!'.
-	].
+		canvas pathTransform translateByX: 0 Y: 40.
+		canvas drawString: 'The End!!' ].
 !
 
 step32
@@ -1235,246 +955,44 @@ step32
 	AthensVGTigerDemo instance toggle.
 !
 
-step33
-	"Step 33: Creating a Morphic surface."
-	
-	|container|
-	container := '#canvas-container' asJQuery.
-
-	"Clear previous canvases"
-	container empty.
-
-	surface := AthensHTMLMorphicSurface extent: 500@400.
-	surface appendToJQuery: '#canvas-container' asJQuery.
-
-	"Render border around canvas."
-	surface canvasTag asJQuery 
-		css: 'border' with: '1px #aaa solid'.
-
-	"IMPORTANT NOTE:
-		the surface which we will create at this step will be used in later steps.
-		This means that if you resize the window (changing the view size), you may need to recreate surface.
-		Also, since surface uses external resources, quitting an image and restarting it, will also require to 
-		create a new surface, because the one from previous session will be no longer accessible."
-!
-
-step34
-	"Step 34: Event handling. Outdated and not working anymore. I'm working on a new example. See step37 for event handling with Morphs."
-!
-
-step35
-	|morph|
-	"Step 35: [Morphic Demo] Creating/showing morphs.
-	'surface world' returns the world morph. Every surface has
-	a world morph that can contain other morphs. It is the entry
-	point for morph composition."
-
-	morph := AthensMorph new.
-	surface world addMorph: morph.
-!
-
-step36
-	|morph innerMorph|
-	"Step 36: [Morphic Demo] Transforming morphs.
-	All transformations are relative to the owner's top left corner.
-	Transformations are applied in this order: scaling, rotation, translation."
-
-	morph := AthensMorph new.
-	surface world addMorph: morph.
-	morph translateByX: 200 Y: 50.
-	morph rotateBy: 0.785.
-
-	innerMorph := AthensMorph new.
-	innerMorph color: Color red.
-	innerMorph translateByX: 20 Y: 0.
-	innerMorph rotateBy: -0.785.
-	innerMorph scaleByX: 0.25 Y: 0.25.
-	morph addMorph: innerMorph.
-!
-
-step37
-	|window descText counter optIncrement optDecrement button|
-	"Step 37: [Morphic Demo] Using basic Morphs."
-	
-	window := AthensWindowMorph new.
-	window title: 'Counter Example'.
-
-	descText := AthensTextMorph new.
-	descText text: 'Current value: '.
-	descText translateByX: 25 Y: 40.
-	window addMorph: descText.
-	
-	counter := AthensTextMorph new.
-	counter text: '0'.
-	counter translateByX: 150 Y: 40.
-	window addMorph: counter.
-	
-	optIncrement := AthensRadioButtonMorph new.
-	optIncrement text: 'Increment number'.
-	optIncrement translateByX: 25 Y: 70.
-	window addMorph: optIncrement.
-	
-	optDecrement := AthensRadioButtonMorph new.
-	optDecrement text: 'Decrement number'.
-	optDecrement translateByX: 25 Y: 90.
-	window addMorph: optDecrement.
-	
-	optIncrement onChange: [:val | optDecrement checked: val not].
-	optDecrement onChange: [:val | optIncrement checked: val not].
-	optIncrement checked: true.
-	
-	button := AthensButtonMorph new.
-	button text: 'Do it'.
-	button translateByX: 25 Y: 120.
-	button width: 150.
-	button onMouseClick: [:evt | |val|
-		val := counter text asNumber.
-		optIncrement isChecked
-			ifTrue: [val := val + 1]
-			ifFalse: [val := val - 1].
-		counter text: val asString].
-
-	window addMorph: button.
-	surface world addMorph: window.
-!
-
-step38
-	|window button|
-	"Step 38: [Morphic Demo] Morph transformations."
-	
-	window := AthensWindowMorph new.
-	window title: 'Transformations Example'.
-
-	button := AthensIconButtonMorph new
-		text: '5 degrees';
-		icon: AthensIconMorph rotateCw;
-		width: 150; height: 20;
-		translateByX: 25 Y: 50;
-		onMouseClick: [:evt | window rotateByDegrees: 5];
-		yourself.
-	window addMorph: button.
-	
-	button := AthensIconButtonMorph new
-		text: '5 degrees';
-		icon: AthensIconMorph rotateCcw;
-		width: 150; height: 20;
-		translateByX: 25 Y: 80;
-		onMouseClick: [:evt | window rotateByDegrees: -5];
-		yourself.
-	window addMorph: button.
-
-	button := AthensIconButtonMorph new
-		text: 'Scale X +0.25';
-		icon: AthensIconMorph resizeFull;
-		width: 150; height: 20;
-		translateByX: 25 Y: 110;
-		onMouseClick: [:evt | window scaleByX: 1.25 Y: 1];
-		yourself.
-	window addMorph: button.
-	
-	button := AthensIconButtonMorph new
-		text: 'Scale X -0.25';
-		icon: AthensIconMorph resizeSmall;
-		width: 150; height: 20;
-		translateByX: 25 Y: 140;
-		onMouseClick: [:evt | window scaleByX: 0.75 Y: 1];
-		yourself.
-	window addMorph: button.
-	
-	surface world addMorph: window.
-!
-
-step39
-	|window textMorph listBox|
-	"Step 39: [Morphic Demo] ListBoxMorph."
-	
-	window := AthensWindowMorph new.
-	window title: 'List Box Example'.
-
-	listBox := AthensListBoxMorph new
-		addItem: 'First Item';
-		addItem: 'Another Item';
-		addItem: 42;
-		addItem: Object new;	"ListBoxMorph displays anItem asString"
-		addItem: 'Last Item';
-		width: 150;
-		height: 75;
-		translateByX: 25 Y: 50;
-		yourself.
-
-	window addMorph: listBox.
-		
-	textMorph := AthensTextMorph new
-		text: '(Nothing selected)';
-		width: 150; height: 20;
-		translateByX: 25 Y: 140;
-		yourself.
-
-	"When the selection changes, the change event is triggered."
-	listBox onChange: [:selection | 
-		textMorph text: selection asString, ' (', selection class asString, ')'].
-
-	window addMorph: textMorph.
-
-	surface world addMorph: window.
-!
-
 step4
-"Step 4: Shapes and paints.
+	"Step 4: Shapes and paints."
 
-"
-
-surface drawDuring: [:canvas |
-	surface clear: Color black. 
+	surface drawDuring: [ :canvas |
+		surface clear: Color black. 
 	
-	"There's two objects involved in any draw operation: 
+		"There's two objects involved in any draw operation: 
 		- paint
 		- shape
 		
-	The #draw API method simply fills current shape with current paint.
-	"
+		The #draw API method simply fills current shape with current paint."
 	
-	"To set current paint, use #setPaint: method "
+		"To set current paint, use #setPaint: method"
+		canvas setPaint: Color green.
 
-	canvas setPaint: Color green.
+		"To set current shape use #setShape: method"
+		canvas setShape: (40 @ 40 corner: 100 @ 100).
 
-	"To set current shape use #setShape: method "
-
-	canvas setShape: (40@40 corner: 100@100).
-
-	"Nothing will be drawn until #draw command will be issued: "
-	canvas draw.
-
-	]
+		"Nothing will be drawn until #draw command will be issued:"
+		canvas draw ].
 !
 
 step5
-"Step 5: Coordinates. 
+	"Step 5: Coordinates. 
 
-The initial coordinate space set up to cover entire surface using its dimensions. "
+	The initial coordinate space set up to cover entire surface using its dimensions."
 
-surface drawDuring: [:canvas |
-	surface clear: Color black. 
+	surface drawDuring: [ :canvas |
+		surface clear: Color black. 
 
+		"x axis: goes from left to right"
+		canvas setPaint: Color red.
+		"here we're using #drawShape: convenience method, which is simply setShape: + draw"
+		canvas drawShape: (0 @ 0 corner: surface width @ 5).
 
-	"x axis: goes from left to right"
-
-	canvas setPaint: Color red.
-	
-	"here we're using #drawShape: convenience method, which is simply
-	  setShape: + draw "
-	
-	canvas drawShape: (0@0 corner: surface width@5).
-	
-
-	"y axis: goes from top to bottom"
-	canvas setPaint: Color blue.
-
-	canvas drawShape: (0@0 corner: 5@surface height).
-
-		
-
-	]
+		"y axis: goes from top to bottom"
+		canvas setPaint: Color blue.
+		canvas drawShape: (0 @ 0 corner: 5 @ surface height) ].
 !
 
 step6
@@ -1488,146 +1006,118 @@ step6
 	(See AthensAffineTransform class for details).
 	
 	Accessing path transform:
-	
 	  <canvas> pathTransform
 	
-	Accessing paint transform:
+	Accessing paint transform:	
+	  <canvas> paintTransform"
+
+	surface drawDuring: [ :canvas |
+		surface clear: Color black. 
+
+		"Here, we're translating the canvas coordinate system origin, 
+		so now it will be at 100@50 in surface's coordinate system"
 	
-	  <canvas> paintTransform
-"
-
-surface drawDuring: [:canvas |
-	surface clear: Color black. 
-
-	"Here, we're translating the canvas coordinate system origin, 
-	so now it will be at 100@50 in surface's coordinate system"
+		canvas pathTransform translateByX: 100 Y: 50.
+		
+		"x axis"
+		canvas setPaint: Color red.
+		canvas drawShape: (0 @ 0 corner: surface width @ 5).
 	
-	canvas pathTransform translateX: 100 Y: 50.
-	"x axis"
-
-	canvas setPaint: Color red.
-	
-	canvas drawShape: (0@0 corner: surface width@5).
-	
-
-	"y axis"
-	canvas setPaint: Color blue.
-
-	canvas drawShape: (0@0 corner: 5@surface height).
-
-	
-	]
+		"y axis"
+		canvas setPaint: Color blue.
+		canvas drawShape: (0 @ 0 corner: 5 @ surface height) ].
 !
 
 step7
 	"Step 7: Scaling.
 	
-
 	Protocol: 
 	<transform> scaleBy: <scalar/point>
 	
 	or:
+	<transform> scaleByX: <x scale> Y: <y scale>"
+
+	surface drawDuring: [:canvas |
+		surface clear: Color gray. 
+
+		canvas setShape: (0 @ 0 corner: 100 @ 100).
+		canvas setPaint: Color white.
+
+		canvas draw.
 	
-	<transform> scaleX: <x scale> Y: <y scale>
-		
-"
+		"try to vary the scale argument to see the difference"
+		canvas pathTransform scaleBy: 2.
 
-surface drawDuring: [:canvas |
-	surface clear: Color gray. 
-
-	canvas setShape: (0@0 corner: 100@100).
-	
-	canvas setPaint: Color white.
-
-	canvas draw.
-	
-	"try to vary the scale argument to see the difference"
-	canvas pathTransform scaleBy: 2.
-
-	canvas setPaint: (Color yellow alpha: 0.3).
-	canvas draw.
-
-	]
+		canvas setPaint: (Color yellow alpha: 0.3).
+		canvas draw	].
 !
 
 step8
-
-"Step 8: Rotating.
-	
+	"Step 8: Rotating.
 
 	Protocol: 
 	<transform> rotateByDegrees: <scalar>
 	
 	or:
-	
-	<transform> rotateByRadians: <scalar>
+	<transform> rotateByRadians: <scalar>"
+
+	surface drawDuring: [ :canvas |
+		surface clear: Color gray. 
+
+		canvas setShape: (0 @ 0 corner: 100 @ 100).
+		canvas setPaint: Color blue.
+
+		canvas pathTransform
+			scaleBy:3;
+			translateByX: 50 Y: 50.
+
+		canvas draw.
 		
-"
-
-surface drawDuring: [:canvas |
-	surface clear: Color gray. 
-
-	canvas setShape: (0@0 corner: 100@100).
-	canvas setPaint: (Color blue).
-
-	canvas pathTransform
-		scaleBy:3;
-		translateX: 50 Y: 50.
-
-	canvas draw.
-		
-	canvas setPaint: Color yellow.
+		canvas setPaint: Color yellow.
 	
-	canvas pathTransform
-		translateX: 50 Y: 50;
-		scaleBy: 0.7@0.5;
+		canvas pathTransform
+			translateByX: 50 Y: 50;
+			scaleBy: 0.7 @ 0.5;
 		
-		rotateByDegrees: 45;
-		"You can also use #rotateByRadians: if it fits better for you. 
-		There is no #rotate: because it ambiguous"
+			rotateByDegrees: 45;
+			"You can also use #rotateByRadians: if it fits better for you. 
+			There is no #rotate: because it ambiguous"
 	
-		translateX: -50 Y: -50.
+			translateByX: -50 Y: -50.
 
-	canvas draw.
-
-	]
+		canvas draw ].
 !
 
 step9
-"Step 9: Saving & restoring transformation.
+	"Step 9: Saving & restoring transformation.
 	
 	Protocol: 
-	<transform> restoreAfter: [ block ]
+	<transform> restoreAfter: [ block ]"
+
+	surface drawDuring: [ :canvas |
+		surface clear: Color gray. 
+
+		canvas setShape: (0 @ 0 corner: 100 @ 100).
+
+		canvas pathTransform 
+			scaleBy: 3;
+			translateByX: 50 Y: 50.
+
+		"Try to comment #restoreAfter: , to run the code inside without it
+		and see the difference"
+
+		canvas pathTransform restoreAfter: [
+			canvas setPaint: Color blue.
 	
-"
+			canvas pathTransform
+				translateByX: 50 Y: 50;
+				rotateByDegrees: 45;
+				translateByX: -50 Y: -50.
 
-surface drawDuring: [:canvas |
-	surface clear: Color gray. 
+			canvas draw ].
 
-	canvas setShape: (0@0 corner: 100@100).
-
-	canvas pathTransform 
-		scaleBy:3;
-		translateX: 50 Y: 50.
-
-"Try to comment #restoreAfter: , to run the code inside without it
-and see the difference"
-
-	canvas pathTransform restoreAfter: [
-		
-		canvas setPaint: (Color blue).
-	
-		canvas pathTransform
-			translateX: 50 Y: 50;
-			rotateByDegrees: 45;
-			translateX: -50 Y: -50.
-
-		canvas draw.
-	].
-
-	canvas setPaint: (Color yellow).
-	canvas draw.
-	]
+		canvas setPaint: Color yellow.
+		canvas draw ].
 ! !
 
 !AthensTutorial class methodsFor: 'starting'!
@@ -1653,8 +1143,8 @@ initialize
 
 nextStep
 	step := step + 1.
-	step > 39
-		ifTrue: [step := 39].
+	step > 32
+		ifTrue: [step := 32].
 	self showStep: step.
 !
 
@@ -1858,13 +1348,13 @@ runDemo
 					drawShape: (0@0 corner: surface extent).
 					
 				can pathTransform 
-					translateX: (0.5 * (extent x - (self class tigerMaxX * scale*zoom))) Y: extent y / -12.0 ;
+					translateByX: (0.5 * (extent x - (self class tigerMaxX * scale*zoom))) Y: extent y / -12.0 ;
 					scaleBy: scale*zoom ;
 
-					translateX: (self class tigerMaxX * 0.5) Y: (self class tigerMaxY * 0.5 );
+					translateByX: (self class tigerMaxX * 0.5) Y: (self class tigerMaxY * 0.5 );
 					scaleBy: 0.8;
 					rotateByDegrees: rotation;
-					translateX: (self class tigerMaxX * -0.5) Y: (self class tigerMaxY * -0.5 ).
+					translateByX: (self class tigerMaxX * -0.5) Y: (self class tigerMaxY * -0.5 ).
 
 				paths do: [:each | each renderOn: can ].
 				

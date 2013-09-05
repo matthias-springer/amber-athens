@@ -112,12 +112,12 @@ smalltalk.AthensHTMLTransformation);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "scaleX:Y:",
+selector: "scaleByX:Y:",
 fn: function (fx,fy){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 _st(_st(self["@surface"])._context2D())._scaleByX_Y_(fx,fy);
-return self}, function($ctx1) {$ctx1.fill(self,"scaleX:Y:",{fx:fx,fy:fy},smalltalk.AthensHTMLTransformation)})},
+return self}, function($ctx1) {$ctx1.fill(self,"scaleByX:Y:",{fx:fx,fy:fy},smalltalk.AthensHTMLTransformation)})},
 messageSends: ["scaleByX:Y:", "context2D"]}),
 smalltalk.AthensHTMLTransformation);
 
@@ -145,12 +145,12 @@ smalltalk.AthensHTMLTransformation);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "translateX:Y:",
+selector: "translateByX:Y:",
 fn: function (px,py){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 _st(_st(self["@surface"])._context2D())._translateByX_Y_(px,py);
-return self}, function($ctx1) {$ctx1.fill(self,"translateX:Y:",{px:px,py:py},smalltalk.AthensHTMLTransformation)})},
+return self}, function($ctx1) {$ctx1.fill(self,"translateByX:Y:",{px:px,py:py},smalltalk.AthensHTMLTransformation)})},
 messageSends: ["translateByX:Y:", "context2D"]}),
 smalltalk.AthensHTMLTransformation);
 

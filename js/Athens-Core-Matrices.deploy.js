@@ -212,7 +212,7 @@ smalltalk.AthensAffineTransform);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "scaleX:Y:",
+selector: "scaleByX:Y:",
 fn: function (fx,fy){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
@@ -220,7 +220,7 @@ return smalltalk.withContext(function($ctx1) {
 	self['@shx'] *= fx;
 	self['@sy'] *= fy;
 	self['@shy'] *= fy; ;
-return self}, function($ctx1) {$ctx1.fill(self,"scaleX:Y:",{fx:fx,fy:fy},smalltalk.AthensAffineTransform)})},
+return self}, function($ctx1) {$ctx1.fill(self,"scaleByX:Y:",{fx:fx,fy:fy},smalltalk.AthensAffineTransform)})},
 messageSends: []}),
 smalltalk.AthensAffineTransform);
 
@@ -367,13 +367,13 @@ smalltalk.AthensAffineTransform);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "translateX:Y:",
+selector: "translateByX:Y:",
 fn: function (px,py){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
  self['@x'] += self['@sx']*px + self['@shx']*py;
 	self['@y'] += self['@shy']*px + self['@sy']*py; ;
-return self}, function($ctx1) {$ctx1.fill(self,"translateX:Y:",{px:px,py:py},smalltalk.AthensAffineTransform)})},
+return self}, function($ctx1) {$ctx1.fill(self,"translateByX:Y:",{px:px,py:py},smalltalk.AthensAffineTransform)})},
 messageSends: []}),
 smalltalk.AthensAffineTransform);
 

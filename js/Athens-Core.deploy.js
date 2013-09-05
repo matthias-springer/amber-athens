@@ -1098,12 +1098,12 @@ smalltalk.AthensTransform);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "scaleX:Y:",
+selector: "scaleByX:Y:",
 fn: function (fx,fy){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 self._subclassResponsibility();
-return self}, function($ctx1) {$ctx1.fill(self,"scaleX:Y:",{fx:fx,fy:fy},smalltalk.AthensTransform)})},
+return self}, function($ctx1) {$ctx1.fill(self,"scaleByX:Y:",{fx:fx,fy:fy},smalltalk.AthensTransform)})},
 messageSends: ["subclassResponsibility"]}),
 smalltalk.AthensTransform);
 
@@ -1142,12 +1142,12 @@ smalltalk.AthensTransform);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "translateX:Y:",
+selector: "translateByX:Y:",
 fn: function (px,py){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 self._subclassResponsibility();
-return self}, function($ctx1) {$ctx1.fill(self,"translateX:Y:",{px:px,py:py},smalltalk.AthensTransform)})},
+return self}, function($ctx1) {$ctx1.fill(self,"translateByX:Y:",{px:px,py:py},smalltalk.AthensTransform)})},
 messageSends: ["subclassResponsibility"]}),
 smalltalk.AthensTransform);
 
@@ -1336,8 +1336,8 @@ selector: "paintFillsUsing:on:",
 fn: function (aPaint,anAthensCanvas){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- aPaint._fillRectangle_on_(self, anAthensCanvas); ;
+_st(aPaint)._fillRectangle_on_(self,anAthensCanvas);
 return self}, function($ctx1) {$ctx1.fill(self,"paintFillsUsing:on:",{aPaint:aPaint,anAthensCanvas:anAthensCanvas},smalltalk.Rectangle)})},
-messageSends: []}),
+messageSends: ["fillRectangle:on:"]}),
 smalltalk.Rectangle);
 

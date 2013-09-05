@@ -171,7 +171,7 @@ scaleBy: factor
 	} >
 !
 
-scaleX: fx Y: fy
+scaleByX: fx Y: fy
 	< self['@sx'] *= fx;
 	self['@shx'] *= fx;
 	self['@sy'] *= fy;
@@ -185,7 +185,7 @@ translateBy: aPoint
 	self['@y'] += self['@shy']*px + self['@sy']*py; >
 !
 
-translateX: px Y: py
+translateByX: px Y: py
 	< self['@x'] += self['@sx']*px + self['@shx']*py;
 	self['@y'] += self['@shy']*px + self['@sy']*py; >
 !

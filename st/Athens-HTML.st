@@ -56,6 +56,10 @@ drawString: aString
 	self drawShape: aString.
 !
 
+drawString: aString from: start to: end
+	^ self drawString: (aString copyFrom: start to: end)
+!
+
 measureStringWidth: aString
 	context2D font: font asHTMLString.
 	^ context2D measureStringWidth: aString

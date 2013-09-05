@@ -1,5 +1,6 @@
 smalltalk.addPackage('Athens-Core');
 smalltalk.addClass('AthensCanvas', smalltalk.Object, ['paint', 'surface', 'shape', 'fontRenderer', 'paintMode'], 'Athens-Core');
+smalltalk.AthensCanvas.comment="I am an abstract Athens canvas. I provide methods for drawing shapes and performing transformation operations. My concrete subclass `AthensHTMLCanvas` is used for drawing on Amber.\x0a\x0a## Drawing\x0a`#setShape:` sets the shape to be drawn and `#draw` draws this shape. `#drawShape:` is a convenience method that does both.\x0a\x0a`#setFont:` sets the current font (must be an instance of `LogicalFont`). `#drawString:` drawing a string with the current font.\x0a\x0a## Paints\x0a`#setPaint:` and `#setStrokePaint:` are used to set the filling paint and the stroke paint for drawing shapes and strings. Only one of both paints can be used for drawing at one time. E.g. setting a stroke paint resets the filling paint.\x0a\x0a## Paths\x0a`#createPath:` takes a block with a path builder argument and returns a path that can used as a shape for drawing. See `AthensPathBuilder` documentation.\x0a\x0a## Transformation\x0a`#pathTransform` returns the path transformation object that is used to transform the drawing of the shape. `#paintTransform` returns the paint transformation object that is used to transform the paint of the drawing, relative to the path transformation. See `AthensTransform` documentation.";
 smalltalk.addMethod(
 smalltalk.method({
 selector: "cacheAt:ifAbsentPut:",
@@ -48,7 +49,7 @@ $1=_st(self["@surface"])._clipBy_during_(aRectangle,aBlock);
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"clipBy:during:",{aRectangle:aRectangle,aBlock:aBlock},smalltalk.AthensCanvas)})},
 args: ["aRectangle", "aBlock"],
-source: "clipBy: aRectangle during: aBlock\x0a\x09\x22Sets a clipping rectangle during drawing operations performed in a block.\x0a\x09Note that clipping rectangles are intetersected with currently active \x0a\x09clipping rectangle.\x22\x0a\x09\x0a\x09 ^ surface clipBy: aRectangle during: aBlock",
+source: "clipBy: aRectangle during: aBlock\x0a\x09\x22Sets a clipping rectangle during drawing operations performed in a block. Note that clipping rectangles are intetersected with currently active clipping rectangle.\x22\x0a\x09\x0a\x09 ^ surface clipBy: aRectangle during: aBlock",
 messageSends: ["clipBy:during:"],
 referencedClasses: []
 }),
@@ -66,7 +67,7 @@ $1=_st(self["@surface"])._createPath_(aPathCreatingBlock);
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"createPath:",{aPathCreatingBlock:aPathCreatingBlock},smalltalk.AthensCanvas)})},
 args: ["aPathCreatingBlock"],
-source: "createPath: aPathCreatingBlock\x0a\x09\x22Creates a new path. A path creating block should be a monadic block,\x0a\x09which will get a path builder instance as argument. See AthensPathBuilder\x0a\x09for the protocol. The resulting path object can be later used for drawing.\x22\x0a\x09\x0a\x09^ surface createPath: aPathCreatingBlock",
+source: "createPath: aPathCreatingBlock\x0a\x09\x22Creates a new path. A path creating block should be a monadic block, which will get a path builder instance as argument. See AthensPathBuilder for the protocol. The resulting path object can be later used for drawing.\x22\x0a\x09\x0a\x09^ surface createPath: aPathCreatingBlock",
 messageSends: ["createPath:"],
 referencedClasses: []
 }),
@@ -120,7 +121,7 @@ $1=_st(self["@shape"])._paintFillsUsing_on_(self["@paint"],self);
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"draw",{},smalltalk.AthensCanvas)})},
 args: [],
-source: "draw\x0a\x09\x22Fills the shape (anObject) using the currently selected paint.\x0a\x09anObject should implement double-dispatch to the currently selected paint.\x22\x0a\x09\x0a\x09^ shape paintFillsUsing: paint on: self",
+source: "draw\x0a\x09\x22Fills the shape (anObject) using the currently selected paint. anObject should implement double-dispatch to the currently selected paint.\x22\x0a\x09\x0a\x09^ shape paintFillsUsing: paint on: self",
 messageSends: ["paintFillsUsing:on:"],
 referencedClasses: []
 }),
@@ -138,7 +139,7 @@ $1=_st(anObject)._drawOnAthensCanvas_(self);
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"draw:",{anObject:anObject},smalltalk.AthensCanvas)})},
 args: ["anObject"],
-source: "draw: anObject\x0a\x09\x22A generic dispatch method to draw anObject onto the receiver. \x0a\x09The object should understand #drawOnAthensCanvas: message.\x22\x0a\x09\x0a\x09^ anObject drawOnAthensCanvas: self",
+source: "draw: anObject\x0a\x09\x22A generic dispatch method to draw anObject onto the receiver. The object should understand #drawOnAthensCanvas: message.\x22\x0a\x09\x0a\x09^ anObject drawOnAthensCanvas: self",
 messageSends: ["drawOnAthensCanvas:"],
 referencedClasses: []
 }),
@@ -155,7 +156,7 @@ self._setShape_(anObject);
 self._draw();
 return self}, function($ctx1) {$ctx1.fill(self,"drawShape:",{anObject:anObject},smalltalk.AthensCanvas)})},
 args: ["anObject"],
-source: "drawShape: anObject\x0a\x09\x22A convenience method, which sets the current shape to anObject and then fills it\x0a\x09with the currently selected paint.\x22 \x0a\x09\x0a\x09self setShape: anObject.\x0a\x09self draw.\x0a\x09",
+source: "drawShape: anObject\x0a\x09\x22A convenience method, which sets the current shape to anObject and then fills it with the currently selected paint.\x22 \x0a\x09\x0a\x09self setShape: anObject.\x0a\x09self draw.\x0a\x09",
 messageSends: ["setShape:", "draw"],
 referencedClasses: []
 }),
@@ -173,7 +174,7 @@ $1=_st(self["@fontRenderer"])._renderCharacters_from_to_(aString,(1),_st(aString
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"drawString:",{aString:aString},smalltalk.AthensCanvas)})},
 args: ["aString"],
-source: "drawString: aString\x0a\x09\x22Draws a string using the currently selected font.\x0a\x09Answers a total advance of rendered string.\x22\x0a\x09\x0a\x09^ fontRenderer renderCharacters: aString from: 1 to: aString size.",
+source: "drawString: aString\x0a\x09\x22Draws a string using the currently selected font. Answers a total advance of rendered string.\x22\x0a\x09\x0a\x09^ fontRenderer renderCharacters: aString from: 1 to: aString size",
 messageSends: ["renderCharacters:from:to:", "size"],
 referencedClasses: []
 }),
@@ -191,7 +192,7 @@ $1=_st(self["@fontRenderer"])._renderCharacters_from_to_(aString,start,end);
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"drawString:from:to:",{aString:aString,start:start,end:end},smalltalk.AthensCanvas)})},
 args: ["aString", "start", "end"],
-source: "drawString: aString from: start to: end\x0a\x09\x22Draws a portion of string using the currently selected font.\x0a\x09Answers a total advance of rendered portion.\x22\x0a\x09\x0a\x09^ fontRenderer renderCharacters: aString from: start to: end",
+source: "drawString: aString from: start to: end\x0a\x09\x22Draws a portion of string using the currently selected font. Answers a total advance of rendered portion.\x22\x0a\x09\x0a\x09^ fontRenderer renderCharacters: aString from: start to: end",
 messageSends: ["renderCharacters:from:to:"],
 referencedClasses: []
 }),
@@ -225,7 +226,7 @@ return smalltalk.withContext(function($ctx1) {
 _st(self["@surface"])._removeCacheAt_(anObject);
 return self}, function($ctx1) {$ctx1.fill(self,"flushCacheAt:",{anObject:anObject},smalltalk.AthensCanvas)})},
 args: ["anObject"],
-source: "flushCacheAt: anObject\x0a\x09\x22Flush (delete) any cached value(s) identified by given object, anObject.\x0a\x09A surface using identity comparison for object identifiers. Answer receiver.\x22\x0a\x0a\x09surface removeCacheAt: anObject",
+source: "flushCacheAt: anObject\x0a\x09\x22Flush (delete) any cached value(s) identified by given object, anObject. A surface using identity comparison for object identifiers. Answer receiver.\x22\x0a\x0a\x09surface removeCacheAt: anObject.",
 messageSends: ["removeCacheAt:"],
 referencedClasses: []
 }),
@@ -241,7 +242,7 @@ return smalltalk.withContext(function($ctx1) {
 self["@surface"]=anAthensSurface;
 return self}, function($ctx1) {$ctx1.fill(self,"initializeWithSurface:",{anAthensSurface:anAthensSurface},smalltalk.AthensCanvas)})},
 args: ["anAthensSurface"],
-source: "initializeWithSurface: anAthensSurface\x09\x0a\x09surface := anAthensSurface",
+source: "initializeWithSurface: anAthensSurface\x09\x0a\x09surface := anAthensSurface.",
 messageSends: [],
 referencedClasses: []
 }),
@@ -293,7 +294,7 @@ $1=self["@paintMode"];
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"paintMode",{},smalltalk.AthensCanvas)})},
 args: [],
-source: "paintMode\x0a\x09\x22Answer the current paint mode controller.\x0a\x09The answered object should conform to AthensPaintMode public protocol.\x22\x0a\x0a\x09^ paintMode",
+source: "paintMode\x0a\x09\x22Answer the current paint mode controller. The answered object should conform to AthensPaintMode public protocol.\x22\x0a\x0a\x09^ paintMode",
 messageSends: [],
 referencedClasses: []
 }),
@@ -311,7 +312,7 @@ $1=_st(self["@surface"])._paintTransform();
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"paintTransform",{},smalltalk.AthensCanvas)})},
 args: [],
-source: "paintTransform\x0a\x09\x22Answer the paint transformation matrix controller.\x0a\x09The answered object should conform to AthensTransform public protocol.\x22\x0a\x0a\x09^ surface paintTransform",
+source: "paintTransform\x0a\x09\x22Answer the paint transformation matrix controller. The answered object should conform to AthensTransform public protocol.\x22\x0a\x0a\x09^ surface paintTransform",
 messageSends: ["paintTransform"],
 referencedClasses: []
 }),
@@ -329,7 +330,7 @@ $1=_st(self["@surface"])._pathTransform();
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"pathTransform",{},smalltalk.AthensCanvas)})},
 args: [],
-source: "pathTransform\x0a\x09\x22Answer the path transformation matrix controller.\x0a\x09The answered object should conform to AthensTransform public protocol.\x22\x0a\x09\x0a\x09^ surface pathTransform",
+source: "pathTransform\x0a\x09\x22Answer the path transformation matrix controller. The answered object should conform to AthensTransform public protocol.\x22\x0a\x09\x0a\x09^ surface pathTransform",
 messageSends: ["pathTransform"],
 referencedClasses: []
 }),
@@ -345,7 +346,7 @@ return smalltalk.withContext(function($ctx1) {
 self["@fontRenderer"]=_st(aFont)._glyphRendererOn_(self["@surface"]);
 return self}, function($ctx1) {$ctx1.fill(self,"setFont:",{aFont:aFont},smalltalk.AthensCanvas)})},
 args: ["aFont"],
-source: "setFont: aFont\x0a\x09\x22Set the current font of receiver. Font object should answer\x0a\x09a glyph renderer instance, compatible with glyph renderer protocol.\x22\x0a\x09\x0a\x09fontRenderer := aFont glyphRendererOn: surface.",
+source: "setFont: aFont\x0a\x09\x22Set the current font of receiver. Font object should answer a glyph renderer instance, compatible with glyph renderer protocol.\x22\x0a\x09\x0a\x09fontRenderer := aFont glyphRendererOn: surface.",
 messageSends: ["glyphRendererOn:"],
 referencedClasses: []
 }),
@@ -387,7 +388,7 @@ $3=self["@paint"];
 return $3;
 }, function($ctx1) {$ctx1.fill(self,"setPaint:",{aPaint:aPaint},smalltalk.AthensCanvas)})},
 args: ["aPaint"],
-source: "setPaint: aPaint\x0a\x09\x22Set the current paint of receiver\x22\x0a\x09\x0a\x09paint = aPaint ifTrue: [ ^ paint ].\x0a\x09paint := aPaint asAthensPaintOn: self.\x0a\x09^ paint",
+source: "setPaint: aPaint\x0a\x09\x22Set the current paint of receiver.\x22\x0a\x09\x0a\x09paint = aPaint ifTrue: [ ^ paint ].\x0a\x09paint := aPaint asAthensPaintOn: self.\x0a\x09^ paint",
 messageSends: ["ifTrue:", "=", "asAthensPaintOn:"],
 referencedClasses: []
 }),
@@ -483,6 +484,7 @@ smalltalk.AthensCanvas.klass);
 
 
 smalltalk.addClass('AthensPaintMode', smalltalk.Object, [], 'Athens-Core');
+smalltalk.AthensPaintMode.comment="I represent all Athens paint modes. Every drawing backend has its own concrete subclass of me.\x0a\x0a## API\x0aThe methods in the protocol \x22modes\x22, e.g. `#atop`, change the current paint mode. The method `#restoreAfter:` restores the original paint mode after the provided block was executed.";
 smalltalk.addMethod(
 smalltalk.method({
 selector: "add",
@@ -493,7 +495,7 @@ return smalltalk.withContext(function($ctx1) {
 self._notAvailable();
 return self}, function($ctx1) {$ctx1.fill(self,"add",{},smalltalk.AthensPaintMode)})},
 args: [],
-source: "add\x0a\x09self notAvailable",
+source: "add\x0a\x09self notAvailable.",
 messageSends: ["notAvailable"],
 referencedClasses: []
 }),
@@ -509,7 +511,7 @@ return smalltalk.withContext(function($ctx1) {
 self._notAvailable();
 return self}, function($ctx1) {$ctx1.fill(self,"atop",{},smalltalk.AthensPaintMode)})},
 args: [],
-source: "atop\x0a\x09\x22Set 'atop' painting mode \x22\x0a\x09\x0a\x09self notAvailable",
+source: "atop\x0a\x09self notAvailable.",
 messageSends: ["notAvailable"],
 referencedClasses: []
 }),
@@ -527,7 +529,7 @@ $1=[];
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"availableModes",{},smalltalk.AthensPaintMode)})},
 args: [],
-source: "availableModes\x0a\x0a\x09\x22Answer a collection of paint mode names, currently supported by backend. \x0a\x09Different backends may support different sets of paint modes.\x0a\x09\x0a\x09You may need to structure your code depending on modes available\x22\x0a\x09\x0a\x09^ #()",
+source: "availableModes\x0a\x09\x22Answer a collection of paint mode names, currently supported by backend. \x0a\x09Different backends may support different sets of paint modes.\x0a\x09\x0a\x09You may need to structure your code depending on modes available.\x22\x0a\x09\x0a\x09^ #()",
 messageSends: [],
 referencedClasses: []
 }),
@@ -543,7 +545,7 @@ return smalltalk.withContext(function($ctx1) {
 self._notAvailable();
 return self}, function($ctx1) {$ctx1.fill(self,"clear",{},smalltalk.AthensPaintMode)})},
 args: [],
-source: "clear\x0a\x09\x22Set 'clear' drawing mode.\x0a\x09\x0a\x09Drawing under this mode will clear the surface under the shape boundaries\x22\x0a\x09\x0a\x09self notAvailable",
+source: "clear\x0a\x09\x22Set 'clear' drawing mode.\x0a\x09\x0a\x09Drawing under this mode will clear the surface under the shape boundaries.\x22\x0a\x09\x0a\x09self notAvailable.",
 messageSends: ["notAvailable"],
 referencedClasses: []
 }),
@@ -559,7 +561,7 @@ return smalltalk.withContext(function($ctx1) {
 self._notAvailable();
 return self}, function($ctx1) {$ctx1.fill(self,"colorBurn",{},smalltalk.AthensPaintMode)})},
 args: [],
-source: "colorBurn\x0a\x09self notAvailable",
+source: "colorBurn\x0a\x09self notAvailable.",
 messageSends: ["notAvailable"],
 referencedClasses: []
 }),
@@ -575,7 +577,7 @@ return smalltalk.withContext(function($ctx1) {
 self._notAvailable();
 return self}, function($ctx1) {$ctx1.fill(self,"colorDodge",{},smalltalk.AthensPaintMode)})},
 args: [],
-source: "colorDodge\x0a\x09self notAvailable",
+source: "colorDodge\x0a\x09self notAvailable.",
 messageSends: ["notAvailable"],
 referencedClasses: []
 }),
@@ -591,7 +593,7 @@ return smalltalk.withContext(function($ctx1) {
 self._notAvailable();
 return self}, function($ctx1) {$ctx1.fill(self,"darken",{},smalltalk.AthensPaintMode)})},
 args: [],
-source: "darken\x0a\x09self notAvailable",
+source: "darken\x0a\x09self notAvailable.",
 messageSends: ["notAvailable"],
 referencedClasses: []
 }),
@@ -609,7 +611,7 @@ $1=self._over();
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"default",{},smalltalk.AthensPaintMode)})},
 args: [],
-source: "default\x0a\x09\x22Set the default paint mode. The default paint mode in Athens, is 'over' \x22\x0a\x09^ self over",
+source: "default\x0a\x09\x22Set the default paint mode. The default paint mode in Athens, is 'over'.\x22\x0a\x09\x0a\x09^ self over",
 messageSends: ["over"],
 referencedClasses: []
 }),
@@ -625,7 +627,7 @@ return smalltalk.withContext(function($ctx1) {
 self._notAvailable();
 return self}, function($ctx1) {$ctx1.fill(self,"dest",{},smalltalk.AthensPaintMode)})},
 args: [],
-source: "dest\x0a\x09\x22Set 'dest' drawing mode.\x0a\x09\x0a\x09Drawing under this mode will ignore the source, as if nothing drawn\x22\x0a\x09\x0a\x09self notAvailable",
+source: "dest\x0a\x09\x22Set 'dest' drawing mode.\x0a\x09\x0a\x09Drawing under this mode will ignore the source, as if nothing drawn.\x22\x0a\x09\x0a\x09self notAvailable.",
 messageSends: ["notAvailable"],
 referencedClasses: []
 }),
@@ -641,7 +643,7 @@ return smalltalk.withContext(function($ctx1) {
 self._notAvailable();
 return self}, function($ctx1) {$ctx1.fill(self,"destAtop",{},smalltalk.AthensPaintMode)})},
 args: [],
-source: "destAtop\x0a\x09\x0a\x09self notAvailable",
+source: "destAtop\x0a\x09self notAvailable.",
 messageSends: ["notAvailable"],
 referencedClasses: []
 }),
@@ -657,7 +659,7 @@ return smalltalk.withContext(function($ctx1) {
 self._notAvailable();
 return self}, function($ctx1) {$ctx1.fill(self,"destIn",{},smalltalk.AthensPaintMode)})},
 args: [],
-source: "destIn\x0a\x09\x0a\x09self notAvailable",
+source: "destIn\x0a\x09self notAvailable.",
 messageSends: ["notAvailable"],
 referencedClasses: []
 }),
@@ -673,7 +675,7 @@ return smalltalk.withContext(function($ctx1) {
 self._notAvailable();
 return self}, function($ctx1) {$ctx1.fill(self,"destOut",{},smalltalk.AthensPaintMode)})},
 args: [],
-source: "destOut\x0a\x09\x0a\x09self notAvailable",
+source: "destOut\x0a\x09self notAvailable.",
 messageSends: ["notAvailable"],
 referencedClasses: []
 }),
@@ -689,7 +691,7 @@ return smalltalk.withContext(function($ctx1) {
 self._notAvailable();
 return self}, function($ctx1) {$ctx1.fill(self,"destOver",{},smalltalk.AthensPaintMode)})},
 args: [],
-source: "destOver\x0a\x09\x0a\x09self notAvailable",
+source: "destOver\x09\x0a\x09self notAvailable.",
 messageSends: ["notAvailable"],
 referencedClasses: []
 }),
@@ -705,7 +707,7 @@ return smalltalk.withContext(function($ctx1) {
 self._notAvailable();
 return self}, function($ctx1) {$ctx1.fill(self,"difference",{},smalltalk.AthensPaintMode)})},
 args: [],
-source: "difference\x0a\x09self notAvailable",
+source: "difference\x0a\x09self notAvailable.",
 messageSends: ["notAvailable"],
 referencedClasses: []
 }),
@@ -721,7 +723,7 @@ return smalltalk.withContext(function($ctx1) {
 self._notAvailable();
 return self}, function($ctx1) {$ctx1.fill(self,"exclusion",{},smalltalk.AthensPaintMode)})},
 args: [],
-source: "exclusion\x0a\x09self notAvailable",
+source: "exclusion\x0a\x09self notAvailable.",
 messageSends: ["notAvailable"],
 referencedClasses: []
 }),
@@ -737,7 +739,7 @@ return smalltalk.withContext(function($ctx1) {
 self._notAvailable();
 return self}, function($ctx1) {$ctx1.fill(self,"hardLight",{},smalltalk.AthensPaintMode)})},
 args: [],
-source: "hardLight\x0a\x09self notAvailable",
+source: "hardLight\x0a\x09self notAvailable.",
 messageSends: ["notAvailable"],
 referencedClasses: []
 }),
@@ -753,7 +755,7 @@ return smalltalk.withContext(function($ctx1) {
 self._notAvailable();
 return self}, function($ctx1) {$ctx1.fill(self,"hslColor",{},smalltalk.AthensPaintMode)})},
 args: [],
-source: "hslColor\x0a\x09self notAvailable",
+source: "hslColor\x0a\x09self notAvailable.",
 messageSends: ["notAvailable"],
 referencedClasses: []
 }),
@@ -769,7 +771,7 @@ return smalltalk.withContext(function($ctx1) {
 self._notAvailable();
 return self}, function($ctx1) {$ctx1.fill(self,"hslHue",{},smalltalk.AthensPaintMode)})},
 args: [],
-source: "hslHue\x0a\x09self notAvailable",
+source: "hslHue\x0a\x09self notAvailable.",
 messageSends: ["notAvailable"],
 referencedClasses: []
 }),
@@ -785,7 +787,7 @@ return smalltalk.withContext(function($ctx1) {
 self._notAvailable();
 return self}, function($ctx1) {$ctx1.fill(self,"hslLuminosity",{},smalltalk.AthensPaintMode)})},
 args: [],
-source: "hslLuminosity\x0a\x09self notAvailable",
+source: "hslLuminosity\x0a\x09self notAvailable.",
 messageSends: ["notAvailable"],
 referencedClasses: []
 }),
@@ -801,7 +803,7 @@ return smalltalk.withContext(function($ctx1) {
 self._notAvailable();
 return self}, function($ctx1) {$ctx1.fill(self,"hslSaturation",{},smalltalk.AthensPaintMode)})},
 args: [],
-source: "hslSaturation\x0a\x09self notAvailable",
+source: "hslSaturation\x0a\x09self notAvailable.",
 messageSends: ["notAvailable"],
 referencedClasses: []
 }),
@@ -817,7 +819,7 @@ return smalltalk.withContext(function($ctx1) {
 self._notAvailable();
 return self}, function($ctx1) {$ctx1.fill(self,"in",{},smalltalk.AthensPaintMode)})},
 args: [],
-source: "in\x0a\x09self notAvailable",
+source: "in\x0a\x09self notAvailable.",
 messageSends: ["notAvailable"],
 referencedClasses: []
 }),
@@ -833,7 +835,7 @@ return smalltalk.withContext(function($ctx1) {
 self._notAvailable();
 return self}, function($ctx1) {$ctx1.fill(self,"lighten",{},smalltalk.AthensPaintMode)})},
 args: [],
-source: "lighten\x0a\x09self notAvailable",
+source: "lighten\x0a\x09self notAvailable.",
 messageSends: ["notAvailable"],
 referencedClasses: []
 }),
@@ -849,7 +851,7 @@ return smalltalk.withContext(function($ctx1) {
 self._notAvailable();
 return self}, function($ctx1) {$ctx1.fill(self,"multiply",{},smalltalk.AthensPaintMode)})},
 args: [],
-source: "multiply\x0a\x09self notAvailable",
+source: "multiply\x0a\x09self notAvailable.",
 messageSends: ["notAvailable"],
 referencedClasses: []
 }),
@@ -883,7 +885,7 @@ return smalltalk.withContext(function($ctx1) {
 self._notAvailable();
 return self}, function($ctx1) {$ctx1.fill(self,"out",{},smalltalk.AthensPaintMode)})},
 args: [],
-source: "out\x0a\x09\x22Set 'out' painting mode \x22\x0a\x09\x0a\x09self notAvailable",
+source: "out\x0a\x09self notAvailable.",
 messageSends: ["notAvailable"],
 referencedClasses: []
 }),
@@ -899,7 +901,7 @@ return smalltalk.withContext(function($ctx1) {
 self._notAvailable();
 return self}, function($ctx1) {$ctx1.fill(self,"over",{},smalltalk.AthensPaintMode)})},
 args: [],
-source: "over\x0a\x09\x22Set 'over' drawing mode. This is default paint mode.\x0a\x09\x0a\x09Drawing under this mode will blend source with destination color using source alpha component\x22\x0a\x09\x0a\x09self notAvailable",
+source: "over\x0a\x09\x22Set 'over' drawing mode. This is default paint mode.\x0a\x09\x0a\x09Drawing under this mode will blend source with destination color using source alpha component.\x22\x0a\x09\x0a\x09self notAvailable.",
 messageSends: ["notAvailable"],
 referencedClasses: []
 }),
@@ -915,7 +917,7 @@ return smalltalk.withContext(function($ctx1) {
 self._notAvailable();
 return self}, function($ctx1) {$ctx1.fill(self,"overlay",{},smalltalk.AthensPaintMode)})},
 args: [],
-source: "overlay\x0a\x09self notAvailable",
+source: "overlay\x0a\x09self notAvailable.",
 messageSends: ["notAvailable"],
 referencedClasses: []
 }),
@@ -931,7 +933,7 @@ return smalltalk.withContext(function($ctx1) {
 self._subclassResponsibility();
 return self}, function($ctx1) {$ctx1.fill(self,"restoreAfter:",{aBlock:aBlock},smalltalk.AthensPaintMode)})},
 args: ["aBlock"],
-source: "restoreAfter: aBlock\x0a\x0a\x09\x22restore current paint mode after evaluating a block\x22\x0a\x09\x0a\x09self subclassResponsibility",
+source: "restoreAfter: aBlock\x0a\x09\x22Restore current paint mode after evaluating a block.\x22\x0a\x09\x0a\x09self subclassResponsibility.",
 messageSends: ["subclassResponsibility"],
 referencedClasses: []
 }),
@@ -947,7 +949,7 @@ return smalltalk.withContext(function($ctx1) {
 self._notAvailable();
 return self}, function($ctx1) {$ctx1.fill(self,"saturate",{},smalltalk.AthensPaintMode)})},
 args: [],
-source: "saturate\x0a\x09self notAvailable",
+source: "saturate\x0a\x09self notAvailable.",
 messageSends: ["notAvailable"],
 referencedClasses: []
 }),
@@ -963,7 +965,7 @@ return smalltalk.withContext(function($ctx1) {
 self._notAvailable();
 return self}, function($ctx1) {$ctx1.fill(self,"screen",{},smalltalk.AthensPaintMode)})},
 args: [],
-source: "screen\x0a\x09self notAvailable",
+source: "screen\x0a\x09self notAvailable.",
 messageSends: ["notAvailable"],
 referencedClasses: []
 }),
@@ -979,7 +981,7 @@ return smalltalk.withContext(function($ctx1) {
 self._notAvailable();
 return self}, function($ctx1) {$ctx1.fill(self,"softLight",{},smalltalk.AthensPaintMode)})},
 args: [],
-source: "softLight\x0a\x09self notAvailable",
+source: "softLight\x0a\x09self notAvailable.",
 messageSends: ["notAvailable"],
 referencedClasses: []
 }),
@@ -995,7 +997,7 @@ return smalltalk.withContext(function($ctx1) {
 self._notAvailable();
 return self}, function($ctx1) {$ctx1.fill(self,"source",{},smalltalk.AthensPaintMode)})},
 args: [],
-source: "source\x0a\x09\x22Set 'source' drawing mode.\x0a\x09\x0a\x09Drawing under this mode will replace the content with incoming source under the shape boundaries\x22\x0a\x09\x0a\x09self notAvailable",
+source: "source\x0a\x09\x22Set 'source' drawing mode.\x0a\x09\x0a\x09Drawing under this mode will replace the content with incoming source under the shape boundaries.\x22\x0a\x09\x0a\x09self notAvailable.",
 messageSends: ["notAvailable"],
 referencedClasses: []
 }),
@@ -1011,7 +1013,7 @@ return smalltalk.withContext(function($ctx1) {
 self._notAvailable();
 return self}, function($ctx1) {$ctx1.fill(self,"xor",{},smalltalk.AthensPaintMode)})},
 args: [],
-source: "xor\x0a\x09self notAvailable",
+source: "xor\x0a\x09self notAvailable.",
 messageSends: ["notAvailable"],
 referencedClasses: []
 }),
@@ -1020,6 +1022,7 @@ smalltalk.AthensPaintMode);
 
 
 smalltalk.addClass('AthensShape', smalltalk.Object, [], 'Athens-Core');
+smalltalk.AthensShape.comment="I am an abstract Athens shape.";
 smalltalk.addMethod(
 smalltalk.method({
 selector: "paintFillsUsing:on:",
@@ -1030,7 +1033,7 @@ return smalltalk.withContext(function($ctx1) {
 self._subclassResponsibility();
 return self}, function($ctx1) {$ctx1.fill(self,"paintFillsUsing:on:",{aPaint:aPaint,anAthensCanvas:anAthensCanvas},smalltalk.AthensShape)})},
 args: ["aPaint", "anAthensCanvas"],
-source: "paintFillsUsing: aPaint on: anAthensCanvas \x0a\x09\x22This method is a part of rendering dispatch  Canvas->receiver->paint\x22\x0a\x09\x0a\x09self subclassResponsibility",
+source: "paintFillsUsing: aPaint on: anAthensCanvas \x0a\x09\x22This method is a part of rendering dispatch Canvas->receiver->paint.\x22\x0a\x09\x0a\x09self subclassResponsibility",
 messageSends: ["subclassResponsibility"],
 referencedClasses: []
 }),
@@ -1039,9 +1042,11 @@ smalltalk.AthensShape);
 
 
 smalltalk.addClass('AthensPath', smalltalk.AthensShape, [], 'Athens-Core');
+smalltalk.AthensPath.comment="I am an abstract Athens path.";
 
 
 smalltalk.addClass('AthensSurface', smalltalk.Object, ['currentCanvas'], 'Athens-Core');
+smalltalk.AthensSurface.comment="I am an abstract Athens surface. I provide methods for creating paths, gradients, colors and clearing myself. My paths, gradients and colors can be reused in later drawings.\x0a\x0a## API\x0aThe method `#drawDuring:` takes a block with an Athens canvas as an argument and is used for drawing onto the surface.\x0a\x0a## Creating paints\x0aThe methods `#createSolidColorPaint:`, `#createRadialGrandient:center:radius:` and `#createLinearGradient:origin:corner:` create fill colors. The method `#createStrokePaintFor:` takes a paint and creates a stroke paint for it.\x0a\x0a## Creating paths\x0aThe method `#createPath:` takes a block with a path builder argument and creates a path object.\x0a\x0a## Clearing the surface\x0aThe method `#clear` is used to create the surface with transparent color. `#clear:` takes a color for clearing the canvas.";
 smalltalk.addMethod(
 smalltalk.method({
 selector: "asForm",
@@ -1052,7 +1057,7 @@ return smalltalk.withContext(function($ctx1) {
 self._subclassResponsibility();
 return self}, function($ctx1) {$ctx1.fill(self,"asForm",{},smalltalk.AthensSurface)})},
 args: [],
-source: "asForm\x0a\x09\x22Answer a Form , which contains a bits, converted from surface \x22\x0a\x09self subclassResponsibility",
+source: "asForm\x0a\x09\x22Answer a Form, which contains a bits, converted from surface.\x22\x0a\x09\x0a\x09self subclassResponsibility.",
 messageSends: ["subclassResponsibility"],
 referencedClasses: []
 }),
@@ -1068,7 +1073,7 @@ return smalltalk.withContext(function($ctx1) {
 self._subclassResponsibility();
 return self}, function($ctx1) {$ctx1.fill(self,"cacheAt:ifAbsentPut:",{anObject:anObject,aBlock:aBlock},smalltalk.AthensSurface)})},
 args: ["anObject", "aBlock"],
-source: "cacheAt: anObject ifAbsentPut: aBlock\x0a\x09\x22Answer an object from surface's cache identified by anObject,\x0a\x09if there is no cached object under such identifier, evaluate a block\x0a\x09and put it into cache. Then answer the result of evaluation.\x0a\x09A surface using identity comparison for object identifiers.\x0a\x09\x22\x0a\x0a\x09self subclassResponsibility",
+source: "cacheAt: anObject ifAbsentPut: aBlock\x0a\x09\x22Answer an object from surface's cache identified by anObject, if there is no cached object under such identifier, evaluate a block and put it into cache. Then answer the result of evaluation. A surface using identity comparison for object identifiers.\x22\x0a\x0a\x09self subclassResponsibility.",
 messageSends: ["subclassResponsibility"],
 referencedClasses: []
 }),
@@ -1084,7 +1089,7 @@ return smalltalk.withContext(function($ctx1) {
 self._subclassResponsibility();
 return self}, function($ctx1) {$ctx1.fill(self,"clear",{},smalltalk.AthensSurface)})},
 args: [],
-source: "clear\x0a\x09\x22clear the surface\x22\x0a\x09\x0a\x09self subclassResponsibility",
+source: "clear\x0a\x09\x22Clear the surface.\x22\x0a\x09\x0a\x09self subclassResponsibility.",
 messageSends: ["subclassResponsibility"],
 referencedClasses: []
 }),
@@ -1100,7 +1105,7 @@ return smalltalk.withContext(function($ctx1) {
 self._subclassResponsibility();
 return self}, function($ctx1) {$ctx1.fill(self,"clear:",{clearColor:clearColor},smalltalk.AthensSurface)})},
 args: ["clearColor"],
-source: "clear: clearColor\x0a\x09\x22clear the surface\x22\x0a\x09\x0a\x09self subclassResponsibility",
+source: "clear: clearColor\x0a\x09\x22Clear the surface.\x22\x0a\x09\x0a\x09self subclassResponsibility.",
 messageSends: ["subclassResponsibility"],
 referencedClasses: []
 }),
@@ -1148,7 +1153,7 @@ return smalltalk.withContext(function($ctx1) {
 self._subclassResponsibility();
 return self}, function($ctx1) {$ctx1.fill(self,"createLinearGradient:origin:corner:",{colorRamp:colorRamp,pt1:pt1,pt2:pt2},smalltalk.AthensSurface)})},
 args: ["colorRamp", "pt1", "pt2"],
-source: "createLinearGradient: colorRamp origin: pt1 corner: pt2\x0a \x0a\x09self subclassResponsibility",
+source: "createLinearGradient: colorRamp origin: pt1 corner: pt2\x0a\x09self subclassResponsibility.",
 messageSends: ["subclassResponsibility"],
 referencedClasses: []
 }),
@@ -1164,7 +1169,7 @@ return smalltalk.withContext(function($ctx1) {
 self._shouldNotImplement();
 return self}, function($ctx1) {$ctx1.fill(self,"createLinearGradient:start:stop:",{colorRamp:colorRamp,pt1:pt1,pt2:pt2},smalltalk.AthensSurface)})},
 args: ["colorRamp", "pt1", "pt2"],
-source: "createLinearGradient: colorRamp start: pt1 stop: pt2\x0a \x0a\x09\x22This protocol is deprecated. Use #createLinearGradient: start:stop: instead\x22\x0a\x09\x0a\x09\x0a\x09self shouldNotImplement ",
+source: "createLinearGradient: colorRamp start: pt1 stop: pt2\x0a\x09\x22This protocol is deprecated. Use #createLinearGradient: start:stop: instead.\x22\x0a\x09\x0a\x09self shouldNotImplement.",
 messageSends: ["shouldNotImplement"],
 referencedClasses: []
 }),
@@ -1180,7 +1185,7 @@ return smalltalk.withContext(function($ctx1) {
 self._subclassResponsibility();
 return self}, function($ctx1) {$ctx1.fill(self,"createPath:",{aPathBuilder:aPathBuilder},smalltalk.AthensSurface)})},
 args: ["aPathBuilder"],
-source: "createPath: aPathBuilder\x0a\x09\x22Create a path from provided path builder instance\x22\x0a\x09self subclassResponsibility",
+source: "createPath: aPathBuilder\x0a\x09\x22Create a path from provided path builder instance.\x22\x0a\x09\x0a\x09self subclassResponsibility.",
 messageSends: ["subclassResponsibility"],
 referencedClasses: []
 }),
@@ -1198,7 +1203,7 @@ $1=self._createRadialGradient_center_radius_focalPoint_(colorRamp,aCenter,aRadiu
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"createRadialGradient:center:radius:",{colorRamp:colorRamp,aCenter:aCenter,aRadius:aRadius},smalltalk.AthensSurface)})},
 args: ["colorRamp", "aCenter", "aRadius"],
-source: "createRadialGradient: colorRamp center: aCenter radius: aRadius\x0a\x09\x22by default, focal point coincede with center\x22\x0a\x09^ self createRadialGradient: colorRamp center: aCenter radius: aRadius focalPoint: aCenter",
+source: "createRadialGradient: colorRamp center: aCenter radius: aRadius\x0a\x09\x22By default, focal point coincede with center.\x22\x0a\x09\x0a\x09^ self createRadialGradient: colorRamp center: aCenter radius: aRadius focalPoint: aCenter",
 messageSends: ["createRadialGradient:center:radius:focalPoint:"],
 referencedClasses: []
 }),
@@ -1214,7 +1219,7 @@ return smalltalk.withContext(function($ctx1) {
 self._subclassResponsibility();
 return self}, function($ctx1) {$ctx1.fill(self,"createRadialGradient:center:radius:focalPoint:",{colorRamp:colorRamp,aCenter:aCenter,aRadius:aRadius,fp:fp},smalltalk.AthensSurface)})},
 args: ["colorRamp", "aCenter", "aRadius", "fp"],
-source: "createRadialGradient: colorRamp center: aCenter radius: aRadius focalPoint: fp\x0a \x0a\x09self subclassResponsibility",
+source: "createRadialGradient: colorRamp center: aCenter radius: aRadius focalPoint: fp\x0a\x09self subclassResponsibility.",
 messageSends: ["subclassResponsibility"],
 referencedClasses: []
 }),
@@ -1248,7 +1253,7 @@ return smalltalk.withContext(function($ctx1) {
 self._subclassResponsibility();
 return self}, function($ctx1) {$ctx1.fill(self,"createSolidColorPaint:",{aColor:aColor},smalltalk.AthensSurface)})},
 args: ["aColor"],
-source: "createSolidColorPaint: aColor \x0a\x09 \x22Answer an instance of AthensPaint, valid for use with given surface\x22\x0a\x09\x0a\x09self subclassResponsibility",
+source: "createSolidColorPaint: aColor \x0a\x09 \x22Answer an instance of AthensPaint, valid for use with given surface.\x22\x0a\x09\x0a\x09self subclassResponsibility.",
 messageSends: ["subclassResponsibility"],
 referencedClasses: []
 }),
@@ -1264,7 +1269,7 @@ return smalltalk.withContext(function($ctx1) {
 self._subclassResponsibility();
 return self}, function($ctx1) {$ctx1.fill(self,"createStrokePaintFor:",{aPaint:aPaint},smalltalk.AthensSurface)})},
 args: ["aPaint"],
-source: "createStrokePaintFor: aPaint\x0a\x09 \x22Answer an instance of AthensPaint, valid for use as stroke paint on receiver,\x0a\x09using an argument, paint for fills\x22\x0a\x09\x0a\x09self subclassResponsibility",
+source: "createStrokePaintFor: aPaint\x0a\x09 \x22Answer an instance of AthensPaint, valid for use as stroke paint on receiver, using an argument, paint for fills.\x22\x0a\x09\x0a\x09self subclassResponsibility.",
 messageSends: ["subclassResponsibility"],
 referencedClasses: []
 }),
@@ -1280,7 +1285,7 @@ return smalltalk.withContext(function($ctx1) {
 self._subclassResponsibility();
 return self}, function($ctx1) {$ctx1.fill(self,"disableMask",{},smalltalk.AthensSurface)})},
 args: [],
-source: "disableMask\x0a\x09self subclassResponsibility",
+source: "disableMask\x0a\x09self subclassResponsibility.",
 messageSends: ["subclassResponsibility"],
 referencedClasses: []
 }),
@@ -1313,7 +1318,7 @@ return self["@currentCanvas"];
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"drawDuring:",{aBlock:aBlock},smalltalk.AthensSurface)})},
 args: ["aBlock"],
-source: "drawDuring: aBlock\x0a\x0a\x09\x22You may draw on receiver only when inside a block and only using provided canvas object.\x0a\x09This ensures releasing system resources used after finishing drawing\x22\x0a\x0a\x0a\x09currentCanvas ifNotNil: [ self attemptToRecurseDrawing ].\x0a\x09\x0a\x09[\x0a\x09\x09currentCanvas := self newCanvas.\x0a\x09\x09aBlock value: currentCanvas.\x0a\x09] ensure: [\x0a\x09\x09self releaseCanvas.\x0a\x09\x09currentCanvas := nil.\x0a\x09].",
+source: "drawDuring: aBlock\x0a\x09\x22You may draw on receiver only when inside a block and only using provided canvas object. This ensures releasing system resources used after finishing drawing.\x22\x0a\x0a\x0a\x09currentCanvas ifNotNil: [ self attemptToRecurseDrawing ].\x0a\x09\x0a\x09[\x0a\x09\x09currentCanvas := self newCanvas.\x0a\x09\x09aBlock value: currentCanvas.\x0a\x09] ensure: [\x0a\x09\x09self releaseCanvas.\x0a\x09\x09currentCanvas := nil.\x0a\x09].",
 messageSends: ["ifNotNil:", "attemptToRecurseDrawing", "ensure:", "releaseCanvas", "newCanvas", "value:"],
 referencedClasses: []
 }),
@@ -1329,7 +1334,7 @@ return smalltalk.withContext(function($ctx1) {
 self._subclassResponsibility();
 return self}, function($ctx1) {$ctx1.fill(self,"enableMask",{},smalltalk.AthensSurface)})},
 args: [],
-source: "enableMask\x0a\x09self subclassResponsibility",
+source: "enableMask\x0a\x09self subclassResponsibility.",
 messageSends: ["subclassResponsibility"],
 referencedClasses: []
 }),
@@ -1345,7 +1350,7 @@ return smalltalk.withContext(function($ctx1) {
 self._subclassResponsibility();
 return self}, function($ctx1) {$ctx1.fill(self,"flushCacheAt:",{anObject:anObject},smalltalk.AthensSurface)})},
 args: ["anObject"],
-source: "flushCacheAt: anObject\x0a\x0a\x09\x22Flush (delete) any cached value(s) identified by given object, anObject.\x0a\x09A surface using identity comparison for object identifiers.\x0a\x0a\x09Answer receiver.\x0a\x09\x22\x0a\x0a\x09self subclassResponsibility",
+source: "flushCacheAt: anObject\x0a\x09\x22Flush (delete) any cached value(s) identified by given object, anObject. A surface using identity comparison for object identifiers. Answer receiver.\x22\x0a\x0a\x09self subclassResponsibility.",
 messageSends: ["subclassResponsibility"],
 referencedClasses: []
 }),
@@ -1361,7 +1366,7 @@ return smalltalk.withContext(function($ctx1) {
 self._subclassResponsibility();
 return self}, function($ctx1) {$ctx1.fill(self,"maskEnabled",{},smalltalk.AthensSurface)})},
 args: [],
-source: "maskEnabled\x0a\x09self subclassResponsibility",
+source: "maskEnabled\x0a\x09self subclassResponsibility.",
 messageSends: ["subclassResponsibility"],
 referencedClasses: []
 }),
@@ -1380,7 +1385,7 @@ $1=_st($AthensCanvas())._on_(self);
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"newCanvas",{},smalltalk.AthensSurface)})},
 args: [],
-source: "newCanvas\x0a\x09\x22Answer a preinitialized instance of AthensCanvas.\x0a\x09Private to receiver and its subclasses, override seldom\x22\x0a\x09^ AthensCanvas on: self",
+source: "newCanvas\x0a\x09\x22Answer a preinitialized instance of AthensCanvas. Private to receiver and its subclasses, override seldom.\x22\x0a\x09\x0a\x09^ AthensCanvas on: self",
 messageSends: ["on:"],
 referencedClasses: ["AthensCanvas"]
 }),
@@ -1396,7 +1401,7 @@ return smalltalk.withContext(function($ctx1) {
 self["@currentCanvas"]=nil;
 return self}, function($ctx1) {$ctx1.fill(self,"releaseCanvas",{},smalltalk.AthensSurface)})},
 args: [],
-source: "releaseCanvas\x0a\x09currentCanvas := nil",
+source: "releaseCanvas\x0a\x09currentCanvas := nil.",
 messageSends: [],
 referencedClasses: []
 }),
@@ -1421,6 +1426,7 @@ smalltalk.AthensSurface.klass);
 
 
 smalltalk.addClass('AthensTransform', smalltalk.Object, [], 'Athens-Core');
+smalltalk.AthensTransform.comment="I am an Athens transform object. I provide methods for transforming shapes.\x0a\x0a## API\x0aThe methods `#scaleBy:`, `#translateBy:` and `#rotateByDegrees:`/`#rotateByRadians` are used to apply scalin (ununiform scaling possible), translation and rotation.\x0a\x0aThe method `#loadAffineTransform:` loads a transformation from another matrix and `#loadIdentity` loads the identity transformation.\x0a\x0aThe method `#restoreAfter:` restores the current transformation after the block argument was executed.";
 smalltalk.addMethod(
 smalltalk.method({
 selector: "getMatrix",
@@ -1433,7 +1439,7 @@ $1=self._copy();
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"getMatrix",{},smalltalk.AthensTransform)})},
 args: [],
-source: "getMatrix\x0a\x09\x22Answer an affine transformation matrix currently used by receiver.\x0a\x09Note, that resulting matrix should be copied from receiver's data, i.e.\x0a\x09no future modifications of receiver should affect the answered object.\x0a\x09\x0a\x09The default implementation is to answer a copy of receiver\x22\x0a\x09\x0a\x09^ self copy",
+source: "getMatrix\x0a\x09\x22Answer an affine transformation matrix currently used by receiver.\x0a\x09Note, that resulting matrix should be copied from receiver's data, i.e.\x0a\x09no future modifications of receiver should affect the answered object.\x0a\x09\x0a\x09The default implementation is to answer a copy of receiver.\x22\x0a\x09\x0a\x09^ self copy",
 messageSends: ["copy"],
 referencedClasses: []
 }),
@@ -1449,7 +1455,7 @@ return smalltalk.withContext(function($ctx1) {
 self._subclassResponsibility();
 return self}, function($ctx1) {$ctx1.fill(self,"invert",{},smalltalk.AthensTransform)})},
 args: [],
-source: "invert\x0a\x09\x22i should invert\x22\x0a\x09self subclassResponsibility",
+source: "invert\x0a\x09self subclassResponsibility.",
 messageSends: ["subclassResponsibility"],
 referencedClasses: []
 }),
@@ -1465,7 +1471,7 @@ return smalltalk.withContext(function($ctx1) {
 self._subclassResponsibility();
 return self}, function($ctx1) {$ctx1.fill(self,"loadAffineTransform:",{anAthenTransform:anAthenTransform},smalltalk.AthensTransform)})},
 args: ["anAthenTransform"],
-source: "loadAffineTransform: anAthenTransform\x0a\x09self subclassResponsibility",
+source: "loadAffineTransform: anAthenTransform\x0a\x09self subclassResponsibility.",
 messageSends: ["subclassResponsibility"],
 referencedClasses: []
 }),
@@ -1481,7 +1487,7 @@ return smalltalk.withContext(function($ctx1) {
 self._subclassResponsibility();
 return self}, function($ctx1) {$ctx1.fill(self,"loadIdentity",{},smalltalk.AthensTransform)})},
 args: [],
-source: "loadIdentity\x0a\x09\x22load the identity matrix into receiver\x22\x0a\x09self subclassResponsibility",
+source: "loadIdentity\x0a\x09\x22Load the identity matrix into receiver.\x22\x0a\x09\x0a\x09self subclassResponsibility.",
 messageSends: ["subclassResponsibility"],
 referencedClasses: []
 }),
@@ -1497,7 +1503,7 @@ return smalltalk.withContext(function($ctx1) {
 self._subclassResponsibility();
 return self}, function($ctx1) {$ctx1.fill(self,"restoreAfter:",{aBlock:aBlock},smalltalk.AthensTransform)})},
 args: ["aBlock"],
-source: "restoreAfter: aBlock\x0a\x09\x22i should save the current transform state, evaluate the block, and then restore the saved transform state\x22\x0a\x09self subclassResponsibility",
+source: "restoreAfter: aBlock\x0a\x09\x22I should save the current transform state, evaluate the block, and then restore the saved transform state.\x22\x0a\x09\x0a\x09self subclassResponsibility.",
 messageSends: ["subclassResponsibility"],
 referencedClasses: []
 }),
@@ -1513,7 +1519,7 @@ return smalltalk.withContext(function($ctx1) {
 self._subclassResponsibility();
 return self}, function($ctx1) {$ctx1.fill(self,"rotateByDegrees:",{angle:angle},smalltalk.AthensTransform)})},
 args: ["angle"],
-source: "rotateByDegrees: angle\x0a\x0a\x09self subclassResponsibility",
+source: "rotateByDegrees: angle\x0a\x09self subclassResponsibility.",
 messageSends: ["subclassResponsibility"],
 referencedClasses: []
 }),
@@ -1529,7 +1535,7 @@ return smalltalk.withContext(function($ctx1) {
 self._subclassResponsibility();
 return self}, function($ctx1) {$ctx1.fill(self,"rotateByRadians:",{angle:angle},smalltalk.AthensTransform)})},
 args: ["angle"],
-source: "rotateByRadians: angle\x0a\x0a\x09self subclassResponsibility",
+source: "rotateByRadians: angle\x0a\x09self subclassResponsibility.",
 messageSends: ["subclassResponsibility"],
 referencedClasses: []
 }),
@@ -1545,7 +1551,7 @@ return smalltalk.withContext(function($ctx1) {
 self._subclassResponsibility();
 return self}, function($ctx1) {$ctx1.fill(self,"scaleBy:",{factor:factor},smalltalk.AthensTransform)})},
 args: ["factor"],
-source: "scaleBy: factor\x0a\x0a\x09self subclassResponsibility",
+source: "scaleBy: factor\x0a\x09self subclassResponsibility.",
 messageSends: ["subclassResponsibility"],
 referencedClasses: []
 }),
@@ -1553,15 +1559,15 @@ smalltalk.AthensTransform);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "scaleX:Y:",
+selector: "scaleByX:Y:",
 category: 'transformations',
 fn: function (fx,fy){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 self._subclassResponsibility();
-return self}, function($ctx1) {$ctx1.fill(self,"scaleX:Y:",{fx:fx,fy:fy},smalltalk.AthensTransform)})},
+return self}, function($ctx1) {$ctx1.fill(self,"scaleByX:Y:",{fx:fx,fy:fy},smalltalk.AthensTransform)})},
 args: ["fx", "fy"],
-source: "scaleX: fx Y: fy\x0a\x0a\x09self subclassResponsibility",
+source: "scaleByX: fx Y: fy\x0a\x09self subclassResponsibility.",
 messageSends: ["subclassResponsibility"],
 referencedClasses: []
 }),
@@ -1577,7 +1583,7 @@ return smalltalk.withContext(function($ctx1) {
 self._subclassResponsibility();
 return self}, function($ctx1) {$ctx1.fill(self,"transform:",{aPoint:aPoint},smalltalk.AthensTransform)})},
 args: ["aPoint"],
-source: "transform: aPoint \x0a\x09self subclassResponsibility",
+source: "transform: aPoint \x0a\x09self subclassResponsibility.",
 messageSends: ["subclassResponsibility"],
 referencedClasses: []
 }),
@@ -1593,7 +1599,7 @@ return smalltalk.withContext(function($ctx1) {
 self._subclassResponsibility();
 return self}, function($ctx1) {$ctx1.fill(self,"transformX:Y:",{px:px,py:py},smalltalk.AthensTransform)})},
 args: ["px", "py"],
-source: "transformX: px Y: py \x0a\x09self subclassResponsibility",
+source: "transformX: px Y: py \x0a\x09self subclassResponsibility.",
 messageSends: ["subclassResponsibility"],
 referencedClasses: []
 }),
@@ -1609,7 +1615,7 @@ return smalltalk.withContext(function($ctx1) {
 self._subclassResponsibility();
 return self}, function($ctx1) {$ctx1.fill(self,"translateBy:",{aPoint:aPoint},smalltalk.AthensTransform)})},
 args: ["aPoint"],
-source: "translateBy: aPoint\x0a\x0a\x09self subclassResponsibility",
+source: "translateBy: aPoint\x0a\x09self subclassResponsibility.",
 messageSends: ["subclassResponsibility"],
 referencedClasses: []
 }),
@@ -1617,15 +1623,15 @@ smalltalk.AthensTransform);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "translateX:Y:",
+selector: "translateByX:Y:",
 category: 'transformations',
 fn: function (px,py){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 self._subclassResponsibility();
-return self}, function($ctx1) {$ctx1.fill(self,"translateX:Y:",{px:px,py:py},smalltalk.AthensTransform)})},
+return self}, function($ctx1) {$ctx1.fill(self,"translateByX:Y:",{px:px,py:py},smalltalk.AthensTransform)})},
 args: ["px", "py"],
-source: "translateX: px Y: py\x0a\x0a\x09self subclassResponsibility",
+source: "translateByX: px Y: py\x0a\x09self subclassResponsibility.",
 messageSends: ["subclassResponsibility"],
 referencedClasses: []
 }),
@@ -1892,11 +1898,11 @@ category: '*Athens-Core',
 fn: function (aPaint,anAthensCanvas){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- aPaint._fillRectangle_on_(self, anAthensCanvas); ;
+_st(aPaint)._fillRectangle_on_(self,anAthensCanvas);
 return self}, function($ctx1) {$ctx1.fill(self,"paintFillsUsing:on:",{aPaint:aPaint,anAthensCanvas:anAthensCanvas},smalltalk.Rectangle)})},
 args: ["aPaint", "anAthensCanvas"],
-source: "paintFillsUsing: aPaint on: anAthensCanvas \x0a\x09< aPaint._fillRectangle_on_(self, anAthensCanvas); >",
-messageSends: [],
+source: "paintFillsUsing: aPaint on: anAthensCanvas \x0a\x09aPaint fillRectangle: self on: anAthensCanvas.",
+messageSends: ["fillRectangle:on:"],
 referencedClasses: []
 }),
 smalltalk.Rectangle);

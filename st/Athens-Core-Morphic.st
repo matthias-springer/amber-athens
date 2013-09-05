@@ -715,7 +715,7 @@ highlightColor
 initialize
 	super initialize.
 	visible := false.
-	font := LogicalFont familyName: 'FontAwesome' pointSize: '12'.
+	font := LogicalFont familyName: 'FontAwesome' size: '12'.
 	color := self basicColor.
 ! !
 
@@ -1246,7 +1246,7 @@ initialize
 !
 
 initializeVariables
-	font := LogicalFont familyName: 'Arial' pointSize: 15.
+	font := LogicalFont familyName: 'Arial' size: 15.
 	virtualLines := OrderedCollection new.
 	maxWidth := 100.
 	lineHeight := 15.
@@ -1921,7 +1921,7 @@ AthensRectangleMorph subclass: #AthensTextMorph
 
 font: aFont
 	font := aFont.
-	height := font pointSize * 1.25.
+	height := font size * 1.25.
 	self redraw.
 !
 
@@ -1995,8 +1995,8 @@ initialize
 	super initialize.
 	borderColor := fillColor := mouseDownFillColor := mouseFocusFillColor := Color transparent.
 	text := 'a TextMorph'.
-	font := LogicalFont familyName: 'Arial' pointSize: 15.
-	height := font pointSize * 1.25.
+	font := LogicalFont familyName: 'Arial' size: 15.
+	height := font size * 1.25.
 	fontColor := highlightFontColor := Color black.
 ! !
 
@@ -2011,7 +2011,7 @@ font: aFont
 !
 
 size: aNumber
-	font := LogicalFont familyName: 'FontAwesome' pointSize: aNumber.
+	font := LogicalFont familyName: 'FontAwesome' size: aNumber.
 	self redraw.
 ! !
 

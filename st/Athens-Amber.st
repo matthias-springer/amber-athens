@@ -2,6 +2,8 @@ Smalltalk current createPackage: 'Athens-Amber'!
 Object subclass: #CanvasContext2D
 	instanceVariableNames: ''
 	package: 'Athens-Amber'!
+!CanvasContext2D commentStamp!
+I am an HTML Canvas 2D drawing context. I am used internally by Athens-HTML and considered private.!
 
 !CanvasContext2D methodsFor: 'compositing'!
 
@@ -196,6 +198,8 @@ translateByX: x Y: y
 Object subclass: #CanvasGradient
 	instanceVariableNames: ''
 	package: 'Athens-Amber'!
+!CanvasGradient commentStamp!
+I am an HTML Canvas gradient object. I am used internally by Athens-HTML and considered private.!
 
 !CanvasGradient methodsFor: 'styles'!
 
@@ -206,6 +210,13 @@ addColorStopAt: pos color: color
 Object subclass: #Color
 	instanceVariableNames: 'rgbaString alpha r g b'
 	package: 'Athens-Amber'!
+!Color commentStamp!
+I represent a color.
+
+## API
+The method `#r`, `#g`, `#b`, `#alpha` are used to retrieve my red, green, blue, and alpha component. Setters exist for modifying my color components.
+
+The methods `self class>>#r:g:b:` and `self class>>#r:g:b:a:` are used to create new color instances.!
 
 !Color methodsFor: 'accessing'!
 
@@ -408,36 +419,79 @@ fromUrl: anUrl
 ! !
 
 Object subclass: #LogicalFont
-	instanceVariableNames: 'familyName pointSize'
+	instanceVariableNames: 'familyName size sizeUnit'
 	package: 'Athens-Amber'!
+!LogicalFont commentStamp!
+I represent a text font with a specific size.
+
+## API
+The method `#familyName` returns my family name. The set of possible font families depends on your web browser. Web browsers typically support at least 'Arial', 'Courier', 'Helvetica', 'monospace' and 'Times'. Web fonts can be used as well after they are loaded.
+
+The method `#size` returns my size. The default size measurement unit is pixels, but it can be changed with `#sizeUnit:`. Possible values are 'pt' and 'px'.!
 
 !LogicalFont methodsFor: 'accessing'!
+
+familyName
+	^ familyName
+!
 
 familyName: aString
 	familyName := aString.
 !
 
-pointSize
-	^ pointSize
+size
+	^ size
 !
 
-pointSize: anInteger
-	pointSize := anInteger.
+size: anInteger
+	size := anInteger.
+!
+
+sizeUnit
+	^ sizeUnit
+!
+
+sizeUnit: aString
+	({'pt'. 'px'} includes: aString)
+		ifFalse: [self error: 'Invalid size measurement unit']
+		ifTrue: [sizeUnit := aString].
 ! !
 
 !LogicalFont methodsFor: 'converting'!
 
 asHTMLString
-	< return self['@pointSize'].toString() + 'px ' + self['@familyName']; >
+	^ size asString, sizeUnit asString, ' ', familyName
+! !
+
+!LogicalFont methodsFor: 'initialization'!
+
+initialize
+	super initialize.
+	sizeUnit := 'px'.
 ! !
 
 !LogicalFont class methodsFor: 'instance creation'!
 
+familyName: aString pixelSize: anInteger
+	^ self new
+		familyName: aString;
+		size: anInteger;
+		sizeUnit: 'px';
+		yourself
+!
+
 familyName: aString pointSize: anInteger
 	^ self new
 		familyName: aString;
-		pointSize: anInteger;
+		size: anInteger;
+		sizeUnit: 'pt';
 		yourself
+!
+
+familyName: aString size: anInteger
+	^ self
+		familyName: aString
+		pixelSize: anInteger
 ! !
 
 Object subclass: #Rectangle

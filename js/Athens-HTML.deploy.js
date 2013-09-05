@@ -72,6 +72,19 @@ smalltalk.AthensHTMLCanvas);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "drawString:from:to:",
+fn: function (aString,start,end){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self._drawString_(_st(aString)._copyFrom_to_(start,end));
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"drawString:from:to:",{aString:aString,start:start,end:end},smalltalk.AthensHTMLCanvas)})},
+messageSends: ["drawString:", "copyFrom:to:"]}),
+smalltalk.AthensHTMLCanvas);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "measureStringWidth:",
 fn: function (aString){
 var self=this;

@@ -272,9 +272,9 @@ _st(canvas)._setShape_(_st((0).__at((0)))._corner_((100).__at((100))));
 _st(canvas)._setPaint_(_st($Color())._blue());
 $1=_st($AthensAffineTransform())._new();
 _st($1)._scaleBy_((4));
-_st($1)._translateX_Y_((50),(50));
+_st($1)._translateByX_Y_((50),(50));
 _st($1)._rotateByDegrees_((35));
-_st($1)._translateX_Y_((-50),(-50));
+_st($1)._translateByX_Y_((-50),(-50));
 $2=_st($1)._yourself();
 m=$2;
 m;
@@ -285,13 +285,13 @@ _st(canvas)._setPaint_(_st($Color())._yellow());
 _st(canvas)._draw();
 $3=_st(canvas)._pathTransform();
 _st($3)._loadAffineTransform_(m);
-$4=_st($3)._translateX_Y_((2),(2));
+$4=_st($3)._translateByX_Y_((2),(2));
 $4;
 _st(canvas)._setPaint_(_st(_st($Color())._gray())._alpha_((0.8)));
 return _st(canvas)._draw();
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas,m:m},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step10",{},smalltalk.AthensTutorial)})},
-messageSends: ["drawDuring:", "clear:", "gray", "setShape:", "corner:", "@", "setPaint:", "blue", "scaleBy:", "new", "translateX:Y:", "rotateByDegrees:", "yourself", "loadAffineTransform:", "pathTransform", "draw", "loadIdentity", "yellow", "alpha:"]}),
+messageSends: ["drawDuring:", "clear:", "gray", "setShape:", "corner:", "@", "setPaint:", "blue", "scaleBy:", "new", "translateByX:Y:", "rotateByDegrees:", "yourself", "loadAffineTransform:", "pathTransform", "draw", "loadIdentity", "yellow", "alpha:"]}),
 smalltalk.AthensTutorial);
 
 smalltalk.addMethod(
@@ -316,7 +316,7 @@ _st(self["@surface"])._drawDuring_((function(canvas){
 var path;
 return smalltalk.withContext(function($ctx2) {
 _st(self["@surface"])._clear_(_st($Color())._gray());
-_st(_st(canvas)._pathTransform())._translateX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((2)));
+_st(_st(canvas)._pathTransform())._translateByX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((2)));
 path=_st(canvas)._createPath_((function(builder){
 return smalltalk.withContext(function($ctx3) {
 $1=builder;
@@ -333,7 +333,7 @@ _st(_st(canvas)._setStrokePaint_(_st($Color())._white()))._width_((4));
 return _st(canvas)._draw();
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas,path:path},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step12",{},smalltalk.AthensTutorial)})},
-messageSends: ["drawDuring:", "clear:", "gray", "translateX:Y:", "/", "width", "height", "pathTransform", "createPath:", "absolute", "lineTo:", "@", "setShape:", "width:", "setStrokePaint:", "white", "draw"]}),
+messageSends: ["drawDuring:", "clear:", "gray", "translateByX:Y:", "/", "width", "height", "pathTransform", "createPath:", "absolute", "lineTo:", "@", "setShape:", "width:", "setStrokePaint:", "white", "draw"]}),
 smalltalk.AthensTutorial);
 
 smalltalk.addMethod(
@@ -358,13 +358,13 @@ return $2;
 _st(self["@surface"])._drawDuring_((function(canvas){
 return smalltalk.withContext(function($ctx2) {
 _st(self["@surface"])._clear_(_st($Color())._gray());
-_st(_st(canvas)._pathTransform())._translateX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((2)));
+_st(_st(canvas)._pathTransform())._translateByX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((2)));
 _st(canvas)._setShape_(path);
 _st(_st(canvas)._setStrokePaint_(_st($Color())._yellow()))._width_((4));
 return _st(canvas)._draw();
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step13",{path:path},smalltalk.AthensTutorial)})},
-messageSends: ["createPath:", "absolute", "lineTo:", "@", "drawDuring:", "clear:", "gray", "translateX:Y:", "/", "width", "height", "pathTransform", "setShape:", "width:", "setStrokePaint:", "yellow", "draw"]}),
+messageSends: ["createPath:", "absolute", "lineTo:", "@", "drawDuring:", "clear:", "gray", "translateByX:Y:", "/", "width", "height", "pathTransform", "setShape:", "width:", "setStrokePaint:", "yellow", "draw"]}),
 smalltalk.AthensTutorial);
 
 smalltalk.addMethod(
@@ -392,7 +392,7 @@ _st(self["@surface"])._drawDuring_((function(canvas){
 return smalltalk.withContext(function($ctx2) {
 _st(self["@surface"])._clear_(_st($Color())._gray());
 $3=_st(canvas)._pathTransform();
-_st($3)._translateX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((2)));
+_st($3)._translateByX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((2)));
 $4=_st($3)._scaleBy_((2));
 $4;
 _st(canvas)._setShape_(path);
@@ -400,74 +400,7 @@ _st(_st(canvas)._setStrokePaint_(_st($Color())._yellow()))._width_((4));
 return _st(canvas)._draw();
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step14",{path:path},smalltalk.AthensTutorial)})},
-messageSends: ["createPath:", "absolute", "lineTo:", "@", "curveVia:to:", "curveVia:and:to:", "cwArcTo:angle:", "ccwArcTo:angle:", "close", "drawDuring:", "clear:", "gray", "translateX:Y:", "/", "width", "height", "pathTransform", "scaleBy:", "setShape:", "width:", "setStrokePaint:", "yellow", "draw"]}),
-smalltalk.AthensTutorial);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "step14a",
-fn: function (){
-var self=this;
-var path;
-function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
-return smalltalk.withContext(function($ctx1) { 
-var $1,$2,$3,$4;
-path=_st(self["@surface"])._createPath_((function(builder){
-return smalltalk.withContext(function($ctx2) {
-$1=builder;
-_st($1)._absolute();
-_st($1)._lineTo_((-50).__at((-50)));
-_st($1)._curveVia_to_((0).__at((-80)),(50).__at((-50)));
-$2=_st($1)._curveVia_and_to_((100).__at((-20)),(-50).__at((20)),(50).__at((50)));
-$2;
-return _st(builder)._close();
-}, function($ctx2) {$ctx2.fillBlock({builder:builder},$ctx1)})}));
-_st(self["@surface"])._drawDuring_((function(canvas){
-return smalltalk.withContext(function($ctx2) {
-_st(self["@surface"])._clear_(_st($Color())._gray());
-$3=_st(canvas)._pathTransform();
-_st($3)._translateX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((2)));
-$4=_st($3)._scaleBy_((2));
-$4;
-_st(canvas)._setShape_(path);
-_st(_st(canvas)._setStrokePaint_(_st($Color())._yellow()))._width_((4));
-return _st(canvas)._draw();
-}, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
-return self}, function($ctx1) {$ctx1.fill(self,"step14a",{path:path},smalltalk.AthensTutorial)})},
-messageSends: ["createPath:", "absolute", "lineTo:", "@", "curveVia:to:", "curveVia:and:to:", "close", "drawDuring:", "clear:", "gray", "translateX:Y:", "/", "width", "height", "pathTransform", "scaleBy:", "setShape:", "width:", "setStrokePaint:", "yellow", "draw"]}),
-smalltalk.AthensTutorial);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "step14b",
-fn: function (){
-var self=this;
-var path;
-function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
-return smalltalk.withContext(function($ctx1) { 
-var $1,$2,$3,$4;
-path=_st(self["@surface"])._createPath_((function(builder){
-return smalltalk.withContext(function($ctx2) {
-$1=builder;
-_st($1)._absolute();
-_st($1)._cwArcTo_angle_((50).__at((100)),(45));
-$2=_st($1)._ccwArcTo_angle_((-50).__at((100)),(45));
-$2;
-return _st(builder)._close();
-}, function($ctx2) {$ctx2.fillBlock({builder:builder},$ctx1)})}));
-_st(self["@surface"])._drawDuring_((function(canvas){
-return smalltalk.withContext(function($ctx2) {
-_st(self["@surface"])._clear_(_st($Color())._gray());
-$3=_st(canvas)._pathTransform();
-_st($3)._translateX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((5)));
-$4=_st($3)._scaleBy_((1));
-$4;
-_st(canvas)._setShape_(path);
-_st(_st(canvas)._setStrokePaint_(_st($Color())._yellow()))._width_((4));
-return _st(canvas)._draw();
-}, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
-return self}, function($ctx1) {$ctx1.fill(self,"step14b",{path:path},smalltalk.AthensTutorial)})},
-messageSends: ["createPath:", "absolute", "cwArcTo:angle:", "@", "ccwArcTo:angle:", "close", "drawDuring:", "clear:", "gray", "translateX:Y:", "/", "width", "height", "pathTransform", "scaleBy:", "setShape:", "width:", "setStrokePaint:", "yellow", "draw"]}),
+messageSends: ["createPath:", "absolute", "lineTo:", "@", "curveVia:to:", "curveVia:and:to:", "cwArcTo:angle:", "ccwArcTo:angle:", "close", "drawDuring:", "clear:", "gray", "translateByX:Y:", "/", "width", "height", "pathTransform", "scaleBy:", "setShape:", "width:", "setStrokePaint:", "yellow", "draw"]}),
 smalltalk.AthensTutorial);
 
 smalltalk.addMethod(
@@ -494,7 +427,7 @@ _st(self["@surface"])._drawDuring_((function(canvas){
 return smalltalk.withContext(function($ctx2) {
 _st(self["@surface"])._clear_(_st($Color())._gray());
 $3=_st(canvas)._pathTransform();
-_st($3)._translateX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((2)));
+_st($3)._translateByX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((2)));
 $4=_st($3)._scaleBy_((2));
 $4;
 _st(canvas)._setShape_(path);
@@ -502,7 +435,7 @@ _st(_st(canvas)._setStrokePaint_(_st($Color())._yellow()))._width_((4));
 return _st(canvas)._draw();
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step15",{path:path},smalltalk.AthensTutorial)})},
-messageSends: ["createPath:", "absolute", "moveTo:", "@", "curveVia:to:", "curveVia:and:to:", "cwArcTo:angle:", "ccwArcTo:angle:", "drawDuring:", "clear:", "gray", "translateX:Y:", "/", "width", "height", "pathTransform", "scaleBy:", "setShape:", "width:", "setStrokePaint:", "yellow", "draw"]}),
+messageSends: ["createPath:", "absolute", "moveTo:", "@", "curveVia:to:", "curveVia:and:to:", "cwArcTo:angle:", "ccwArcTo:angle:", "drawDuring:", "clear:", "gray", "translateByX:Y:", "/", "width", "height", "pathTransform", "scaleBy:", "setShape:", "width:", "setStrokePaint:", "yellow", "draw"]}),
 smalltalk.AthensTutorial);
 
 smalltalk.addMethod(
@@ -528,7 +461,7 @@ _st(self["@surface"])._drawDuring_((function(canvas){
 return smalltalk.withContext(function($ctx2) {
 _st(self["@surface"])._clear_(_st($Color())._gray());
 $3=_st(canvas)._pathTransform();
-_st($3)._translateX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((2)));
+_st($3)._translateByX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((2)));
 $4=_st($3)._scaleBy_((2));
 $4;
 _st(canvas)._setShape_(path);
@@ -536,7 +469,7 @@ _st(_st(canvas)._setStrokePaint_(_st($Color())._yellow()))._width_((4));
 return _st(canvas)._draw();
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step16",{path:path},smalltalk.AthensTutorial)})},
-messageSends: ["createPath:", "relative", "moveTo:", "@", "lineTo:", "drawDuring:", "clear:", "gray", "translateX:Y:", "/", "width", "height", "pathTransform", "scaleBy:", "setShape:", "width:", "setStrokePaint:", "yellow", "draw"]}),
+messageSends: ["createPath:", "relative", "moveTo:", "@", "lineTo:", "drawDuring:", "clear:", "gray", "translateByX:Y:", "/", "width", "height", "pathTransform", "scaleBy:", "setShape:", "width:", "setStrokePaint:", "yellow", "draw"]}),
 smalltalk.AthensTutorial);
 
 smalltalk.addMethod(
@@ -563,7 +496,7 @@ _st(self["@surface"])._drawDuring_((function(canvas){
 return smalltalk.withContext(function($ctx2) {
 _st(self["@surface"])._clear_(_st($Color())._gray());
 $3=_st(canvas)._pathTransform();
-_st($3)._translateX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((2)));
+_st($3)._translateByX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((2)));
 $4=_st($3)._scaleBy_((3));
 $4;
 _st(canvas)._setShape_(path);
@@ -577,7 +510,7 @@ return _st(b)._lineTo_((300).__at((300)));
 }, function($ctx3) {$ctx3.fillBlock({b:b},$ctx2)})})));
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step17",{path:path},smalltalk.AthensTutorial)})},
-messageSends: ["createPath:", "moveTo:", "@", "lineTo:", "close", "drawDuring:", "clear:", "gray", "translateX:Y:", "/", "width", "height", "pathTransform", "scaleBy:", "setShape:", "setPaint:", "yellow", "draw", "loadIdentity", "setStrokePaint:", "blue", "drawShape:"]}),
+messageSends: ["createPath:", "moveTo:", "@", "lineTo:", "close", "drawDuring:", "clear:", "gray", "translateByX:Y:", "/", "width", "height", "pathTransform", "scaleBy:", "setShape:", "setPaint:", "yellow", "draw", "loadIdentity", "setStrokePaint:", "blue", "drawShape:"]}),
 smalltalk.AthensTutorial);
 
 smalltalk.addMethod(
@@ -615,7 +548,7 @@ _st(self["@surface"])._drawDuring_((function(canvas){
 return smalltalk.withContext(function($ctx2) {
 _st(self["@surface"])._clear_(_st($Color())._gray());
 $5=_st(canvas)._pathTransform();
-_st($5)._translateX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((2)));
+_st($5)._translateByX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((2)));
 $6=_st($5)._scaleBy_((3));
 $6;
 _st(canvas)._setShape_(path);
@@ -623,7 +556,7 @@ _st(canvas)._setPaint_(_st($Color())._yellow());
 return _st(canvas)._draw();
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step18",{path:path},smalltalk.AthensTutorial)})},
-messageSends: ["createPath:", "moveTo:", "@", "lineTo:", "close", "drawDuring:", "clear:", "gray", "translateX:Y:", "/", "width", "height", "pathTransform", "scaleBy:", "setShape:", "setPaint:", "yellow", "draw"]}),
+messageSends: ["createPath:", "moveTo:", "@", "lineTo:", "close", "drawDuring:", "clear:", "gray", "translateByX:Y:", "/", "width", "height", "pathTransform", "scaleBy:", "setShape:", "setPaint:", "yellow", "draw"]}),
 smalltalk.AthensTutorial);
 
 smalltalk.addMethod(
@@ -639,25 +572,25 @@ linearGradient=_st(self["@surface"])._createLinearGradient_start_stop_(smalltalk
 _st(self["@surface"])._drawDuring_((function(canvas){
 return smalltalk.withContext(function($ctx2) {
 _st(self["@surface"])._clear_(_st($Color())._gray());
-_st(_st(canvas)._pathTransform())._translateX_Y_((10),(10));
+_st(_st(canvas)._pathTransform())._translateByX_Y_((10),(10));
 _st(canvas)._setShape_(_st((0).__at((0)))._corner_((100).__at((100))));
 _st(canvas)._setPaint_(linearGradient);
 _st(canvas)._draw();
-_st(_st(canvas)._pathTransform())._translateX_Y_((150),(0));
+_st(_st(canvas)._pathTransform())._translateByX_Y_((150),(0));
 $1=_st(canvas)._paintTransform();
 _st($1)._rotateByDegrees_((45));
 $2=_st($1)._scaleBy_((0.7));
 $2;
 _st(canvas)._draw();
-_st(_st(canvas)._pathTransform())._translateX_Y_((150),(0));
+_st(_st(canvas)._pathTransform())._translateByX_Y_((150),(0));
 $3=_st(canvas)._paintTransform();
-_st($3)._translateX_Y_((0),(80));
+_st($3)._translateByX_Y_((0),(80));
 $4=_st($3)._scaleBy_((0.2));
 $4;
 return _st(canvas)._draw();
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step19",{linearGradient:linearGradient},smalltalk.AthensTutorial)})},
-messageSends: ["createLinearGradient:start:stop:", "->", "blue", "red", "white", "yellow", "green", "@", "drawDuring:", "clear:", "gray", "translateX:Y:", "pathTransform", "setShape:", "corner:", "setPaint:", "draw", "rotateByDegrees:", "paintTransform", "scaleBy:"]}),
+messageSends: ["createLinearGradient:start:stop:", "->", "blue", "red", "white", "yellow", "green", "@", "drawDuring:", "clear:", "gray", "translateByX:Y:", "pathTransform", "setShape:", "corner:", "setPaint:", "draw", "rotateByDegrees:", "paintTransform", "scaleBy:"]}),
 smalltalk.AthensTutorial);
 
 smalltalk.addMethod(
@@ -691,16 +624,16 @@ radialWithCustomFocus=_st(self["@surface"])._createRadialGradient_center_radius_
 _st(self["@surface"])._drawDuring_((function(canvas){
 return smalltalk.withContext(function($ctx2) {
 _st(self["@surface"])._clear_(_st($Color())._gray());
-_st(_st(canvas)._pathTransform())._translateX_Y_((10),(10));
+_st(_st(canvas)._pathTransform())._translateByX_Y_((10),(10));
 _st(canvas)._setShape_(_st((0).__at((0)))._corner_((100).__at((100))));
 _st(canvas)._setPaint_(perfectRadial);
 _st(canvas)._draw();
-_st(_st(canvas)._pathTransform())._translateX_Y_((150),(0));
+_st(_st(canvas)._pathTransform())._translateByX_Y_((150),(0));
 _st(canvas)._setPaint_(radialWithCustomFocus);
 return _st(canvas)._draw();
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step20",{ramp:ramp,perfectRadial:perfectRadial,radialWithCustomFocus:radialWithCustomFocus},smalltalk.AthensTutorial)})},
-messageSends: ["->", "blue", "red", "white", "yellow", "alpha:", "createRadialGradient:center:radius:", "@", "createRadialGradient:center:radius:focalPoint:", "drawDuring:", "clear:", "gray", "translateX:Y:", "pathTransform", "setShape:", "corner:", "setPaint:", "draw"]}),
+messageSends: ["->", "blue", "red", "white", "yellow", "alpha:", "createRadialGradient:center:radius:", "@", "createRadialGradient:center:radius:focalPoint:", "drawDuring:", "clear:", "gray", "translateByX:Y:", "pathTransform", "setShape:", "corner:", "setPaint:", "draw"]}),
 smalltalk.AthensTutorial);
 
 smalltalk.addMethod(
@@ -711,7 +644,7 @@ var self=this;
 function $Image(){return smalltalk.Image||(typeof Image=="undefined"?nil:Image)}
 function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
 return smalltalk.withContext(function($ctx1) { 
-_st(self["@surface"])._createBitmapPaint_afterLoading_(_st($Image())._fromUrl_("http://amber-lang.net/images/amber.png"),(function(bitmapPaint){
+_st(self["@surface"])._createBitmapPaint_afterLoading_(_st($Image())._fromUrl_("images/amber.png"),(function(bitmapPaint){
 return smalltalk.withContext(function($ctx2) {
 _st(bitmapPaint)._repeat();
 return _st(self["@surface"])._drawDuring_((function(canvas){
@@ -724,28 +657,6 @@ return _st(canvas)._drawShape_(_st((0).__at((0)))._corner_(_st(self["@surface"])
 }, function($ctx2) {$ctx2.fillBlock({bitmapPaint:bitmapPaint},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step21",{},smalltalk.AthensTutorial)})},
 messageSends: ["createBitmapPaint:afterLoading:", "fromUrl:", "repeat", "drawDuring:", "clear:", "gray", "setPaint:", "scaleBy:", "paintTransform", "drawShape:", "corner:", "extent", "@"]}),
-smalltalk.AthensTutorial);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "step21a",
-fn: function (){
-var self=this;
-var bitmapPaint;
-function $Image(){return smalltalk.Image||(typeof Image=="undefined"?nil:Image)}
-function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
-return smalltalk.withContext(function($ctx1) { 
-bitmapPaint=_st(self["@surface"])._createBitmapPaint_(_st($Image())._fromUrl_("http://amber-lang.net/images/amber.png"));
-_st(bitmapPaint)._repeat();
-_st(self["@surface"])._drawDuring_((function(canvas){
-return smalltalk.withContext(function($ctx2) {
-_st(self["@surface"])._clear_(_st($Color())._gray());
-_st(canvas)._setPaint_(bitmapPaint);
-_st(_st(canvas)._paintTransform())._scaleBy_((0.5));
-return _st(canvas)._drawShape_(_st((0).__at((0)))._corner_(_st(self["@surface"])._extent()));
-}, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
-return self}, function($ctx1) {$ctx1.fill(self,"step21a",{bitmapPaint:bitmapPaint},smalltalk.AthensTutorial)})},
-messageSends: ["createBitmapPaint:", "fromUrl:", "repeat", "drawDuring:", "clear:", "gray", "setPaint:", "scaleBy:", "paintTransform", "drawShape:", "corner:", "extent", "@"]}),
 smalltalk.AthensTutorial);
 
 smalltalk.addMethod(
@@ -806,13 +717,13 @@ stroke=_st(canvas)._setStrokePaint_(_st($Color())._white());
 stroke;
 _st(stroke)._width_((5));
 $3=_st(canvas)._pathTransform();
-_st($3)._translateX_Y_((400),(400));
+_st($3)._translateByX_Y_((400),(400));
 $4=_st($3)._scaleBy_((4));
 $4;
 return _st(canvas)._drawShape_(path);
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas,stroke:stroke},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step23",{path:path},smalltalk.AthensTutorial)})},
-messageSends: ["createPath:", "moveTo:", "@", "lineTo:", "close", "drawDuring:", "clear:", "gray", "setStrokePaint:", "white", "width:", "translateX:Y:", "pathTransform", "scaleBy:", "drawShape:"]}),
+messageSends: ["createPath:", "moveTo:", "@", "lineTo:", "close", "drawDuring:", "clear:", "gray", "setStrokePaint:", "white", "width:", "translateByX:Y:", "pathTransform", "scaleBy:", "drawShape:"]}),
 smalltalk.AthensTutorial);
 
 smalltalk.addMethod(
@@ -844,13 +755,13 @@ stroke;
 _st(stroke)._width_((5));
 _st(stroke)._joinBevel();
 $3=_st(canvas)._pathTransform();
-_st($3)._translateX_Y_((400),(400));
+_st($3)._translateByX_Y_((400),(400));
 $4=_st($3)._scaleBy_((4));
 $4;
 return _st(canvas)._drawShape_(path);
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas,stroke:stroke},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step24",{path:path},smalltalk.AthensTutorial)})},
-messageSends: ["createPath:", "moveTo:", "@", "lineTo:", "close", "drawDuring:", "clear:", "gray", "setStrokePaint:", "white", "width:", "joinBevel", "translateX:Y:", "pathTransform", "scaleBy:", "drawShape:"]}),
+messageSends: ["createPath:", "moveTo:", "@", "lineTo:", "close", "drawDuring:", "clear:", "gray", "setStrokePaint:", "white", "width:", "joinBevel", "translateByX:Y:", "pathTransform", "scaleBy:", "drawShape:"]}),
 smalltalk.AthensTutorial);
 
 smalltalk.addMethod(
@@ -882,13 +793,13 @@ _st(stroke)._width_((5));
 _st(stroke)._joinRound();
 _st(stroke)._capRound();
 $3=_st(canvas)._pathTransform();
-_st($3)._translateX_Y_((400),(400));
+_st($3)._translateByX_Y_((400),(400));
 $4=_st($3)._scaleBy_((4));
 $4;
 return _st(canvas)._drawShape_(path);
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas,stroke:stroke},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step25",{path:path},smalltalk.AthensTutorial)})},
-messageSends: ["createPath:", "moveTo:", "@", "lineTo:", "drawDuring:", "clear:", "gray", "setStrokePaint:", "white", "width:", "joinRound", "capRound", "translateX:Y:", "pathTransform", "scaleBy:", "drawShape:"]}),
+messageSends: ["createPath:", "moveTo:", "@", "lineTo:", "drawDuring:", "clear:", "gray", "setStrokePaint:", "white", "width:", "joinRound", "capRound", "translateByX:Y:", "pathTransform", "scaleBy:", "drawShape:"]}),
 smalltalk.AthensTutorial);
 
 smalltalk.addMethod(
@@ -921,13 +832,13 @@ _st(stroke)._joinRound();
 _st(stroke)._capRound();
 _st(stroke)._dashes_offset_([(20), (10), (35), (30)],(0));
 $3=_st(canvas)._pathTransform();
-_st($3)._translateX_Y_((400),(400));
+_st($3)._translateByX_Y_((400),(400));
 $4=_st($3)._scaleBy_((4));
 $4;
 return _st(canvas)._drawShape_(path);
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas,stroke:stroke},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step26",{path:path},smalltalk.AthensTutorial)})},
-messageSends: ["createPath:", "moveTo:", "@", "lineTo:", "drawDuring:", "clear:", "gray", "setStrokePaint:", "white", "width:", "joinRound", "capRound", "dashes:offset:", "translateX:Y:", "pathTransform", "scaleBy:", "drawShape:"]}),
+messageSends: ["createPath:", "moveTo:", "@", "lineTo:", "drawDuring:", "clear:", "gray", "setStrokePaint:", "white", "width:", "joinRound", "capRound", "dashes:offset:", "translateByX:Y:", "pathTransform", "scaleBy:", "drawShape:"]}),
 smalltalk.AthensTutorial);
 
 smalltalk.addMethod(
@@ -1025,18 +936,18 @@ var font;
 function $LogicalFont(){return smalltalk.LogicalFont||(typeof LogicalFont=="undefined"?nil:LogicalFont)}
 function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
 return smalltalk.withContext(function($ctx1) { 
-font=_st($LogicalFont())._familyName_pointSize_("Arial",(20));
+font=_st($LogicalFont())._familyName_size_("Arial",(20));
 _st(self["@surface"])._drawDuring_((function(canvas){
 return smalltalk.withContext(function($ctx2) {
 _st(self["@surface"])._clear_(_st($Color())._black());
 _st(canvas)._setFont_(font);
 _st(canvas)._setPaint_(_st($Color())._red());
 _st(_st(canvas)._pathTransform())._scaleBy_((4));
-_st(_st(canvas)._pathTransform())._translateX_Y_((0),(20));
+_st(_st(canvas)._pathTransform())._translateByX_Y_((0),(20));
 return _st(canvas)._drawString_("Hello Athens!");
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step30",{font:font},smalltalk.AthensTutorial)})},
-messageSends: ["familyName:pointSize:", "drawDuring:", "clear:", "black", "setFont:", "setPaint:", "red", "scaleBy:", "pathTransform", "translateX:Y:", "drawString:"]}),
+messageSends: ["familyName:size:", "drawDuring:", "clear:", "black", "setFont:", "setPaint:", "red", "scaleBy:", "pathTransform", "translateByX:Y:", "drawString:"]}),
 smalltalk.AthensTutorial);
 
 smalltalk.addMethod(
@@ -1048,18 +959,18 @@ var font;
 function $LogicalFont(){return smalltalk.LogicalFont||(typeof LogicalFont=="undefined"?nil:LogicalFont)}
 function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
 return smalltalk.withContext(function($ctx1) { 
-font=_st($LogicalFont())._familyName_pointSize_("Arial",(20));
+font=_st($LogicalFont())._familyName_size_("Arial",(20));
 _st(self["@surface"])._drawDuring_((function(canvas){
 return smalltalk.withContext(function($ctx2) {
 _st(self["@surface"])._clear_(_st($Color())._black());
 _st(canvas)._setFont_(font);
 _st(canvas)._setPaint_(_st($Color())._red());
 _st(_st(canvas)._pathTransform())._scaleBy_((4));
-_st(_st(canvas)._pathTransform())._translateX_Y_((0),(40));
+_st(_st(canvas)._pathTransform())._translateByX_Y_((0),(40));
 return _st(canvas)._drawString_("The End!");
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step31",{font:font},smalltalk.AthensTutorial)})},
-messageSends: ["familyName:pointSize:", "drawDuring:", "clear:", "black", "setFont:", "setPaint:", "red", "scaleBy:", "pathTransform", "translateX:Y:", "drawString:"]}),
+messageSends: ["familyName:size:", "drawDuring:", "clear:", "black", "setFont:", "setPaint:", "red", "scaleBy:", "pathTransform", "translateByX:Y:", "drawString:"]}),
 smalltalk.AthensTutorial);
 
 smalltalk.addMethod(
@@ -1073,247 +984,6 @@ _st(_st($AthensVGTigerDemo())._instance())._surface_(self["@surface"]);
 _st(_st($AthensVGTigerDemo())._instance())._toggle();
 return self}, function($ctx1) {$ctx1.fill(self,"step32",{},smalltalk.AthensTutorial)})},
 messageSends: ["surface:", "instance", "toggle"]}),
-smalltalk.AthensTutorial);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "step33",
-fn: function (){
-var self=this;
-var container;
-function $AthensHTMLMorphicSurface(){return smalltalk.AthensHTMLMorphicSurface||(typeof AthensHTMLMorphicSurface=="undefined"?nil:AthensHTMLMorphicSurface)}
-return smalltalk.withContext(function($ctx1) { 
-container="#canvas-container"._asJQuery();
-_st(container)._empty();
-self["@surface"]=_st($AthensHTMLMorphicSurface())._extent_((500).__at((400)));
-_st(self["@surface"])._appendToJQuery_("#canvas-container"._asJQuery());
-_st(_st(_st(self["@surface"])._canvasTag())._asJQuery())._css_with_("border","1px #aaa solid");
-return self}, function($ctx1) {$ctx1.fill(self,"step33",{container:container},smalltalk.AthensTutorial)})},
-messageSends: ["asJQuery", "empty", "extent:", "@", "appendToJQuery:", "css:with:", "canvasTag"]}),
-smalltalk.AthensTutorial);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "step34",
-fn: function (){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-return self}, function($ctx1) {$ctx1.fill(self,"step34",{},smalltalk.AthensTutorial)})},
-messageSends: []}),
-smalltalk.AthensTutorial);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "step35",
-fn: function (){
-var self=this;
-var morph;
-function $AthensMorph(){return smalltalk.AthensMorph||(typeof AthensMorph=="undefined"?nil:AthensMorph)}
-return smalltalk.withContext(function($ctx1) { 
-morph=_st($AthensMorph())._new();
-_st(_st(self["@surface"])._world())._addMorph_(morph);
-return self}, function($ctx1) {$ctx1.fill(self,"step35",{morph:morph},smalltalk.AthensTutorial)})},
-messageSends: ["new", "addMorph:", "world"]}),
-smalltalk.AthensTutorial);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "step36",
-fn: function (){
-var self=this;
-var morph,innerMorph;
-function $AthensMorph(){return smalltalk.AthensMorph||(typeof AthensMorph=="undefined"?nil:AthensMorph)}
-function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
-return smalltalk.withContext(function($ctx1) { 
-morph=_st($AthensMorph())._new();
-_st(_st(self["@surface"])._world())._addMorph_(morph);
-_st(morph)._translateByX_Y_((200),(50));
-_st(morph)._rotateBy_((0.785));
-innerMorph=_st($AthensMorph())._new();
-_st(innerMorph)._color_(_st($Color())._red());
-_st(innerMorph)._translateByX_Y_((20),(0));
-_st(innerMorph)._rotateBy_((-0.785));
-_st(innerMorph)._scaleByX_Y_((0.25),(0.25));
-_st(morph)._addMorph_(innerMorph);
-return self}, function($ctx1) {$ctx1.fill(self,"step36",{morph:morph,innerMorph:innerMorph},smalltalk.AthensTutorial)})},
-messageSends: ["new", "addMorph:", "world", "translateByX:Y:", "rotateBy:", "color:", "red", "scaleByX:Y:"]}),
-smalltalk.AthensTutorial);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "step37",
-fn: function (){
-var self=this;
-var window,descText,counter,optIncrement,optDecrement,button;
-function $AthensWindowMorph(){return smalltalk.AthensWindowMorph||(typeof AthensWindowMorph=="undefined"?nil:AthensWindowMorph)}
-function $AthensTextMorph(){return smalltalk.AthensTextMorph||(typeof AthensTextMorph=="undefined"?nil:AthensTextMorph)}
-function $AthensRadioButtonMorph(){return smalltalk.AthensRadioButtonMorph||(typeof AthensRadioButtonMorph=="undefined"?nil:AthensRadioButtonMorph)}
-function $AthensButtonMorph(){return smalltalk.AthensButtonMorph||(typeof AthensButtonMorph=="undefined"?nil:AthensButtonMorph)}
-return smalltalk.withContext(function($ctx1) { 
-var $1;
-window=_st($AthensWindowMorph())._new();
-_st(window)._title_("Counter Example");
-descText=_st($AthensTextMorph())._new();
-_st(descText)._text_("Current value: ");
-_st(descText)._translateByX_Y_((25),(40));
-_st(window)._addMorph_(descText);
-counter=_st($AthensTextMorph())._new();
-_st(counter)._text_("0");
-_st(counter)._translateByX_Y_((150),(40));
-_st(window)._addMorph_(counter);
-optIncrement=_st($AthensRadioButtonMorph())._new();
-_st(optIncrement)._text_("Increment number");
-_st(optIncrement)._translateByX_Y_((25),(70));
-_st(window)._addMorph_(optIncrement);
-optDecrement=_st($AthensRadioButtonMorph())._new();
-_st(optDecrement)._text_("Decrement number");
-_st(optDecrement)._translateByX_Y_((25),(90));
-_st(window)._addMorph_(optDecrement);
-_st(optIncrement)._onChange_((function(val){
-return smalltalk.withContext(function($ctx2) {
-return _st(optDecrement)._checked_(_st(val)._not());
-}, function($ctx2) {$ctx2.fillBlock({val:val},$ctx1)})}));
-_st(optDecrement)._onChange_((function(val){
-return smalltalk.withContext(function($ctx2) {
-return _st(optIncrement)._checked_(_st(val)._not());
-}, function($ctx2) {$ctx2.fillBlock({val:val},$ctx1)})}));
-_st(optIncrement)._checked_(true);
-button=_st($AthensButtonMorph())._new();
-_st(button)._text_("Do it");
-_st(button)._translateByX_Y_((25),(120));
-_st(button)._width_((150));
-_st(button)._onMouseClick_((function(evt){
-var val;
-return smalltalk.withContext(function($ctx2) {
-val=_st(_st(counter)._text())._asNumber();
-val;
-$1=_st(optIncrement)._isChecked();
-if(smalltalk.assert($1)){
-val=_st(val).__plus((1));
-val;
-} else {
-val=_st(val).__minus((1));
-val;
-};
-return _st(counter)._text_(_st(val)._asString());
-}, function($ctx2) {$ctx2.fillBlock({evt:evt,val:val},$ctx1)})}));
-_st(window)._addMorph_(button);
-_st(_st(self["@surface"])._world())._addMorph_(window);
-return self}, function($ctx1) {$ctx1.fill(self,"step37",{window:window,descText:descText,counter:counter,optIncrement:optIncrement,optDecrement:optDecrement,button:button},smalltalk.AthensTutorial)})},
-messageSends: ["new", "title:", "text:", "translateByX:Y:", "addMorph:", "onChange:", "checked:", "not", "width:", "onMouseClick:", "asNumber", "text", "ifTrue:ifFalse:", "+", "-", "isChecked", "asString", "world"]}),
-smalltalk.AthensTutorial);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "step38",
-fn: function (){
-var self=this;
-var window,button;
-function $AthensWindowMorph(){return smalltalk.AthensWindowMorph||(typeof AthensWindowMorph=="undefined"?nil:AthensWindowMorph)}
-function $AthensIconButtonMorph(){return smalltalk.AthensIconButtonMorph||(typeof AthensIconButtonMorph=="undefined"?nil:AthensIconButtonMorph)}
-function $AthensIconMorph(){return smalltalk.AthensIconMorph||(typeof AthensIconMorph=="undefined"?nil:AthensIconMorph)}
-return smalltalk.withContext(function($ctx1) { 
-var $1,$2,$3,$4,$5,$6,$7,$8;
-window=_st($AthensWindowMorph())._new();
-_st(window)._title_("Transformations Example");
-$1=_st($AthensIconButtonMorph())._new();
-_st($1)._text_("5 degrees");
-_st($1)._icon_(_st($AthensIconMorph())._rotateCw());
-_st($1)._width_((150));
-_st($1)._height_((20));
-_st($1)._translateByX_Y_((25),(50));
-_st($1)._onMouseClick_((function(evt){
-return smalltalk.withContext(function($ctx2) {
-return _st(window)._rotateByDegrees_((5));
-}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
-$2=_st($1)._yourself();
-button=$2;
-_st(window)._addMorph_(button);
-$3=_st($AthensIconButtonMorph())._new();
-_st($3)._text_("5 degrees");
-_st($3)._icon_(_st($AthensIconMorph())._rotateCcw());
-_st($3)._width_((150));
-_st($3)._height_((20));
-_st($3)._translateByX_Y_((25),(80));
-_st($3)._onMouseClick_((function(evt){
-return smalltalk.withContext(function($ctx2) {
-return _st(window)._rotateByDegrees_((-5));
-}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
-$4=_st($3)._yourself();
-button=$4;
-_st(window)._addMorph_(button);
-$5=_st($AthensIconButtonMorph())._new();
-_st($5)._text_("Scale X +0.25");
-_st($5)._icon_(_st($AthensIconMorph())._resizeFull());
-_st($5)._width_((150));
-_st($5)._height_((20));
-_st($5)._translateByX_Y_((25),(110));
-_st($5)._onMouseClick_((function(evt){
-return smalltalk.withContext(function($ctx2) {
-return _st(window)._scaleByX_Y_((1.25),(1));
-}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
-$6=_st($5)._yourself();
-button=$6;
-_st(window)._addMorph_(button);
-$7=_st($AthensIconButtonMorph())._new();
-_st($7)._text_("Scale X -0.25");
-_st($7)._icon_(_st($AthensIconMorph())._resizeSmall());
-_st($7)._width_((150));
-_st($7)._height_((20));
-_st($7)._translateByX_Y_((25),(140));
-_st($7)._onMouseClick_((function(evt){
-return smalltalk.withContext(function($ctx2) {
-return _st(window)._scaleByX_Y_((0.75),(1));
-}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
-$8=_st($7)._yourself();
-button=$8;
-_st(window)._addMorph_(button);
-_st(_st(self["@surface"])._world())._addMorph_(window);
-return self}, function($ctx1) {$ctx1.fill(self,"step38",{window:window,button:button},smalltalk.AthensTutorial)})},
-messageSends: ["new", "title:", "text:", "icon:", "rotateCw", "width:", "height:", "translateByX:Y:", "onMouseClick:", "rotateByDegrees:", "yourself", "addMorph:", "rotateCcw", "resizeFull", "scaleByX:Y:", "resizeSmall", "world"]}),
-smalltalk.AthensTutorial);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "step39",
-fn: function (){
-var self=this;
-var window,textMorph,listBox;
-function $AthensWindowMorph(){return smalltalk.AthensWindowMorph||(typeof AthensWindowMorph=="undefined"?nil:AthensWindowMorph)}
-function $AthensListBoxMorph(){return smalltalk.AthensListBoxMorph||(typeof AthensListBoxMorph=="undefined"?nil:AthensListBoxMorph)}
-function $Object(){return smalltalk.Object||(typeof Object=="undefined"?nil:Object)}
-function $AthensTextMorph(){return smalltalk.AthensTextMorph||(typeof AthensTextMorph=="undefined"?nil:AthensTextMorph)}
-return smalltalk.withContext(function($ctx1) { 
-var $1,$2,$3,$4;
-window=_st($AthensWindowMorph())._new();
-_st(window)._title_("List Box Example");
-$1=_st($AthensListBoxMorph())._new();
-_st($1)._addItem_("First Item");
-_st($1)._addItem_("Another Item");
-_st($1)._addItem_((42));
-_st($1)._addItem_(_st($Object())._new());
-_st($1)._addItem_("Last Item");
-_st($1)._width_((150));
-_st($1)._height_((75));
-_st($1)._translateByX_Y_((25),(50));
-$2=_st($1)._yourself();
-listBox=$2;
-_st(window)._addMorph_(listBox);
-$3=_st($AthensTextMorph())._new();
-_st($3)._text_("(Nothing selected)");
-_st($3)._width_((150));
-_st($3)._height_((20));
-_st($3)._translateByX_Y_((25),(140));
-$4=_st($3)._yourself();
-textMorph=$4;
-_st(listBox)._onChange_((function(selection){
-return smalltalk.withContext(function($ctx2) {
-return _st(textMorph)._text_(_st(_st(_st(_st(selection)._asString()).__comma(" (")).__comma(_st(_st(selection)._class())._asString())).__comma(")"));
-}, function($ctx2) {$ctx2.fillBlock({selection:selection},$ctx1)})}));
-_st(window)._addMorph_(textMorph);
-_st(_st(self["@surface"])._world())._addMorph_(window);
-return self}, function($ctx1) {$ctx1.fill(self,"step39",{window:window,textMorph:textMorph,listBox:listBox},smalltalk.AthensTutorial)})},
-messageSends: ["new", "title:", "addItem:", "width:", "height:", "translateByX:Y:", "yourself", "addMorph:", "text:", "onChange:", ",", "asString", "class", "world"]}),
 smalltalk.AthensTutorial);
 
 smalltalk.addMethod(
@@ -1363,14 +1033,14 @@ return smalltalk.withContext(function($ctx1) {
 _st(self["@surface"])._drawDuring_((function(canvas){
 return smalltalk.withContext(function($ctx2) {
 _st(self["@surface"])._clear_(_st($Color())._black());
-_st(_st(canvas)._pathTransform())._translateX_Y_((100),(50));
+_st(_st(canvas)._pathTransform())._translateByX_Y_((100),(50));
 _st(canvas)._setPaint_(_st($Color())._red());
 _st(canvas)._drawShape_(_st((0).__at((0)))._corner_(_st(_st(self["@surface"])._width()).__at((5))));
 _st(canvas)._setPaint_(_st($Color())._blue());
 return _st(canvas)._drawShape_(_st((0).__at((0)))._corner_((5).__at(_st(self["@surface"])._height())));
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step6",{},smalltalk.AthensTutorial)})},
-messageSends: ["drawDuring:", "clear:", "black", "translateX:Y:", "pathTransform", "setPaint:", "red", "drawShape:", "corner:", "@", "width", "blue", "height"]}),
+messageSends: ["drawDuring:", "clear:", "black", "translateByX:Y:", "pathTransform", "setPaint:", "red", "drawShape:", "corner:", "@", "width", "blue", "height"]}),
 smalltalk.AthensTutorial);
 
 smalltalk.addMethod(
@@ -1409,20 +1079,20 @@ _st(canvas)._setShape_(_st((0).__at((0)))._corner_((100).__at((100))));
 _st(canvas)._setPaint_(_st($Color())._blue());
 $1=_st(canvas)._pathTransform();
 _st($1)._scaleBy_((3));
-$2=_st($1)._translateX_Y_((50),(50));
+$2=_st($1)._translateByX_Y_((50),(50));
 $2;
 _st(canvas)._draw();
 _st(canvas)._setPaint_(_st($Color())._yellow());
 $3=_st(canvas)._pathTransform();
-_st($3)._translateX_Y_((50),(50));
+_st($3)._translateByX_Y_((50),(50));
 _st($3)._scaleBy_((0.7).__at((0.5)));
 _st($3)._rotateByDegrees_((45));
-$4=_st($3)._translateX_Y_((-50),(-50));
+$4=_st($3)._translateByX_Y_((-50),(-50));
 $4;
 return _st(canvas)._draw();
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step8",{},smalltalk.AthensTutorial)})},
-messageSends: ["drawDuring:", "clear:", "gray", "setShape:", "corner:", "@", "setPaint:", "blue", "scaleBy:", "pathTransform", "translateX:Y:", "draw", "yellow", "rotateByDegrees:"]}),
+messageSends: ["drawDuring:", "clear:", "gray", "setShape:", "corner:", "@", "setPaint:", "blue", "scaleBy:", "pathTransform", "translateByX:Y:", "draw", "yellow", "rotateByDegrees:"]}),
 smalltalk.AthensTutorial);
 
 smalltalk.addMethod(
@@ -1439,15 +1109,15 @@ _st(self["@surface"])._clear_(_st($Color())._gray());
 _st(canvas)._setShape_(_st((0).__at((0)))._corner_((100).__at((100))));
 $1=_st(canvas)._pathTransform();
 _st($1)._scaleBy_((3));
-$2=_st($1)._translateX_Y_((50),(50));
+$2=_st($1)._translateByX_Y_((50),(50));
 $2;
 _st(_st(canvas)._pathTransform())._restoreAfter_((function(){
 return smalltalk.withContext(function($ctx3) {
 _st(canvas)._setPaint_(_st($Color())._blue());
 $3=_st(canvas)._pathTransform();
-_st($3)._translateX_Y_((50),(50));
+_st($3)._translateByX_Y_((50),(50));
 _st($3)._rotateByDegrees_((45));
-$4=_st($3)._translateX_Y_((-50),(-50));
+$4=_st($3)._translateByX_Y_((-50),(-50));
 $4;
 return _st(canvas)._draw();
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2)})}));
@@ -1455,7 +1125,7 @@ _st(canvas)._setPaint_(_st($Color())._yellow());
 return _st(canvas)._draw();
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step9",{},smalltalk.AthensTutorial)})},
-messageSends: ["drawDuring:", "clear:", "gray", "setShape:", "corner:", "@", "scaleBy:", "pathTransform", "translateX:Y:", "restoreAfter:", "setPaint:", "blue", "rotateByDegrees:", "draw", "yellow"]}),
+messageSends: ["drawDuring:", "clear:", "gray", "setShape:", "corner:", "@", "scaleBy:", "pathTransform", "translateByX:Y:", "restoreAfter:", "setPaint:", "blue", "rotateByDegrees:", "draw", "yellow"]}),
 smalltalk.AthensTutorial);
 
 
@@ -1497,9 +1167,9 @@ var self=this;
 return smalltalk.withContext(function($ctx1) { 
 var $1;
 self["@step"]=_st(self["@step"]).__plus((1));
-$1=_st(self["@step"]).__gt((39));
+$1=_st(self["@step"]).__gt((32));
 if(smalltalk.assert($1)){
-self["@step"]=(39);
+self["@step"]=(32);
 self["@step"];
 };
 self._showStep_(self["@step"]);
@@ -1810,12 +1480,12 @@ _st($1)._setPaint_(_st($Color())._white());
 $2=_st($1)._drawShape_(_st((0).__at((0)))._corner_(_st(self["@surface"])._extent()));
 $2;
 $3=_st(can)._pathTransform();
-_st($3)._translateX_Y_((0.5).__star(_st(_st(extent)._x()).__minus(_st(_st(_st(self._class())._tigerMaxX()).__star(scale)).__star(zoom))),_st(_st(extent)._y()).__slash((-12)));
+_st($3)._translateByX_Y_((0.5).__star(_st(_st(extent)._x()).__minus(_st(_st(_st(self._class())._tigerMaxX()).__star(scale)).__star(zoom))),_st(_st(extent)._y()).__slash((-12)));
 _st($3)._scaleBy_(_st(scale).__star(zoom));
-_st($3)._translateX_Y_(_st(_st(self._class())._tigerMaxX()).__star((0.5)),_st(_st(self._class())._tigerMaxY()).__star((0.5)));
+_st($3)._translateByX_Y_(_st(_st(self._class())._tigerMaxX()).__star((0.5)),_st(_st(self._class())._tigerMaxY()).__star((0.5)));
 _st($3)._scaleBy_((0.8));
 _st($3)._rotateByDegrees_(rotation);
-$4=_st($3)._translateX_Y_(_st(_st(self._class())._tigerMaxX()).__star((-0.5)),_st(_st(self._class())._tigerMaxY()).__star((-0.5)));
+$4=_st($3)._translateByX_Y_(_st(_st(self._class())._tigerMaxX()).__star((-0.5)),_st(_st(self._class())._tigerMaxY()).__star((-0.5)));
 $4;
 return _st(paths)._do_((function(each){
 return smalltalk.withContext(function($ctx4) {
@@ -1824,7 +1494,7 @@ return _st(each)._renderOn_(can);
 }, function($ctx3) {$ctx3.fillBlock({can:can},$ctx2)})}));
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"runDemo",{paths:paths,extent:extent,rotation:rotation,scale:scale,translation:translation,rotationSpeed:rotationSpeed,zoom:zoom},smalltalk.AthensVGTigerDemo)})},
-messageSends: ["convertPathData2", "extent", "/", "tigerMaxY", "class", "x", "@", "millisecondClockValue", "startLoop:", "+", "abs", "sin", "drawDuring:", "loadIdentity", "pathTransform", "setPaint:", "white", "drawShape:", "corner:", "translateX:Y:", "*", "-", "tigerMaxX", "y", "scaleBy:", "rotateByDegrees:", "do:", "renderOn:"]}),
+messageSends: ["convertPathData2", "extent", "/", "tigerMaxY", "class", "x", "@", "millisecondClockValue", "startLoop:", "+", "abs", "sin", "drawDuring:", "loadIdentity", "pathTransform", "setPaint:", "white", "drawShape:", "corner:", "translateByX:Y:", "*", "-", "tigerMaxX", "y", "scaleBy:", "rotateByDegrees:", "do:", "renderOn:"]}),
 smalltalk.AthensVGTigerDemo);
 
 smalltalk.addMethod(

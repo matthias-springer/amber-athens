@@ -1303,10 +1303,10 @@ function $LogicalFont(){return smalltalk.LogicalFont||(typeof LogicalFont=="unde
 return smalltalk.withContext(function($ctx1) { 
 smalltalk.AthensMorph.fn.prototype._initialize.apply(_st(self), []);
 self["@visible"]=false;
-self["@font"]=_st($LogicalFont())._familyName_pointSize_("FontAwesome","12");
+self["@font"]=_st($LogicalFont())._familyName_size_("FontAwesome","12");
 self["@color"]=self._basicColor();
 return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensHaloMorph)})},
-messageSends: ["initialize", "familyName:pointSize:", "basicColor"]}),
+messageSends: ["initialize", "familyName:size:", "basicColor"]}),
 smalltalk.AthensHaloMorph);
 
 smalltalk.addMethod(
@@ -2372,7 +2372,7 @@ function $LogicalFont(){return smalltalk.LogicalFont||(typeof LogicalFont=="unde
 function $OrderedCollection(){return smalltalk.OrderedCollection||(typeof OrderedCollection=="undefined"?nil:OrderedCollection)}
 function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
 return smalltalk.withContext(function($ctx1) { 
-self["@font"]=_st($LogicalFont())._familyName_pointSize_("Arial",(15));
+self["@font"]=_st($LogicalFont())._familyName_size_("Arial",(15));
 self["@virtualLines"]=_st($OrderedCollection())._new();
 self["@maxWidth"]=(100);
 self["@lineHeight"]=(15);
@@ -2383,7 +2383,7 @@ self["@borderColor"]=self["@fillColor"];
 self["@selectionStart"]=(1);
 self["@selectionLength"]=(0);
 return self}, function($ctx1) {$ctx1.fill(self,"initializeVariables",{},smalltalk.AthensEditableTextMorph)})},
-messageSends: ["familyName:pointSize:", "new", "transparent"]}),
+messageSends: ["familyName:size:", "new", "transparent"]}),
 smalltalk.AthensEditableTextMorph);
 
 smalltalk.addMethod(
@@ -3761,10 +3761,10 @@ fn: function (aFont){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 self["@font"]=aFont;
-self["@height"]=_st(_st(self["@font"])._pointSize()).__star((1.25));
+self["@height"]=_st(_st(self["@font"])._size()).__star((1.25));
 self._redraw();
 return self}, function($ctx1) {$ctx1.fill(self,"font:",{aFont:aFont},smalltalk.AthensTextMorph)})},
-messageSends: ["*", "pointSize", "redraw"]}),
+messageSends: ["*", "size", "redraw"]}),
 smalltalk.AthensTextMorph);
 
 smalltalk.addMethod(
@@ -3842,12 +3842,12 @@ self["@mouseDownFillColor"]=self["@mouseFocusFillColor"];
 self["@fillColor"]=self["@mouseDownFillColor"];
 self["@borderColor"]=self["@fillColor"];
 self["@text"]="a TextMorph";
-self["@font"]=_st($LogicalFont())._familyName_pointSize_("Arial",(15));
-self["@height"]=_st(_st(self["@font"])._pointSize()).__star((1.25));
+self["@font"]=_st($LogicalFont())._familyName_size_("Arial",(15));
+self["@height"]=_st(_st(self["@font"])._size()).__star((1.25));
 self["@highlightFontColor"]=_st($Color())._black();
 self["@fontColor"]=self["@highlightFontColor"];
 return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensTextMorph)})},
-messageSends: ["initialize", "transparent", "familyName:pointSize:", "*", "pointSize", "black"]}),
+messageSends: ["initialize", "transparent", "familyName:size:", "*", "size", "black"]}),
 smalltalk.AthensTextMorph);
 
 smalltalk.addMethod(
@@ -3929,10 +3929,10 @@ fn: function (aNumber){
 var self=this;
 function $LogicalFont(){return smalltalk.LogicalFont||(typeof LogicalFont=="undefined"?nil:LogicalFont)}
 return smalltalk.withContext(function($ctx1) { 
-self["@font"]=_st($LogicalFont())._familyName_pointSize_("FontAwesome",aNumber);
+self["@font"]=_st($LogicalFont())._familyName_size_("FontAwesome",aNumber);
 self._redraw();
 return self}, function($ctx1) {$ctx1.fill(self,"size:",{aNumber:aNumber},smalltalk.AthensIconMorph)})},
-messageSends: ["familyName:pointSize:", "redraw"]}),
+messageSends: ["familyName:size:", "redraw"]}),
 smalltalk.AthensIconMorph);
 
 

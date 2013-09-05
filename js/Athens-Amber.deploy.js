@@ -956,15 +956,30 @@ messageSends: ["source:", "new", "yourself"]}),
 smalltalk.Image.klass);
 
 
-smalltalk.addClass('LogicalFont', smalltalk.Object, ['familyName', 'pointSize'], 'Athens-Amber');
+smalltalk.addClass('LogicalFont', smalltalk.Object, ['familyName', 'size', 'sizeUnit'], 'Athens-Amber');
 smalltalk.addMethod(
 smalltalk.method({
 selector: "asHTMLString",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
- return self['@pointSize'].toString() + 'px ' + self['@familyName']; ;
-return self}, function($ctx1) {$ctx1.fill(self,"asHTMLString",{},smalltalk.LogicalFont)})},
+var $1;
+$1=_st(_st(_st(_st(self["@size"])._asString()).__comma(_st(self["@sizeUnit"])._asString())).__comma(" ")).__comma(self["@familyName"]);
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"asHTMLString",{},smalltalk.LogicalFont)})},
+messageSends: [",", "asString"]}),
+smalltalk.LogicalFont);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "familyName",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self["@familyName"];
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"familyName",{},smalltalk.LogicalFont)})},
 messageSends: []}),
 smalltalk.LogicalFont);
 
@@ -981,28 +996,89 @@ smalltalk.LogicalFont);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "pointSize",
+selector: "initialize",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+smalltalk.Object.fn.prototype._initialize.apply(_st(self), []);
+self["@sizeUnit"]="px";
+return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.LogicalFont)})},
+messageSends: ["initialize"]}),
+smalltalk.LogicalFont);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "size",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 var $1;
-$1=self["@pointSize"];
+$1=self["@size"];
 return $1;
-}, function($ctx1) {$ctx1.fill(self,"pointSize",{},smalltalk.LogicalFont)})},
+}, function($ctx1) {$ctx1.fill(self,"size",{},smalltalk.LogicalFont)})},
 messageSends: []}),
 smalltalk.LogicalFont);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "pointSize:",
+selector: "size:",
 fn: function (anInteger){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self["@pointSize"]=anInteger;
-return self}, function($ctx1) {$ctx1.fill(self,"pointSize:",{anInteger:anInteger},smalltalk.LogicalFont)})},
+self["@size"]=anInteger;
+return self}, function($ctx1) {$ctx1.fill(self,"size:",{anInteger:anInteger},smalltalk.LogicalFont)})},
 messageSends: []}),
 smalltalk.LogicalFont);
 
+smalltalk.addMethod(
+smalltalk.method({
+selector: "sizeUnit",
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self["@sizeUnit"];
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"sizeUnit",{},smalltalk.LogicalFont)})},
+messageSends: []}),
+smalltalk.LogicalFont);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "sizeUnit:",
+fn: function (aString){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(["pt","px"])._includes_(aString);
+if(smalltalk.assert($1)){
+self["@sizeUnit"]=aString;
+self["@sizeUnit"];
+} else {
+self._error_("Invalid size measurement unit");
+};
+return self}, function($ctx1) {$ctx1.fill(self,"sizeUnit:",{aString:aString},smalltalk.LogicalFont)})},
+messageSends: ["ifFalse:ifTrue:", "error:", "includes:"]}),
+smalltalk.LogicalFont);
+
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "familyName:pixelSize:",
+fn: function (aString,anInteger){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $2,$3,$1;
+$2=self._new();
+_st($2)._familyName_(aString);
+_st($2)._size_(anInteger);
+_st($2)._sizeUnit_("px");
+$3=_st($2)._yourself();
+$1=$3;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"familyName:pixelSize:",{aString:aString,anInteger:anInteger},smalltalk.LogicalFont.klass)})},
+messageSends: ["familyName:", "new", "size:", "sizeUnit:", "yourself"]}),
+smalltalk.LogicalFont.klass);
 
 smalltalk.addMethod(
 smalltalk.method({
@@ -1013,12 +1089,26 @@ return smalltalk.withContext(function($ctx1) {
 var $2,$3,$1;
 $2=self._new();
 _st($2)._familyName_(aString);
-_st($2)._pointSize_(anInteger);
+_st($2)._size_(anInteger);
+_st($2)._sizeUnit_("pt");
 $3=_st($2)._yourself();
 $1=$3;
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"familyName:pointSize:",{aString:aString,anInteger:anInteger},smalltalk.LogicalFont.klass)})},
-messageSends: ["familyName:", "new", "pointSize:", "yourself"]}),
+messageSends: ["familyName:", "new", "size:", "sizeUnit:", "yourself"]}),
+smalltalk.LogicalFont.klass);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "familyName:size:",
+fn: function (aString,anInteger){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=self._familyName_pixelSize_(aString,anInteger);
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"familyName:size:",{aString:aString,anInteger:anInteger},smalltalk.LogicalFont.klass)})},
+messageSends: ["familyName:pixelSize:"]}),
 smalltalk.LogicalFont.klass);
 
 

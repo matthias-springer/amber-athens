@@ -50,7 +50,7 @@ scaleBy: factor
 		ifFalse: [surface context2D scaleByX: factor x Y: factor y].
 !
 
-scaleX: fx Y: fy
+scaleByX: fx Y: fy
 	surface context2D scaleByX: fx Y: fy.
 !
 
@@ -58,7 +58,7 @@ translateBy: aPoint
 	surface context2D translateByX: aPoint x Y: aPoint y.
 !
 
-translateX: px Y: py
+translateByX: px Y: py
 	surface context2D translateByX: px Y: py.
 ! !
 

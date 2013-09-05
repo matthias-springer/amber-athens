@@ -344,7 +344,7 @@ var self=this;
 return smalltalk.withContext(function($ctx1) { 
 return self}, function($ctx1) {$ctx1.fill(self,"step1",{},smalltalk.AthensTutorial)})},
 args: [],
-source: "step1\x0a\x09\x22Step 1: Get Athens into your image. \x22\x0a\x09\x22Does not apply for Athens-HTML.\x22",
+source: "step1\x0a\x09\x22Step 1: Get Athens into your image. Does not apply for Athens-HTML.\x22",
 messageSends: [],
 referencedClasses: []
 }),
@@ -368,9 +368,9 @@ _st(canvas)._setShape_(_st((0).__at((0)))._corner_((100).__at((100))));
 _st(canvas)._setPaint_(_st($Color())._blue());
 $1=_st($AthensAffineTransform())._new();
 _st($1)._scaleBy_((4));
-_st($1)._translateX_Y_((50),(50));
+_st($1)._translateByX_Y_((50),(50));
 _st($1)._rotateByDegrees_((35));
-_st($1)._translateX_Y_((-50),(-50));
+_st($1)._translateByX_Y_((-50),(-50));
 $2=_st($1)._yourself();
 m=$2;
 m;
@@ -381,15 +381,15 @@ _st(canvas)._setPaint_(_st($Color())._yellow());
 _st(canvas)._draw();
 $3=_st(canvas)._pathTransform();
 _st($3)._loadAffineTransform_(m);
-$4=_st($3)._translateX_Y_((2),(2));
+$4=_st($3)._translateByX_Y_((2),(2));
 $4;
 _st(canvas)._setPaint_(_st(_st($Color())._gray())._alpha_((0.8)));
 return _st(canvas)._draw();
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas,m:m},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step10",{},smalltalk.AthensTutorial)})},
 args: [],
-source: "step10\x0a\x22Step 10: Loading matrix/using identity matrix.\x0a\x0a\x22\x0a\x0asurface drawDuring: [:canvas |  | m |\x0a\x09surface clear: Color gray. \x0a\x0a\x09canvas setShape: (0@0 corner: 100@100).\x0a\x09canvas setPaint: (Color blue).\x0a\x0a\x09m := AthensAffineTransform new\x0a\x09\x09scaleBy: 4;\x0a\x09\x09translateX: 50 Y: 50;\x0a\x09\x09rotateByDegrees: 35;\x0a\x09\x09translateX: -50 Y: -50;\x0a\x09\x09yourself.\x0a\x09\x0a\x09\x22loading a transformation\x22\x0a\x09canvas pathTransform loadAffineTransform: m.\x09\x0a\x09\x09\x0a\x09canvas draw.\x0a\x0a\x0a\x09\x22The following statement resets coordinate transformation to match surface's coordinate space\x22\x0a\x09canvas pathTransform loadIdentity.\x0a\x09\x0a\x09canvas setPaint: (Color yellow).\x0a\x09canvas draw.\x0a\x0a\x09\x22Now load the matrix back\x22\x0a\x09\x0a\x09canvas pathTransform \x0a\x09\x09loadAffineTransform: m;\x0a\x09\x0a\x09\x22Offset it a bit\x22\x0a\x09\x09translateX: 2 Y: 2.\x0a\x09\x09\x0a\x09canvas setPaint: (Color gray alpha:0.8).\x0a\x0a\x09canvas draw.\x0a\x09\x09\x0a\x09]",
-messageSends: ["drawDuring:", "clear:", "gray", "setShape:", "corner:", "@", "setPaint:", "blue", "scaleBy:", "new", "translateX:Y:", "rotateByDegrees:", "yourself", "loadAffineTransform:", "pathTransform", "draw", "loadIdentity", "yellow", "alpha:"],
+source: "step10\x0a\x09\x22Step 10: Loading matrix/using identity matrix.\x22\x0a\x0a\x09surface drawDuring: [ :canvas | | m |\x0a\x09\x09surface clear: Color gray. \x0a\x0a\x09\x09canvas setShape: (0@0 corner: 100@100).\x0a\x09\x09canvas setPaint: (Color blue).\x0a\x0a\x09\x09m := AthensAffineTransform new\x0a\x09\x09\x09scaleBy: 4;\x0a\x09\x09\x09translateByX: 50 Y: 50;\x0a\x09\x09\x09rotateByDegrees: 35;\x0a\x09\x09\x09translateByX: -50 Y: -50;\x0a\x09\x09\x09yourself.\x0a\x09\x0a\x09\x09\x22loading a transformation\x22\x0a\x09\x09canvas pathTransform loadAffineTransform: m.\x09\x0a\x09\x09\x0a\x09\x09canvas draw.\x0a\x0a\x0a\x09\x09\x22The following statement resets coordinate transformation to match surface's coordinate space\x22\x0a\x09\x09canvas pathTransform loadIdentity.\x0a\x09\x0a\x09\x09canvas setPaint: (Color yellow).\x0a\x09\x09canvas draw.\x0a\x0a\x09\x09canvas pathTransform \x0a\x09\x09\x09\x22Now load the matrix back\x22\x0a\x09\x09\x09loadAffineTransform: m;\x0a\x09\x09\x09\x22Offset it a bit\x22\x0a\x09\x09\x09translateByX: 2 Y: 2.\x0a\x09\x09\x0a\x09\x09canvas setPaint: (Color gray alpha: 0.8).\x0a\x0a\x09\x09canvas draw ].",
+messageSends: ["drawDuring:", "clear:", "gray", "setShape:", "corner:", "@", "setPaint:", "blue", "scaleBy:", "new", "translateByX:Y:", "rotateByDegrees:", "yourself", "loadAffineTransform:", "pathTransform", "draw", "loadIdentity", "yellow", "alpha:"],
 referencedClasses: ["Color", "AthensAffineTransform"]
 }),
 smalltalk.AthensTutorial);
@@ -422,7 +422,7 @@ _st(self["@surface"])._drawDuring_((function(canvas){
 var path;
 return smalltalk.withContext(function($ctx2) {
 _st(self["@surface"])._clear_(_st($Color())._gray());
-_st(_st(canvas)._pathTransform())._translateX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((2)));
+_st(_st(canvas)._pathTransform())._translateByX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((2)));
 path=_st(canvas)._createPath_((function(builder){
 return smalltalk.withContext(function($ctx3) {
 $1=builder;
@@ -440,8 +440,8 @@ return _st(canvas)._draw();
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas,path:path},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step12",{},smalltalk.AthensTutorial)})},
 args: [],
-source: "step12\x0a\x0a\x22Step 12: Building complex shapes using paths.\x0a\x0aSo far, we used only rectangles as shapes, now time to create something more interesting.\x0a\x0a\x22\x0a\x0a\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09| path |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x0a\x09\x09canvas pathTransform translateX: surface width/2.0 Y: surface height / 2.0 .\x0a\x09\x0a\x09\x09\x22To create a path, use #createPath: protocol.\x0a\x09\x09The block should accept a single argument, where AthensPathBuilder instance will be passed\x22\x09\x0a\x09\x09path := canvas createPath: [:builder |\x0a\x09\x09\x09\x0a\x09\x09\x09\x22A simple polygon\x22\x0a\x09\x09\x09builder \x0a\x09\x09\x09\x09absolute;\x0a\x09\x09\x09\x09\x0a\x09\x09\x09\x22The path consists from a list of connected segments connected with each other\x22 \x0a\x09\x09\x09\x09lineTo: -50@ -50;\x0a\x09\x09\x09\x09lineTo: 60@ -60;\x0a\x09\x09\x09\x09lineTo: 150@50;\x0a\x09\x09\x09\x09lineTo: 0@0\x0a\x09\x09\x09].\x0a\x09\x0a\x09\x09canvas setShape: path.\x0a\x09\x09\x0a\x09\x09\x22Here we're using stroke paint to show the edges of path (more on stroke paints later)\x22\x0a\x09\x09(canvas setStrokePaint: Color white) width:4.\x0a\x09\x09\x0a\x09\x09\x22If you want to fill the path instead, uncomment the line below\x22\x0a\x09\x09\x22canvas setPaint: Color white.\x22\x0a\x09\x09\x0a\x09\x09\x0a\x09\x09canvas draw.\x0a\x09].",
-messageSends: ["drawDuring:", "clear:", "gray", "translateX:Y:", "/", "width", "height", "pathTransform", "createPath:", "absolute", "lineTo:", "@", "setShape:", "width:", "setStrokePaint:", "white", "draw"],
+source: "step12\x0a\x09\x22Step 12: Building complex shapes using paths.\x0a\x09\x0a\x09So far, we used only rectangles as shapes, now time to create something more interesting.\x22\x0a\x0a\x0a\x09surface drawDuring: [ :canvas | | path |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x0a\x09\x09canvas pathTransform translateByX: surface width/2.0 Y: surface height / 2.0 .\x0a\x09\x0a\x09\x09\x22To create a path, use #createPath: protocol.\x0a\x09\x09The block should accept a single argument, where AthensPathBuilder instance will be passed\x22\x09\x0a\x09\x09path := canvas createPath: [ :builder |\x0a\x09\x09\x09\x0a\x09\x09\x09\x22A simple polygon\x22\x0a\x09\x09\x09builder \x0a\x09\x09\x09\x09absolute;\x0a\x09\x09\x09\x09\x0a\x09\x09\x09\x22The path consists from a list of connected segments connected with each other\x22 \x0a\x09\x09\x09\x09lineTo: -50@ -50;\x0a\x09\x09\x09\x09lineTo: 60@ -60;\x0a\x09\x09\x09\x09lineTo: 150@50;\x0a\x09\x09\x09\x09lineTo: 0@0\x0a\x09\x09\x09].\x0a\x09\x0a\x09\x09canvas setShape: path.\x0a\x09\x09\x0a\x09\x09\x22Here we're using stroke paint to show the edges of path (more on stroke paints later)\x22\x0a\x09\x09(canvas setStrokePaint: Color white) width:4.\x0a\x09\x09\x0a\x09\x09\x22If you want to fill the path instead, uncomment the line below\x22\x0a\x09\x09\x22canvas setPaint: Color white.\x22\x0a\x09\x09\x09\x09\x0a\x09\x09canvas draw ].",
+messageSends: ["drawDuring:", "clear:", "gray", "translateByX:Y:", "/", "width", "height", "pathTransform", "createPath:", "absolute", "lineTo:", "@", "setShape:", "width:", "setStrokePaint:", "white", "draw"],
 referencedClasses: ["Color"]
 }),
 smalltalk.AthensTutorial);
@@ -469,15 +469,15 @@ return $2;
 _st(self["@surface"])._drawDuring_((function(canvas){
 return smalltalk.withContext(function($ctx2) {
 _st(self["@surface"])._clear_(_st($Color())._gray());
-_st(_st(canvas)._pathTransform())._translateX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((2)));
+_st(_st(canvas)._pathTransform())._translateByX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((2)));
 _st(canvas)._setShape_(path);
 _st(_st(canvas)._setStrokePaint_(_st($Color())._yellow()))._width_((4));
 return _st(canvas)._draw();
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step13",{path:path},smalltalk.AthensTutorial)})},
 args: [],
-source: "step13\x0a\x0a\x22Step 13: Building complex shapes using paths.\x0a\x0aFor complex and large paths, building it every time could be ineffective and computationally intensive. \x0aInstead you can use surface factory method (#createPath:) to create a path object\x0aat any point, and use it later, whenever you see fit.\x0a\x0aNote, that since we're not using canvas, it is not necessary to put path creation inside #drawDuring: method.\x0a\x22\x0a\x09| path |\x0a\x0a\x09path := surface createPath: [:builder |\x0a\x09\x09\x09\x0a\x09\x09\x09\x22A simple polygon\x22\x0a\x09\x09builder \x0a\x09\x09\x09absolute;\x0a\x09\x09\x09\x09\x0a\x09\x09\x09\x22The path consists from a list of connected segments connected with each other\x22 \x09\x09\x09\x09\x0a\x09\x09\x09lineTo: -50@ -50;\x0a\x09\x09\x09lineTo: 60@ -60;\x0a\x09\x09\x09lineTo: 150@50;\x0a\x09\x09\x09lineTo: 0@0\x0a\x09\x09].\x0a\x0a\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x0a\x09\x09canvas pathTransform translateX: surface width/2.0 Y: surface height / 2.0 .\x0a\x09\x0a\x09\x09canvas setShape: path.\x0a\x0a\x09\x09(canvas setStrokePaint: Color yellow) width:4.\x0a\x09\x09\x0a\x09\x09canvas draw.\x0a\x09].",
-messageSends: ["createPath:", "absolute", "lineTo:", "@", "drawDuring:", "clear:", "gray", "translateX:Y:", "/", "width", "height", "pathTransform", "setShape:", "width:", "setStrokePaint:", "yellow", "draw"],
+source: "step13\x0a\x09\x22Step 13: Building complex shapes using paths.\x0a\x0a\x09For complex and large paths, building it every time could be ineffective and computationally intensive. \x0a\x09Instead you can use surface factory method (#createPath:) to create a path object\x0a\x09at any point, and use it later, whenever you see fit.\x0a\x0a\x09Note, that since we're not using canvas, it is not necessary to put path creation inside #drawDuring: method.\x22\x0a\x09\x0a\x09| path |\x0a\x09path := surface createPath: [ :builder |\x0a\x09\x09\x09\x0a\x09\x09\x09\x22A simple polygon\x22\x0a\x09\x09builder \x0a\x09\x09\x09absolute;\x0a\x09\x09\x09\x09\x0a\x09\x09\x09\x22The path consists from a list of connected segments connected with each other\x22 \x09\x09\x09\x09\x0a\x09\x09\x09lineTo: -50@ -50;\x0a\x09\x09\x09lineTo: 60@ -60;\x0a\x09\x09\x09lineTo: 150@50;\x0a\x09\x09\x09lineTo: 0@0\x0a\x09\x09].\x0a\x0a\x0a\x09surface drawDuring: [ :canvas |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x0a\x09\x09canvas pathTransform translateByX: surface width/2.0 Y: surface height / 2.0 .\x0a\x09\x0a\x09\x09canvas setShape: path.\x0a\x0a\x09\x09(canvas setStrokePaint: Color yellow) width: 4.\x0a\x09\x09\x0a\x09\x09canvas draw\x09].",
+messageSends: ["createPath:", "absolute", "lineTo:", "@", "drawDuring:", "clear:", "gray", "translateByX:Y:", "/", "width", "height", "pathTransform", "setShape:", "width:", "setStrokePaint:", "yellow", "draw"],
 referencedClasses: ["Color"]
 }),
 smalltalk.AthensTutorial);
@@ -508,7 +508,7 @@ _st(self["@surface"])._drawDuring_((function(canvas){
 return smalltalk.withContext(function($ctx2) {
 _st(self["@surface"])._clear_(_st($Color())._gray());
 $3=_st(canvas)._pathTransform();
-_st($3)._translateX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((2)));
+_st($3)._translateByX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((2)));
 $4=_st($3)._scaleBy_((2));
 $4;
 _st(canvas)._setShape_(path);
@@ -517,85 +517,8 @@ return _st(canvas)._draw();
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step14",{path:path},smalltalk.AthensTutorial)})},
 args: [],
-source: "step14\x0a\x22Step 14: Various path segment types.\x0a\x0a\x0a\x22\x0a\x09| path |\x0a\x0a\x09path := surface createPath: [:builder |\x0a\x09\x09\x09\x0a\x09\x09builder \x0a\x09\x09\x09absolute;\x0a\x09\x09\x09\x09\x0a\x09\x09\x09\x22The path consists from a list of segments connected with each other, e.g.\x0a\x09\x09\x09the starting point of next segment is always an end point of previous one\x22\x0a\x09\x09\x09 \x09\x09\x09\x09\x0a\x09\x09\x09lineTo: -50@ -50;\x0a\x09\x09\x09\x0a\x09\x09\x09\x22quadric Bezier curve\x22\x0a\x09\x09\x09\x0a\x09\x09\x09curveVia: 0@ -80 to: 50@ -50;\x0a\x09\x09\x09\x0a\x09\x09\x09\x22cubic Bezier curve\x22 \x0a\x09\x09\x09\x0a\x09\x09\x09curveVia: 100@ -20 and: -50@20 to: 50@ 50;\x0a\x0a\x09\x09\x09 \x22clockwise arc\x22\x0a\x09\x09\x09\x0a\x09\x09\x09cwArcTo: 50@100 angle: 45; \x0a\x09\x09\x09\x0a\x09\x09\x09\x22counter-clockwise arc\x22\x0a\x0a\x09\x09\x09ccwArcTo: -50@100 angle: 45.\x0a\x09\x09\x09\x0a\x09\x09\x09\x22close segment. Simply connects endpoint of previous segment with path starting point.\x0a\x09\x09\x09Try to comment following line to see the difference\x22 \x0a\x09\x09\x09builder close.\x0a\x09\x09].\x0a\x0a\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x0a\x09\x09canvas pathTransform\x0a\x09\x09\x09translateX: surface width/2.0 Y: surface height / 2.0 ;\x0a\x09\x09\x09scaleBy:2.\x0a\x09\x0a\x09\x09canvas setShape: path.\x0a\x09\x09\x0a\x09\x09(canvas setStrokePaint: Color yellow) width:4.\x0a\x09\x09\x0a\x09\x09canvas draw.\x0a\x09].",
-messageSends: ["createPath:", "absolute", "lineTo:", "@", "curveVia:to:", "curveVia:and:to:", "cwArcTo:angle:", "ccwArcTo:angle:", "close", "drawDuring:", "clear:", "gray", "translateX:Y:", "/", "width", "height", "pathTransform", "scaleBy:", "setShape:", "width:", "setStrokePaint:", "yellow", "draw"],
-referencedClasses: ["Color"]
-}),
-smalltalk.AthensTutorial);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "step14a",
-category: 'steps',
-fn: function (){
-var self=this;
-var path;
-function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
-return smalltalk.withContext(function($ctx1) { 
-var $1,$2,$3,$4;
-path=_st(self["@surface"])._createPath_((function(builder){
-return smalltalk.withContext(function($ctx2) {
-$1=builder;
-_st($1)._absolute();
-_st($1)._lineTo_((-50).__at((-50)));
-_st($1)._curveVia_to_((0).__at((-80)),(50).__at((-50)));
-$2=_st($1)._curveVia_and_to_((100).__at((-20)),(-50).__at((20)),(50).__at((50)));
-$2;
-return _st(builder)._close();
-}, function($ctx2) {$ctx2.fillBlock({builder:builder},$ctx1)})}));
-_st(self["@surface"])._drawDuring_((function(canvas){
-return smalltalk.withContext(function($ctx2) {
-_st(self["@surface"])._clear_(_st($Color())._gray());
-$3=_st(canvas)._pathTransform();
-_st($3)._translateX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((2)));
-$4=_st($3)._scaleBy_((2));
-$4;
-_st(canvas)._setShape_(path);
-_st(_st(canvas)._setStrokePaint_(_st($Color())._yellow()))._width_((4));
-return _st(canvas)._draw();
-}, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
-return self}, function($ctx1) {$ctx1.fill(self,"step14a",{path:path},smalltalk.AthensTutorial)})},
-args: [],
-source: "step14a\x0a\x22Step 14a: Various path segment types.\x0a\x0a\x0a\x22\x0a\x09| path |\x0a\x0a\x09path := surface createPath: [:builder |\x0a\x09\x09\x09\x0a\x09\x09builder \x0a\x09\x09\x09absolute;\x0a\x09\x09\x09\x09\x0a\x09\x09\x09\x22The path consists from a list of segments connected with each other, e.g.\x0a\x09\x09\x09the starting point of next segment is always an end point of previous one\x22\x0a\x09\x09\x09 \x09\x09\x09\x09\x0a\x09\x09\x09lineTo: -50@ -50;\x0a\x09\x09\x09\x0a\x09\x09\x09\x22quadric Bezier curve\x22\x0a\x09\x09\x09\x0a\x09\x09\x09curveVia: 0@ -80 to: 50@ -50;\x0a\x09\x09\x09\x0a\x09\x09\x09\x22cubic Bezier curve\x22 \x0a\x09\x09\x09\x0a\x09\x09\x09curveVia: 100@ -20 and: -50@20 to: 50@ 50.\x0a\x0a\x09\x09\x09 \x22clockwise arc\x22\x0a\x09\x09\x09\x0a\x09\x09\x09\x22cwArcTo: 50@100 angle: 45; \x22\x0a\x09\x09\x09\x0a\x09\x09\x09\x22counter-clockwise arc\x22\x0a\x0a\x09\x09\x09\x22ccwArcTo: -50@100 angle: 45.\x22\x0a\x09\x09\x09\x0a\x09\x09\x09\x22close segment. Simply connects endpoint of previous segment with path starting point.\x0a\x09\x09\x09Try to comment following line to see the difference\x22 \x0a\x09\x09\x09builder close.\x0a\x09\x09].\x0a\x0a\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x0a\x09\x09canvas pathTransform\x0a\x09\x09\x09translateX: surface width/2.0 Y: surface height / 2.0 ;\x0a\x09\x09\x09scaleBy:2.\x0a\x09\x0a\x09\x09canvas setShape: path.\x0a\x09\x09\x0a\x09\x09(canvas setStrokePaint: Color yellow) width:4.\x0a\x09\x09\x0a\x09\x09canvas draw.\x0a\x09].",
-messageSends: ["createPath:", "absolute", "lineTo:", "@", "curveVia:to:", "curveVia:and:to:", "close", "drawDuring:", "clear:", "gray", "translateX:Y:", "/", "width", "height", "pathTransform", "scaleBy:", "setShape:", "width:", "setStrokePaint:", "yellow", "draw"],
-referencedClasses: ["Color"]
-}),
-smalltalk.AthensTutorial);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "step14b",
-category: 'steps',
-fn: function (){
-var self=this;
-var path;
-function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
-return smalltalk.withContext(function($ctx1) { 
-var $1,$2,$3,$4;
-path=_st(self["@surface"])._createPath_((function(builder){
-return smalltalk.withContext(function($ctx2) {
-$1=builder;
-_st($1)._absolute();
-_st($1)._cwArcTo_angle_((50).__at((100)),(45));
-$2=_st($1)._ccwArcTo_angle_((-50).__at((100)),(45));
-$2;
-return _st(builder)._close();
-}, function($ctx2) {$ctx2.fillBlock({builder:builder},$ctx1)})}));
-_st(self["@surface"])._drawDuring_((function(canvas){
-return smalltalk.withContext(function($ctx2) {
-_st(self["@surface"])._clear_(_st($Color())._gray());
-$3=_st(canvas)._pathTransform();
-_st($3)._translateX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((5)));
-$4=_st($3)._scaleBy_((1));
-$4;
-_st(canvas)._setShape_(path);
-_st(_st(canvas)._setStrokePaint_(_st($Color())._yellow()))._width_((4));
-return _st(canvas)._draw();
-}, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
-return self}, function($ctx1) {$ctx1.fill(self,"step14b",{path:path},smalltalk.AthensTutorial)})},
-args: [],
-source: "step14b\x0a\x22Step 14b: Various path segment types.\x0a\x0a\x0a\x22\x0a\x09| path |\x0a\x0a\x09path := surface createPath: [:builder |\x0a\x09\x09\x09\x0a\x09\x09builder \x0a\x09\x09\x09absolute;\x0a\x09\x09\x09\x09\x0a\x09\x09\x09\x22The path consists from a list of segments connected with each other, e.g.\x0a\x09\x09\x09the starting point of next segment is always an end point of previous one\x22\x0a\x09\x09\x09 \x09\x09\x09\x09\x0a\x09\x09\x09\x22lineTo: -50@ -50;\x22\x0a\x09\x09\x09\x0a\x09\x09\x09\x22quadric Bezier curve\x22\x0a\x09\x09\x09\x0a\x09\x09\x09\x22curveVia: 0@ -80 to: 50@ -50;\x22\x0a\x09\x09\x09\x0a\x09\x09\x09\x22cubic Bezier curve\x22 \x0a\x09\x09\x09\x0a\x09\x09\x09\x22curveVia: 100@ -20 and: -50@20 to: 50@ 50;\x22\x0a\x0a\x09\x09\x09 \x22clockwise arc\x22\x0a\x09\x09\x09\x0a\x09\x09\x09cwArcTo: 50@100 angle: 45;\x0a\x09\x09\x09\x0a\x09\x09\x09\x22counter-clockwise arc\x22\x0a\x0a\x09\x09\x09ccwArcTo: -50@100 angle: 45.\x0a\x09\x09\x09\x0a\x09\x09\x09\x22close segment. Simply connects endpoint of previous segment with path starting point.\x0a\x09\x09\x09Try to comment following line to see the difference\x22 \x0a\x09\x09\x09builder close.\x0a\x09\x09].\x0a\x0a\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x0a\x09\x09canvas pathTransform\x0a\x09\x09\x09translateX: surface width/2.0 Y: surface height / 5.0 ;\x0a\x09\x09\x09scaleBy:1.\x0a\x09\x0a\x09\x09canvas setShape: path.\x0a\x09\x09\x0a\x09\x09(canvas setStrokePaint: Color yellow) width:4.\x0a\x09\x09\x0a\x09\x09canvas draw.\x0a\x09].",
-messageSends: ["createPath:", "absolute", "cwArcTo:angle:", "@", "ccwArcTo:angle:", "close", "drawDuring:", "clear:", "gray", "translateX:Y:", "/", "width", "height", "pathTransform", "scaleBy:", "setShape:", "width:", "setStrokePaint:", "yellow", "draw"],
+source: "step14\x0a\x09\x22Step 14: Various path segment types.\x22\x0a\x09\x0a\x09| path |\x0a\x09path := surface createPath: [ :builder |\x0a\x09\x0a\x09\x09builder \x0a\x09\x09\x09absolute;\x0a\x09\x09\x09\x09\x0a\x09\x09\x09\x22The path consists from a list of segments connected with each other, e.g.\x0a\x09\x09\x09the starting point of next segment is always an end point of previous one\x22\x0a\x09\x09\x09 \x09\x09\x09\x09\x0a\x09\x09\x09lineTo: -50@ -50;\x0a\x09\x09\x09\x0a\x09\x09\x09\x22quadric Bezier curve\x22\x0a\x09\x09\x09\x0a\x09\x09\x09curveVia: 0@ -80 to: 50@ -50;\x0a\x09\x09\x09\x0a\x09\x09\x09\x22cubic Bezier curve\x22 \x0a\x09\x09\x09\x0a\x09\x09\x09curveVia: 100@ -20 and: -50@20 to: 50@ 50;\x0a\x0a\x09\x09\x09 \x22clockwise arc\x22\x0a\x09\x09\x09\x0a\x09\x09\x09cwArcTo: 50@100 angle: 45; \x0a\x09\x09\x09\x0a\x09\x09\x09\x22counter-clockwise arc\x22\x0a\x0a\x09\x09\x09ccwArcTo: -50@100 angle: 45.\x0a\x09\x09\x09\x0a\x09\x09\x09\x22close segment. Simply connects endpoint of previous segment with path starting point.\x0a\x09\x09\x09Try to comment following line to see the difference\x22 \x0a\x09\x09\x09builder close ].\x0a\x0a\x0a\x09surface drawDuring: [ :canvas |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x0a\x09\x09canvas pathTransform\x0a\x09\x09\x09translateByX: surface width/2.0 Y: surface height / 2.0 ;\x0a\x09\x09\x09scaleBy: 2.\x0a\x09\x0a\x09\x09canvas setShape: path.\x0a\x09\x09\x0a\x09\x09(canvas setStrokePaint: Color yellow) width: 4.\x0a\x09\x09\x0a\x09\x09canvas draw ].",
+messageSends: ["createPath:", "absolute", "lineTo:", "@", "curveVia:to:", "curveVia:and:to:", "cwArcTo:angle:", "ccwArcTo:angle:", "close", "drawDuring:", "clear:", "gray", "translateByX:Y:", "/", "width", "height", "pathTransform", "scaleBy:", "setShape:", "width:", "setStrokePaint:", "yellow", "draw"],
 referencedClasses: ["Color"]
 }),
 smalltalk.AthensTutorial);
@@ -625,7 +548,7 @@ _st(self["@surface"])._drawDuring_((function(canvas){
 return smalltalk.withContext(function($ctx2) {
 _st(self["@surface"])._clear_(_st($Color())._gray());
 $3=_st(canvas)._pathTransform();
-_st($3)._translateX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((2)));
+_st($3)._translateByX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((2)));
 $4=_st($3)._scaleBy_((2));
 $4;
 _st(canvas)._setShape_(path);
@@ -634,8 +557,8 @@ return _st(canvas)._draw();
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step15",{path:path},smalltalk.AthensTutorial)})},
 args: [],
-source: "step15\x0a\x22Step 15: Path origin and moveTo: segment.\x0a\x0a\x0a\x22\x0a\x09| path |\x0a\x0a\x09path := surface createPath: [:builder |\x0a\x09\x09\x09\x0a\x09\x09builder \x0a\x09\x09\x09absolute;\x0a\x0a\x09\x09\x09\x22All paths always having same origin, which is (0@0) point.\x0a\x09\x09\x09To use different origin, use #moveTo: as initial command.\x0a\x09\x09\x09Try to change moveTo: parameter to see the difference\x22\x0a\x0a\x09\x09\x09 \x09\x09\x09\x09\x0a\x09\x09\x09moveTo: -50@ -50;\x0a\x09\x09\x09\x0a\x09\x09\x09\x22quadric Bezier curve\x22\x0a\x09\x09\x09\x0a\x09\x09\x09curveVia: 0@ -80 to: 50@ -50;\x0a\x09\x09\x09\x0a\x09\x09\x09\x22cubic Bezier curve\x22 \x0a\x09\x09\x09\x0a\x09\x09\x09curveVia: 100@ -20 and: -50@20 to: 50@ 50;\x0a\x0a\x09\x09\x09 \x22clockwise arc\x22\x0a\x09\x09\x09\x0a\x09\x09\x09cwArcTo: 50@100 angle: 45; \x0a\x09\x09\x09\x0a\x09\x09\x09\x22counter-clockwise arc\x22\x0a\x0a\x09\x09\x09ccwArcTo: -50@100 angle: 45.\x0a\x09\x09\x09\x0a\x09\x09\x09\x0a\x09\x09].\x0a\x0a\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x0a\x09\x09canvas pathTransform\x0a\x09\x09\x09translateX: surface width/2.0 Y: surface height / 2.0 ;\x0a\x09\x09\x09scaleBy:2.\x0a\x09\x0a\x09\x09canvas setShape: path.\x0a\x09\x09(canvas setStrokePaint: Color yellow) width:4.\x0a\x09\x09\x0a\x09\x09canvas draw.\x0a\x09].",
-messageSends: ["createPath:", "absolute", "moveTo:", "@", "curveVia:to:", "curveVia:and:to:", "cwArcTo:angle:", "ccwArcTo:angle:", "drawDuring:", "clear:", "gray", "translateX:Y:", "/", "width", "height", "pathTransform", "scaleBy:", "setShape:", "width:", "setStrokePaint:", "yellow", "draw"],
+source: "step15\x0a\x09\x22Step 15: Path origin and moveTo: segment.\x22\x0a\x09\x0a\x09| path |\x0a\x09path := surface createPath: [ :builder |\x0a\x09\x09\x09\x0a\x09\x09builder \x0a\x09\x09\x09absolute;\x0a\x0a\x09\x09\x09\x22All paths always having same origin, which is (0@0) point.\x0a\x09\x09\x09To use different origin, use #moveTo: as initial command.\x0a\x09\x09\x09Try to change moveTo: parameter to see the difference\x22\x0a\x0a\x09\x09\x09 \x09\x09\x09\x09\x0a\x09\x09\x09moveTo: -50 @ -50;\x0a\x09\x09\x09\x0a\x09\x09\x09\x22quadric Bezier curve\x22\x0a\x09\x09\x09\x0a\x09\x09\x09curveVia: 0 @ -80 to: 50 @ -50;\x0a\x09\x09\x09\x0a\x09\x09\x09\x22cubic Bezier curve\x22 \x0a\x09\x09\x09\x0a\x09\x09\x09curveVia: 100 @ -20 and: -50 @ 20 to: 50 @ 50;\x0a\x0a\x09\x09\x09 \x22clockwise arc\x22 \x0a\x09\x09\x09\x0a\x09\x09\x09cwArcTo: 50 @ 100 angle: 45; \x0a\x09\x09\x09\x0a\x09\x09\x09\x22counter-clockwise arc\x22\x0a\x0a\x09\x09\x09ccwArcTo: -50 @ 100 angle: 45 ].\x0a\x0a\x0a\x09surface drawDuring: [ :canvas |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x0a\x09\x09canvas pathTransform\x0a\x09\x09\x09translateByX: surface width/2.0 Y: surface height / 2.0;\x0a\x09\x09\x09scaleBy: 2.\x0a\x09\x0a\x09\x09canvas setShape: path.\x0a\x09\x09\x0a\x09\x09(canvas setStrokePaint: Color yellow) width: 4.\x0a\x09\x09\x0a\x09\x09canvas draw ].",
+messageSends: ["createPath:", "absolute", "moveTo:", "@", "curveVia:to:", "curveVia:and:to:", "cwArcTo:angle:", "ccwArcTo:angle:", "drawDuring:", "clear:", "gray", "translateByX:Y:", "/", "width", "height", "pathTransform", "scaleBy:", "setShape:", "width:", "setStrokePaint:", "yellow", "draw"],
 referencedClasses: ["Color"]
 }),
 smalltalk.AthensTutorial);
@@ -664,7 +587,7 @@ _st(self["@surface"])._drawDuring_((function(canvas){
 return smalltalk.withContext(function($ctx2) {
 _st(self["@surface"])._clear_(_st($Color())._gray());
 $3=_st(canvas)._pathTransform();
-_st($3)._translateX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((2)));
+_st($3)._translateByX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((2)));
 $4=_st($3)._scaleBy_((2));
 $4;
 _st(canvas)._setShape_(path);
@@ -673,8 +596,8 @@ return _st(canvas)._draw();
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step16",{path:path},smalltalk.AthensTutorial)})},
 args: [],
-source: "step16\x0a\x22Step 16: Absolute versus relative path building mode.\x0a\x0a\x0a\x22\x0a\x09| path |\x0a\x0a\x09path := surface createPath: [:builder |\x0a\x0a\x09\x22In absolute path building mode, all segment coordinates is absolute (relative to coordinate system origin which is 0@0).\x0a\x09\x0a\x09In relative path building mode, the coordinates of next segment computed relative\x0a\x09to the end point of previous segment\x22\x0a\x09\x0a\x09\x09\x09\x0a\x09\x09builder \x0a\x09\x09\x09relative;  \x22actually, relative is default. You can simply delete this line without any effect\x22\x0a\x0a\x09\x09\x09moveTo: -50@ -50;\x0a\x09\x09\x09\x0a\x09\x09\x09\x0a\x09\x09\x09lineTo: 50@0;\x0a\x09\x09\x09\x0a\x09\x09\x09\x22The building mode can be switched at any moment. \x0a\x09\x09\x09Try to uncomment line below to see the difference\x22\x0a\x09\x09\x09\x22absolute;\x22\x0a\x09\x09\x09\x0a\x09\x09\x09lineTo: 0@50;\x0a\x09\x09\x09lineTo: -50@0.\x0a\x09\x09].\x0a\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x0a\x09\x09canvas pathTransform\x0a\x09\x09\x09translateX: surface width/2.0 Y: surface height / 2.0 ;\x0a\x09\x09\x09scaleBy:2.\x0a\x09\x0a\x09\x09canvas setShape: path.\x0a\x09\x09(canvas setStrokePaint: Color yellow) width:4.\x0a\x09\x09\x0a\x09\x09canvas draw.\x0a\x09].",
-messageSends: ["createPath:", "relative", "moveTo:", "@", "lineTo:", "drawDuring:", "clear:", "gray", "translateX:Y:", "/", "width", "height", "pathTransform", "scaleBy:", "setShape:", "width:", "setStrokePaint:", "yellow", "draw"],
+source: "step16\x0a\x09\x22Step 16: Absolute versus relative path building mode.\x22\x0a\x09\x0a\x09| path |\x0a\x09path := surface createPath: [ :builder |\x0a\x0a\x09\x09\x22In absolute path building mode, all segment coordinates is absolute (relative to coordinate system origin which is 0@0).\x0a\x09\x0a\x09\x09In relative path building mode, the coordinates of next segment computed relative\x0a\x09\x09to the end point of previous segment\x22\x0a\x09\x09\x09\x0a\x09\x09builder \x0a\x09\x09\x09relative;  \x22actually, relative is default. You can simply delete this line without any effect\x22\x0a\x0a\x09\x09\x09moveTo: -50 @ -50;\x0a\x09\x09\x09\x0a\x09\x09\x09\x0a\x09\x09\x09lineTo: 50 @ 0;\x0a\x09\x09\x09\x0a\x09\x09\x09\x22The building mode can be switched at any moment. \x0a\x09\x09\x09Try to uncomment line below to see the difference\x22\x0a\x09\x09\x09\x22absolute;\x22\x0a\x09\x09\x09\x0a\x09\x09\x09lineTo: 0 @ 50;\x0a\x09\x09\x09lineTo: -50 @ 0 ].\x0a\x0a\x09surface drawDuring: [ :canvas |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x0a\x09\x09canvas pathTransform\x0a\x09\x09\x09translateByX: surface width/2.0 Y: surface height / 2.0;\x0a\x09\x09\x09scaleBy: 2.\x0a\x09\x0a\x09\x09canvas setShape: path.\x0a\x09\x09\x0a\x09\x09(canvas setStrokePaint: Color yellow) width: 4.\x0a\x09\x09\x0a\x09\x09canvas draw ].",
+messageSends: ["createPath:", "relative", "moveTo:", "@", "lineTo:", "drawDuring:", "clear:", "gray", "translateByX:Y:", "/", "width", "height", "pathTransform", "scaleBy:", "setShape:", "width:", "setStrokePaint:", "yellow", "draw"],
 referencedClasses: ["Color"]
 }),
 smalltalk.AthensTutorial);
@@ -704,7 +627,7 @@ _st(self["@surface"])._drawDuring_((function(canvas){
 return smalltalk.withContext(function($ctx2) {
 _st(self["@surface"])._clear_(_st($Color())._gray());
 $3=_st(canvas)._pathTransform();
-_st($3)._translateX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((2)));
+_st($3)._translateByX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((2)));
 $4=_st($3)._scaleBy_((3));
 $4;
 _st(canvas)._setShape_(path);
@@ -719,8 +642,8 @@ return _st(b)._lineTo_((300).__at((300)));
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step17",{path:path},smalltalk.AthensTutorial)})},
 args: [],
-source: "step17\x0a\x22Step 17: Self-intersecting paths and how they are filled.\x0a\x0a\x0aThere is a simple algorithm to determine whether given point will be filled or not: \x0a - take an arbitrary point, infinitely distant from path interior and connect it with a point under the question.\x0a - count how many times the resulting ray intersects with path segments\x0a - if number of intersections is odd, then given point will be filled\x0a - if number of intersections is even, then given point will NOT be filled \x0a\x22\x0a\x09| path |\x0a\x0a\x09path := surface createPath: [:builder |\x0a\x09\x09\x09\x0a\x09\x09builder \x0a\x09\x09\x09moveTo: -50@ -50;\x0a\x09\x09\x09lineTo: 50@0;\x0a\x09\x09\x09lineTo: 0@50;\x0a\x09\x09\x09lineTo: -50@0;\x0a\x09\x09\x09lineTo: 80@ -30;\x0a\x09\x09\x09close\x0a\x09\x09].\x0a\x0a\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x0a\x09\x09canvas pathTransform\x0a\x09\x09\x09translateX: surface width/2.0 Y: surface height / 2.0 ;\x0a\x09\x09\x09scaleBy:3.\x0a\x09\x0a\x09\x09canvas setShape: path.\x0a\x09\x09canvas setPaint: Color yellow.\x0a\x09\x09canvas draw.\x0a\x09\x09\x0a\x09\x09canvas pathTransform loadIdentity.\x0a\x09\x09\x22draw a line to demonstrate imaginery ray\x22\x0a\x09\x09\x0a\x09\x09canvas setStrokePaint: Color blue.\x0a\x09\x09\x0a\x09\x09canvas drawShape: (canvas createPath: [:b | b lineTo:300@300 ])\x0a\x09].",
-messageSends: ["createPath:", "moveTo:", "@", "lineTo:", "close", "drawDuring:", "clear:", "gray", "translateX:Y:", "/", "width", "height", "pathTransform", "scaleBy:", "setShape:", "setPaint:", "yellow", "draw", "loadIdentity", "setStrokePaint:", "blue", "drawShape:"],
+source: "step17\x0a\x09\x22Step 17: Self-intersecting paths and how they are filled.\x0a\x0a\x09There is a simple algorithm to determine whether given point will be filled or not: \x0a \x09- take an arbitrary point, infinitely distant from path interior and connect it with a point under the question.\x0a \x09- count how many times the resulting ray intersects with path segments\x0a \x09- if number of intersections is odd, then given point will be filled\x0a \x09- if number of intersections is even, then given point will NOT be filled\x22\x0a\x09\x0a\x09| path |\x0a\x09path := surface createPath: [ :builder |\x0a\x09\x09\x09\x0a\x09\x09builder \x0a\x09\x09\x09moveTo: -50 @ -50;\x0a\x09\x09\x09lineTo: 50 @ 0;\x0a\x09\x09\x09lineTo: 0 @ 50;\x0a\x09\x09\x09lineTo: -50 @ 0;\x0a\x09\x09\x09lineTo: 80 @ -30;\x0a\x09\x09\x09close ].\x0a\x0a\x0a\x09surface drawDuring: [ :canvas |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x0a\x09\x09canvas pathTransform\x0a\x09\x09\x09translateByX: surface width/2.0 Y: surface height / 2.0;\x0a\x09\x09\x09scaleBy: 3.\x0a\x09\x0a\x09\x09canvas setShape: path.\x0a\x09\x09canvas setPaint: Color yellow.\x0a\x09\x09canvas draw.\x0a\x09\x09\x0a\x09\x09canvas pathTransform loadIdentity.\x0a\x09\x09\x22draw a line to demonstrate imaginery ray\x22\x0a\x09\x09\x0a\x09\x09canvas setStrokePaint: Color blue.\x0a\x09\x09\x0a\x09\x09canvas drawShape: (canvas createPath: [ :b | b lineTo: 300 @ 300 ]) ].",
+messageSends: ["createPath:", "moveTo:", "@", "lineTo:", "close", "drawDuring:", "clear:", "gray", "translateByX:Y:", "/", "width", "height", "pathTransform", "scaleBy:", "setShape:", "setPaint:", "yellow", "draw", "loadIdentity", "setStrokePaint:", "blue", "drawShape:"],
 referencedClasses: ["Color"]
 }),
 smalltalk.AthensTutorial);
@@ -761,7 +684,7 @@ _st(self["@surface"])._drawDuring_((function(canvas){
 return smalltalk.withContext(function($ctx2) {
 _st(self["@surface"])._clear_(_st($Color())._gray());
 $5=_st(canvas)._pathTransform();
-_st($5)._translateX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((2)));
+_st($5)._translateByX_Y_(_st(_st(self["@surface"])._width()).__slash((2)),_st(_st(self["@surface"])._height()).__slash((2)));
 $6=_st($5)._scaleBy_((3));
 $6;
 _st(canvas)._setShape_(path);
@@ -770,8 +693,8 @@ return _st(canvas)._draw();
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step18",{path:path},smalltalk.AthensTutorial)})},
 args: [],
-source: "step18\x0a\x22Step 18: Creating hollow shapes using multiple contours.\x0a\x0a\x22\x0a\x09| path |\x0a\x0a\x09path := surface createPath: [:builder |\x0a\x09\x09\x09\x0a\x09\x09builder \x0a\x09\x09\x0a\x09\x09\x09\x22The first contour is a rectangle\x22\x0a\x0a\x09\x09\x09moveTo: -50@ -50;\x0a\x09\x09\x09lineTo: 50@0;\x09\x09\x09\x0a\x09\x09\x09lineTo: 0@50;\x0a\x09\x09\x09lineTo: -50@0;\x0a\x09\x09\x09close;\x0a\x09\x09\x09\x0a\x09\x09\x09\x22A second contour is a rectangle, embedded into previous one. \x22\x0a\x09\x09\x09\x0a\x09\x09\x09\x22Important to note here: a close and moveTo: commands are ones \x0a\x09\x09\x09which starting new contour. If there is no #close segment, but\x0a\x09\x09\x09moveTo: , it is counted as if implicit #close segment were added. \x0a\x09\x09\x09This is of course relevant only for filled paths, not stoked ones\x22\x0a\x09\x09\x09\x09\x0a\x09\x09\x09moveTo: 10@10;\x0a\x09\x09\x09lineTo: 0@30;\x0a\x09\x09\x09lineTo: 30@0;\x0a\x09\x09\x09lineTo: 0@ -30;\x0a\x09\x09\x09close.\x0a\x09\x09\x09\x0a\x09\x09\x09\x22An important note here: the winding of contours must be different in order \x0a\x09\x09\x09to exclude the area inside one contour from another.\x0a\x09\x09\x09If contours having same winding (both clockwise or both counter-clockwise,\x0a\x09\x09\x09they will be both filled.\x22\x0a\x0a\x0a\x09\x09\x09\x22The third rectangle intersecting with both contours, try to change the initial moveTo: \x0a\x09\x09\x09segment coordinates to draw it outside or inside and see the difference\x22\x0a\x09\x09\x09builder\x0a\x09\x09\x09moveTo: 25@10;\x0a\x09\x09\x09lineTo: 0@10;\x0a\x09\x09\x09lineTo: 10@0;\x0a\x09\x09\x09lineTo: 0@ -10;\x0a\x09\x09\x09close.\x0a\x0a\x09\x09].\x0a\x0a\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x0a\x09\x09canvas pathTransform\x0a\x09\x09\x09translateX: surface width/2.0 Y: surface height / 2.0 ;\x0a\x09\x09\x09scaleBy:3.\x0a\x09\x0a\x09\x09canvas setShape: path.\x0a\x09\x09canvas setPaint: Color yellow.\x0a\x09\x09\x0a\x09\x09canvas draw.\x0a\x09].",
-messageSends: ["createPath:", "moveTo:", "@", "lineTo:", "close", "drawDuring:", "clear:", "gray", "translateX:Y:", "/", "width", "height", "pathTransform", "scaleBy:", "setShape:", "setPaint:", "yellow", "draw"],
+source: "step18\x0a\x09\x22Step 18: Creating hollow shapes using multiple contours.\x22\x0a\x09\x0a\x09| path |\x0a\x09path := surface createPath: [ :builder |\x0a\x09\x09\x09\x0a\x09\x09builder \x0a\x09\x09\x0a\x09\x09\x09\x22The first contour is a rectangle\x22\x0a\x0a\x09\x09\x09moveTo: -50 @ -50;\x0a\x09\x09\x09lineTo: 50 @ 0;\x0a\x09\x09\x09lineTo: 0 @ 50;\x0a\x09\x09\x09lineTo: -50 @ 0;\x0a\x09\x09\x09close;\x0a\x09\x09\x09\x0a\x09\x09\x09\x22A second contour is a rectangle, embedded into previous one. \x22\x0a\x09\x09\x09\x0a\x09\x09\x09\x22Important to note here: a close and moveTo: commands are ones \x0a\x09\x09\x09which starting new contour. If there is no #close segment, but\x0a\x09\x09\x09moveTo: , it is counted as if implicit #close segment were added. \x0a\x09\x09\x09This is of course relevant only for filled paths, not stoked ones\x22\x0a\x09\x09\x09\x09\x0a\x09\x09\x09moveTo: 10 @ 10;\x0a\x09\x09\x09lineTo: 0 @ 30;\x0a\x09\x09\x09lineTo: 30 @ 0;\x0a\x09\x09\x09lineTo: 0 @ -30;\x0a\x09\x09\x09close.\x0a\x09\x09\x09\x0a\x09\x09\x09\x22An important note here: the winding of contours must be different in order \x0a\x09\x09\x09to exclude the area inside one contour from another.\x0a\x09\x09\x09If contours having same winding (both clockwise or both counter-clockwise,\x0a\x09\x09\x09they will be both filled.\x22\x0a\x0a\x0a\x09\x09\x09\x22The third rectangle intersecting with both contours, try to change the initial moveTo: \x0a\x09\x09\x09segment coordinates to draw it outside or inside and see the difference\x22\x0a\x09\x09builder\x0a\x09\x09\x09moveTo: 25 @ 10;\x0a\x09\x09\x09lineTo: 0 @ 10;\x0a\x09\x09\x09lineTo: 10 @ 0;\x0a\x09\x09\x09lineTo: 0 @ -10;\x0a\x09\x09\x09close ].\x0a\x0a\x0a\x09surface drawDuring: [ :canvas |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x0a\x09\x09canvas pathTransform\x0a\x09\x09\x09translateByX: surface width/2.0 Y: surface height / 2.0;\x0a\x09\x09\x09scaleBy: 3.\x0a\x09\x0a\x09\x09canvas setShape: path.\x0a\x09\x09canvas setPaint: Color yellow.\x0a\x09\x09\x0a\x09\x09canvas draw ].",
+messageSends: ["createPath:", "moveTo:", "@", "lineTo:", "close", "drawDuring:", "clear:", "gray", "translateByX:Y:", "/", "width", "height", "pathTransform", "scaleBy:", "setShape:", "setPaint:", "yellow", "draw"],
 referencedClasses: ["Color"]
 }),
 smalltalk.AthensTutorial);
@@ -790,27 +713,27 @@ linearGradient=_st(self["@surface"])._createLinearGradient_start_stop_(smalltalk
 _st(self["@surface"])._drawDuring_((function(canvas){
 return smalltalk.withContext(function($ctx2) {
 _st(self["@surface"])._clear_(_st($Color())._gray());
-_st(_st(canvas)._pathTransform())._translateX_Y_((10),(10));
+_st(_st(canvas)._pathTransform())._translateByX_Y_((10),(10));
 _st(canvas)._setShape_(_st((0).__at((0)))._corner_((100).__at((100))));
 _st(canvas)._setPaint_(linearGradient);
 _st(canvas)._draw();
-_st(_st(canvas)._pathTransform())._translateX_Y_((150),(0));
+_st(_st(canvas)._pathTransform())._translateByX_Y_((150),(0));
 $1=_st(canvas)._paintTransform();
 _st($1)._rotateByDegrees_((45));
 $2=_st($1)._scaleBy_((0.7));
 $2;
 _st(canvas)._draw();
-_st(_st(canvas)._pathTransform())._translateX_Y_((150),(0));
+_st(_st(canvas)._pathTransform())._translateByX_Y_((150),(0));
 $3=_st(canvas)._paintTransform();
-_st($3)._translateX_Y_((0),(80));
+_st($3)._translateByX_Y_((0),(80));
 $4=_st($3)._scaleBy_((0.2));
 $4;
 return _st(canvas)._draw();
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step19",{linearGradient:linearGradient},smalltalk.AthensTutorial)})},
 args: [],
-source: "step19\x0a\x22Step 19: Using gradient paints.\x0a\x0a\x0aSo far we're use a simplest kind of paint: just a solid color.\x0aNow let's play with gradients.\x0a\x22\x0a\x09| linearGradient |\x0a\x0a\x0a\x09\x22A linear gradient defined used 3 parameters:\x0a\x09 - a color ramp (a points in range from 0 to 1 with associated colors)\x0a\x09- origin (starting) point\x0a\x09- end (stop) point\x0a\x09\x0a\x09A vector connecting start and stop defines the direction which gradient will be facing,\x0a\x09as well as its dimensions. \x22\x09\x0a\x09linearGradient := surface createLinearGradient: #{\x0a\x09\x09\x090 -> Color blue .\x0a\x09\x09\x090.25 -> Color red.\x0a\x09\x09\x090.5 -> Color white.\x0a\x09\x09\x090.75 -> Color yellow.\x0a\x09\x09\x091 -> Color green\x09\x0a\x09\x09}\x0a\x09\x09start: 0@0  \x0a\x09\x09stop: 100@100.\x0a\x0a\x0a\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x09\x0a\x09\x09\x09\x0a\x09\x09canvas pathTransform translateX: 10 Y: 10.\x0a\x09\x09\x0a\x09\x09canvas setShape: (0@0 corner:100@100).\x0a\x09\x09canvas setPaint: linearGradient.\x0a\x09\x09\x0a\x09\x09canvas draw.\x0a\x0a\x0a\x09\x09canvas pathTransform translateX: 150 Y: 0.\x0a\x09\x09\x0a\x09\x09\x22Here we are using a paint tranform to change the gradient's direction and scale\x22\x0a\x09\x09canvas paintTransform rotateByDegrees: 45; scaleBy: 0.7.\x0a\x09\x09canvas draw.\x0a\x0a\x09\x09canvas pathTransform translateX: 150 Y: 0.\x0a\x09\x09\x0a\x09\x09\x22The areas outside the ramp boundary filled by extending the colors defined for 0 and 1 points of ramp respectively. \x0a\x09\x09(blue for top, green for bottom, in our case)\x22\x0a\x09\x09canvas paintTransform translateX: 0 Y: 80; scaleBy: 0.2.\x0a\x09\x09canvas draw.\x0a\x0a\x09].",
-messageSends: ["createLinearGradient:start:stop:", "->", "blue", "red", "white", "yellow", "green", "@", "drawDuring:", "clear:", "gray", "translateX:Y:", "pathTransform", "setShape:", "corner:", "setPaint:", "draw", "rotateByDegrees:", "paintTransform", "scaleBy:"],
+source: "step19\x0a\x09\x22Step 19: Using gradient paints.\x0a\x0a\x09So far we're use a simplest kind of paint: just a solid color.\x0a\x09Now let's play with gradients.\x22\x0a\x09\x0a\x09| linearGradient |\x0a\x0a\x09\x22A linear gradient defined used 3 parameters:\x0a\x09 - a color ramp (a points in range from 0 to 1 with associated colors)\x0a\x09- origin (starting) point\x0a\x09- end (stop) point\x0a\x09\x0a\x09A vector connecting start and stop defines the direction which gradient will be facing,\x0a\x09as well as its dimensions. \x22\x09\x0a\x0a\x09linearGradient := surface createLinearGradient: #{\x0a\x09\x09\x090 -> Color blue .\x0a\x09\x09\x090.25 -> Color red.\x0a\x09\x09\x090.5 -> Color white.\x0a\x09\x09\x090.75 -> Color yellow.\x0a\x09\x09\x091 -> Color green }\x0a\x09\x09start: 0 @ 0  \x0a\x09\x09stop: 100 @ 100.\x0a\x0a\x0a\x0a\x09surface drawDuring: [ :canvas |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x09\x0a\x09\x09canvas pathTransform translateByX: 10 Y: 10.\x0a\x09\x09\x0a\x09\x09canvas setShape: (0@0 corner:100@100).\x0a\x09\x09canvas setPaint: linearGradient.\x0a\x09\x09\x0a\x09\x09canvas draw.\x0a\x0a\x09\x09canvas pathTransform translateByX: 150 Y: 0.\x0a\x09\x09\x0a\x09\x09\x22Here we are using a paint tranform to change the gradient's direction and scale\x22\x0a\x09\x09canvas paintTransform rotateByDegrees: 45; scaleBy: 0.7.\x0a\x09\x09canvas draw.\x0a\x0a\x09\x09canvas pathTransform translateByX: 150 Y: 0.\x0a\x09\x09\x0a\x09\x09\x22The areas outside the ramp boundary filled by extending the colors defined for 0 and 1 points of ramp respectively. \x0a\x09\x09(blue for top, green for bottom, in our case)\x22\x0a\x09\x09canvas paintTransform translateByX: 0 Y: 80; scaleBy: 0.2.\x0a\x09\x09canvas draw ].",
+messageSends: ["createLinearGradient:start:stop:", "->", "blue", "red", "white", "yellow", "green", "@", "drawDuring:", "clear:", "gray", "translateByX:Y:", "pathTransform", "setShape:", "corner:", "setPaint:", "draw", "rotateByDegrees:", "paintTransform", "scaleBy:"],
 referencedClasses: ["Color"]
 }),
 smalltalk.AthensTutorial);
@@ -831,7 +754,7 @@ _st(self["@surface"])._appendToJQuery_("#canvas-container"._asJQuery());
 _st(_st(_st(self["@surface"])._canvasTag())._asJQuery())._css_with_("border","1px #aaa solid");
 return self}, function($ctx1) {$ctx1.fill(self,"step2",{container:container},smalltalk.AthensTutorial)})},
 args: [],
-source: "step2\x0a\x22Step 2:\x0a\x0aCreating a surface.\x0a\x0aProtocol:\x0a\x0a<SurfaceClass> extent: x@y\x0a\x0awill create a surface using specific class.\x0a\x0aAll surfaces is conformant to AthensSurface protocol.\x0a\x0aExample: \x0a\x22\x0a\x0a|container|\x0acontainer := '#canvas-container' asJQuery.\x0a\x0a\x22Clear previous canvases\x22\x0acontainer empty.\x0a\x0asurface := AthensHTMLSurface extent: 500@400.\x0asurface appendToJQuery: '#canvas-container' asJQuery.\x0a\x0a\x22Render border around canvas.\x22\x0asurface canvasTag asJQuery \x0a\x09css: 'border' with: '1px #aaa solid'.\x0a\x0a\x22IMPORTANT NOTE:\x0a\x09the surface which we will create at this step will be used in later steps.\x0a\x09This means that if you resize the window (changing the view size), you may need to recreate surface.\x0a\x09Also, since surface uses external resources, quitting an image and restarting it, will also require to \x0a\x09create a new surface, because the one from previous session will be no longer accessible.\x0a\x22",
+source: "step2\x0a\x09\x22Step 2: Creating a surface.\x0a\x0a\x09Protocol: <SurfaceClass> extent: x@y will create a surface using specific class.\x0a\x09All surfaces are conformant to AthensSurface protocol.\x22\x0a\x0a\x09|container|\x0a\x09container := '#canvas-container' asJQuery.\x0a\x0a\x09\x22Clear previous canvases\x22\x0a\x09container empty.\x0a\x0a\x09surface := AthensHTMLSurface extent: 500@400.\x0a\x09surface appendToJQuery: '#canvas-container' asJQuery.\x0a\x0a\x09\x22Render border around canvas.\x22\x0a\x09surface canvasTag asJQuery \x0a\x09\x09css: 'border' with: '1px #aaa solid'.\x0a\x09\x0a\x09\x22IMPORTANT NOTE:\x0a\x09\x09the surface which we will create at this step will be used in later steps.\x0a\x09\x09This means that if you resize the window (changing the view size), you may need to recreate surface.\x0a\x09\x09Also, since surface uses external resources, quitting an image and restarting it, will also require to \x0a\x09\x09create a new surface, because the one from previous session will be no longer accessible.\x22",
 messageSends: ["asJQuery", "empty", "extent:", "@", "appendToJQuery:", "css:with:", "canvasTag"],
 referencedClasses: ["AthensHTMLSurface"]
 }),
@@ -852,18 +775,18 @@ radialWithCustomFocus=_st(self["@surface"])._createRadialGradient_center_radius_
 _st(self["@surface"])._drawDuring_((function(canvas){
 return smalltalk.withContext(function($ctx2) {
 _st(self["@surface"])._clear_(_st($Color())._gray());
-_st(_st(canvas)._pathTransform())._translateX_Y_((10),(10));
+_st(_st(canvas)._pathTransform())._translateByX_Y_((10),(10));
 _st(canvas)._setShape_(_st((0).__at((0)))._corner_((100).__at((100))));
 _st(canvas)._setPaint_(perfectRadial);
 _st(canvas)._draw();
-_st(_st(canvas)._pathTransform())._translateX_Y_((150),(0));
+_st(_st(canvas)._pathTransform())._translateByX_Y_((150),(0));
 _st(canvas)._setPaint_(radialWithCustomFocus);
 return _st(canvas)._draw();
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step20",{ramp:ramp,perfectRadial:perfectRadial,radialWithCustomFocus:radialWithCustomFocus},smalltalk.AthensTutorial)})},
 args: [],
-source: "step20\x0a\x22Step 20: Radial gradients.\x0a\x0a\x22\x0a\x09| ramp perfectRadial radialWithCustomFocus |\x0a\x0a\x0a\x09\x22A radial gradient defined using following parameters:\x0a\x09 - a color ramp (a points in range from 0 to 1 with associated colors)\x0a\x09- center point\x0a\x09- radius\x0a\x09- focal point (can be omited if focus is at center)\x0a\x09\x22\x09\x0a\x09ramp :=  #{\x0a\x09\x09\x090 -> Color blue .\x0a\x09\x09\x090.25 -> Color red.\x0a\x09\x09\x090.5 -> Color white.\x0a\x09\x09\x090.75 -> Color yellow.\x0a\x09\x09\x091 -> (Color blue alpha: 0)\x0a\x09\x09}.\x0a\x09\x09\x0a\x09perfectRadial := surface createRadialGradient: ramp\x0a\x09\x09center: 50@50  radius: 50 .\x0a\x09\x0a\x09radialWithCustomFocus := surface createRadialGradient: ramp\x0a\x09\x09center: 50@50  radius: 50\x09focalPoint: 20@20. \x0a\x09\x0a\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x09\x0a\x09\x09\x09\x0a\x09\x09canvas pathTransform translateX: 10 Y: 10.\x0a\x09\x09\x0a\x09\x09canvas setShape: (0@0 corner:100@100).\x0a\x09\x09canvas setPaint: perfectRadial.\x0a\x09\x09\x0a\x09\x09canvas draw.\x0a\x0a\x0a\x09\x09canvas pathTransform translateX: 150 Y: 0.\x0a\x09\x09canvas setPaint: radialWithCustomFocus.\x0a\x09\x09\x0a\x09\x09canvas draw.\x0a\x0a\x09].",
-messageSends: ["->", "blue", "red", "white", "yellow", "alpha:", "createRadialGradient:center:radius:", "@", "createRadialGradient:center:radius:focalPoint:", "drawDuring:", "clear:", "gray", "translateX:Y:", "pathTransform", "setShape:", "corner:", "setPaint:", "draw"],
+source: "step20\x0a\x09\x22Step 20: Radial gradients.\x22\x0a\x09\x0a\x09| ramp perfectRadial radialWithCustomFocus |\x0a\x0a\x09\x22A radial gradient defined using following parameters:\x0a\x09 - a color ramp (a points in range from 0 to 1 with associated colors)\x0a\x09- center point\x0a\x09- radius\x0a\x09- focal point (can be omited if focus is at center)\x22\x0a\x09\x0a\x09ramp :=  #{\x0a\x09\x09\x090 -> Color blue .\x0a\x09\x09\x090.25 -> Color red.\x0a\x09\x09\x090.5 -> Color white.\x0a\x09\x09\x090.75 -> Color yellow.\x0a\x09\x09\x091 -> (Color blue alpha: 0) }.\x0a\x09\x09\x0a\x09perfectRadial := surface createRadialGradient: ramp\x0a\x09\x09center: 50 @ 50 radius: 50 .\x0a\x09\x0a\x09radialWithCustomFocus := surface createRadialGradient: ramp\x0a\x09\x09center: 50 @ 50 radius: 50 focalPoint: 20 @ 20. \x0a\x09\x0a\x09surface drawDuring: [ :canvas |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x09\x0a\x09\x09canvas pathTransform translateByX: 10 Y: 10.\x0a\x09\x09\x0a\x09\x09canvas setShape: (0 @ 0 corner:100 @ 100).\x0a\x09\x09canvas setPaint: perfectRadial.\x0a\x09\x09\x0a\x09\x09canvas draw.\x0a\x0a\x09\x09canvas pathTransform translateByX: 150 Y: 0.\x0a\x09\x09canvas setPaint: radialWithCustomFocus.\x0a\x09\x09\x0a\x09\x09canvas draw ].",
+messageSends: ["->", "blue", "red", "white", "yellow", "alpha:", "createRadialGradient:center:radius:", "@", "createRadialGradient:center:radius:focalPoint:", "drawDuring:", "clear:", "gray", "translateByX:Y:", "pathTransform", "setShape:", "corner:", "setPaint:", "draw"],
 referencedClasses: ["Color"]
 }),
 smalltalk.AthensTutorial);
@@ -877,7 +800,7 @@ var self=this;
 function $Image(){return smalltalk.Image||(typeof Image=="undefined"?nil:Image)}
 function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
 return smalltalk.withContext(function($ctx1) { 
-_st(self["@surface"])._createBitmapPaint_afterLoading_(_st($Image())._fromUrl_("http://amber-lang.net/images/amber.png"),(function(bitmapPaint){
+_st(self["@surface"])._createBitmapPaint_afterLoading_(_st($Image())._fromUrl_("images/amber.png"),(function(bitmapPaint){
 return smalltalk.withContext(function($ctx2) {
 _st(bitmapPaint)._repeat();
 return _st(self["@surface"])._drawDuring_((function(canvas){
@@ -890,35 +813,8 @@ return _st(canvas)._drawShape_(_st((0).__at((0)))._corner_(_st(self["@surface"])
 }, function($ctx2) {$ctx2.fillBlock({bitmapPaint:bitmapPaint},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step21",{},smalltalk.AthensTutorial)})},
 args: [],
-source: "step21\x0a\x22Step 21: Pattern paints (bitmap paints).\x0a\x0a\x22\x0a\x09\x0a\x09\x22The afterLoading block is executed when the image is loaded by the browser.\x0a\x09If you know for sure that the image is already loaded, you can use\x0a\x09createBitmapPaint: that creates the paint and returns it directly.\x22\x0a\x09\x0a\x09surface \x0a\x09\x09createBitmapPaint: (Image fromUrl: 'http://amber-lang.net/images/amber.png')\x0a\x09\x09afterLoading: [:bitmapPaint |\x0a\x09\x09\x09bitmapPaint repeat. \x22use #repeat to repeat the fill ad infinitum using tiling effect \x22\x0a\x09\x0a\x09\x09\x09surface drawDuring: [:canvas |\x0a\x09\x09\x09\x09surface clear: Color gray.\x0a\x09\x09\x09\x0a\x09\x09\x09\x09canvas setPaint: bitmapPaint.\x0a\x09\x09\x0a\x09\x09\x09\x09\x22And of course, using the paint transform we can affect the result\x22\x0a\x09\x09\x0a\x09\x09\x09\x09canvas paintTransform scaleBy: 0.5.\x0a\x09\x09\x09\x09canvas drawShape: (0@0 corner: surface extent).\x0a\x0a\x09\x09\x09]].",
+source: "step21\x0a\x09\x22Step 21: Pattern paints (bitmap paints).\x22\x0a\x09\x0a\x09\x22The afterLoading block is executed when the image is loaded by the browser.\x0a\x09If you know for sure that the image is already loaded, you can use\x0a\x09createBitmapPaint: that creates the paint and returns it directly.\x22\x0a\x09\x0a\x09surface \x0a\x09\x09createBitmapPaint: (Image fromUrl: 'images/amber.png')\x0a\x09\x09afterLoading: [ :bitmapPaint |\x0a\x09\x09\x09bitmapPaint repeat. \x22use #repeat to repeat the fill ad infinitum using tiling effect \x22\x0a\x09\x0a\x09\x09\x09surface drawDuring: [ :canvas |\x0a\x09\x09\x09\x09surface clear: Color gray.\x0a\x09\x09\x09\x0a\x09\x09\x09\x09canvas setPaint: bitmapPaint.\x0a\x09\x09\x0a\x09\x09\x09\x09\x22And of course, using the paint transform we can affect the result\x22\x0a\x09\x09\x0a\x09\x09\x09\x09canvas paintTransform scaleBy: 0.5.\x0a\x09\x09\x09\x09canvas drawShape: (0 @ 0 corner: surface extent) ]].",
 messageSends: ["createBitmapPaint:afterLoading:", "fromUrl:", "repeat", "drawDuring:", "clear:", "gray", "setPaint:", "scaleBy:", "paintTransform", "drawShape:", "corner:", "extent", "@"],
-referencedClasses: ["Image", "Color"]
-}),
-smalltalk.AthensTutorial);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "step21a",
-category: 'steps',
-fn: function (){
-var self=this;
-var bitmapPaint;
-function $Image(){return smalltalk.Image||(typeof Image=="undefined"?nil:Image)}
-function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
-return smalltalk.withContext(function($ctx1) { 
-bitmapPaint=_st(self["@surface"])._createBitmapPaint_(_st($Image())._fromUrl_("http://amber-lang.net/images/amber.png"));
-_st(bitmapPaint)._repeat();
-_st(self["@surface"])._drawDuring_((function(canvas){
-return smalltalk.withContext(function($ctx2) {
-_st(self["@surface"])._clear_(_st($Color())._gray());
-_st(canvas)._setPaint_(bitmapPaint);
-_st(_st(canvas)._paintTransform())._scaleBy_((0.5));
-return _st(canvas)._drawShape_(_st((0).__at((0)))._corner_(_st(self["@surface"])._extent()));
-}, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
-return self}, function($ctx1) {$ctx1.fill(self,"step21a",{bitmapPaint:bitmapPaint},smalltalk.AthensTutorial)})},
-args: [],
-source: "step21a\x0a\x22Step 21: Pattern paints (bitmap paints).\x0a\x0a\x22\x0a\x09| bitmapPaint  |\x0a\x0a\x09bitmapPaint := surface createBitmapPaint: (Image fromUrl: 'http://amber-lang.net/images/amber.png'). \x0a\x09bitmapPaint repeat. \x22use #repeat to repeat the fill ad infinitum using tiling effect \x22\x0a\x09\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x09\x0a\x09\x09canvas setPaint: bitmapPaint.\x0a\x09\x09\x0a\x09\x09\x22And of course, using the paint transform we can affect the result\x22\x0a\x09\x09\x0a\x09\x09canvas paintTransform scaleBy: 0.5.\x0a\x09\x09canvas drawShape: (0@0 corner: surface extent).\x0a\x0a\x09].",
-messageSends: ["createBitmapPaint:", "fromUrl:", "repeat", "drawDuring:", "clear:", "gray", "setPaint:", "scaleBy:", "paintTransform", "drawShape:", "corner:", "extent", "@"],
 referencedClasses: ["Image", "Color"]
 }),
 smalltalk.AthensTutorial);
@@ -952,7 +848,7 @@ return _st(canvas)._drawShape_(_st((0).__at((0)))._corner_(_st(self["@surface"])
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step22",{surface2:surface2},smalltalk.AthensTutorial)})},
 args: [],
-source: "step22\x0a\x22Step 22: Using another surface as paint.\x0a\x0aSimply pass surface as an argument to #setPaint: method.\x0a\x0a\x22\x0a\x09| surface2  |\x0a\x0a\x09surface2 := AthensHTMLSurface extent: 10@10.\x0a\x09\x0a\x09\x22checker board\x22\x0a\x09surface2 drawDuring: [:canvas |\x0a\x09\x09surface2 clear.\x0a\x09\x09canvas setPaint: Color white.\x0a\x09\x09\x0a\x09\x09canvas \x0a\x09\x09\x09drawShape: (0@0 corner: 5@5);\x0a\x09\x09\x09drawShape: (5@5 corner: 10@10)\x0a\x09\x09].\x0a\x0a\x09\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x09\x0a\x09\x09(canvas setPaint: surface2) repeat.\x0a\x09\x09\x0a\x09\x09\x22And of course, using the paint transform we can affect the result.\x0a\x09\x09Uncomment the line below to see the difference\x22\x0a\x09\x09\x22canvas paintTransform scaleX: 3 Y:1; rotateByDegrees: 45 .\x22\x0a\x09\x09canvas drawShape: (0@0 corner: surface extent).\x0a\x0a\x09].",
+source: "step22\x0a\x09\x22Step 22: Using another surface as paint. \x0a\x09\x0a\x09Simply pass surface as an argument to #setPaint: method.\x22\x0a\x09\x0a\x09| surface2  |\x0a\x09surface2 := AthensHTMLSurface extent: 10 @ 10.\x0a\x09\x0a\x09\x22checker board\x22\x0a\x09surface2 drawDuring: [ :canvas |\x0a\x09\x09surface2 clear.\x0a\x09\x09canvas setPaint: Color white.\x0a\x09\x09\x0a\x09\x09canvas \x0a\x09\x09\x09drawShape: (0 @ 0 corner: 5 @ 5);\x0a\x09\x09\x09drawShape: (5 @ 5 corner: 10 @ 10) ].\x0a\x0a\x09surface drawDuring: [ :canvas |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x09\x0a\x09\x09(canvas setPaint: surface2) repeat.\x0a\x09\x09\x0a\x09\x09\x22And of course, using the paint transform we can affect the result.\x0a\x09\x09Uncomment the line below to see the difference\x22\x0a\x09\x09\x22canvas paintTransform scaleByX: 3 Y: 1; rotateByDegrees: 45 .\x22\x0a\x09\x09\x0a\x09\x09canvas drawShape: (0 @ 0 corner: surface extent) ].",
 messageSends: ["extent:", "@", "drawDuring:", "clear", "setPaint:", "white", "drawShape:", "corner:", "clear:", "gray", "repeat", "extent"],
 referencedClasses: ["AthensHTMLSurface", "Color"]
 }),
@@ -987,15 +883,15 @@ stroke=_st(canvas)._setStrokePaint_(_st($Color())._white());
 stroke;
 _st(stroke)._width_((5));
 $3=_st(canvas)._pathTransform();
-_st($3)._translateX_Y_((400),(400));
+_st($3)._translateByX_Y_((400),(400));
 $4=_st($3)._scaleBy_((4));
 $4;
 return _st(canvas)._drawShape_(path);
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas,stroke:stroke},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step23",{path:path},smalltalk.AthensTutorial)})},
 args: [],
-source: "step23\x0a\x22Step 23: Stroke paints.\x0a\x0aStroke paint is a special kind of paint, which instead of filling the shape,\x0a drawing a connected contour of certain width following the path.\x0a\x22\x0a\x09| path |\x0a\x0a\x09path := surface createPath: [:builder |\x0a\x09\x09\x09\x0a\x09\x09builder \x0a\x09\x09\x09moveTo: -50@ -50;\x0a\x09\x09\x09lineTo: 50@0;\x0a\x09\x09\x09lineTo: 0@50;\x0a\x09\x09\x09lineTo: -50@0;\x0a\x09\x09\x09lineTo: 80@ -30;\x0a\x09\x09\x09close\x0a\x09\x09].\x0a\x09\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09| stroke |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x09\x0a\x09\x09\x22A stroke paint uses another paint for fills\x22\x0a\x09\x09\x0a\x09\x09stroke := canvas setStrokePaint: Color white.\x0a\x09\x09\x0a\x09\x09\x22You can control the width of stroke by setting width parameter\x22\x0a\x09\x09stroke width: 5.\x0a\x09\x09\x0a\x09\x09canvas pathTransform \x0a\x09\x09\x09translateX: 400 Y:400;\x0a\x09\x09\x09scaleBy: 4.\x0a\x09\x09canvas drawShape: path.\x0a\x0a\x09].",
-messageSends: ["createPath:", "moveTo:", "@", "lineTo:", "close", "drawDuring:", "clear:", "gray", "setStrokePaint:", "white", "width:", "translateX:Y:", "pathTransform", "scaleBy:", "drawShape:"],
+source: "step23\x0a\x09\x22Step 23: Stroke paints.\x0a\x09\x0a\x09Stroke paint is a special kind of paint, which instead of filling the shape,\x0a\x09drawing a connected contour of certain width following the path. \x22\x0a\x09\x0a\x09| path |\x0a\x09path := surface createPath: [ :builder |\x0a\x09\x09builder \x0a\x09\x09\x09moveTo: -50 @ -50;\x0a\x09\x09\x09lineTo: 50 @ 0;\x0a\x09\x09\x09lineTo: 0 @ 50;\x0a\x09\x09\x09lineTo: -50 @ 0;\x0a\x09\x09\x09lineTo: 80 @ -30;\x0a\x09\x09\x09close ].\x0a\x09\x0a\x09surface drawDuring: [ :canvas | | stroke |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x09\x0a\x09\x09\x22A stroke paint uses another paint for fills\x22\x0a\x09\x09stroke := canvas setStrokePaint: Color white.\x0a\x09\x09\x0a\x09\x09\x22You can control the width of stroke by setting width parameter\x22\x0a\x09\x09stroke width: 5.\x0a\x09\x09\x0a\x09\x09canvas pathTransform \x0a\x09\x09\x09translateByX: 400 Y: 400;\x0a\x09\x09\x09scaleBy: 4.\x0a\x09\x09\x09\x0a\x09\x09canvas drawShape: path ].",
+messageSends: ["createPath:", "moveTo:", "@", "lineTo:", "close", "drawDuring:", "clear:", "gray", "setStrokePaint:", "white", "width:", "translateByX:Y:", "pathTransform", "scaleBy:", "drawShape:"],
 referencedClasses: ["Color"]
 }),
 smalltalk.AthensTutorial);
@@ -1030,15 +926,15 @@ stroke;
 _st(stroke)._width_((5));
 _st(stroke)._joinBevel();
 $3=_st(canvas)._pathTransform();
-_st($3)._translateX_Y_((400),(400));
+_st($3)._translateByX_Y_((400),(400));
 $4=_st($3)._scaleBy_((4));
 $4;
 return _st(canvas)._drawShape_(path);
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas,stroke:stroke},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step24",{path:path},smalltalk.AthensTutorial)})},
 args: [],
-source: "step24\x0a\x0a\x22Step 24: Stroke paints: Join type.\x0a\x0aThe stroke join type affects how to connect the segments.\x0a\x0a\x22\x0a\x09| path |\x0a\x0a\x09path := surface createPath: [:builder |\x0a\x09\x09\x09\x0a\x09\x09builder \x0a\x09\x09\x09moveTo: -50@ -50;\x0a\x09\x09\x09lineTo: 50@0;\x0a\x09\x09\x09lineTo: 0@50;\x0a\x09\x09\x09lineTo: -50@0;\x0a\x09\x09\x09lineTo: 80@ -30;\x0a\x09\x09\x09close\x0a\x09\x09].\x0a\x09\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09| stroke |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x09\x0a\x09\x09stroke := canvas setStrokePaint: Color white.\x0a\x09\x09stroke width: 5.\x0a\x0a\x09\x22There are 3 kinds of joins: bevel, miter and round (uncomment to see the difference)\x22\x0a\x09\x0a\x09\x09stroke joinBevel. \x0a\x22\x09\x09stroke joinRound.\x0a\x09\x09stroke joinMiter.  \x0a\x22\x09\x09\x0a\x09\x09 \x09\x09\x0a\x09\x09canvas pathTransform \x0a\x09\x09\x09translateX: 400 Y:400;\x0a\x09\x09\x09scaleBy: 4.\x0a\x09\x09canvas drawShape: path.\x0a\x0a\x09].",
-messageSends: ["createPath:", "moveTo:", "@", "lineTo:", "close", "drawDuring:", "clear:", "gray", "setStrokePaint:", "white", "width:", "joinBevel", "translateX:Y:", "pathTransform", "scaleBy:", "drawShape:"],
+source: "step24\x0a\x09\x22Step 24: Stroke paints: Join type.\x0a\x09\x0a\x09The stroke join type affects how to connect the segments.\x22\x0a\x09\x0a\x09| path |\x0a\x09path := surface createPath: [ :builder |\x0a\x09\x09builder \x0a\x09\x09\x09moveTo: -50 @ -50;\x0a\x09\x09\x09lineTo: 50 @ 0;\x0a\x09\x09\x09lineTo: 0 @ 50;\x0a\x09\x09\x09lineTo: -50 @ 0;\x0a\x09\x09\x09lineTo: 80 @ -30;\x0a\x09\x09\x09close ].\x0a\x09\x0a\x09surface drawDuring: [ :canvas |\x0a\x09\x09| stroke |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x09\x0a\x09\x09stroke := canvas setStrokePaint: Color white.\x0a\x09\x09stroke width: 5.\x0a\x0a\x09\x09\x22There are 3 kinds of joins: bevel, miter and round (uncomment to see the difference)\x22\x0a\x09\x0a\x09\x09stroke joinBevel. \x0a\x09\x09\x22stroke joinRound.\x0a\x09\x09stroke joinMiter.\x22\x0a\x09\x09 \x09\x09\x0a\x09\x09canvas pathTransform \x0a\x09\x09\x09translateByX: 400 Y: 400;\x0a\x09\x09\x09scaleBy: 4.\x0a\x09\x09\x09\x0a\x09\x09canvas drawShape: path ].",
+messageSends: ["createPath:", "moveTo:", "@", "lineTo:", "close", "drawDuring:", "clear:", "gray", "setStrokePaint:", "white", "width:", "joinBevel", "translateByX:Y:", "pathTransform", "scaleBy:", "drawShape:"],
 referencedClasses: ["Color"]
 }),
 smalltalk.AthensTutorial);
@@ -1073,15 +969,15 @@ _st(stroke)._width_((5));
 _st(stroke)._joinRound();
 _st(stroke)._capRound();
 $3=_st(canvas)._pathTransform();
-_st($3)._translateX_Y_((400),(400));
+_st($3)._translateByX_Y_((400),(400));
 $4=_st($3)._scaleBy_((4));
 $4;
 return _st(canvas)._drawShape_(path);
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas,stroke:stroke},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step25",{path:path},smalltalk.AthensTutorial)})},
 args: [],
-source: "step25\x0a\x22Step 25: Stroke paints: Cap style\x0a\x0aThe cap style affects drawing the end segments (what kind of 'cap' to use).\x0a\x0a\x22\x0a\x09| path |\x0a\x0a\x09path := surface createPath: [:builder |\x0a\x09\x09\x09\x0a\x09\x09builder \x0a\x09\x09\x09moveTo: -50@ -50;\x0a\x09\x09\x09lineTo: 50@0;\x0a\x09\x09\x09lineTo: 0@50;\x0a\x09\x09\x09lineTo: -50@0;\x0a\x09\x09\x09lineTo: 80@ -30 \x0a\x09\x09\x09\x0a\x09\x09\x09].\x0a\x09\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09| stroke |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x09\x0a\x09\x09stroke := canvas setStrokePaint: Color white.\x0a\x09\x09stroke width: 5.\x0a\x0a\x09\x09stroke joinRound.\x0a\x09\x09\x0a\x09\x09\x22There are 3 kinds of cap: \x0a\x09\x09  - round\x0a\x09\x09  - square\x0a\x09\x09  - and butt\x0a\x09\x09\x0a\x09\x09(uncomment to see the difference)\x0a\x09\x09\x22\x0a\x09\x09\x0a\x09\x09stroke capRound. \x0a\x09\x09\x22stroke capButt.\x22\x0a\x09\x09\x22stroke capSquare. \x22\x0a\x09\x09\x0a\x09\x09canvas pathTransform \x0a\x09\x09\x09translateX: 400 Y:400;\x0a\x09\x09\x09scaleBy: 4.\x0a\x09\x09canvas drawShape: path.\x0a\x0a\x09].",
-messageSends: ["createPath:", "moveTo:", "@", "lineTo:", "drawDuring:", "clear:", "gray", "setStrokePaint:", "white", "width:", "joinRound", "capRound", "translateX:Y:", "pathTransform", "scaleBy:", "drawShape:"],
+source: "step25\x0a\x09\x22Step 25: Stroke paints: Cap style\x0a\x0a\x09The cap style affects drawing the end segments (what kind of 'cap' to use).\x22\x0a\x09\x0a\x09| path |\x0a\x09path := surface createPath: [ :builder |\x0a\x09\x09builder \x0a\x09\x09\x09moveTo: -50 @ -50;\x0a\x09\x09\x09lineTo: 50 @ 0;\x0a\x09\x09\x09lineTo: 0 @ 50;\x0a\x09\x09\x09lineTo: -50 @ 0;\x0a\x09\x09\x09lineTo: 80 @ -30 ].\x0a\x09\x0a\x09surface drawDuring: [ :canvas |\x0a\x09\x09| stroke |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x09\x0a\x09\x09stroke := canvas setStrokePaint: Color white.\x0a\x09\x09stroke width: 5.\x0a\x0a\x09\x09stroke joinRound.\x0a\x09\x09\x0a\x09\x09\x22There are 3 kinds of cap: \x0a\x09\x09  - round\x0a\x09\x09  - square\x0a\x09\x09  - and butt\x0a\x09\x09\x0a\x09\x09(uncomment to see the difference)\x22\x0a\x09\x09\x0a\x09\x09stroke capRound. \x0a\x09\x09\x22stroke capButt.\x22\x0a\x09\x09\x22stroke capSquare. \x22\x0a\x09\x09\x0a\x09\x09canvas pathTransform \x0a\x09\x09\x09translateByX: 400 Y: 400;\x0a\x09\x09\x09scaleBy: 4.\x0a\x09\x09\x09\x0a\x09\x09canvas drawShape: path ].",
+messageSends: ["createPath:", "moveTo:", "@", "lineTo:", "drawDuring:", "clear:", "gray", "setStrokePaint:", "white", "width:", "joinRound", "capRound", "translateByX:Y:", "pathTransform", "scaleBy:", "drawShape:"],
 referencedClasses: ["Color"]
 }),
 smalltalk.AthensTutorial);
@@ -1117,15 +1013,15 @@ _st(stroke)._joinRound();
 _st(stroke)._capRound();
 _st(stroke)._dashes_offset_([(20), (10), (35), (30)],(0));
 $3=_st(canvas)._pathTransform();
-_st($3)._translateX_Y_((400),(400));
+_st($3)._translateByX_Y_((400),(400));
 $4=_st($3)._scaleBy_((4));
 $4;
 return _st(canvas)._drawShape_(path);
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas,stroke:stroke},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step26",{path:path},smalltalk.AthensTutorial)})},
 args: [],
-source: "step26\x0a\x22Step 26: Stroke paints: Dashing\x0a\x0a\x22\x0a\x09| path |\x0a\x0a\x09path := surface createPath: [:builder |\x0a\x09\x09\x09\x0a\x09\x09builder \x0a\x09\x09\x09moveTo: -50@ -50;\x0a\x09\x09\x09lineTo: 50@0;\x0a\x09\x09\x09lineTo: 0@50;\x0a\x09\x09\x09lineTo: -50@0;\x0a\x09\x09\x09lineTo: 80@ -30 \x0a\x09\x09\x09\x0a\x09\x09\x09].\x0a\x09\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09| stroke |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x09\x0a\x09\x09stroke := canvas setStrokePaint: Color white.\x0a\x09\x09stroke width: 5.\x0a\x0a\x09\x09stroke joinRound.\x0a\x09\x09\x0a\x09\x09\x22There are 3 kinds of cap: \x0a\x09\x09  - round\x0a\x09\x09  - square\x0a\x09\x09  - and butt\x0a\x09\x09\x0a\x09\x09(uncomment to see the difference)\x0a\x09\x09\x22\x0a\x09\x09\x0a\x09\x09stroke capRound. \x0a\x0a\x09\x09stroke dashes: #( \x22fill\x2220  \x22gap\x2210 \x22fill\x22 35 \x22gap\x22 30) offset: 0.\x0a\x09\x09\x0a\x09\x09canvas pathTransform \x0a\x09\x09\x09translateX: 400 Y:400;\x0a\x09\x09\x09scaleBy: 4.\x0a\x09\x09canvas drawShape: path.\x0a\x0a\x09].",
-messageSends: ["createPath:", "moveTo:", "@", "lineTo:", "drawDuring:", "clear:", "gray", "setStrokePaint:", "white", "width:", "joinRound", "capRound", "dashes:offset:", "translateX:Y:", "pathTransform", "scaleBy:", "drawShape:"],
+source: "step26\x0a\x09\x22Step 26: Stroke paints: Dashing\x22\x0a\x09\x0a\x09| path |\x0a\x09path := surface createPath: [ :builder |\x0a\x09\x09builder \x0a\x09\x09\x09moveTo: -50 @ -50;\x0a\x09\x09\x09lineTo: 50 @ 0;\x0a\x09\x09\x09lineTo: 0 @ 50;\x0a\x09\x09\x09lineTo: -50 @ 0;\x0a\x09\x09\x09lineTo: 80 @ -30 ].\x0a\x09\x0a\x09surface drawDuring: [ :canvas |\x0a\x09\x09| stroke |\x0a\x09\x09surface clear: Color gray.\x0a\x09\x09\x09\x0a\x09\x09stroke := canvas setStrokePaint: Color white.\x0a\x09\x09stroke width: 5.\x0a\x0a\x09\x09stroke joinRound.\x0a\x09\x09stroke capRound.\x0a\x0a\x09\x09stroke dashes: #( \x22fill\x22 20  \x22gap\x22 10  \x22fill\x22 35  \x22gap\x22 30 ) offset: 0.\x0a\x09\x09\x0a\x09\x09canvas pathTransform \x0a\x09\x09\x09translateByX: 400 Y: 400;\x0a\x09\x09\x09scaleBy: 4.\x0a\x09\x09\x09\x0a\x09\x09canvas drawShape: path ].",
+messageSends: ["createPath:", "moveTo:", "@", "lineTo:", "drawDuring:", "clear:", "gray", "setStrokePaint:", "white", "width:", "joinRound", "capRound", "dashes:offset:", "translateByX:Y:", "pathTransform", "scaleBy:", "drawShape:"],
 referencedClasses: ["Color"]
 }),
 smalltalk.AthensTutorial);
@@ -1150,7 +1046,7 @@ return _st(canvas)._drawShape_(_st((150).__at((150)))._corner_((450).__at((450))
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas,stroke:stroke},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step27",{},smalltalk.AthensTutorial)})},
 args: [],
-source: "step27\x0a\x0a\x22Step 27: Paint modes\x0a\x0aThe paint mode controls how incoming (source) fragments will be combined with what is already on surface (destination).\x0a\x22\x0a\x09\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09| stroke |\x0a\x09\x09surface clear: Color gray.\x0a\x0a\x09\x09\x09\x0a\x09\x09\x22Draw a blue rectangle to use it as background \x22\x0a\x09\x09canvas setPaint: Color blue.\x09\x0a\x09\x09canvas drawShape: (0@0 corner: 300@300).\x0a\x09\x09\x0a\x09\x09canvas paintMode over.\x0a\x09\x22Try one of following paint modes, and see the result: \x09\x0a\x09\x0a\x09\x09clear\x0a\x09\x09source\x0a\x09\x09over    <=== this is default mode\x0a\x09\x09in\x0a\x09\x09out \x0a\x09\x09atop\x0a\x09\x09dest\x0a\x09\x09destOver\x0a\x09\x09destIn\x0a\x09\x09destOut\x0a\x09\x09destAtop\x0a\x09\x09xor\x0a\x09\x09add\x0a\x09\x09saturate\x0a\x09\x09multiply\x0a\x09\x09screen\x0a\x09\x09overlay\x0a\x09\x09darken\x0a\x09\x09lighten\x0a\x09\x09colorDodge\x0a\x09\x09colorBurn\x0a\x09\x09hardLight\x0a\x09\x09softLight\x0a\x09\x09difference\x0a\x09\x09exclusion\x0a\x09\x09hslHue\x0a\x09\x09hslSaturation\x0a\x09\x09hslColor\x0a\x09\x09hslLuminosity\x0a\x09\x0a\x09You can check if given mode is supported by sending: \x0a\x09\x0a\x09\x09canvas paintMode availableModes \x0a\x09\x09\x0a\x09\x22\x09\x0a\x09\x09\x22Draw a semi-transparent yellow rectangle to combine it with background \x22\x0a\x09\x09canvas setPaint: (Color yellow alpha: 0.5).\x09\x0a\x09\x09canvas drawShape: (150@150 corner: 450@450).\x0a\x0a\x09].",
+source: "step27\x0a\x09\x22Step 27: Paint modes\x0a\x0a\x09The paint mode controls how incoming (source) fragments will be combined with what is already on surface (destination).\x22\x0a\x09\x0a\x09surface drawDuring: [ :canvas |\x0a\x09\x09| stroke |\x0a\x09\x09surface clear: Color gray.\x0a\x0a\x09\x09\x22Draw a blue rectangle to use it as background\x22\x0a\x09\x09canvas setPaint: Color blue.\x09\x0a\x09\x09canvas drawShape: (0 @ 0 corner: 300 @ 300).\x0a\x09\x09\x0a\x09\x09canvas paintMode over.\x0a\x09\x09\x0a\x09\x09\x22Try one of following paint modes, and see the result: \x09\x0a\x09\x0a\x09\x09clear\x0a\x09\x09source\x0a\x09\x09over    <=== this is default mode\x0a\x09\x09in\x0a\x09\x09out \x0a\x09\x09atop\x0a\x09\x09dest\x0a\x09\x09destOver\x0a\x09\x09destIn\x0a\x09\x09destOut\x0a\x09\x09destAtop\x0a\x09\x09xor\x0a\x09\x09add\x0a\x09\x09saturate\x0a\x09\x09multiply\x0a\x09\x09screen\x0a\x09\x09overlay\x0a\x09\x09darken\x0a\x09\x09lighten\x0a\x09\x09colorDodge\x0a\x09\x09colorBurn\x0a\x09\x09hardLight\x0a\x09\x09softLight\x0a\x09\x09difference\x0a\x09\x09exclusion\x0a\x09\x09hslHue\x0a\x09\x09hslSaturation\x0a\x09\x09hslColor\x0a\x09\x09hslLuminosity\x0a\x09\x0a\x09\x09You can check if given mode is supported by sending: \x0a\x09\x09canvas paintMode availableModes\x22\x0a\x09\x09\x0a\x09\x09\x22Draw a semi-transparent yellow rectangle to combine it with background\x22\x0a\x09\x09canvas setPaint: (Color yellow alpha: 0.5).\x09\x0a\x09\x09canvas drawShape: (150 @ 150 corner: 450 @ 450) ].",
 messageSends: ["drawDuring:", "clear:", "gray", "setPaint:", "blue", "drawShape:", "corner:", "@", "over", "paintMode", "alpha:", "yellow"],
 referencedClasses: ["Color"]
 }),
@@ -1181,7 +1077,7 @@ return _st(canvas)._drawShape_(_st((200).__at((200)))._corner_((500).__at((500))
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas,stroke:stroke},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step28",{},smalltalk.AthensTutorial)})},
 args: [],
-source: "step28\x0a\x0a\x22Step 28: Paint modes. Preserving the modes.\x0a\x0a\x22\x0a\x09\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09| stroke |\x0a\x09\x09surface clear: Color gray.\x0a\x0a\x09\x09\x09\x0a\x09\x09\x22Draw a blue rectangle to use it as background \x22\x0a\x09\x09canvas setPaint: Color blue.\x09\x0a\x09\x09canvas drawShape: (0@0 corner: 300@300).\x0a\x0a\x09\x22Try to comment #restoreAfter: to see the difference \x22\x0a\x09\x09canvas paintMode restoreAfter: [\x09\x09\x0a\x0a\x09\x09\x09canvas paintMode xor.\x0a\x09\x09\x09canvas setPaint: (Color yellow alpha: 0.5).\x09\x0a\x09\x09\x09canvas drawShape: (150@150 corner: 450@450).\x0a\x09\x09].\x0a\x09\x0a\x09\x0a\x09\x09canvas setPaint: (Color red).\x09\x0a\x09\x09canvas drawShape: (200@200 corner: 500@500).\x0a\x09].",
+source: "step28\x0a\x09\x22Step 28: Paint modes. Preserving the modes.\x22\x0a\x09\x0a\x09surface drawDuring: [ :canvas |\x0a\x09\x09| stroke |\x0a\x09\x09surface clear: Color gray.\x0a\x0a\x09\x09\x22Draw a blue rectangle to use it as background\x22\x0a\x09\x09canvas setPaint: Color blue.\x09\x0a\x09\x09canvas drawShape: (0 @ 0 corner: 300 @ 300).\x0a\x0a\x09\x09\x22Try to comment #restoreAfter: to see the difference \x22\x0a\x09\x09canvas paintMode restoreAfter: [\x09\x09\x0a\x09\x09\x09canvas paintMode xor.\x0a\x09\x09\x09canvas setPaint: (Color yellow alpha: 0.5).\x09\x0a\x09\x09\x09canvas drawShape: (150 @ 150 corner: 450 @ 450) ].\x0a\x09\x0a\x09\x09canvas setPaint: (Color red).\x09\x0a\x09\x09canvas drawShape: (200 @ 200 corner: 500 @ 500) ].",
 messageSends: ["drawDuring:", "clear:", "gray", "setPaint:", "blue", "drawShape:", "corner:", "@", "restoreAfter:", "xor", "paintMode", "alpha:", "yellow", "red"],
 referencedClasses: ["Color"]
 }),
@@ -1207,7 +1103,7 @@ return _st(canvas)._drawShape_(_st((0).__at((0)))._corner_(_st(self["@surface"])
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas,stroke:stroke},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step29",{},smalltalk.AthensTutorial)})},
 args: [],
-source: "step29\x0a\x0a\x22Step 29: Clipping.\x0a\x0a\x22\x0a\x09\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09| stroke |\x0a\x09\x09surface clear: Color gray.\x0a\x0a\x09\x09\x09\x0a\x09\x09\x22Draw a blue rectangle to use it as background \x22\x0a\x09\x09canvas setPaint: Color blue.\x09\x0a\x0a\x09\x09canvas clipBy:  (100@100 corner: 200@200) during: [ \x09\x0a\x0a\x09\x09\x09canvas drawShape: (0@0 corner: surface extent).\x0a\x09\x09].\x0a\x09].",
+source: "step29\x0a\x09\x22Step 29: Clipping\x22\x0a\x09\x0a\x09surface drawDuring: [ :canvas |\x0a\x09\x09| stroke |\x0a\x09\x09surface clear: Color gray.\x0a\x0a\x09\x09\x22Draw a blue rectangle to use it as background\x22\x0a\x09\x09canvas setPaint: Color blue.\x09\x0a\x0a\x09\x09canvas clipBy: (100 @ 100 corner: 200 @ 200) during: [ \x09\x0a\x09\x09\x09canvas drawShape: (0 @ 0 corner: surface extent) ]].",
 messageSends: ["drawDuring:", "clear:", "gray", "setPaint:", "blue", "clipBy:during:", "corner:", "@", "drawShape:", "extent"],
 referencedClasses: ["Color"]
 }),
@@ -1230,7 +1126,7 @@ return _st(canvas)._draw();
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step3",{},smalltalk.AthensTutorial)})},
 args: [],
-source: "step3\x0a\x22Step 3: Start drawing.\x0a\x0aAny drawing operations on surface is performed within #drawDuring: block.\x0aThere is no other (valid) way of obtaining canvas instance. \x0a\x22\x0a\x0asurface drawDuring: [:canvas |\x0a\x09\x0a\x09\x22First, we clear the surface\x22\x0a\x09surface clear. \x0a\x09\x0a\x09\x22we can use \x0a\x09\x0a\x09surface clear: Color black.  \x0a\x09\x0a\x09as well. A #clear is equivalent to: (surface clear: Color transparent).   \x22\x0a\x09\x0a\x09\x22Let''s draw a simple green rectangle\x22\x0a\x09canvas setPaint: Color green.\x0a\x09canvas setShape: (40@40 corner: 100@100).\x0a\x09canvas draw.\x0a\x0a\x09]\x0a\x0a\x22Important to note:\x0a\x0a- canvas instance should be used only within #drawDuring: scope.\x0a\x0a\x22\x0a",
+source: "step3\x0a\x09\x22Step 3: Start drawing.\x0a\x0a\x09Any drawing operations on surface is performed within #drawDuring: block.\x0a\x09There is no other (valid) way of obtaining canvas instance.\x22\x0a\x0a\x09surface drawDuring: [ :canvas |\x0a\x09\x0a\x09\x09\x22First, we clear the surface\x22\x0a\x09\x09surface clear. \x0a\x09\x0a\x09\x09\x22We can use \x0a\x09\x09surface clear: Color black.  \x0a\x09\x09as well. A #clear is equivalent to: (surface clear: Color transparent).\x22\x0a\x09\x0a\x09\x09\x22Let's draw a simple green rectangle\x22\x0a\x09\x09canvas setPaint: Color green.\x0a\x09\x09canvas setShape: (40 @ 40 corner: 100 @ 100).\x0a\x09\x09canvas draw ]\x0a\x0a\x09\x22Important to note:\x0a\x09- canvas instance should be used only within #drawDuring: scope\x22",
 messageSends: ["drawDuring:", "clear", "setPaint:", "green", "setShape:", "corner:", "@", "draw"],
 referencedClasses: ["Color"]
 }),
@@ -1246,20 +1142,20 @@ var font;
 function $LogicalFont(){return smalltalk.LogicalFont||(typeof LogicalFont=="undefined"?nil:LogicalFont)}
 function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
 return smalltalk.withContext(function($ctx1) { 
-font=_st($LogicalFont())._familyName_pointSize_("Arial",(20));
+font=_st($LogicalFont())._familyName_size_("Arial",(20));
 _st(self["@surface"])._drawDuring_((function(canvas){
 return smalltalk.withContext(function($ctx2) {
 _st(self["@surface"])._clear_(_st($Color())._black());
 _st(canvas)._setFont_(font);
 _st(canvas)._setPaint_(_st($Color())._red());
 _st(_st(canvas)._pathTransform())._scaleBy_((4));
-_st(_st(canvas)._pathTransform())._translateX_Y_((0),(20));
+_st(_st(canvas)._pathTransform())._translateByX_Y_((0),(20));
 return _st(canvas)._drawString_("Hello Athens!");
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step30",{font:font},smalltalk.AthensTutorial)})},
 args: [],
-source: "step30\x0a\x0a\x22Step 30: drawing text.\x0a\x0aPlease note that this step requires Freetype enabled. \x0aCheck if you enabled it in settings.\x0aFrom world menu, go System->Settings\x0aAnd then look for Appearance -> Use freetype in settings browser.\x0a\x0a\x22\x0a\x09| font |\x0a\x09\x0a\x09font := LogicalFont familyName: 'Arial' pointSize: 20.\x0a\x0a\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09surface clear: Color black.\x0a\x0a\x09\x09\x22set font and color\x22\x0a\x09\x09canvas setFont: font.\x0a\x09\x09canvas setPaint: Color red.\x0a\x09\x09\x0a\x09\x09\x22translate an origin by font's ascent, otherwise \x0a\x09\x09we will see only things below baseline\x22\x0a\x09\x09\x0a\x09\x09canvas pathTransform scaleBy: 4.\x0a\x09\x09canvas pathTransform translateX: 0 Y: 20.\x0a\x09\x09canvas drawString: 'Hello Athens!'.\x0a\x09].",
-messageSends: ["familyName:pointSize:", "drawDuring:", "clear:", "black", "setFont:", "setPaint:", "red", "scaleBy:", "pathTransform", "translateX:Y:", "drawString:"],
+source: "step30\x0a\x09\x22Step 30: drawing text\x22\x0a\x09\x0a\x09| font |\x0a\x09font := LogicalFont familyName: 'Arial' size: 20.\x0a\x0a\x09surface drawDuring: [ :canvas |\x0a\x09\x09surface clear: Color black.\x0a\x0a\x09\x09\x22set font and color\x22\x0a\x09\x09canvas setFont: font.\x0a\x09\x09canvas setPaint: Color red.\x0a\x09\x09\x0a\x09\x09\x22translate an origin by font's ascent, otherwise \x0a\x09\x09we will see only things below baseline\x22\x0a\x09\x09\x0a\x09\x09canvas pathTransform scaleBy: 4.\x0a\x09\x09canvas pathTransform translateByX: 0 Y: 20.\x0a\x09\x09canvas drawString: 'Hello Athens!' ].",
+messageSends: ["familyName:size:", "drawDuring:", "clear:", "black", "setFont:", "setPaint:", "red", "scaleBy:", "pathTransform", "translateByX:Y:", "drawString:"],
 referencedClasses: ["LogicalFont", "Color"]
 }),
 smalltalk.AthensTutorial);
@@ -1274,20 +1170,20 @@ var font;
 function $LogicalFont(){return smalltalk.LogicalFont||(typeof LogicalFont=="undefined"?nil:LogicalFont)}
 function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
 return smalltalk.withContext(function($ctx1) { 
-font=_st($LogicalFont())._familyName_pointSize_("Arial",(20));
+font=_st($LogicalFont())._familyName_size_("Arial",(20));
 _st(self["@surface"])._drawDuring_((function(canvas){
 return smalltalk.withContext(function($ctx2) {
 _st(self["@surface"])._clear_(_st($Color())._black());
 _st(canvas)._setFont_(font);
 _st(canvas)._setPaint_(_st($Color())._red());
 _st(_st(canvas)._pathTransform())._scaleBy_((4));
-_st(_st(canvas)._pathTransform())._translateX_Y_((0),(40));
+_st(_st(canvas)._pathTransform())._translateByX_Y_((0),(40));
 return _st(canvas)._drawString_("The End!");
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step31",{font:font},smalltalk.AthensTutorial)})},
 args: [],
-source: "step31\x0a\x22The End!\x22\x0a\x0a\x09| font |\x09\x0a\x09font := LogicalFont familyName: 'Arial' pointSize: 20.\x0a\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09surface clear: Color black.\x0a\x0a\x09\x09canvas setFont: font.\x0a\x09\x09canvas setPaint: Color red.\x0a\x09\x09\x0a\x09\x09canvas pathTransform scaleBy: 4.\x0a\x09\x09canvas pathTransform translateX: 0 Y: 40.\x0a\x09\x09canvas drawString: 'The End!'.\x0a\x09].",
-messageSends: ["familyName:pointSize:", "drawDuring:", "clear:", "black", "setFont:", "setPaint:", "red", "scaleBy:", "pathTransform", "translateX:Y:", "drawString:"],
+source: "step31\x0a\x09\x22The End!\x22\x0a\x0a\x09| font |\x09\x0a\x09font := LogicalFont familyName: 'Arial' size: 20.\x0a\x0a\x09surface drawDuring: [ :canvas |\x0a\x09\x09surface clear: Color black.\x0a\x0a\x09\x09canvas setFont: font.\x0a\x09\x09canvas setPaint: Color red.\x0a\x09\x09\x0a\x09\x09canvas pathTransform scaleBy: 4.\x0a\x09\x09canvas pathTransform translateByX: 0 Y: 40.\x0a\x09\x09canvas drawString: 'The End!' ].",
+messageSends: ["familyName:size:", "drawDuring:", "clear:", "black", "setFont:", "setPaint:", "red", "scaleBy:", "pathTransform", "translateByX:Y:", "drawString:"],
 referencedClasses: ["LogicalFont", "Color"]
 }),
 smalltalk.AthensTutorial);
@@ -1312,282 +1208,6 @@ smalltalk.AthensTutorial);
 
 smalltalk.addMethod(
 smalltalk.method({
-selector: "step33",
-category: 'steps',
-fn: function (){
-var self=this;
-var container;
-function $AthensHTMLMorphicSurface(){return smalltalk.AthensHTMLMorphicSurface||(typeof AthensHTMLMorphicSurface=="undefined"?nil:AthensHTMLMorphicSurface)}
-return smalltalk.withContext(function($ctx1) { 
-container="#canvas-container"._asJQuery();
-_st(container)._empty();
-self["@surface"]=_st($AthensHTMLMorphicSurface())._extent_((500).__at((400)));
-_st(self["@surface"])._appendToJQuery_("#canvas-container"._asJQuery());
-_st(_st(_st(self["@surface"])._canvasTag())._asJQuery())._css_with_("border","1px #aaa solid");
-return self}, function($ctx1) {$ctx1.fill(self,"step33",{container:container},smalltalk.AthensTutorial)})},
-args: [],
-source: "step33\x0a\x09\x22Step 33: Creating a Morphic surface.\x22\x0a\x09\x0a\x09|container|\x0a\x09container := '#canvas-container' asJQuery.\x0a\x0a\x09\x22Clear previous canvases\x22\x0a\x09container empty.\x0a\x0a\x09surface := AthensHTMLMorphicSurface extent: 500@400.\x0a\x09surface appendToJQuery: '#canvas-container' asJQuery.\x0a\x0a\x09\x22Render border around canvas.\x22\x0a\x09surface canvasTag asJQuery \x0a\x09\x09css: 'border' with: '1px #aaa solid'.\x0a\x0a\x09\x22IMPORTANT NOTE:\x0a\x09\x09the surface which we will create at this step will be used in later steps.\x0a\x09\x09This means that if you resize the window (changing the view size), you may need to recreate surface.\x0a\x09\x09Also, since surface uses external resources, quitting an image and restarting it, will also require to \x0a\x09\x09create a new surface, because the one from previous session will be no longer accessible.\x22",
-messageSends: ["asJQuery", "empty", "extent:", "@", "appendToJQuery:", "css:with:", "canvasTag"],
-referencedClasses: ["AthensHTMLMorphicSurface"]
-}),
-smalltalk.AthensTutorial);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "step34",
-category: 'steps',
-fn: function (){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-return self}, function($ctx1) {$ctx1.fill(self,"step34",{},smalltalk.AthensTutorial)})},
-args: [],
-source: "step34\x0a\x09\x22Step 34: Event handling. Outdated and not working anymore. I'm working on a new example. See step37 for event handling with Morphs.\x22",
-messageSends: [],
-referencedClasses: []
-}),
-smalltalk.AthensTutorial);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "step35",
-category: 'steps',
-fn: function (){
-var self=this;
-var morph;
-function $AthensMorph(){return smalltalk.AthensMorph||(typeof AthensMorph=="undefined"?nil:AthensMorph)}
-return smalltalk.withContext(function($ctx1) { 
-morph=_st($AthensMorph())._new();
-_st(_st(self["@surface"])._world())._addMorph_(morph);
-return self}, function($ctx1) {$ctx1.fill(self,"step35",{morph:morph},smalltalk.AthensTutorial)})},
-args: [],
-source: "step35\x0a\x09|morph|\x0a\x09\x22Step 35: [Morphic Demo] Creating/showing morphs.\x0a\x09'surface world' returns the world morph. Every surface has\x0a\x09a world morph that can contain other morphs. It is the entry\x0a\x09point for morph composition.\x22\x0a\x0a\x09morph := AthensMorph new.\x0a\x09surface world addMorph: morph.",
-messageSends: ["new", "addMorph:", "world"],
-referencedClasses: ["AthensMorph"]
-}),
-smalltalk.AthensTutorial);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "step36",
-category: 'steps',
-fn: function (){
-var self=this;
-var morph,innerMorph;
-function $AthensMorph(){return smalltalk.AthensMorph||(typeof AthensMorph=="undefined"?nil:AthensMorph)}
-function $Color(){return smalltalk.Color||(typeof Color=="undefined"?nil:Color)}
-return smalltalk.withContext(function($ctx1) { 
-morph=_st($AthensMorph())._new();
-_st(_st(self["@surface"])._world())._addMorph_(morph);
-_st(morph)._translateByX_Y_((200),(50));
-_st(morph)._rotateBy_((0.785));
-innerMorph=_st($AthensMorph())._new();
-_st(innerMorph)._color_(_st($Color())._red());
-_st(innerMorph)._translateByX_Y_((20),(0));
-_st(innerMorph)._rotateBy_((-0.785));
-_st(innerMorph)._scaleByX_Y_((0.25),(0.25));
-_st(morph)._addMorph_(innerMorph);
-return self}, function($ctx1) {$ctx1.fill(self,"step36",{morph:morph,innerMorph:innerMorph},smalltalk.AthensTutorial)})},
-args: [],
-source: "step36\x0a\x09|morph innerMorph|\x0a\x09\x22Step 36: [Morphic Demo] Transforming morphs.\x0a\x09All transformations are relative to the owner's top left corner.\x0a\x09Transformations are applied in this order: scaling, rotation, translation.\x22\x0a\x0a\x09morph := AthensMorph new.\x0a\x09surface world addMorph: morph.\x0a\x09morph translateByX: 200 Y: 50.\x0a\x09morph rotateBy: 0.785.\x0a\x0a\x09innerMorph := AthensMorph new.\x0a\x09innerMorph color: Color red.\x0a\x09innerMorph translateByX: 20 Y: 0.\x0a\x09innerMorph rotateBy: -0.785.\x0a\x09innerMorph scaleByX: 0.25 Y: 0.25.\x0a\x09morph addMorph: innerMorph.",
-messageSends: ["new", "addMorph:", "world", "translateByX:Y:", "rotateBy:", "color:", "red", "scaleByX:Y:"],
-referencedClasses: ["AthensMorph", "Color"]
-}),
-smalltalk.AthensTutorial);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "step37",
-category: 'steps',
-fn: function (){
-var self=this;
-var window,descText,counter,optIncrement,optDecrement,button;
-function $AthensWindowMorph(){return smalltalk.AthensWindowMorph||(typeof AthensWindowMorph=="undefined"?nil:AthensWindowMorph)}
-function $AthensTextMorph(){return smalltalk.AthensTextMorph||(typeof AthensTextMorph=="undefined"?nil:AthensTextMorph)}
-function $AthensRadioButtonMorph(){return smalltalk.AthensRadioButtonMorph||(typeof AthensRadioButtonMorph=="undefined"?nil:AthensRadioButtonMorph)}
-function $AthensButtonMorph(){return smalltalk.AthensButtonMorph||(typeof AthensButtonMorph=="undefined"?nil:AthensButtonMorph)}
-return smalltalk.withContext(function($ctx1) { 
-var $1;
-window=_st($AthensWindowMorph())._new();
-_st(window)._title_("Counter Example");
-descText=_st($AthensTextMorph())._new();
-_st(descText)._text_("Current value: ");
-_st(descText)._translateByX_Y_((25),(40));
-_st(window)._addMorph_(descText);
-counter=_st($AthensTextMorph())._new();
-_st(counter)._text_("0");
-_st(counter)._translateByX_Y_((150),(40));
-_st(window)._addMorph_(counter);
-optIncrement=_st($AthensRadioButtonMorph())._new();
-_st(optIncrement)._text_("Increment number");
-_st(optIncrement)._translateByX_Y_((25),(70));
-_st(window)._addMorph_(optIncrement);
-optDecrement=_st($AthensRadioButtonMorph())._new();
-_st(optDecrement)._text_("Decrement number");
-_st(optDecrement)._translateByX_Y_((25),(90));
-_st(window)._addMorph_(optDecrement);
-_st(optIncrement)._onChange_((function(val){
-return smalltalk.withContext(function($ctx2) {
-return _st(optDecrement)._checked_(_st(val)._not());
-}, function($ctx2) {$ctx2.fillBlock({val:val},$ctx1)})}));
-_st(optDecrement)._onChange_((function(val){
-return smalltalk.withContext(function($ctx2) {
-return _st(optIncrement)._checked_(_st(val)._not());
-}, function($ctx2) {$ctx2.fillBlock({val:val},$ctx1)})}));
-_st(optIncrement)._checked_(true);
-button=_st($AthensButtonMorph())._new();
-_st(button)._text_("Do it");
-_st(button)._translateByX_Y_((25),(120));
-_st(button)._width_((150));
-_st(button)._onMouseClick_((function(evt){
-var val;
-return smalltalk.withContext(function($ctx2) {
-val=_st(_st(counter)._text())._asNumber();
-val;
-$1=_st(optIncrement)._isChecked();
-if(smalltalk.assert($1)){
-val=_st(val).__plus((1));
-val;
-} else {
-val=_st(val).__minus((1));
-val;
-};
-return _st(counter)._text_(_st(val)._asString());
-}, function($ctx2) {$ctx2.fillBlock({evt:evt,val:val},$ctx1)})}));
-_st(window)._addMorph_(button);
-_st(_st(self["@surface"])._world())._addMorph_(window);
-return self}, function($ctx1) {$ctx1.fill(self,"step37",{window:window,descText:descText,counter:counter,optIncrement:optIncrement,optDecrement:optDecrement,button:button},smalltalk.AthensTutorial)})},
-args: [],
-source: "step37\x0a\x09|window descText counter optIncrement optDecrement button|\x0a\x09\x22Step 37: [Morphic Demo] Using basic Morphs.\x22\x0a\x09\x0a\x09window := AthensWindowMorph new.\x0a\x09window title: 'Counter Example'.\x0a\x0a\x09descText := AthensTextMorph new.\x0a\x09descText text: 'Current value: '.\x0a\x09descText translateByX: 25 Y: 40.\x0a\x09window addMorph: descText.\x0a\x09\x0a\x09counter := AthensTextMorph new.\x0a\x09counter text: '0'.\x0a\x09counter translateByX: 150 Y: 40.\x0a\x09window addMorph: counter.\x0a\x09\x0a\x09optIncrement := AthensRadioButtonMorph new.\x0a\x09optIncrement text: 'Increment number'.\x0a\x09optIncrement translateByX: 25 Y: 70.\x0a\x09window addMorph: optIncrement.\x0a\x09\x0a\x09optDecrement := AthensRadioButtonMorph new.\x0a\x09optDecrement text: 'Decrement number'.\x0a\x09optDecrement translateByX: 25 Y: 90.\x0a\x09window addMorph: optDecrement.\x0a\x09\x0a\x09optIncrement onChange: [:val | optDecrement checked: val not].\x0a\x09optDecrement onChange: [:val | optIncrement checked: val not].\x0a\x09optIncrement checked: true.\x0a\x09\x0a\x09button := AthensButtonMorph new.\x0a\x09button text: 'Do it'.\x0a\x09button translateByX: 25 Y: 120.\x0a\x09button width: 150.\x0a\x09button onMouseClick: [:evt | |val|\x0a\x09\x09val := counter text asNumber.\x0a\x09\x09optIncrement isChecked\x0a\x09\x09\x09ifTrue: [val := val + 1]\x0a\x09\x09\x09ifFalse: [val := val - 1].\x0a\x09\x09counter text: val asString].\x0a\x0a\x09window addMorph: button.\x0a\x09surface world addMorph: window.",
-messageSends: ["new", "title:", "text:", "translateByX:Y:", "addMorph:", "onChange:", "checked:", "not", "width:", "onMouseClick:", "asNumber", "text", "ifTrue:ifFalse:", "+", "-", "isChecked", "asString", "world"],
-referencedClasses: ["AthensWindowMorph", "AthensTextMorph", "AthensRadioButtonMorph", "AthensButtonMorph"]
-}),
-smalltalk.AthensTutorial);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "step38",
-category: 'steps',
-fn: function (){
-var self=this;
-var window,button;
-function $AthensWindowMorph(){return smalltalk.AthensWindowMorph||(typeof AthensWindowMorph=="undefined"?nil:AthensWindowMorph)}
-function $AthensIconButtonMorph(){return smalltalk.AthensIconButtonMorph||(typeof AthensIconButtonMorph=="undefined"?nil:AthensIconButtonMorph)}
-function $AthensIconMorph(){return smalltalk.AthensIconMorph||(typeof AthensIconMorph=="undefined"?nil:AthensIconMorph)}
-return smalltalk.withContext(function($ctx1) { 
-var $1,$2,$3,$4,$5,$6,$7,$8;
-window=_st($AthensWindowMorph())._new();
-_st(window)._title_("Transformations Example");
-$1=_st($AthensIconButtonMorph())._new();
-_st($1)._text_("5 degrees");
-_st($1)._icon_(_st($AthensIconMorph())._rotateCw());
-_st($1)._width_((150));
-_st($1)._height_((20));
-_st($1)._translateByX_Y_((25),(50));
-_st($1)._onMouseClick_((function(evt){
-return smalltalk.withContext(function($ctx2) {
-return _st(window)._rotateByDegrees_((5));
-}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
-$2=_st($1)._yourself();
-button=$2;
-_st(window)._addMorph_(button);
-$3=_st($AthensIconButtonMorph())._new();
-_st($3)._text_("5 degrees");
-_st($3)._icon_(_st($AthensIconMorph())._rotateCcw());
-_st($3)._width_((150));
-_st($3)._height_((20));
-_st($3)._translateByX_Y_((25),(80));
-_st($3)._onMouseClick_((function(evt){
-return smalltalk.withContext(function($ctx2) {
-return _st(window)._rotateByDegrees_((-5));
-}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
-$4=_st($3)._yourself();
-button=$4;
-_st(window)._addMorph_(button);
-$5=_st($AthensIconButtonMorph())._new();
-_st($5)._text_("Scale X +0.25");
-_st($5)._icon_(_st($AthensIconMorph())._resizeFull());
-_st($5)._width_((150));
-_st($5)._height_((20));
-_st($5)._translateByX_Y_((25),(110));
-_st($5)._onMouseClick_((function(evt){
-return smalltalk.withContext(function($ctx2) {
-return _st(window)._scaleByX_Y_((1.25),(1));
-}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
-$6=_st($5)._yourself();
-button=$6;
-_st(window)._addMorph_(button);
-$7=_st($AthensIconButtonMorph())._new();
-_st($7)._text_("Scale X -0.25");
-_st($7)._icon_(_st($AthensIconMorph())._resizeSmall());
-_st($7)._width_((150));
-_st($7)._height_((20));
-_st($7)._translateByX_Y_((25),(140));
-_st($7)._onMouseClick_((function(evt){
-return smalltalk.withContext(function($ctx2) {
-return _st(window)._scaleByX_Y_((0.75),(1));
-}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1)})}));
-$8=_st($7)._yourself();
-button=$8;
-_st(window)._addMorph_(button);
-_st(_st(self["@surface"])._world())._addMorph_(window);
-return self}, function($ctx1) {$ctx1.fill(self,"step38",{window:window,button:button},smalltalk.AthensTutorial)})},
-args: [],
-source: "step38\x0a\x09|window button|\x0a\x09\x22Step 38: [Morphic Demo] Morph transformations.\x22\x0a\x09\x0a\x09window := AthensWindowMorph new.\x0a\x09window title: 'Transformations Example'.\x0a\x0a\x09button := AthensIconButtonMorph new\x0a\x09\x09text: '5 degrees';\x0a\x09\x09icon: AthensIconMorph rotateCw;\x0a\x09\x09width: 150; height: 20;\x0a\x09\x09translateByX: 25 Y: 50;\x0a\x09\x09onMouseClick: [:evt | window rotateByDegrees: 5];\x0a\x09\x09yourself.\x0a\x09window addMorph: button.\x0a\x09\x0a\x09button := AthensIconButtonMorph new\x0a\x09\x09text: '5 degrees';\x0a\x09\x09icon: AthensIconMorph rotateCcw;\x0a\x09\x09width: 150; height: 20;\x0a\x09\x09translateByX: 25 Y: 80;\x0a\x09\x09onMouseClick: [:evt | window rotateByDegrees: -5];\x0a\x09\x09yourself.\x0a\x09window addMorph: button.\x0a\x0a\x09button := AthensIconButtonMorph new\x0a\x09\x09text: 'Scale X +0.25';\x0a\x09\x09icon: AthensIconMorph resizeFull;\x0a\x09\x09width: 150; height: 20;\x0a\x09\x09translateByX: 25 Y: 110;\x0a\x09\x09onMouseClick: [:evt | window scaleByX: 1.25 Y: 1];\x0a\x09\x09yourself.\x0a\x09window addMorph: button.\x0a\x09\x0a\x09button := AthensIconButtonMorph new\x0a\x09\x09text: 'Scale X -0.25';\x0a\x09\x09icon: AthensIconMorph resizeSmall;\x0a\x09\x09width: 150; height: 20;\x0a\x09\x09translateByX: 25 Y: 140;\x0a\x09\x09onMouseClick: [:evt | window scaleByX: 0.75 Y: 1];\x0a\x09\x09yourself.\x0a\x09window addMorph: button.\x0a\x09\x0a\x09surface world addMorph: window.",
-messageSends: ["new", "title:", "text:", "icon:", "rotateCw", "width:", "height:", "translateByX:Y:", "onMouseClick:", "rotateByDegrees:", "yourself", "addMorph:", "rotateCcw", "resizeFull", "scaleByX:Y:", "resizeSmall", "world"],
-referencedClasses: ["AthensWindowMorph", "AthensIconButtonMorph", "AthensIconMorph"]
-}),
-smalltalk.AthensTutorial);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "step39",
-category: 'steps',
-fn: function (){
-var self=this;
-var window,textMorph,listBox;
-function $AthensWindowMorph(){return smalltalk.AthensWindowMorph||(typeof AthensWindowMorph=="undefined"?nil:AthensWindowMorph)}
-function $AthensListBoxMorph(){return smalltalk.AthensListBoxMorph||(typeof AthensListBoxMorph=="undefined"?nil:AthensListBoxMorph)}
-function $Object(){return smalltalk.Object||(typeof Object=="undefined"?nil:Object)}
-function $AthensTextMorph(){return smalltalk.AthensTextMorph||(typeof AthensTextMorph=="undefined"?nil:AthensTextMorph)}
-return smalltalk.withContext(function($ctx1) { 
-var $1,$2,$3,$4;
-window=_st($AthensWindowMorph())._new();
-_st(window)._title_("List Box Example");
-$1=_st($AthensListBoxMorph())._new();
-_st($1)._addItem_("First Item");
-_st($1)._addItem_("Another Item");
-_st($1)._addItem_((42));
-_st($1)._addItem_(_st($Object())._new());
-_st($1)._addItem_("Last Item");
-_st($1)._width_((150));
-_st($1)._height_((75));
-_st($1)._translateByX_Y_((25),(50));
-$2=_st($1)._yourself();
-listBox=$2;
-_st(window)._addMorph_(listBox);
-$3=_st($AthensTextMorph())._new();
-_st($3)._text_("(Nothing selected)");
-_st($3)._width_((150));
-_st($3)._height_((20));
-_st($3)._translateByX_Y_((25),(140));
-$4=_st($3)._yourself();
-textMorph=$4;
-_st(listBox)._onChange_((function(selection){
-return smalltalk.withContext(function($ctx2) {
-return _st(textMorph)._text_(_st(_st(_st(_st(selection)._asString()).__comma(" (")).__comma(_st(_st(selection)._class())._asString())).__comma(")"));
-}, function($ctx2) {$ctx2.fillBlock({selection:selection},$ctx1)})}));
-_st(window)._addMorph_(textMorph);
-_st(_st(self["@surface"])._world())._addMorph_(window);
-return self}, function($ctx1) {$ctx1.fill(self,"step39",{window:window,textMorph:textMorph,listBox:listBox},smalltalk.AthensTutorial)})},
-args: [],
-source: "step39\x0a\x09|window textMorph listBox|\x0a\x09\x22Step 39: [Morphic Demo] ListBoxMorph.\x22\x0a\x09\x0a\x09window := AthensWindowMorph new.\x0a\x09window title: 'List Box Example'.\x0a\x0a\x09listBox := AthensListBoxMorph new\x0a\x09\x09addItem: 'First Item';\x0a\x09\x09addItem: 'Another Item';\x0a\x09\x09addItem: 42;\x0a\x09\x09addItem: Object new;\x09\x22ListBoxMorph displays anItem asString\x22\x0a\x09\x09addItem: 'Last Item';\x0a\x09\x09width: 150;\x0a\x09\x09height: 75;\x0a\x09\x09translateByX: 25 Y: 50;\x0a\x09\x09yourself.\x0a\x0a\x09window addMorph: listBox.\x0a\x09\x09\x0a\x09textMorph := AthensTextMorph new\x0a\x09\x09text: '(Nothing selected)';\x0a\x09\x09width: 150; height: 20;\x0a\x09\x09translateByX: 25 Y: 140;\x0a\x09\x09yourself.\x0a\x0a\x09\x22When the selection changes, the change event is triggered.\x22\x0a\x09listBox onChange: [:selection | \x0a\x09\x09textMorph text: selection asString, ' (', selection class asString, ')'].\x0a\x0a\x09window addMorph: textMorph.\x0a\x0a\x09surface world addMorph: window.",
-messageSends: ["new", "title:", "addItem:", "width:", "height:", "translateByX:Y:", "yourself", "addMorph:", "text:", "onChange:", ",", "asString", "class", "world"],
-referencedClasses: ["AthensWindowMorph", "AthensListBoxMorph", "Object", "AthensTextMorph"]
-}),
-smalltalk.AthensTutorial);
-
-smalltalk.addMethod(
-smalltalk.method({
 selector: "step4",
 category: 'steps',
 fn: function (){
@@ -1603,7 +1223,7 @@ return _st(canvas)._draw();
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step4",{},smalltalk.AthensTutorial)})},
 args: [],
-source: "step4\x0a\x22Step 4: Shapes and paints.\x0a\x0a\x22\x0a\x0asurface drawDuring: [:canvas |\x0a\x09surface clear: Color black. \x0a\x09\x0a\x09\x22There's two objects involved in any draw operation: \x0a\x09\x09- paint\x0a\x09\x09- shape\x0a\x09\x09\x0a\x09The #draw API method simply fills current shape with current paint.\x0a\x09\x22\x0a\x09\x0a\x09\x22To set current paint, use #setPaint: method \x22\x0a\x0a\x09canvas setPaint: Color green.\x0a\x0a\x09\x22To set current shape use #setShape: method \x22\x0a\x0a\x09canvas setShape: (40@40 corner: 100@100).\x0a\x0a\x09\x22Nothing will be drawn until #draw command will be issued: \x22\x0a\x09canvas draw.\x0a\x0a\x09]\x0a",
+source: "step4\x0a\x09\x22Step 4: Shapes and paints.\x22\x0a\x0a\x09surface drawDuring: [ :canvas |\x0a\x09\x09surface clear: Color black. \x0a\x09\x0a\x09\x09\x22There's two objects involved in any draw operation: \x0a\x09\x09- paint\x0a\x09\x09- shape\x0a\x09\x09\x0a\x09\x09The #draw API method simply fills current shape with current paint.\x22\x0a\x09\x0a\x09\x09\x22To set current paint, use #setPaint: method\x22\x0a\x09\x09canvas setPaint: Color green.\x0a\x0a\x09\x09\x22To set current shape use #setShape: method\x22\x0a\x09\x09canvas setShape: (40 @ 40 corner: 100 @ 100).\x0a\x0a\x09\x09\x22Nothing will be drawn until #draw command will be issued:\x22\x0a\x09\x09canvas draw ].",
 messageSends: ["drawDuring:", "clear:", "black", "setPaint:", "green", "setShape:", "corner:", "@", "draw"],
 referencedClasses: ["Color"]
 }),
@@ -1627,7 +1247,7 @@ return _st(canvas)._drawShape_(_st((0).__at((0)))._corner_((5).__at(_st(self["@s
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step5",{},smalltalk.AthensTutorial)})},
 args: [],
-source: "step5\x0a\x22Step 5: Coordinates. \x0a\x0aThe initial coordinate space set up to cover entire surface using its dimensions. \x22\x0a\x0asurface drawDuring: [:canvas |\x0a\x09surface clear: Color black. \x0a\x0a\x0a\x09\x22x axis: goes from left to right\x22\x0a\x0a\x09canvas setPaint: Color red.\x0a\x09\x0a\x09\x22here we're using #drawShape: convenience method, which is simply\x0a\x09  setShape: + draw \x22\x0a\x09\x0a\x09canvas drawShape: (0@0 corner: surface width@5).\x0a\x09\x0a\x0a\x09\x22y axis: goes from top to bottom\x22\x0a\x09canvas setPaint: Color blue.\x0a\x0a\x09canvas drawShape: (0@0 corner: 5@surface height).\x0a\x0a\x09\x09\x0a\x0a\x09]",
+source: "step5\x0a\x09\x22Step 5: Coordinates. \x0a\x0a\x09The initial coordinate space set up to cover entire surface using its dimensions.\x22\x0a\x0a\x09surface drawDuring: [ :canvas |\x0a\x09\x09surface clear: Color black. \x0a\x0a\x09\x09\x22x axis: goes from left to right\x22\x0a\x09\x09canvas setPaint: Color red.\x0a\x09\x09\x22here we're using #drawShape: convenience method, which is simply setShape: + draw\x22\x0a\x09\x09canvas drawShape: (0 @ 0 corner: surface width @ 5).\x0a\x0a\x09\x09\x22y axis: goes from top to bottom\x22\x0a\x09\x09canvas setPaint: Color blue.\x0a\x09\x09canvas drawShape: (0 @ 0 corner: 5 @ surface height) ].",
 messageSends: ["drawDuring:", "clear:", "black", "setPaint:", "red", "drawShape:", "corner:", "@", "width", "blue", "height"],
 referencedClasses: ["Color"]
 }),
@@ -1644,7 +1264,7 @@ return smalltalk.withContext(function($ctx1) {
 _st(self["@surface"])._drawDuring_((function(canvas){
 return smalltalk.withContext(function($ctx2) {
 _st(self["@surface"])._clear_(_st($Color())._black());
-_st(_st(canvas)._pathTransform())._translateX_Y_((100),(50));
+_st(_st(canvas)._pathTransform())._translateByX_Y_((100),(50));
 _st(canvas)._setPaint_(_st($Color())._red());
 _st(canvas)._drawShape_(_st((0).__at((0)))._corner_(_st(_st(self["@surface"])._width()).__at((5))));
 _st(canvas)._setPaint_(_st($Color())._blue());
@@ -1652,8 +1272,8 @@ return _st(canvas)._drawShape_(_st((0).__at((0)))._corner_((5).__at(_st(self["@s
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step6",{},smalltalk.AthensTutorial)})},
 args: [],
-source: "step6\x0a\x09\x22Step 6: Transforming coordinate space.\x0a\x09\x0a\x09There are two transformation matrices which control coordinate space:\x0a\x09   - path transform\x0a\x09   - paint transform\x0a\x09\x0a\x09Both transformations represented by affine transformation matrices.\x0a\x09(See AthensAffineTransform class for details).\x0a\x09\x0a\x09Accessing path transform:\x0a\x09\x0a\x09  <canvas> pathTransform\x0a\x09\x0a\x09Accessing paint transform:\x0a\x09\x0a\x09  <canvas> paintTransform\x0a\x22\x0a\x0asurface drawDuring: [:canvas |\x0a\x09surface clear: Color black. \x0a\x0a\x09\x22Here, we're translating the canvas coordinate system origin, \x0a\x09so now it will be at 100@50 in surface's coordinate system\x22\x0a\x09\x0a\x09canvas pathTransform translateX: 100 Y: 50.\x0a\x09\x22x axis\x22\x0a\x0a\x09canvas setPaint: Color red.\x0a\x09\x0a\x09canvas drawShape: (0@0 corner: surface width@5).\x0a\x09\x0a\x0a\x09\x22y axis\x22\x0a\x09canvas setPaint: Color blue.\x0a\x0a\x09canvas drawShape: (0@0 corner: 5@surface height).\x0a\x0a\x09\x0a\x09]\x0a",
-messageSends: ["drawDuring:", "clear:", "black", "translateX:Y:", "pathTransform", "setPaint:", "red", "drawShape:", "corner:", "@", "width", "blue", "height"],
+source: "step6\x0a\x09\x22Step 6: Transforming coordinate space.\x0a\x09\x0a\x09There are two transformation matrices which control coordinate space:\x0a\x09   - path transform\x0a\x09   - paint transform\x0a\x09\x0a\x09Both transformations represented by affine transformation matrices.\x0a\x09(See AthensAffineTransform class for details).\x0a\x09\x0a\x09Accessing path transform:\x0a\x09  <canvas> pathTransform\x0a\x09\x0a\x09Accessing paint transform:\x09\x0a\x09  <canvas> paintTransform\x22\x0a\x0a\x09surface drawDuring: [ :canvas |\x0a\x09\x09surface clear: Color black. \x0a\x0a\x09\x09\x22Here, we're translating the canvas coordinate system origin, \x0a\x09\x09so now it will be at 100@50 in surface's coordinate system\x22\x0a\x09\x0a\x09\x09canvas pathTransform translateByX: 100 Y: 50.\x0a\x09\x09\x0a\x09\x09\x22x axis\x22\x0a\x09\x09canvas setPaint: Color red.\x0a\x09\x09canvas drawShape: (0 @ 0 corner: surface width @ 5).\x0a\x09\x0a\x09\x09\x22y axis\x22\x0a\x09\x09canvas setPaint: Color blue.\x0a\x09\x09canvas drawShape: (0 @ 0 corner: 5 @ surface height) ].",
+messageSends: ["drawDuring:", "clear:", "black", "translateByX:Y:", "pathTransform", "setPaint:", "red", "drawShape:", "corner:", "@", "width", "blue", "height"],
 referencedClasses: ["Color"]
 }),
 smalltalk.AthensTutorial);
@@ -1678,7 +1298,7 @@ return _st(canvas)._draw();
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step7",{},smalltalk.AthensTutorial)})},
 args: [],
-source: "step7\x0a\x09\x22Step 7: Scaling.\x0a\x09\x0a\x0a\x09Protocol: \x0a\x09<transform> scaleBy: <scalar/point>\x0a\x09\x0a\x09or:\x0a\x09\x0a\x09<transform> scaleX: <x scale> Y: <y scale>\x0a\x09\x09\x0a\x22\x0a\x0asurface drawDuring: [:canvas |\x0a\x09surface clear: Color gray. \x0a\x0a\x09canvas setShape: (0@0 corner: 100@100).\x0a\x09\x0a\x09canvas setPaint: Color white.\x0a\x0a\x09canvas draw.\x0a\x09\x0a\x09\x22try to vary the scale argument to see the difference\x22\x0a\x09canvas pathTransform scaleBy: 2.\x0a\x0a\x09canvas setPaint: (Color yellow alpha: 0.3).\x0a\x09canvas draw.\x0a\x0a\x09]\x0a",
+source: "step7\x0a\x09\x22Step 7: Scaling.\x0a\x09\x0a\x09Protocol: \x0a\x09<transform> scaleBy: <scalar/point>\x0a\x09\x0a\x09or:\x0a\x09<transform> scaleByX: <x scale> Y: <y scale>\x22\x0a\x0a\x09surface drawDuring: [:canvas |\x0a\x09\x09surface clear: Color gray. \x0a\x0a\x09\x09canvas setShape: (0 @ 0 corner: 100 @ 100).\x0a\x09\x09canvas setPaint: Color white.\x0a\x0a\x09\x09canvas draw.\x0a\x09\x0a\x09\x09\x22try to vary the scale argument to see the difference\x22\x0a\x09\x09canvas pathTransform scaleBy: 2.\x0a\x0a\x09\x09canvas setPaint: (Color yellow alpha: 0.3).\x0a\x09\x09canvas draw\x09].",
 messageSends: ["drawDuring:", "clear:", "gray", "setShape:", "corner:", "@", "setPaint:", "white", "draw", "scaleBy:", "pathTransform", "alpha:", "yellow"],
 referencedClasses: ["Color"]
 }),
@@ -1700,22 +1320,22 @@ _st(canvas)._setShape_(_st((0).__at((0)))._corner_((100).__at((100))));
 _st(canvas)._setPaint_(_st($Color())._blue());
 $1=_st(canvas)._pathTransform();
 _st($1)._scaleBy_((3));
-$2=_st($1)._translateX_Y_((50),(50));
+$2=_st($1)._translateByX_Y_((50),(50));
 $2;
 _st(canvas)._draw();
 _st(canvas)._setPaint_(_st($Color())._yellow());
 $3=_st(canvas)._pathTransform();
-_st($3)._translateX_Y_((50),(50));
+_st($3)._translateByX_Y_((50),(50));
 _st($3)._scaleBy_((0.7).__at((0.5)));
 _st($3)._rotateByDegrees_((45));
-$4=_st($3)._translateX_Y_((-50),(-50));
+$4=_st($3)._translateByX_Y_((-50),(-50));
 $4;
 return _st(canvas)._draw();
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step8",{},smalltalk.AthensTutorial)})},
 args: [],
-source: "step8\x0a\x0a\x22Step 8: Rotating.\x0a\x09\x0a\x0a\x09Protocol: \x0a\x09<transform> rotateByDegrees: <scalar>\x0a\x09\x0a\x09or:\x0a\x09\x0a\x09<transform> rotateByRadians: <scalar>\x0a\x09\x09\x0a\x22\x0a\x0asurface drawDuring: [:canvas |\x0a\x09surface clear: Color gray. \x0a\x0a\x09canvas setShape: (0@0 corner: 100@100).\x0a\x09canvas setPaint: (Color blue).\x0a\x0a\x09canvas pathTransform\x0a\x09\x09scaleBy:3;\x0a\x09\x09translateX: 50 Y: 50.\x0a\x0a\x09canvas draw.\x0a\x09\x09\x0a\x09canvas setPaint: Color yellow.\x0a\x09\x0a\x09canvas pathTransform\x0a\x09\x09translateX: 50 Y: 50;\x0a\x09\x09scaleBy: 0.7@0.5;\x0a\x09\x09\x0a\x09\x09rotateByDegrees: 45;\x0a\x09\x09\x22You can also use #rotateByRadians: if it fits better for you. \x0a\x09\x09There is no #rotate: because it ambiguous\x22\x0a\x09\x0a\x09\x09translateX: -50 Y: -50.\x0a\x0a\x09canvas draw.\x0a\x0a\x09]",
-messageSends: ["drawDuring:", "clear:", "gray", "setShape:", "corner:", "@", "setPaint:", "blue", "scaleBy:", "pathTransform", "translateX:Y:", "draw", "yellow", "rotateByDegrees:"],
+source: "step8\x0a\x09\x22Step 8: Rotating.\x0a\x0a\x09Protocol: \x0a\x09<transform> rotateByDegrees: <scalar>\x0a\x09\x0a\x09or:\x0a\x09<transform> rotateByRadians: <scalar>\x22\x0a\x0a\x09surface drawDuring: [ :canvas |\x0a\x09\x09surface clear: Color gray. \x0a\x0a\x09\x09canvas setShape: (0 @ 0 corner: 100 @ 100).\x0a\x09\x09canvas setPaint: Color blue.\x0a\x0a\x09\x09canvas pathTransform\x0a\x09\x09\x09scaleBy:3;\x0a\x09\x09\x09translateByX: 50 Y: 50.\x0a\x0a\x09\x09canvas draw.\x0a\x09\x09\x0a\x09\x09canvas setPaint: Color yellow.\x0a\x09\x0a\x09\x09canvas pathTransform\x0a\x09\x09\x09translateByX: 50 Y: 50;\x0a\x09\x09\x09scaleBy: 0.7 @ 0.5;\x0a\x09\x09\x0a\x09\x09\x09rotateByDegrees: 45;\x0a\x09\x09\x09\x22You can also use #rotateByRadians: if it fits better for you. \x0a\x09\x09\x09There is no #rotate: because it ambiguous\x22\x0a\x09\x0a\x09\x09\x09translateByX: -50 Y: -50.\x0a\x0a\x09\x09canvas draw ].",
+messageSends: ["drawDuring:", "clear:", "gray", "setShape:", "corner:", "@", "setPaint:", "blue", "scaleBy:", "pathTransform", "translateByX:Y:", "draw", "yellow", "rotateByDegrees:"],
 referencedClasses: ["Color"]
 }),
 smalltalk.AthensTutorial);
@@ -1735,15 +1355,15 @@ _st(self["@surface"])._clear_(_st($Color())._gray());
 _st(canvas)._setShape_(_st((0).__at((0)))._corner_((100).__at((100))));
 $1=_st(canvas)._pathTransform();
 _st($1)._scaleBy_((3));
-$2=_st($1)._translateX_Y_((50),(50));
+$2=_st($1)._translateByX_Y_((50),(50));
 $2;
 _st(_st(canvas)._pathTransform())._restoreAfter_((function(){
 return smalltalk.withContext(function($ctx3) {
 _st(canvas)._setPaint_(_st($Color())._blue());
 $3=_st(canvas)._pathTransform();
-_st($3)._translateX_Y_((50),(50));
+_st($3)._translateByX_Y_((50),(50));
 _st($3)._rotateByDegrees_((45));
-$4=_st($3)._translateX_Y_((-50),(-50));
+$4=_st($3)._translateByX_Y_((-50),(-50));
 $4;
 return _st(canvas)._draw();
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2)})}));
@@ -1752,8 +1372,8 @@ return _st(canvas)._draw();
 }, function($ctx2) {$ctx2.fillBlock({canvas:canvas},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"step9",{},smalltalk.AthensTutorial)})},
 args: [],
-source: "step9\x0a\x22Step 9: Saving & restoring transformation.\x0a\x09\x0a\x09Protocol: \x0a\x09<transform> restoreAfter: [ block ]\x0a\x09\x0a\x22\x0a\x0asurface drawDuring: [:canvas |\x0a\x09surface clear: Color gray. \x0a\x0a\x09canvas setShape: (0@0 corner: 100@100).\x0a\x0a\x09canvas pathTransform \x0a\x09\x09scaleBy:3;\x0a\x09\x09translateX: 50 Y: 50.\x0a\x0a\x22Try to comment #restoreAfter: , to run the code inside without it\x0aand see the difference\x22\x0a\x0a\x09canvas pathTransform restoreAfter: [\x0a\x09\x09\x0a\x09\x09canvas setPaint: (Color blue).\x0a\x09\x0a\x09\x09canvas pathTransform\x0a\x09\x09\x09translateX: 50 Y: 50;\x0a\x09\x09\x09rotateByDegrees: 45;\x0a\x09\x09\x09translateX: -50 Y: -50.\x0a\x0a\x09\x09canvas draw.\x0a\x09].\x0a\x0a\x09canvas setPaint: (Color yellow).\x0a\x09canvas draw.\x0a\x09]",
-messageSends: ["drawDuring:", "clear:", "gray", "setShape:", "corner:", "@", "scaleBy:", "pathTransform", "translateX:Y:", "restoreAfter:", "setPaint:", "blue", "rotateByDegrees:", "draw", "yellow"],
+source: "step9\x0a\x09\x22Step 9: Saving & restoring transformation.\x0a\x09\x0a\x09Protocol: \x0a\x09<transform> restoreAfter: [ block ]\x22\x0a\x0a\x09surface drawDuring: [ :canvas |\x0a\x09\x09surface clear: Color gray. \x0a\x0a\x09\x09canvas setShape: (0 @ 0 corner: 100 @ 100).\x0a\x0a\x09\x09canvas pathTransform \x0a\x09\x09\x09scaleBy: 3;\x0a\x09\x09\x09translateByX: 50 Y: 50.\x0a\x0a\x09\x09\x22Try to comment #restoreAfter: , to run the code inside without it\x0a\x09\x09and see the difference\x22\x0a\x0a\x09\x09canvas pathTransform restoreAfter: [\x0a\x09\x09\x09canvas setPaint: Color blue.\x0a\x09\x0a\x09\x09\x09canvas pathTransform\x0a\x09\x09\x09\x09translateByX: 50 Y: 50;\x0a\x09\x09\x09\x09rotateByDegrees: 45;\x0a\x09\x09\x09\x09translateByX: -50 Y: -50.\x0a\x0a\x09\x09\x09canvas draw ].\x0a\x0a\x09\x09canvas setPaint: Color yellow.\x0a\x09\x09canvas draw ].",
+messageSends: ["drawDuring:", "clear:", "gray", "setShape:", "corner:", "@", "scaleBy:", "pathTransform", "translateByX:Y:", "restoreAfter:", "setPaint:", "blue", "rotateByDegrees:", "draw", "yellow"],
 referencedClasses: ["Color"]
 }),
 smalltalk.AthensTutorial);
@@ -1808,15 +1428,15 @@ var self=this;
 return smalltalk.withContext(function($ctx1) { 
 var $1;
 self["@step"]=_st(self["@step"]).__plus((1));
-$1=_st(self["@step"]).__gt((39));
+$1=_st(self["@step"]).__gt((32));
 if(smalltalk.assert($1)){
-self["@step"]=(39);
+self["@step"]=(32);
 self["@step"];
 };
 self._showStep_(self["@step"]);
 return self}, function($ctx1) {$ctx1.fill(self,"nextStep",{},smalltalk.AthensTutorialWidget)})},
 args: [],
-source: "nextStep\x0a\x09step := step + 1.\x0a\x09step > 39\x0a\x09\x09ifTrue: [step := 39].\x0a\x09self showStep: step.",
+source: "nextStep\x0a\x09step := step + 1.\x0a\x09step > 32\x0a\x09\x09ifTrue: [step := 32].\x0a\x09self showStep: step.",
 messageSends: ["+", "ifTrue:", ">", "showStep:"],
 referencedClasses: []
 }),
@@ -2166,12 +1786,12 @@ _st($1)._setPaint_(_st($Color())._white());
 $2=_st($1)._drawShape_(_st((0).__at((0)))._corner_(_st(self["@surface"])._extent()));
 $2;
 $3=_st(can)._pathTransform();
-_st($3)._translateX_Y_((0.5).__star(_st(_st(extent)._x()).__minus(_st(_st(_st(self._class())._tigerMaxX()).__star(scale)).__star(zoom))),_st(_st(extent)._y()).__slash((-12)));
+_st($3)._translateByX_Y_((0.5).__star(_st(_st(extent)._x()).__minus(_st(_st(_st(self._class())._tigerMaxX()).__star(scale)).__star(zoom))),_st(_st(extent)._y()).__slash((-12)));
 _st($3)._scaleBy_(_st(scale).__star(zoom));
-_st($3)._translateX_Y_(_st(_st(self._class())._tigerMaxX()).__star((0.5)),_st(_st(self._class())._tigerMaxY()).__star((0.5)));
+_st($3)._translateByX_Y_(_st(_st(self._class())._tigerMaxX()).__star((0.5)),_st(_st(self._class())._tigerMaxY()).__star((0.5)));
 _st($3)._scaleBy_((0.8));
 _st($3)._rotateByDegrees_(rotation);
-$4=_st($3)._translateX_Y_(_st(_st(self._class())._tigerMaxX()).__star((-0.5)),_st(_st(self._class())._tigerMaxY()).__star((-0.5)));
+$4=_st($3)._translateByX_Y_(_st(_st(self._class())._tigerMaxX()).__star((-0.5)),_st(_st(self._class())._tigerMaxY()).__star((-0.5)));
 $4;
 return _st(paths)._do_((function(each){
 return smalltalk.withContext(function($ctx4) {
@@ -2181,8 +1801,8 @@ return _st(each)._renderOn_(can);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1)})}));
 return self}, function($ctx1) {$ctx1.fill(self,"runDemo",{paths:paths,extent:extent,rotation:rotation,scale:scale,translation:translation,rotationSpeed:rotationSpeed,zoom:zoom},smalltalk.AthensVGTigerDemo)})},
 args: [],
-source: "runDemo\x0a\x09|paths extent rotation scale translation rotationSpeed zoom|\x0a\x09paths := self convertPathData2.\x0a\x0a\x09rotationSpeed := 1.\x0a\x09rotation := 0.\x0a\x09extent := surface extent.\x0a\x09scale := extent x / self class tigerMaxY.\x0a\x09translation := 0@0.\x0a\x09frames := 0.\x0a\x09looping := true.\x0a\x09\x0a\x09time := Time millisecondClockValue.\x0a\x09\x0a\x09self startLoop: [\x0a\x09\x09rotation := rotation + rotationSpeed.\x0a\x09\x09frames := frames + 1.\x0a\x0a\x09\x09zoom := (frames/100) sin abs .\x0a\x09\x09\x0a\x09\x09surface \x0a\x0a\x09\x09\x09drawDuring: [:can |\x0a\x0a\x09\x09\x09\x09can pathTransform \x0a\x09\x09\x09\x09\x09loadIdentity. \x0a\x09\x09\x09\x09\x09\x0a\x09\x09\x09\x09can \x0a\x09\x09\x09\x09\x09setPaint: Color white;\x0a\x09\x09\x09\x09\x09drawShape: (0@0 corner: surface extent).\x0a\x09\x09\x09\x09\x09\x0a\x09\x09\x09\x09can pathTransform \x0a\x09\x09\x09\x09\x09translateX: (0.5 * (extent x - (self class tigerMaxX * scale*zoom))) Y: extent y / -12.0 ;\x0a\x09\x09\x09\x09\x09scaleBy: scale*zoom ;\x0a\x0a\x09\x09\x09\x09\x09translateX: (self class tigerMaxX * 0.5) Y: (self class tigerMaxY * 0.5 );\x0a\x09\x09\x09\x09\x09scaleBy: 0.8;\x0a\x09\x09\x09\x09\x09rotateByDegrees: rotation;\x0a\x09\x09\x09\x09\x09translateX: (self class tigerMaxX * -0.5) Y: (self class tigerMaxY * -0.5 ).\x0a\x0a\x09\x09\x09\x09paths do: [:each | each renderOn: can ].\x0a\x09\x09\x09\x09\x0a\x09\x09\x09].\x0a\x09].",
-messageSends: ["convertPathData2", "extent", "/", "tigerMaxY", "class", "x", "@", "millisecondClockValue", "startLoop:", "+", "abs", "sin", "drawDuring:", "loadIdentity", "pathTransform", "setPaint:", "white", "drawShape:", "corner:", "translateX:Y:", "*", "-", "tigerMaxX", "y", "scaleBy:", "rotateByDegrees:", "do:", "renderOn:"],
+source: "runDemo\x0a\x09|paths extent rotation scale translation rotationSpeed zoom|\x0a\x09paths := self convertPathData2.\x0a\x0a\x09rotationSpeed := 1.\x0a\x09rotation := 0.\x0a\x09extent := surface extent.\x0a\x09scale := extent x / self class tigerMaxY.\x0a\x09translation := 0@0.\x0a\x09frames := 0.\x0a\x09looping := true.\x0a\x09\x0a\x09time := Time millisecondClockValue.\x0a\x09\x0a\x09self startLoop: [\x0a\x09\x09rotation := rotation + rotationSpeed.\x0a\x09\x09frames := frames + 1.\x0a\x0a\x09\x09zoom := (frames/100) sin abs .\x0a\x09\x09\x0a\x09\x09surface \x0a\x0a\x09\x09\x09drawDuring: [:can |\x0a\x0a\x09\x09\x09\x09can pathTransform \x0a\x09\x09\x09\x09\x09loadIdentity. \x0a\x09\x09\x09\x09\x09\x0a\x09\x09\x09\x09can \x0a\x09\x09\x09\x09\x09setPaint: Color white;\x0a\x09\x09\x09\x09\x09drawShape: (0@0 corner: surface extent).\x0a\x09\x09\x09\x09\x09\x0a\x09\x09\x09\x09can pathTransform \x0a\x09\x09\x09\x09\x09translateByX: (0.5 * (extent x - (self class tigerMaxX * scale*zoom))) Y: extent y / -12.0 ;\x0a\x09\x09\x09\x09\x09scaleBy: scale*zoom ;\x0a\x0a\x09\x09\x09\x09\x09translateByX: (self class tigerMaxX * 0.5) Y: (self class tigerMaxY * 0.5 );\x0a\x09\x09\x09\x09\x09scaleBy: 0.8;\x0a\x09\x09\x09\x09\x09rotateByDegrees: rotation;\x0a\x09\x09\x09\x09\x09translateByX: (self class tigerMaxX * -0.5) Y: (self class tigerMaxY * -0.5 ).\x0a\x0a\x09\x09\x09\x09paths do: [:each | each renderOn: can ].\x0a\x09\x09\x09\x09\x0a\x09\x09\x09].\x0a\x09].",
+messageSends: ["convertPathData2", "extent", "/", "tigerMaxY", "class", "x", "@", "millisecondClockValue", "startLoop:", "+", "abs", "sin", "drawDuring:", "loadIdentity", "pathTransform", "setPaint:", "white", "drawShape:", "corner:", "translateByX:Y:", "*", "-", "tigerMaxX", "y", "scaleBy:", "rotateByDegrees:", "do:", "renderOn:"],
 referencedClasses: ["Time", "Color"]
 }),
 smalltalk.AthensVGTigerDemo);
