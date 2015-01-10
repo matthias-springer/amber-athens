@@ -16,7 +16,7 @@ showDamageArea: aBoolean
 !AthensGlobalMorphSettings methodsFor: 'initialization'!
 
 initialize
-	showDamageArea := true.
+	showDamageArea := false.
 ! !
 
 AthensGlobalMorphSettings class instanceVariableNames: 'instance'!

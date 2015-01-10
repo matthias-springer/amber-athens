@@ -543,13 +543,15 @@ smalltalk.method({
 selector: "initialize",
 fn: function (){
 var self=this;
+function $OrderedCollection(){return smalltalk.OrderedCollection||(typeof OrderedCollection=="undefined"?nil:OrderedCollection)}
 return smalltalk.withContext(function($ctx1) { 
 smalltalk.AthensStrokePaint.fn.prototype._initialize.apply(_st(self), []);
+self["@dashLengths"]=_st($OrderedCollection())._new();
 self["@width"]=(1);
 self["@joinStyle"]=nil;
 self["@capStyle"]=self["@joinStyle"];
 return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensHTMLStrokePaint)})},
-messageSends: ["initialize"]}),
+messageSends: ["initialize", "new"]}),
 smalltalk.AthensHTMLStrokePaint);
 
 smalltalk.addMethod(

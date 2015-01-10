@@ -6,7 +6,7 @@ selector: "initialize",
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self["@showDamageArea"]=true;
+self["@showDamageArea"]=false;
 return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensGlobalMorphSettings)})},
 messageSends: []}),
 smalltalk.AthensGlobalMorphSettings);

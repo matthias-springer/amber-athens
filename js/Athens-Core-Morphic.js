@@ -7,10 +7,10 @@ category: 'initialization',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
-self["@showDamageArea"]=true;
+self["@showDamageArea"]=false;
 return self}, function($ctx1) {$ctx1.fill(self,"initialize",{},smalltalk.AthensGlobalMorphSettings)})},
 args: [],
-source: "initialize\x0a\x09showDamageArea := true.",
+source: "initialize\x0a\x09showDamageArea := false.",
 messageSends: [],
 referencedClasses: []
 }),

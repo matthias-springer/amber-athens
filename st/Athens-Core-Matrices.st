@@ -178,6 +178,10 @@ scaleByX: fx Y: fy
 	self['@shy'] *= fy; >
 !
 
+scaleX: fx Y: fy
+	self scaleByX: fx Y: fy.
+!
+
 translateBy: aPoint
 	< var px = aPoint._x();
 	var py = aPoint._y();
@@ -188,6 +192,10 @@ translateBy: aPoint
 translateByX: px Y: py
 	< self['@x'] += self['@sx']*px + self['@shx']*py;
 	self['@y'] += self['@shy']*px + self['@sy']*py; >
+!
+
+translateX: px Y: py
+	self translateByX: px Y: py.
 !
 
 transposed

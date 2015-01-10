@@ -273,6 +273,7 @@ fillRectangle: aRect on: anAthensCanvas
 
 initialize
 	super initialize.
+	dashLengths := OrderedCollection new.
 	width := 1.
 	capStyle := joinStyle := nil.
 ! !
