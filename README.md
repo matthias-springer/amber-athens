@@ -1,6 +1,8 @@
 Amber-Athens
 ============
 
+This version is outdated. Use [amber-athens-library](https://github.com/matthias-springer/amber-athens-library).
+
 Athens is a vector graphics library for Pharo. This is a port of Athens for Amber. It is implemented with HTML Canvas.
 
 **[Development Blog](http://amber-athens-blog.m-sp.org/)**
